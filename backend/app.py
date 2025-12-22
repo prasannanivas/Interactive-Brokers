@@ -173,8 +173,14 @@ async def shutdown_event():
 # CORS middleware for React frontend
 app.add_middleware(
     CORSMiddleware,
-    # React dev server + production
-    allow_origins=["http://localhost:3000", "http://localhost:3000/", "http://localhost:5173", "null"],
+    # React dev server + production + server IP
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://167.172.215.78:3000",
+        "http://167.172.215.78",
+        "*"  # Allow all origins for development
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
