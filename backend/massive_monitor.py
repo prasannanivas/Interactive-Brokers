@@ -14,16 +14,17 @@ from datetime import datetime, timedelta, date
 import asyncio
 import json
 import os
+from database import get_watchlist_collection, get_signal_batches_collection, get_watchlist_changes_collection
 
 
 class MassiveMonitor:
-    def __init__(self, api_key: Optional[str] = None, watchlist_file: str = 'watchlist.json'):
+    def __init__(self, api_key: Optional[str] = None, use_db: bool = True):
         """
         Initialize MASSIVE API Monitor using official Polygon REST client
         
         Args:
             api_key: MASSIVE API key (can also be set via environment variable MASSIVE_API_KEY)
-            watchlist_file: Name of the watchlist file (default: 'watchlist.json', use 'watchlist2.json' for large list)
+            use_db: Whether to use MongoDB for watchlist storage (default: True)
         """
         self.api_key = api_key or os.getenv('MASSIVE_API_KEY')
         self.client = None
@@ -36,27 +37,139 @@ class MassiveMonitor:
             "rsi_enabled": True
         }
         self._connected = False
-        self._storage_path = os.path.join(os.path.dirname(__file__), watchlist_file)
+        self._use_db = use_db
 
-    def _load_watchlist(self):
-        """Load persisted watchlist from disk"""
+    async def _load_watchlist(self):
+        """Load persisted watchlist from MongoDB"""
         try:
-            if os.path.exists(self._storage_path):
-                with open(self._storage_path, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    if isinstance(data, dict):
-                        self.watchlist = data
-                        print(f"✓ Loaded {len(self.watchlist)} symbols from watchlist.json")
+            if not self._use_db:
+                return
+                
+            watchlist_collection = get_watchlist_collection()
+            cursor = watchlist_collection.find({})
+            
+            async for doc in cursor:
+                symbol = doc.get('symbol')
+                if symbol:
+                    # Convert MongoDB document to watchlist format (include all fields)
+                    self.watchlist[symbol] = {
+                        'symbol': doc.get('symbol'),
+                        'exchange': doc.get('exchange', 'US'),
+                        'currency': doc.get('currency', 'USD'),
+                        'sec_type': doc.get('sec_type', 'STK'),
+                        'market_type': doc.get('market_type', 'stocks'),
+                        'price': doc.get('last_price'),
+                        'bid': doc.get('bid'),
+                        'ask': doc.get('ask'),
+                        'volume': doc.get('volume'),
+                        'signal': doc.get('signal', 'NEUTRAL'),
+                        'rsi': doc.get('rsi'),
+                        'macd': doc.get('macd'),
+                        'ema200': doc.get('ema200'),
+                        'diff': doc.get('diff'),
+                        'last_update': doc.get('last_updated', datetime.now()).isoformat() if doc.get('last_updated') else datetime.now().isoformat()
+                    }
+            
+            print(f"✓ Loaded {len(self.watchlist)} symbols from MongoDB")
         except Exception as e:
-            print(f"✗ Failed to load watchlist: {e}")
+            print(f"✗ Failed to load watchlist from DB: {e}")
 
-    def _save_watchlist(self):
-        """Persist current watchlist to disk"""
+    async def _save_watchlist_symbol(self, symbol: str, data: dict):
+        """Save or update a single symbol in MongoDB"""
         try:
-            with open(self._storage_path, 'w', encoding='utf-8') as f:
-                json.dump(self.watchlist, f, indent=2)
+            if not self._use_db:
+                return
+                
+            watchlist_collection = get_watchlist_collection()
+            
+            # Prepare document (save all fields including calculated indicators)
+            doc = {
+                'symbol': symbol,
+                'exchange': data.get('exchange', 'US'),
+                'currency': data.get('currency', 'USD'),
+                'sec_type': data.get('sec_type', 'STK'),
+                'market_type': data.get('market_type', 'stocks'),
+                'last_price': data.get('price'),
+                'bid': data.get('bid'),
+                'ask': data.get('ask'),
+                'volume': data.get('volume'),
+                'signal': data.get('signal'),
+                'rsi': data.get('rsi'),
+                'macd': data.get('macd'),
+                'ema200': data.get('ema200'),
+                'diff': data.get('diff'),
+                'last_updated': datetime.now()
+            }
+            
+            # Upsert (update or insert)
+            await watchlist_collection.update_one(
+                {'symbol': symbol},
+                {'$set': doc},
+                upsert=True
+            )
         except Exception as e:
-            print(f"✗ Failed to save watchlist: {e}")
+            print(f"✗ Failed to save {symbol} to DB: {e}")
+
+    async def _remove_watchlist_symbol(self, symbol: str):
+        """Remove a symbol from MongoDB"""
+        try:
+            if not self._use_db:
+                return
+                
+            watchlist_collection = get_watchlist_collection()
+            await watchlist_collection.delete_one({'symbol': symbol})
+        except Exception as e:
+            print(f"✗ Failed to remove {symbol} from DB: {e}")
+
+    async def _log_watchlist_change(self, symbol: str, action: str, data: dict):
+        """Log watchlist changes to MongoDB"""
+        try:
+            if not self._use_db:
+                return
+                
+            changes_collection = get_watchlist_changes_collection()
+            
+            change_doc = {
+                'symbol': symbol,
+                'action': action,
+                'timestamp': datetime.now(),
+                'previous_data': data if action == 'REMOVE' else None
+            }
+            
+            await changes_collection.insert_one(change_doc)
+        except Exception as e:
+            print(f"✗ Failed to log watchlist change: {e}")
+
+    async def _save_signal_batch(self, batch_range: str, total_symbols: int, 
+                                   crossovers: int, signals_data: list, 
+                                   processing_time_ms: float = None):
+        """Save signal batch for backtesting"""
+        try:
+            if not self._use_db:
+                return
+                
+            batches_collection = get_signal_batches_collection()
+            
+            batch_id = f"batch_{batch_range}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            
+            batch_doc = {
+                'batch_id': batch_id,
+                'batch_range': batch_range,
+                'total_symbols': total_symbols,
+                'crossovers_detected': crossovers,
+                'timestamp': datetime.now(),
+                'processing_time_ms': processing_time_ms,
+                'signals': signals_data,
+                'summary': {
+                    'crossover_rate': round((crossovers / total_symbols * 100), 2) if total_symbols > 0 else 0,
+                    'symbols_processed': total_symbols
+                }
+            }
+            
+            await batches_collection.insert_one(batch_doc)
+            print(f"✓ Saved batch {batch_range} to DB for backtesting")
+        except Exception as e:
+            print(f"✗ Failed to save signal batch: {e}")
 
     async def connect(self) -> bool:
         """Initialize connection to MASSIVE API using official client"""
@@ -74,7 +187,7 @@ class MassiveMonitor:
                 if test_ticker and hasattr(test_ticker, 'ticker'):
                     self._connected = True
                     print(f"✓ Connected to MASSIVE API (Polygon.io)")
-                    self._load_watchlist()
+                    await self._load_watchlist()
                     return True
                 else:
                     print(f"✗ MASSIVE API test failed")
@@ -124,7 +237,12 @@ class MassiveMonitor:
                 market_type = 'forex'
             
             # Use snapshot endpoint (available on paid tiers)
-            snapshot = self.client.get_snapshot_ticker(market_type, symbol)
+            from polygon.exceptions import BadResponse
+            try:
+                snapshot = self.client.get_snapshot_ticker(market_type, symbol)
+            except BadResponse as e:
+                # Symbol not found or not available
+                return None
             
             if snapshot:
                 # Extract data from snapshot
@@ -248,8 +366,26 @@ class MassiveMonitor:
             return None
 
     def calculate_ema(self, prices: pd.Series, period: int) -> pd.Series:
-        """Calculate Exponential Moving Average"""
-        return prices.ewm(span=period, adjust=False).mean()
+        """Calculate Exponential Moving Average with SMA initialization (industry standard)"""
+        if len(prices) < period:
+            # Not enough data, return simple EMA
+            return prices.ewm(span=period, adjust=False).mean()
+        
+        # Calculate initial SMA for the first 'period' values
+        sma_initial = prices.iloc[:period].mean()
+        
+        # Create EMA series starting with SMA
+        ema_values = [sma_initial]
+        multiplier = 2 / (period + 1)
+        
+        # Calculate EMA for remaining values
+        for i in range(period, len(prices)):
+            ema = (prices.iloc[i] - ema_values[-1]) * multiplier + ema_values[-1]
+            ema_values.append(ema)
+        
+        # Create series with NaN for first (period-1) values, then EMA values
+        result = pd.Series([float('nan')] * (period - 1) + ema_values, index=prices.index)
+        return result
 
     def calculate_rsi(self, prices: pd.Series, period: int = 14) -> pd.Series:
         """Calculate Relative Strength Index"""
@@ -291,8 +427,18 @@ class MassiveMonitor:
             
             # EMA 200
             ema200_series = self.calculate_ema(closes, 200)
-            ema200 = ema200_series.iloc[-1]
-            ema200_prev = ema200_series.iloc[-2] if len(ema200_series) > 1 else ema200
+            # Get last non-NaN value
+            ema200 = ema200_series.dropna().iloc[-1] if len(ema200_series.dropna()) > 0 else None
+            ema200_prev = ema200_series.dropna().iloc[-2] if len(ema200_series.dropna()) > 1 else ema200
+            
+            if ema200 is None:
+                return {
+                    'signal': 'NEUTRAL',
+                    'rsi': None,
+                    'macd': None,
+                    'ema200': None,
+                    'diff': None
+                }
             
             diff = current_price - ema200
             prev_price = closes.iloc[-2] if len(closes) > 1 else current_price
@@ -327,10 +473,8 @@ class MassiveMonitor:
                 'signal': signal,
                 'rsi': rsi,
                 'macd': macd_data,
-                'ema200': ema200,
-                'diff': diff,
-                'ema200': round(ema200, 2),
-                'diff': round(diff, 2)
+                'ema200': round(float(ema200), 4),
+                'diff': round(float(diff), 4)
             }
 
         except Exception as e:
@@ -445,7 +589,12 @@ class MassiveMonitor:
                 'last_update': datetime.now().isoformat()
             }
 
-            self._save_watchlist()
+            # Save to MongoDB
+            await self._save_watchlist_symbol(symbol, self.watchlist[symbol])
+            
+            # Log the change
+            await self._log_watchlist_change(symbol, 'ADD', self.watchlist[symbol])
+            
             print(f"✓ Added {symbol} to watchlist")
 
         except Exception as e:
@@ -455,8 +604,15 @@ class MassiveMonitor:
     async def remove_from_watchlist(self, symbol: str):
         """Remove symbol from watchlist"""
         if symbol in self.watchlist:
+            previous_data = self.watchlist[symbol].copy()
             del self.watchlist[symbol]
-            self._save_watchlist()
+            
+            # Remove from MongoDB
+            await self._remove_watchlist_symbol(symbol)
+            
+            # Log the change
+            await self._log_watchlist_change(symbol, 'REMOVE', previous_data)
+            
             print(f"✓ Removed {symbol} from watchlist")
 
     def get_watchlist_data(self) -> dict:
@@ -499,21 +655,55 @@ class MassiveMonitor:
         
         # Collect results
         processed_count = 0
+        failed_symbols = []
         for symbol, result in zip(batch, results):
             if isinstance(result, Exception):
-                print(f"✗ Error updating {symbol}: {result}")
+                failed_symbols.append(symbol)
+                print(f"❌ FAILED: {symbol} - {str(result)[:100]}")
                 continue
                 
             if result:
-                updated_symbols.append(result['data'])
-                if result['signal_changed']:
-                    changes.append(result['data'])
-                processed_count += 1
+                # Check if result contains error
+                if 'error' in result:
+                    failed_symbols.append(result['symbol'])
+                    print(f"❌ FAILED: {result['symbol']} - {result['error']}")
+                    continue
+                    
+                if 'data' in result:
+                    updated_symbols.append(result['data'])
+                    if result.get('signal_changed'):
+                        changes.append(result['data'])
+                    processed_count += 1
         
+        # Summary output
         if changes:
             print(f"🎯 Batch {batch_start+1}-{batch_end}: {len(changes)} crossovers detected!")
+        if failed_symbols:
+            print(f"⚠️  Failed symbols in this batch: {', '.join(failed_symbols)}")
+            print(f"   → Consider removing these from watchlist")
         
-        self._save_watchlist()
+        # Save signal batch to DB for backtesting
+        batch_range = f"{batch_start+1}-{batch_end}"
+        signals_data = []
+        for change in changes:
+            signals_data.append({
+                'symbol': change.get('symbol'),
+                'signal': change.get('signal'),
+                'price': change.get('price'),
+                'rsi': change.get('rsi'),
+                'macd': change.get('macd'),
+                'ema200': change.get('ema200'),
+                'diff': change.get('diff'),
+                'timestamp': datetime.now().isoformat()
+            })
+        
+        await self._save_signal_batch(
+            batch_range=batch_range,
+            total_symbols=len(batch),
+            crossovers=len(changes),
+            signals_data=signals_data,
+            processing_time_ms=None
+        )
 
         return {
             'symbols': updated_symbols,
@@ -522,7 +712,8 @@ class MassiveMonitor:
             'batch_start': batch_start,
             'batch_end': batch_end,
             'total': total_symbols,
-            'processed': processed_count
+            'processed': processed_count,
+            'failed': failed_symbols
         }
     
     async def _update_single_symbol(self, symbol: str) -> Optional[dict]:
@@ -534,6 +725,7 @@ class MassiveMonitor:
             # Fetch latest quote
             quote = await self._fetch_quote(symbol, market_type)
             if not quote:
+                # Return None silently - will be handled in batch processing
                 return None
 
             # Fetch historical data
@@ -566,7 +758,8 @@ class MassiveMonitor:
             }
 
         except Exception as e:
-            raise Exception(f"Error updating {symbol}: {e}")
+            # Return error info instead of raising
+            return {'error': str(e), 'symbol': symbol}
 
     async def add_all_forex_pairs(self, limit: int = 1000):
         """

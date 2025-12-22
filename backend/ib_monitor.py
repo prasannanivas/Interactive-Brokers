@@ -266,9 +266,23 @@ class IBMonitor:
         return rsi.iloc[-1]
 
     def calculate_ema(self, closes: pd.Series, span: int = 200) -> float:
-        """Calculate EMA for given span (default 200)"""
-        ema = closes.ewm(span=span, adjust=False).mean()
-        return float(ema.iloc[-1])
+        """Calculate EMA for given span with SMA initialization (industry standard)"""
+        if len(closes) < span:
+            # Not enough data, return simple EMA
+            ema = closes.ewm(span=span, adjust=False).mean()
+            return float(ema.iloc[-1])
+        
+        # Calculate initial SMA for the first 'span' values
+        sma_initial = closes.iloc[:span].mean()
+        
+        # Calculate EMA for remaining values
+        ema = sma_initial
+        multiplier = 2 / (span + 1)
+        
+        for i in range(span, len(closes)):
+            ema = (closes.iloc[i] - ema) * multiplier + ema
+        
+        return float(ema)
 
     def determine_signal(self, price: float, ema200: float) -> str:
         """Determine signal: price vs EMA200"""

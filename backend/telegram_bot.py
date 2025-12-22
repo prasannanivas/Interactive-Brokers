@@ -3,7 +3,8 @@ Telegram Bot - Send trading signals to Telegram
 """
 
 import aiohttp
-from typing import Optional
+from typing import Optional, List
+from signal_formatter import SignalFormatter
 
 
 class TelegramBot:
@@ -11,6 +12,7 @@ class TelegramBot:
         self.bot_token: Optional[str] = None
         self.chat_id: Optional[str] = None
         self.base_url: Optional[str] = None
+        self.formatter = SignalFormatter()
 
     def configure(self, bot_token: str, chat_id: str):
         """Configure Telegram bot"""
@@ -39,26 +41,33 @@ class TelegramBot:
                 if response.status != 200:
                     raise Exception(f"Telegram API error: {await response.text()}")
 
-    async def send_signal(self, signal_data: dict):
-        """Send trading signal notification"""
-        symbol = signal_data.get("symbol")
-        signal = signal_data.get("signal")
-        price = signal_data.get("price")
-        rsi = signal_data.get("rsi")
-        macd = signal_data.get("macd")
-
-        # Format message
-        emoji = "🟢" if signal == "BULLISH" else "🔴" if signal == "BEARISH" else "⚪"
-
-        message = f"""
-{emoji} <b>SIGNAL CHANGE: {symbol}</b>
-
-Signal: <b>{signal}</b>
-Price: ${price:.2f}
-RSI: {rsi:.2f}
-MACD: {macd:.4f}
-
-📊 Check your dashboard for details!
-"""
-
-        await self.send_message(message.strip())
+    async def send_signal(self, symbol_data: dict):
+        """
+        Send comprehensive trading signal notification with all indicators
+        
+        Args:
+            symbol_data: Dictionary containing symbol, price, indicators, and signals
+        """
+        message = self.formatter.format_telegram_message(symbol_data)
+        await self.send_message(message)
+    
+    async def send_signal_change(self, symbol_data: dict, previous_data: dict):
+        """
+        Send notification when signals change
+        
+        Args:
+            symbol_data: Current symbol data with new signals
+            previous_data: Previous symbol data for comparison
+        """
+        message = self.formatter.format_signal_change_message(symbol_data, previous_data)
+        await self.send_message(message)
+    
+    async def send_summary(self, watchlist_data: List[dict]):
+        """
+        Send summary of all trading pairs
+        
+        Args:
+            watchlist_data: List of all symbols with their data
+        """
+        message = self.formatter.format_summary_message(watchlist_data)
+        await self.send_message(message)

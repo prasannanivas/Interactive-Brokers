@@ -1,38 +1,130 @@
 """
-FastAPI Backend for Trading Signal Monitor
-Real-time monitoring with WebSocket updates and Telegram notifications
-Now using MASSIVE API instead of Interactive Brokers
+Signal Processing Service (Port 8000)
+Lightweight service focused on:
+- Real-time monitoring and signal generation
+- Telegram notifications
+- WebSocket updates to frontend
+
+Heavy operations (search, watchlist management) moved to Data Service (port 8001)
 """
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Dict, Optional
 import asyncio
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from dotenv import load_dotenv
-from massive_monitor import MassiveMonitor
+from massive_monitor_v2 import MassiveMonitorV2
 from telegram_bot import TelegramBot
+from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection
+from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange
+from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
+from state_tracker import track_and_detect_changes, INDICATOR_MAPPING
+import time
 
 # Load environment variables from .env file
 load_dotenv()
 
 # Global instances
-# Use WATCHLIST_FILE env variable to switch between watchlist.json and watchlist2.json
-watchlist_file = os.getenv('WATCHLIST_FILE', 'watchlist.json')
-monitor = MassiveMonitor(api_key=os.getenv('MASSIVE_API_KEY'), watchlist_file=watchlist_file)
+# Monitor now uses MongoDB for watchlist storage (use_db=True by default)
+monitor = MassiveMonitorV2(api_key=os.getenv('MASSIVE_API_KEY'), use_db=True)
 telegram_bot = TelegramBot()
 active_websockets: List[WebSocket] = []
+
+# Track previous indicator and position states (loaded from DB on startup)
+indicator_states: Dict[str, Dict[str, str]] = {}  # {symbol: {indicator_name: 'BUY'/'SELL'/'NEUTRAL'}}
+position_states: Dict[str, str] = {}  # {symbol: 'BUY'/'SELL'/'NEUTRAL'}
 
 
 app = FastAPI(title="Trading Signal Monitor API")
 
 
+# Middleware to log API calls
+@app.middleware("http")
+async def log_api_calls(request: Request, call_next):
+    """Log all API calls to MongoDB"""
+    start_time = time.time()
+    
+    # Get user if authenticated
+    user_id = None
+    try:
+        auth_header = request.headers.get("Authorization")
+        if auth_header and auth_header.startswith("Bearer "):
+            from auth import get_current_user
+            from fastapi.security import HTTPAuthorizationCredentials
+            credentials = HTTPAuthorizationCredentials(scheme="Bearer", credentials=auth_header.split(" ")[1])
+            user = await get_current_user(credentials)
+            user_id = user.id
+    except:
+        pass
+    
+    # Process request
+    response = await call_next(request)
+    
+    # Calculate duration
+    duration_ms = (time.time() - start_time) * 1000
+    
+    # Log to MongoDB (non-blocking)
+    try:
+        api_calls_collection = get_api_calls_collection()
+        log_entry = APICallLog(
+            user_id=user_id,
+            endpoint=str(request.url.path),
+            method=request.method,
+            status_code=response.status_code,
+            duration_ms=duration_ms,
+            ip_address=request.client.host if request.client else None
+        )
+        # Fire and forget - don't await to avoid blocking
+        asyncio.ensure_future(api_calls_collection.insert_one(log_entry.model_dump()))
+    except Exception as e:
+        print(f"Failed to log API call: {e}")
+    
+    return response
+
+
+async def load_previous_states():
+    """Load previous indicator and position states from MongoDB"""
+    global indicator_states, position_states
+    
+    try:
+        # Load indicator states
+        indicator_states_collection = get_indicator_states_collection()
+        async for doc in indicator_states_collection.find({}):
+            symbol = doc.get('symbol')
+            indicator = doc.get('indicator')
+            state = doc.get('state')
+            if symbol not in indicator_states:
+                indicator_states[symbol] = {}
+            indicator_states[symbol][indicator] = state
+        
+        # Load position states
+        position_changes_collection = get_position_changes_collection()
+        for symbol in monitor.watchlist.keys():
+            # Get the latest position for each symbol
+            latest = await position_changes_collection.find_one(
+                {'symbol': symbol},
+                sort=[('timestamp', -1)]
+            )
+            if latest:
+                position_states[symbol] = latest.get('position', 'NEUTRAL')
+            else:
+                position_states[symbol] = 'NEUTRAL'
+        
+        print(f"✓ Loaded states for {len(indicator_states)} symbols")
+    except Exception as e:
+        print(f"✗ Failed to load previous states: {e}")
+
+
 @app.on_event("startup")
 async def startup_event():
     """Initialize on startup"""
+    # Connect to MongoDB
+    await Database.connect_db()
+    
     # Configure Telegram bot from environment variables
     bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
     chat_id = os.getenv('TELEGRAM_CHAT_ID')
@@ -43,14 +135,18 @@ async def startup_event():
     success = await monitor.connect()
     if success:
         print("✓ MASSIVE API Monitor connected successfully")
-        print("✓ Using 5-minute candles for EMA200 calculations")
+        print("✓ Using daily/hourly data for technical indicators")
         print(f"✓ Loaded {len(monitor.watchlist)} symbols from watchlist")
+        
+        # Load previous states for change detection
+        await load_previous_states()
+        
         print("✓ Server ready - continuous batch monitoring will start shortly")
         
         # Send startup message to Telegram
         if telegram_bot.is_configured():
             try:
-                await telegram_bot.send_message(f"🤖 <b>BOT STARTED</b>\n\n✅ Monitoring {len(monitor.watchlist)} symbols\n📊 Continuous batch processing (15 symbols/batch)\n🔔 Instant crossover notifications")
+                await telegram_bot.send_message(f"🤖 <b>BOT STARTED</b>\n\n✅ Monitoring {len(monitor.watchlist)} symbols\n📊 Continuous batch processing (15 symbols/batch)\n🔔 Smart change detection enabled")
                 print("✓ Telegram startup message sent")
             except Exception as e:
                 print(f"✗ Failed to send Telegram message: {e}")
@@ -70,13 +166,15 @@ async def startup_event():
 async def shutdown_event():
     """Cleanup on shutdown"""
     await monitor.disconnect()
+    await Database.close_db()
     print("✓ MASSIVE API Monitor disconnected")
+    print("✓ MongoDB connection closed")
 
 # CORS middleware for React frontend
 app.add_middleware(
     CORSMiddleware,
-    # React dev server + file://
-    allow_origins=["http://localhost:3000", "http://localhost:3000/", "null"],
+    # React dev server + production
+    allow_origins=["http://localhost:3000", "http://localhost:3000/", "http://localhost:5173", "null"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -87,36 +185,190 @@ app.add_middleware(
 # telegram_bot = TelegramBot()
 # active_websockets: List[WebSocket] = []
 
-# Pydantic models
+# Pydantic models (now imported from models.py)
 
 
-class Symbol(BaseModel):
-    symbol: str
-    exchange: str = "SMART"
-    currency: str = "USD"
+# ============================================
+# AUTHENTICATION ENDPOINTS
+# ============================================
+
+@app.post("/api/auth/register", response_model=UserResponse)
+async def register(user_data: UserCreate):
+    """Register a new user"""
+    users_collection = get_users_collection()
+    
+    # Check if user already exists
+    existing_user = await users_collection.find_one({"$or": [
+        {"email": user_data.email},
+        {"username": user_data.username}
+    ]})
+    
+    if existing_user:
+        if existing_user.get("email") == user_data.email:
+            raise HTTPException(status_code=400, detail="Email already registered")
+        else:
+            raise HTTPException(status_code=400, detail="Username already taken")
+    
+    # Create new user
+    hashed_password = get_password_hash(user_data.password)
+    new_user = {
+        "username": user_data.username,
+        "email": user_data.email,
+        "hashed_password": hashed_password,
+        "full_name": user_data.full_name,
+        "is_active": True,
+        "created_at": datetime.utcnow(),
+        "last_login": None
+    }
+    
+    result = await users_collection.insert_one(new_user)
+    new_user["_id"] = result.inserted_id
+    
+    return UserResponse(
+        id=str(result.inserted_id),
+        username=new_user["username"],
+        email=new_user["email"],
+        full_name=new_user.get("full_name"),
+        is_active=new_user["is_active"],
+        created_at=new_user["created_at"],
+        last_login=new_user.get("last_login")
+    )
 
 
-class WatchlistItem(BaseModel):
-    symbol: str
-    exchange: str = "SMART"
-    currency: str = "USD"
-    sec_type: str = "STK"
+@app.post("/api/auth/login", response_model=Token)
+async def login(user_credentials: UserLogin, request: Request):
+    """Login and get access token"""
+    users_collection = get_users_collection()
+    
+    # Find user by email
+    user = await users_collection.find_one({"email": user_credentials.email})
+    
+    if not user or not verify_password(user_credentials.password, user["hashed_password"]):
+        # Record failed login attempt
+        await record_login_history(
+            user_id=str(user["_id"]) if user else "unknown",
+            email=user_credentials.email,
+            ip_address=request.client.host if request.client else None,
+            user_agent=request.headers.get("user-agent"),
+            success=False
+        )
+        raise HTTPException(
+            status_code=401,
+            detail="Incorrect email or password"
+        )
+    
+    if not user.get("is_active", True):
+        raise HTTPException(status_code=403, detail="Account is inactive")
+    
+    # Update last login
+    await users_collection.update_one(
+        {"_id": user["_id"]},
+        {"$set": {"last_login": datetime.utcnow()}}
+    )
+    
+    # Record successful login
+    await record_login_history(
+        user_id=str(user["_id"]),
+        email=user["email"],
+        ip_address=request.client.host if request.client else None,
+        user_agent=request.headers.get("user-agent"),
+        success=True
+    )
+    
+    # Create access token
+    access_token = create_access_token(data={"sub": user["email"]})
+    
+    user_response = UserResponse(
+        id=str(user["_id"]),
+        username=user["username"],
+        email=user["email"],
+        full_name=user.get("full_name"),
+        is_active=user.get("is_active", True),
+        created_at=user.get("created_at", datetime.utcnow()),
+        last_login=datetime.utcnow()
+    )
+    
+    return Token(access_token=access_token, user=user_response)
 
 
-class TelegramConfig(BaseModel):
-    chat_id: str
-    bot_token: str
+@app.get("/api/auth/me", response_model=UserResponse)
+async def get_me(current_user: UserResponse = Depends(get_current_user)):
+    """Get current user info"""
+    return current_user
 
 
-class AlgorithmConfig(BaseModel):
-    enabled: bool
-    rsi_overbought: int = 70
-    rsi_oversold: int = 30
-    macd_enabled: bool = True
-    rsi_enabled: bool = True
+@app.get("/api/auth/login-history")
+async def get_login_history(
+    current_user: UserResponse = Depends(get_current_user),
+    limit: int = 50
+):
+    """Get login history for current user"""
+    login_history_collection = get_login_history_collection()
+    
+    history = await login_history_collection.find(
+        {"user_id": current_user.id}
+    ).sort("login_time", -1).limit(limit).to_list(length=limit)
+    
+    # Convert ObjectId to string
+    for record in history:
+        record["_id"] = str(record["_id"])
+    
+    return history
 
 
-# API Endpoints
+@app.get("/api/signals/history/{symbol}")
+async def get_signal_history(
+    symbol: str,
+    limit: int = 100,
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """Get signal history for a specific symbol"""
+    signals_collection = get_signals_collection()
+    
+    # Fetch signal history for the symbol
+    signals = await signals_collection.find(
+        {"symbol": symbol}
+    ).sort("timestamp", -1).limit(limit).to_list(length=limit)
+    
+    # Convert ObjectId and datetime to JSON-serializable format
+    for signal in signals:
+        signal["_id"] = str(signal["_id"])
+        if "timestamp" in signal and isinstance(signal["timestamp"], datetime):
+            signal["timestamp"] = signal["timestamp"].isoformat()
+    
+    return {
+        "symbol": symbol,
+        "count": len(signals),
+        "signals": signals
+    }
+
+
+@app.get("/api/signals/recent")
+async def get_recent_signals(
+    limit: int = 50,
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """Get recent signals across all symbols"""
+    signals_collection = get_signals_collection()
+    
+    # Fetch recent signals
+    signals = await signals_collection.find({}).sort("timestamp", -1).limit(limit).to_list(length=limit)
+    
+    # Convert ObjectId and datetime to JSON-serializable format
+    for signal in signals:
+        signal["_id"] = str(signal["_id"])
+        if "timestamp" in signal and isinstance(signal["timestamp"], datetime):
+            signal["timestamp"] = signal["timestamp"].isoformat()
+    
+    return {
+        "count": len(signals),
+        "signals": signals
+    }
+
+
+# ============================================
+# TRADING API ENDPOINTS
+# ============================================
 
 @app.get("/")
 async def root():
@@ -130,68 +382,24 @@ async def root():
     }
 
 
-@app.get("/api/symbols/search")
-async def search_symbols(query: str):
-    """Search for symbols using MASSIVE API"""
-    if not query or len(query) < 1:
-        return []
-
-    if not monitor.is_connected():
-        raise HTTPException(status_code=503, detail="MASSIVE API not connected")
-
-    try:
-        # Use MASSIVE API symbol search
-        results = await monitor.search_symbols(query)
-        return results
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Search error: {str(e)}")
-
-
-@app.post("/api/watchlist/add")
-async def add_to_watchlist(item: WatchlistItem):
-    """Add symbol to watchlist"""
-    try:
-        await monitor.add_to_watchlist(item.symbol, item.exchange, item.currency, item.sec_type)
-        return {"status": "success", "symbol": item.symbol}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@app.delete("/api/watchlist/remove/{symbol}")
-async def remove_from_watchlist(symbol: str):
-    """Remove symbol from watchlist"""
-    try:
-        await monitor.remove_from_watchlist(symbol)
-        return {"status": "success", "symbol": symbol}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@app.get("/api/watchlist")
-async def get_watchlist():
-    """Get current watchlist with latest signals"""
-    return monitor.get_watchlist_data()
-
-
-@app.post("/api/watchlist/scan-forex")
-async def scan_all_forex():
-    """Scan and add all forex currency pairs to watchlist"""
-    try:
-        # Run the scan in background (this might take a while)
-        await monitor.add_all_forex_pairs(limit=1000)
-        return {
-            "status": "success",
-            "message": "Forex scan completed",
-            "watchlist_count": len(monitor.watchlist)
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Scan error: {str(e)}")
+# ============================================
+# WATCHLIST ENDPOINTS - MOVED TO DATA SERVICE (Port 8001)
+# ============================================
+# The following endpoints have been moved to reduce load on Signal Service:
+# - GET /api/symbols/search - Symbol search
+# - POST /api/watchlist/add - Add to watchlist
+# - DELETE /api/watchlist/remove/{symbol} - Remove from watchlist
+# - GET /api/watchlist - Get watchlist (read-only)
+# - POST /api/watchlist/scan-forex - Scan forex pairs
+#
+# Signal Service now only monitors existing watchlist and sends notifications
+# ============================================
 
 
 @app.post("/api/algorithm/configure")
 async def configure_algorithm(config: AlgorithmConfig):
     """Configure algorithm parameters"""
-    monitor.configure_algorithm(config.dict())
+    monitor.configure_algorithm(config.model_dump())
     return {"status": "success", "config": config}
 
 
@@ -256,7 +464,8 @@ async def broadcast_update(data: dict):
 
 
 async def monitoring_loop():
-    """Background task to continuously monitor symbols in batches"""
+    """Background task to continuously monitor symbols in batches with state tracking"""
+    global indicator_states, position_states
     batch_size = 15
     current_batch_start = 0
     
@@ -275,46 +484,100 @@ async def monitoring_loop():
                         "data": updates
                     })
 
-                    # Send Telegram notification immediately if there are crossovers
-                    if updates.get("changes") and telegram_bot.is_configured():
-                        bullish_symbols = []
-                        bearish_symbols = []
+                    # Track state changes and send Telegram notifications
+                    if telegram_bot.is_configured():
                         
-                        for change in updates.get("changes", []):
-                            symbol = change.get('symbol')
-                            signal = change.get('signal')
-                            price = change.get('price')
-                            ema200 = change.get('ema200')
-                            diff = change.get('diff', 0)
+                        # Track changes for each symbol using state tracker
+                        indicator_changes_list = []
+                        position_changes_list = []
+                        
+                        for symbol_data in updates.get('symbols', []):
+                            symbol = symbol_data.get('symbol')
+                            price = symbol_data.get('last_price', 0)
                             
-                            if signal == 'BULLISH':
-                                bullish_symbols.append(f"{symbol} ({price:.4f} | EMA: {ema200:.4f} | +{diff:.4f})")
-                            elif signal == 'BEARISH':
-                                bearish_symbols.append(f"{symbol} ({price:.4f} | EMA: {ema200:.4f} | {diff:.4f})")
+                            # Initialize states if not exist
+                            if symbol not in indicator_states:
+                                indicator_states[symbol] = {}
+                            if symbol not in position_states:
+                                position_states[symbol] = 'NEUTRAL'
+                            
+                            # Track and detect changes
+                            indicator_changes, new_position, position_changed = await track_and_detect_changes(
+                                symbol,
+                                symbol_data,
+                                indicator_states[symbol],
+                                position_states[symbol]
+                            )
+                            
+                            # Update states
+                            for change in indicator_changes:
+                                indicator = change['indicator']
+                                indicator_states[symbol][indicator] = change['to_state']
+                            
+                            if position_changed:
+                                position_changes_list.append({
+                                    'symbol': symbol,
+                                    'from': position_states[symbol],
+                                    'to': new_position,
+                                    'price': price,
+                                    'timestamp': datetime.now().isoformat()
+                                })
+                                position_states[symbol] = new_position
+                            
+                            # Collect indicator changes for Telegram
+                            if indicator_changes:
+                                for change in indicator_changes:
+                                    indicator_name = INDICATOR_MAPPING.get(change['indicator'], change['indicator'])
+                                    indicator_changes_list.append({
+                                        'symbol': symbol,
+                                        'indicator': indicator_name,
+                                        'from': change['from_state'],
+                                        'to': change['to_state'],
+                                        'price': price
+                                    })
                         
-                        # Send Telegram message only if crossovers detected
-                        if bullish_symbols or bearish_symbols:
-                            msg_parts = ["📊 <b>Crossed EMA-200</b>\n"]
+                        # Send Telegram alerts for indicator and position changes
+                        if indicator_changes_list or position_changes_list:
+                            msg_parts = ["📊 <b>Trading Signals Update</b>\n"]
                             msg_parts.append(f"⏰ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
                             msg_parts.append(f"📈 Batch {updates.get('batch_start', 0)+1}-{updates.get('batch_end', 0)}/{total_symbols}\n")
                             
-                            # Bullish crosses
-                            if bullish_symbols:
-                                msg_parts.append(f"\n🟢 <b>Bullish Cross: {len(bullish_symbols)}</b>")
-                                for sym in bullish_symbols:
-                                    msg_parts.append(f"  • {sym}")
+                            # Position changes (most important)
+                            if position_changes_list:
+                                msg_parts.append(f"\n🎯 <b>POSITION CHANGES: {len(position_changes_list)}</b>")
+                                for change in position_changes_list:
+                                    # Find the symbol data to get current signal counts
+                                    symbol_info = next((s for s in updates.get('symbols', []) if s.get('symbol') == change['symbol']), None)
+                                    buy_count = len(symbol_info.get('buy_signals', [])) if symbol_info else 0
+                                    sell_count = len(symbol_info.get('sell_signals', [])) if symbol_info else 0
+                                    
+                                    emoji = "🟢" if change['to'] == 'BUY' else "🔴" if change['to'] == 'SELL' else "⚪"
+                                    msg_parts.append(f"  {emoji} <b>{change['symbol']}</b> (${change['price']:.4f})")
+                                    msg_parts.append(f"      {change['from']} → {change['to']}")
+                                    msg_parts.append(f"      📊 {buy_count} Bullish | {sell_count} Bearish")
                             
-                            # Bearish crosses
-                            if bearish_symbols:
-                                msg_parts.append(f"\n🔴 <b>Bearish Cross: {len(bearish_symbols)}</b>")
-                                for sym in bearish_symbols:
-                                    msg_parts.append(f"  • {sym}")
-                            
-                            msg_parts.append(f"\n<i>Using 5-min candles</i>")
+                            # Indicator changes (details)
+                            if indicator_changes_list:
+                                bullish_ind = [c for c in indicator_changes_list if c['to'] == 'BUY' or (c['from'] == 'SELL' and c['to'] == 'NEUTRAL')]
+                                bearish_ind = [c for c in indicator_changes_list if c['to'] == 'SELL' or (c['from'] == 'BUY' and c['to'] == 'NEUTRAL')]
+                                
+                                if bullish_ind:
+                                    msg_parts.append(f"\n🟢 <b>Bullish Indicators: {len(bullish_ind)}</b>")
+                                    for c in bullish_ind[:5]:  # Limit to 5
+                                        msg_parts.append(f"  • {c['symbol']} - {c['indicator']}: {c['from']}→{c['to']}")
+                                    if len(bullish_ind) > 5:
+                                        msg_parts.append(f"  ... and {len(bullish_ind)-5} more")
+                                
+                                if bearish_ind:
+                                    msg_parts.append(f"\n🔴 <b>Bearish Indicators: {len(bearish_ind)}</b>")
+                                    for c in bearish_ind[:5]:  # Limit to 5
+                                        msg_parts.append(f"  • {c['symbol']} - {c['indicator']}: {c['from']}→{c['to']}")
+                                    if len(bearish_ind) > 5:
+                                        msg_parts.append(f"  ... and {len(bearish_ind)-5} more")
                             
                             telegram_message = "\n".join(msg_parts)
                             await telegram_bot.send_message(telegram_message)
-                            print(f"📱 Sent Telegram notification: {len(bullish_symbols)} bullish, {len(bearish_symbols)} bearish")
+                            print(f"📱 Sent: {len(position_changes_list)} position changes, {len(indicator_changes_list)} indicator changes")
 
                 # Move to next batch (loop back to start when done)
                 current_batch_start = updates.get('batch_end', current_batch_start + batch_size)

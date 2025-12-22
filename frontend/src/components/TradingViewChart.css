@@ -1,0 +1,227 @@
+/* TradingView Chart Styles */
+.tradingview-chart-container {
+  margin: 20px 0;
+  padding: 20px;
+  background: #111827;
+  border-radius: 8px;
+}
+
+/* Loading State */
+.chart-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #9ca3af;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #374151;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error State */
+.chart-error {
+  text-align: center;
+  padding: 40px 20px;
+  color: #ef4444;
+  font-size: 1rem;
+}
+
+/* Statistics Bar */
+.chart-stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #1f2937;
+  border-radius: 6px;
+  border: 1px solid #374151;
+}
+
+.stat-group {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 0.95rem;
+  color: #f9fafb;
+  font-weight: 600;
+}
+
+.stat-group.buy .stat-value {
+  color: #10b981;
+}
+
+.stat-group.sell .stat-value {
+  color: #ef4444;
+}
+
+.stat-group.positive .stat-value {
+  color: #10b981;
+}
+
+.stat-group.negative .stat-value {
+  color: #ef4444;
+}
+
+/* Chart Wrapper */
+.chart-wrapper {
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #374151;
+}
+
+/* Legend */
+.chart-legend {
+  margin-top: 20px;
+  padding: 15px;
+  background: #1f2937;
+  border-radius: 6px;
+  border: 1px solid #374151;
+}
+
+.legend-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 10px;
+}
+
+.legend-row:last-child {
+  margin-bottom: 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #d1d5db;
+}
+
+/* Candle Legend */
+.legend-candle {
+  width: 20px;
+  height: 30px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.legend-candle.up .candle-body {
+  width: 12px;
+  height: 20px;
+  background: #10b981;
+  border: 1px solid #10b981;
+}
+
+.legend-candle.down .candle-body {
+  width: 12px;
+  height: 20px;
+  background: #ef4444;
+  border: 1px solid #ef4444;
+}
+
+.legend-candle::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.legend-candle.up::before {
+  background: #10b981;
+}
+
+.legend-candle.down::before {
+  background: #ef4444;
+}
+
+/* Marker Legend */
+.legend-marker {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.legend-marker.buy-marker {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid #10b981;
+}
+
+.legend-marker.sell-marker {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+}
+
+/* Chart Info */
+.chart-info {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(59, 130, 246, 0.1);
+  border-left: 3px solid #3b82f6;
+  border-radius: 4px;
+  color: #93c5fd;
+  font-size: 0.9rem;
+}
+
+.chart-info strong {
+  color: #60a5fa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chart-stats-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .stat-group {
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .legend-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .chart-wrapper {
+    height: 400px !important;
+  }
+}
+
+/* Dark mode compatibility for lightweight-charts */
+.tv-lightweight-charts {
+  background: #1f2937 !important;
+}
