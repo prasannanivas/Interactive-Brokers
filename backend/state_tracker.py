@@ -9,13 +9,19 @@ from database import get_indicator_states_collection, get_position_changes_colle
 
 
 INDICATOR_MAPPING = {
-    'Bollinger_Band_Daily': 'BB',
-    'RSI_9_Daily': 'RSI',
-    'SMA_50_Daily': 'SMA50',
-    'SMA_200_Daily': 'SMA200',
-    'MA_Crossover_Daily': 'MA_Cross',
-    'MACD_Daily': 'MACD',
-    'EMA_100_Hourly': 'EMA100'
+    # Daily Indicators (8)
+    'Bollinger_Band_Daily': 'BB Daily',
+    'RSI_9_Daily': 'RSI Daily',
+    'EMA_9_Daily': 'EMA 9 Daily',
+    'EMA_20_Daily': 'EMA 20 Daily',
+    'EMA_50_Daily': 'EMA 50 Daily',
+    'EMA_200_Daily': 'EMA 200 Daily',
+    'MA_Crossover_Daily': 'MA Cross Daily',
+    'MACD_Daily': 'MACD Daily',
+    # Hourly Indicators (1)
+    'EMA_100_Hourly': 'EMA 100 Hourly',
+    # Weekly Indicators (1)
+    'EMA_20_Weekly': 'EMA 20 Weekly'
 }
 
 
@@ -23,7 +29,8 @@ def get_indicator_state(indicator_name: str, indicators_dict: dict) -> str:
     """
     Determine state of an indicator: BUY, SELL, or NEUTRAL
     """
-    if not indicators_dict:
+    # Handle case where indicators_dict is not a dict (e.g., float, None)
+    if not indicators_dict or not isinstance(indicators_dict, dict):
         return 'NEUTRAL'
     
     signal = indicators_dict.get('signal')
@@ -39,28 +46,77 @@ def extract_current_indicator_states(symbol_data: dict) -> Dict[str, str]:
     """
     Extract current state of all indicators for a symbol
     Returns: {indicator_name: 'BUY'/'SELL'/'NEUTRAL'}
+    
+    RULES (per Boss's document):
+    - 1 Hourly: EMA 100
+    - 8 Daily: BB, RSI 9, EMA 9, EMA 20, EMA 50, EMA 200, MA Crossover, MACD
+    - 1 Weekly: EMA 20
     """
     states = {}
     daily = symbol_data.get('daily_indicators', {}) or {}
     hourly = symbol_data.get('hourly_indicators', {}) or {}
+    weekly = symbol_data.get('weekly_indicators', {}) or {}
     
-    # Daily indicators
-    if daily.get('bollinger_band'):
-        states['Bollinger_Band_Daily'] = get_indicator_state('BB', daily['bollinger_band'])
-    if daily.get('rsi_9'):
-        states['RSI_9_Daily'] = get_indicator_state('RSI', daily['rsi_9'])
-    if daily.get('sma_50'):
-        states['SMA_50_Daily'] = get_indicator_state('SMA50', daily['sma_50'])
-    if daily.get('sma_200'):
-        states['SMA_200_Daily'] = get_indicator_state('SMA200', daily.get('sma_200', {}))
-    if daily.get('ma_crossover'):
-        states['MA_Crossover_Daily'] = get_indicator_state('MA_Cross', daily['ma_crossover'])
-    if daily.get('macd'):
-        states['MACD_Daily'] = get_indicator_state('MACD', daily['macd'])
+    # Ensure all timeframes are dicts
+    if not isinstance(daily, dict):
+        daily = {}
+    if not isinstance(hourly, dict):
+        hourly = {}
+    if not isinstance(weekly, dict):
+        weekly = {}
     
-    # Hourly indicators
-    if hourly.get('ema_100'):
-        states['EMA_100_Hourly'] = get_indicator_state('EMA100', hourly['ema_100'])
+    # DAILY INDICATORS (8 total)
+    # 1. Bollinger Band (20,2,0) - EMA
+    bb = daily.get('bollinger_band', {})
+    if isinstance(bb, dict):
+        states['Bollinger_Band_Daily'] = get_indicator_state('BB', bb)
+    
+    # 2. RSI 9
+    rsi = daily.get('rsi_9', {})
+    if isinstance(rsi, dict):
+        states['RSI_9_Daily'] = get_indicator_state('RSI', rsi)
+    
+    # 3. EMA 9
+    ema9 = daily.get('ema_9', {})
+    if isinstance(ema9, dict):
+        states['EMA_9_Daily'] = get_indicator_state('EMA9', ema9)
+    
+    # 4. EMA 20
+    ema20 = daily.get('ema_20', {})
+    if isinstance(ema20, dict):
+        states['EMA_20_Daily'] = get_indicator_state('EMA20', ema20)
+    
+    # 5. EMA 50
+    ema50 = daily.get('ema_50', {})
+    if isinstance(ema50, dict):
+        states['EMA_50_Daily'] = get_indicator_state('EMA50', ema50)
+    
+    # 6. EMA 200
+    ema200 = daily.get('ema_200', {})
+    if isinstance(ema200, dict):
+        states['EMA_200_Daily'] = get_indicator_state('EMA200', ema200)
+    
+    # 7. MA Crossover (9 day EMA, 21 day EMA)
+    ma_cross = daily.get('ma_crossover', {})
+    if isinstance(ma_cross, dict):
+        states['MA_Crossover_Daily'] = get_indicator_state('MA_Cross', ma_cross)
+    
+    # 8. MACD (12,26,9 EMA)
+    macd = daily.get('macd', {})
+    if isinstance(macd, dict):
+        states['MACD_Daily'] = get_indicator_state('MACD', macd)
+    
+    # HOURLY INDICATORS (1 total)
+    # 1. EMA 100
+    ema100 = hourly.get('ema_100', {})
+    if isinstance(ema100, dict):
+        states['EMA_100_Hourly'] = get_indicator_state('EMA100', ema100)
+    
+    # WEEKLY INDICATORS (1 total)
+    # 1. EMA 20
+    ema20_weekly = weekly.get('ema_20', {})
+    if isinstance(ema20_weekly, dict):
+        states['EMA_20_Weekly'] = get_indicator_state('EMA20', ema20_weekly)
     
     return states
 

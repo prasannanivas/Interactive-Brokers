@@ -307,36 +307,52 @@ class MassiveMonitor:
             traceback.print_exc()
             return None
 
-    async def _fetch_historical_data(self, symbol: str, days: int = 30) -> Optional[pd.DataFrame]:
+    async def _fetch_historical_data(self, symbol: str, days: int = 30, timespan: str = 'minute') -> Optional[pd.DataFrame]:
         """
-        Fetch historical 5-minute candle data using official client (stocks or forex)
+        Fetch historical candle data using official client with specified timespan
         
         Uses: GET /v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}
-        Docs: https://massive.com/docs/stocks/get_v2_aggs_ticker__stocksticker__range__multiplier___timespan___from___to
-              https://massive.com/docs/forex/get_v2_aggs_ticker__forexticker__range__multiplier___timespan___from___to
+        Docs: https://polygon.io/docs/stocks/get_v2_aggs_ticker__stocksticker__range__multiplier___timespan___from___to
         
         Args:
             symbol: Stock symbol or Forex pair (e.g., 'AAPL' or 'C:EURUSD')
-            days: Number of days of historical data (default 30 days for 5-min candles)
+            days: Number of days of historical data
+            timespan: Timespan for candles - 'minute', 'hour', 'day', 'week', 'month'
             
         Returns:
-            DataFrame with historical 5-minute candle data or None if error
+            DataFrame with historical candle data or None if error
         """
+        import time
+        method_start = time.time()
+        
         if not self.is_connected():
+            print(f"✗ [ERROR] Not connected to API")
             return None
 
         try:
-            # Calculate date range - get enough 5-min candles for EMA200
-            # Need at least 1000 candles (200 EMA + buffer)
+            # Calculate date range
+            calc_start = time.time()
             end_date = datetime.now()
             start_date = end_date - timedelta(days=days)
+            calc_time = time.time() - calc_start
+            print(f"   ⏱️  Date calculation: {calc_time:.3f}s")
             
-            # Use official client's list_aggs method for 5-minute candles
+            # Set multiplier based on timespan
+            multiplier = 1
+            if timespan == 'minute':
+                multiplier = 5  # 5-minute candles
+            
+            print(f"   📡 Calling Polygon API: {symbol} ({multiplier} {timespan})")
+            print(f"   📅 Date range: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
+            
+            # Use official client's list_aggs method
+            api_start = time.time()
             aggs = []
+            agg_count = 0
             for agg in self.client.list_aggs(
                 ticker=symbol,
-                multiplier=5,
-                timespan="minute",
+                multiplier=multiplier,
+                timespan=timespan,
                 from_=start_date.strftime('%Y-%m-%d'),
                 to=end_date.strftime('%Y-%m-%d'),
                 adjusted=True,
@@ -351,18 +367,34 @@ class MassiveMonitor:
                     'close': agg.close,
                     'volume': agg.volume
                 })
+                agg_count += 1
+                if agg_count % 500 == 0:
+                    print(f"   📊 Received {agg_count} candles...")
+            
+            api_time = time.time() - api_start
+            print(f"   ⏱️  Polygon API call: {api_time:.2f}s ({agg_count} candles)")
             
             if aggs:
+                df_start = time.time()
                 df = pd.DataFrame(aggs)
                 df['date'] = pd.to_datetime(df['timestamp'], unit='ms')
                 df = df.set_index('date')
+                df_time = time.time() - df_start
+                print(f"   ⏱️  DataFrame creation: {df_time:.3f}s")
+                
+                total_time = time.time() - method_start
+                print(f"   ✅ Total _fetch_historical_data: {total_time:.2f}s")
                 return df[['open', 'high', 'low', 'close', 'volume']]
             else:
-                print(f"✗ No historical data for {symbol}")
+                total_time = time.time() - method_start
+                print(f"   ✗ No historical data for {symbol} (took {total_time:.2f}s)")
                 return None
 
         except Exception as e:
-            print(f"✗ Error fetching historical data for {symbol}: {e}")
+            total_time = time.time() - method_start
+            print(f"   ✗ Error fetching historical data for {symbol} after {total_time:.2f}s: {e}")
+            import traceback
+            traceback.print_exc()
             return None
 
     def calculate_ema(self, prices: pd.Series, period: int) -> pd.Series:

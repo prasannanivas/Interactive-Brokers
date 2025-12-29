@@ -45,9 +45,12 @@ load_dotenv(os.path.join(os.path.dirname(__file__), '..', 'backend', '.env'))
 
 # Import monitor for watchlist operations
 from massive_monitor_v2 import MassiveMonitorV2
+from massive_monitor import MassiveMonitor
 
 # Global monitor instance for watchlist management
 data_monitor = None
+# Global monitor instance for historical data requests
+history_monitor = None
 
 app = FastAPI(
     title="Trading Monitor - Auth Service",
@@ -74,7 +77,7 @@ security = HTTPBearer()
 @app.on_event("startup")
 async def startup_event():
     """Initialize database connection"""
-    global data_monitor
+    global data_monitor, history_monitor
     try:
         await Database.connect_db()
         print("✓ Data Service: Connected to MongoDB")
@@ -86,6 +89,11 @@ async def startup_event():
         data_monitor = MassiveMonitorV2(api_key=os.getenv('MASSIVE_API_KEY'), use_db=True)
         await data_monitor.connect()
         print("✓ Data Service: Monitor initialized for watchlist management")
+        
+        # Initialize monitor for historical data requests (reusable)
+        history_monitor = MassiveMonitor(api_key=os.getenv('MASSIVE_API_KEY'), use_db=False)
+        await history_monitor.connect()
+        print("✓ Data Service: History monitor initialized for price data")
         
         print("\n" + "=" * 60)
         print("📊 Data Service started on http://localhost:8001")
@@ -459,43 +467,63 @@ async def get_watchlist_changes(
 @app.get("/api/history/price-data/{symbol}")
 async def get_price_history(
     symbol: str,
-    days: int = 30
+    days: int = 30,
+    timespan: str = 'hour'
 ):
     """
-    Get historical price data for a symbol (TradingView-style)
+    Get historical price data for a symbol with specified timespan
     Returns OHLCV candlestick data - No auth required for now
+    
+    Args:
+        symbol: Stock symbol or Forex pair
+        days: Number of days to fetch
+        timespan: Candle timespan - 'minute', 'hour', 'day', 'week', 'month'
     """
+    import time
+    request_start = time.time()
+    
     try:
-        print(f"📊 Fetching {days} days of price data for {symbol}...")
+        print(f"\n{'='*60}")
+        print(f"📊 [REQUEST START] {symbol} - {timespan} - {days} days")
+        print(f"{'='*60}")
         
         # Import MassiveMonitor
         from massive_monitor import MassiveMonitor
         import asyncio
         
-        # Initialize monitor
-        monitor = MassiveMonitor(api_key=os.getenv('MASSIVE_API_KEY'), use_db=False)
+        init_start = time.time()
+        # Use global history monitor (already connected)
+        global history_monitor
+        if not history_monitor or not history_monitor.is_connected():
+            # Fallback: reinitialize if needed
+            history_monitor = MassiveMonitor(api_key=os.getenv('MASSIVE_API_KEY'), use_db=False)
+            await history_monitor.connect()
+        init_time = time.time() - init_start
+        print(f"⏱️  [INIT] Monitor check: {init_time:.4f}s")
         
-        # Connect to MASSIVE API
-        if not monitor.is_connected():
-            await monitor.connect()
-        
-        # Fetch historical data with timeout
+        # Fetch historical data with timeout and timespan
+        fetch_start = time.time()
         try:
             df = await asyncio.wait_for(
-                monitor._fetch_historical_data(symbol, days=days),
+                history_monitor._fetch_historical_data(symbol, days=days, timespan=timespan),
                 timeout=30.0  # 30 second timeout
             )
+            fetch_time = time.time() - fetch_start
+            print(f"⏱️  [FETCH] API data fetch: {fetch_time:.2f}s")
         except asyncio.TimeoutError:
-            print(f"✗ Timeout fetching data for {symbol}")
+            total_time = time.time() - request_start
+            print(f"✗ [TIMEOUT] Request timed out after {total_time:.2f}s")
             raise HTTPException(status_code=504, detail="Request timeout - try fewer days")
         
         if df is None or df.empty:
-            print(f"✗ No data returned for {symbol}")
+            total_time = time.time() - request_start
+            print(f"✗ [NO DATA] No data returned in {total_time:.2f}s")
             raise HTTPException(status_code=404, detail=f"No price data found for {symbol}")
         
-        print(f"✓ Got {len(df)} candles for {symbol}")
+        print(f"✓ [DATA] Got {len(df)} {timespan} candles for {symbol}")
         
         # Convert DataFrame to candlestick format
+        process_start = time.time()
         candles = []
         for timestamp, row in df.iterrows():
             candles.append({
@@ -506,6 +534,16 @@ async def get_price_history(
                 "close": float(row['close']),
                 "volume": float(row['volume'])
             })
+        process_time = time.time() - process_start
+        print(f"⏱️  [PROCESS] Data processing: {process_time:.2f}s")
+        
+        total_time = time.time() - request_start
+        print(f"{'='*60}")
+        print(f"✅ [SUCCESS] Total request time: {total_time:.2f}s")
+        print(f"   - Init: {init_time:.2f}s ({init_time/total_time*100:.1f}%)")
+        print(f"   - Fetch: {fetch_time:.2f}s ({fetch_time/total_time*100:.1f}%)")
+        print(f"   - Process: {process_time:.2f}s ({process_time/total_time*100:.1f}%)")
+        print(f"{'='*60}\n")
         
         return {
             "symbol": symbol,

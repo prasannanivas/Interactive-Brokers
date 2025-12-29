@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { tradingAPI, dataAPI, historyAPI } from '../api/api'
 import TradingViewChart from '../components/TradingViewChart'
+import ChartModal from '../components/ChartModal'
 import './Dashboard.css'
 
 const Dashboard = () => {
@@ -13,6 +14,8 @@ const Dashboard = () => {
   const [selectedSymbol, setSelectedSymbol] = useState(null)
   const [signalHistory, setSignalHistory] = useState([])
   const [showHistoryModal, setShowHistoryModal] = useState(false)
+  const [showChartModal, setShowChartModal] = useState(false)
+  const [chartSymbol, setChartSymbol] = useState(null)
   const [loadingHistory, setLoadingHistory] = useState(false)
   const wsRef = useRef(null)
 
@@ -157,6 +160,16 @@ const Dashboard = () => {
     setSignalHistory([])
   }
 
+  const openChartModal = (symbol) => {
+    setChartSymbol(symbol)
+    setShowChartModal(true)
+  }
+
+  const closeChartModal = () => {
+    setShowChartModal(false)
+    setChartSymbol(null)
+  }
+
   const formatDateTime = (timestamp) => {
     const date = new Date(timestamp)
     return date.toLocaleString()
@@ -247,9 +260,15 @@ const Dashboard = () => {
                 <tbody>
                   {watchlist.map((item, index) => (
                     <tr key={index} className="symbol-row">
-                      {/* Symbol */}
+                      {/* Symbol - Make it clickable */}
                       <td className="symbol-cell">
-                        <div className="symbol-name">{item.symbol}</div>
+                        <div 
+                          className="symbol-name clickable-symbol" 
+                          onClick={() => openChartModal(item.symbol)}
+                          title="Click to view detailed chart"
+                        >
+                          {item.symbol} 📊
+                        </div>
                       </td>
 
                       {/* Price */}
@@ -477,6 +496,14 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Advanced Chart Modal */}
+      {showChartModal && (
+        <ChartModal 
+          symbol={chartSymbol} 
+          onClose={closeChartModal}
+        />
       )}
     </div>
   )

@@ -105,7 +105,7 @@ export const historyAPI = {
   getSignalHistory: (symbol, limit = 100) => authApi.get(`/api/history/signals/${symbol}?limit=${limit}`),
   getRecentSignals: (limit = 50) => authApi.get(`/api/history/signals/recent?limit=${limit}`),
   getWatchlistChanges: (limit = 100) => authApi.get(`/api/history/watchlist-changes?limit=${limit}`),
-  getPriceHistory: (symbol, days = 30) => authApi.get(`/api/history/price-data/${symbol}?days=${days}`),
+  getPriceHistory: (symbol, days = 30, timespan = 'hour') => authApi.get(`/api/history/price-data/${symbol}?days=${days}&timespan=${timespan}`),
 }
 
 // Backtesting API - uses data service (port 8001)
