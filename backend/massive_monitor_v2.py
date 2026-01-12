@@ -326,7 +326,7 @@ class MassiveMonitorV2:
 
         try:
             end_date = datetime.now()
-            start_date = end_date - timedelta(weeks=weeks)
+            start_date = end_date - timedelta(days=weeks*7)  # Convert weeks to days
             
             aggs = []
             for agg in self.client.list_aggs(
