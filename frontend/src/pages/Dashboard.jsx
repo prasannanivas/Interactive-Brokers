@@ -187,7 +187,7 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <div className="dashboard-header">
         <div>
-          <h1>📊 Trading Signal Monitor</h1>
+          <h1>Trading Signal Monitor</h1>
           <p className="welcome-text">Real-time Forex Trading Signals</p>
         </div>
       </div>
