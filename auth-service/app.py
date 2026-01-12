@@ -593,7 +593,8 @@ async def get_watchlist():
                 "buy_signals": symbol.get("buy_signals", []),
                 "sell_signals": symbol.get("sell_signals", []),
                 "daily_indicators": symbol.get("daily_indicators"),
-                "hourly_indicators": symbol.get("hourly_indicators")
+                "hourly_indicators": symbol.get("hourly_indicators"),
+                "weekly_indicators": symbol.get("weekly_indicators")
             })
         
         return watchlist_data
