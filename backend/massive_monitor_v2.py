@@ -104,6 +104,7 @@ class MassiveMonitorV2:
                         'last_updated': clean_doc.get('last_updated'),
                         'daily_indicators': clean_doc.get('daily_indicators'),
                         'hourly_indicators': clean_doc.get('hourly_indicators'),
+                        'weekly_indicators': clean_doc.get('weekly_indicators'),
                         'buy_signals': clean_doc.get('buy_signals', []),
                         'sell_signals': clean_doc.get('sell_signals', [])
                     }
@@ -141,6 +142,7 @@ class MassiveMonitorV2:
                 'last_updated': last_updated,
                 'daily_indicators': data.get('daily_indicators'),
                 'hourly_indicators': data.get('hourly_indicators'),
+                'weekly_indicators': data.get('weekly_indicators'),
                 'buy_signals': data.get('buy_signals', []),
                 'sell_signals': data.get('sell_signals', [])
             }
@@ -179,6 +181,7 @@ class MassiveMonitorV2:
                 'price': data.get('last_price'),
                 'daily_indicators': data.get('daily_indicators'),
                 'hourly_indicators': data.get('hourly_indicators'),
+                'weekly_indicators': data.get('weekly_indicators'),
                 'buy_signals': data.get('buy_signals', []),
                 'sell_signals': data.get('sell_signals', [])
             }
@@ -316,6 +319,47 @@ class MassiveMonitorV2:
             print(f"✗ Error fetching hourly data for {symbol}: {e}")
             return None
 
+    async def _fetch_weekly_data(self, symbol: str, weeks: int = 30) -> Optional[pd.DataFrame]:
+        """Fetch weekly historical data (need 20+ weeks for EMA20)"""
+        if not self.is_connected():
+            return None
+
+        try:
+            end_date = datetime.now()
+            start_date = end_date - timedelta(weeks=weeks)
+            
+            aggs = []
+            for agg in self.client.list_aggs(
+                ticker=symbol,
+                multiplier=1,
+                timespan="week",
+                from_=start_date.strftime('%Y-%m-%d'),
+                to=end_date.strftime('%Y-%m-%d'),
+                adjusted=True,
+                sort="asc",
+                limit=50000
+            ):
+                aggs.append({
+                    'timestamp': agg.timestamp,
+                    'open': agg.open,
+                    'high': agg.high,
+                    'low': agg.low,
+                    'close': agg.close,
+                    'volume': agg.volume
+                })
+            
+            if aggs:
+                df = pd.DataFrame(aggs)
+                df['date'] = pd.to_datetime(df['timestamp'], unit='ms')
+                df = df.set_index('date')
+                return df[['open', 'high', 'low', 'close', 'volume']]
+            
+            return None
+
+        except Exception as e:
+            print(f"✗ Error fetching weekly data for {symbol}: {e}")
+            return None
+
     async def search_symbols(self, query: str, limit: int = 20) -> List[dict]:
         """Search for symbols using MASSIVE API"""
         if not self.is_connected():
@@ -444,13 +488,15 @@ class MassiveMonitorV2:
             # Fetch historical data
             daily_data = await self._fetch_daily_data(symbol)
             hourly_data = await self._fetch_hourly_data(symbol)
+            weekly_data = await self._fetch_weekly_data(symbol)
             
             # Calculate indicators
             daily_indicators = self.indicator_calculator.calculate_all_daily_indicators(daily_data, current_price)
             hourly_indicators = self.indicator_calculator.calculate_all_hourly_indicators(hourly_data, current_price)
+            weekly_indicators = self.indicator_calculator.calculate_all_weekly_indicators(weekly_data, current_price)
             
             # Extract signals
-            buy_signals, sell_signals = self.indicator_calculator.extract_signals(daily_indicators, hourly_indicators)
+            buy_signals, sell_signals = self.indicator_calculator.extract_signals(daily_indicators, hourly_indicators, weekly_indicators)
             
             # Update watchlist
             self.watchlist[symbol].update({
@@ -458,6 +504,7 @@ class MassiveMonitorV2:
                 'last_updated': datetime.now().isoformat(),
                 'daily_indicators': daily_indicators,
                 'hourly_indicators': hourly_indicators,
+                'weekly_indicators': weekly_indicators,
                 'buy_signals': buy_signals,
                 'sell_signals': sell_signals
             })

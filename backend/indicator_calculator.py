@@ -268,10 +268,10 @@ class IndicatorCalculator:
         indicators = {
             'bollinger_band': IndicatorCalculator.calculate_bollinger_bands(closes, 20, 2),
             'rsi_9': IndicatorCalculator.calculate_rsi(closes, 9),
-            'sma_9': IndicatorCalculator.calculate_sma_indicator(closes, 9, current_price).get('sma_value') if IndicatorCalculator.calculate_sma_indicator(closes, 9, current_price) else None,
-            'sma_20': IndicatorCalculator.calculate_sma_indicator(closes, 20, current_price).get('sma_value') if IndicatorCalculator.calculate_sma_indicator(closes, 20, current_price) else None,
-            'sma_50': IndicatorCalculator.calculate_sma_indicator(closes, 50, current_price),
-            'sma_200': IndicatorCalculator.calculate_sma_indicator(closes, 200, current_price).get('sma_value') if IndicatorCalculator.calculate_sma_indicator(closes, 200, current_price) else None,
+            'ema_9': IndicatorCalculator.calculate_ema_indicator(closes, 9, current_price),
+            'ema_20': IndicatorCalculator.calculate_ema_indicator(closes, 20, current_price),
+            'ema_50': IndicatorCalculator.calculate_ema_indicator(closes, 50, current_price),
+            'ema_200': IndicatorCalculator.calculate_ema_indicator(closes, 200, current_price),
             'ma_crossover': IndicatorCalculator.calculate_ma_crossover(closes),
             'macd': IndicatorCalculator.calculate_macd(closes)
         }
@@ -302,7 +302,30 @@ class IndicatorCalculator:
         return indicators
     
     @staticmethod
-    def extract_signals(daily_indicators: Dict, hourly_indicators: Dict) -> tuple:
+    def calculate_all_weekly_indicators(weekly_data: pd.DataFrame, current_price: float) -> Dict:
+        """
+        Calculate all weekly timeframe indicators
+        
+        Args:
+            weekly_data: DataFrame with OHLCV data
+            current_price: Current price
+            
+        Returns:
+            dict with all weekly indicators
+        """
+        if weekly_data is None or len(weekly_data) == 0:
+            return None
+        
+        closes = weekly_data['close']
+        
+        indicators = {
+            'ema_20': IndicatorCalculator.calculate_ema_indicator(closes, 20, current_price)
+        }
+        
+        return indicators
+    
+    @staticmethod
+    def extract_signals(daily_indicators: Dict, hourly_indicators: Dict, weekly_indicators: Dict = None) -> tuple:
         """
         Extract buy and sell signals from all indicators
         
@@ -312,6 +335,15 @@ class IndicatorCalculator:
         buy_signals = []
         sell_signals = []
         
+        # HOURLY INDICATORS (processed first for display order)
+        if hourly_indicators:
+            # EMA 100
+            if hourly_indicators.get('ema_100') and hourly_indicators['ema_100'].get('signal') == 'BUY':
+                buy_signals.append('EMA_100_Hourly')
+            elif hourly_indicators.get('ema_100') and hourly_indicators['ema_100'].get('signal') == 'SELL':
+                sell_signals.append('EMA_100_Hourly')
+        
+        # DAILY INDICATORS
         if daily_indicators:
             # Bollinger Bands
             if daily_indicators.get('bollinger_band') and daily_indicators['bollinger_band'].get('signal') == 'BUY':
@@ -325,11 +357,29 @@ class IndicatorCalculator:
             elif daily_indicators.get('rsi_9') and daily_indicators['rsi_9'].get('signal') == 'SELL':
                 sell_signals.append('RSI_9_Daily')
             
-            # SMA 50
-            if daily_indicators.get('sma_50') and daily_indicators['sma_50'].get('signal') == 'BUY':
-                buy_signals.append('SMA_50_Daily')
-            elif daily_indicators.get('sma_50') and daily_indicators['sma_50'].get('signal') == 'SELL':
-                sell_signals.append('SMA_50_Daily')
+            # EMA 9
+            if daily_indicators.get('ema_9') and daily_indicators['ema_9'].get('signal') == 'BUY':
+                buy_signals.append('EMA_9_Daily')
+            elif daily_indicators.get('ema_9') and daily_indicators['ema_9'].get('signal') == 'SELL':
+                sell_signals.append('EMA_9_Daily')
+            
+            # EMA 20
+            if daily_indicators.get('ema_20') and daily_indicators['ema_20'].get('signal') == 'BUY':
+                buy_signals.append('EMA_20_Daily')
+            elif daily_indicators.get('ema_20') and daily_indicators['ema_20'].get('signal') == 'SELL':
+                sell_signals.append('EMA_20_Daily')
+            
+            # EMA 50
+            if daily_indicators.get('ema_50') and daily_indicators['ema_50'].get('signal') == 'BUY':
+                buy_signals.append('EMA_50_Daily')
+            elif daily_indicators.get('ema_50') and daily_indicators['ema_50'].get('signal') == 'SELL':
+                sell_signals.append('EMA_50_Daily')
+            
+            # EMA 200
+            if daily_indicators.get('ema_200') and daily_indicators['ema_200'].get('signal') == 'BUY':
+                buy_signals.append('EMA_200_Daily')
+            elif daily_indicators.get('ema_200') and daily_indicators['ema_200'].get('signal') == 'SELL':
+                sell_signals.append('EMA_200_Daily')
             
             # MA Crossover
             if daily_indicators.get('ma_crossover') and daily_indicators['ma_crossover'].get('signal') == 'BUY':
@@ -343,11 +393,12 @@ class IndicatorCalculator:
             elif daily_indicators.get('macd') and daily_indicators['macd'].get('signal') == 'SELL':
                 sell_signals.append('MACD_Daily')
         
-        if hourly_indicators:
-            # EMA 100
-            if hourly_indicators.get('ema_100') and hourly_indicators['ema_100'].get('signal') == 'BUY':
-                buy_signals.append('EMA_100_Hourly')
-            elif hourly_indicators.get('ema_100') and hourly_indicators['ema_100'].get('signal') == 'SELL':
-                sell_signals.append('EMA_100_Hourly')
+        # WEEKLY INDICATORS
+        if weekly_indicators:
+            # EMA 20
+            if weekly_indicators.get('ema_20') and weekly_indicators['ema_20'].get('signal') == 'BUY':
+                buy_signals.append('EMA_20_Weekly')
+            elif weekly_indicators.get('ema_20') and weekly_indicators['ema_20'].get('signal') == 'SELL':
+                sell_signals.append('EMA_20_Weekly')
         
         return buy_signals, sell_signals

@@ -175,6 +175,14 @@ const Dashboard = () => {
     return date.toLocaleString()
   }
 
+  const countNeutralSignals = (item) => {
+    // Total indicators we're tracking
+    const totalIndicators = 10 // EMA 100 (Hourly), Bollinger, RSI, EMA 9, EMA 20, EMA 50, EMA 200, MA Cross, MACD (Daily), EMA 20 (Weekly)
+    const buyCount = item.buy_signals?.length || 0
+    const sellCount = item.sell_signals?.length || 0
+    return totalIndicators - buyCount - sellCount
+  }
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
@@ -248,12 +256,16 @@ const Dashboard = () => {
                     <th>Symbol</th>
                     <th>Price</th>
                     <th>Signals</th>
-                    <th>Bollinger</th>
-                    <th>RSI (9)</th>
-                    <th>SMA 50</th>
-                    <th>MA Cross</th>
-                    <th>MACD</th>
-                    <th>EMA 100</th>
+                    <th>EMA 100<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>⏰ Hourly</span></th>
+                    <th>Bollinger<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
+                    <th>RSI (9)<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
+                    <th>EMA 9<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
+                    <th>EMA 20<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
+                    <th>EMA 50<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
+                    <th>EMA 200<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
+                    <th>MA Cross<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
+                    <th>MACD<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
+                    <th>EMA 20<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📆 Weekly</span></th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -285,10 +297,33 @@ const Dashboard = () => {
                           <span className="signal-badge bearish">
                             {item.sell_signals?.length || 0} 🔴
                           </span>
+                          <span className="signal-badge neutral">
+                            {countNeutralSignals(item)} ⚪
+                          </span>
                         </div>
                       </td>
 
-                      {/* Bollinger Bands */}
+                      {/* 1. EMA 100 Hourly */}
+                      <td className="indicator-cell">
+                        {item.hourly_indicators?.ema_100 ? (
+                          <>
+                            <div className="indicator-value">
+                              {item.hourly_indicators.ema_100.ema_value?.toFixed(5)}
+                            </div>
+                            {item.hourly_indicators.ema_100.signal ? (
+                              <span className={`signal-badge-mini ${item.hourly_indicators.ema_100.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                {item.hourly_indicators.ema_100.signal}
+                              </span>
+                            ) : (
+                              <span className="signal-badge-mini neutral">Neutral</span>
+                            )}
+                          </>
+                        ) : (
+                          <span className="signal-badge-mini neutral">N/A</span>
+                        )}
+                      </td>
+
+                      {/* 2. Bollinger Bands Daily */}
                       <td className="indicator-cell">
                         {item.daily_indicators?.bollinger_band ? (
                           <>
@@ -310,7 +345,7 @@ const Dashboard = () => {
                         )}
                       </td>
 
-                      {/* RSI */}
+                      {/* 3. RSI Daily */}
                       <td className="indicator-cell">
                         <div className="indicator-value">
                           {item.daily_indicators?.rsi_9?.rsi_value?.toFixed(0)}
@@ -324,16 +359,16 @@ const Dashboard = () => {
                         )}
                       </td>
 
-                      {/* SMA 50 */}
+                      {/* 4. EMA 9 Daily */}
                       <td className="indicator-cell">
-                        {item.daily_indicators?.sma_50 ? (
+                        {item.daily_indicators?.ema_9 ? (
                           <>
                             <div className="indicator-value">
-                              {item.daily_indicators.sma_50.sma_value?.toFixed(5)}
+                              {item.daily_indicators.ema_9.ema_value?.toFixed(5)}
                             </div>
-                            {item.daily_indicators.sma_50.signal ? (
-                              <span className={`signal-badge-mini ${item.daily_indicators.sma_50.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                {item.daily_indicators.sma_50.signal}
+                            {item.daily_indicators.ema_9.signal ? (
+                              <span className={`signal-badge-mini ${item.daily_indicators.ema_9.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                {item.daily_indicators.ema_9.signal}
                               </span>
                             ) : (
                               <span className="signal-badge-mini neutral">Neutral</span>
@@ -344,7 +379,67 @@ const Dashboard = () => {
                         )}
                       </td>
 
-                      {/* MA Crossover */}
+                      {/* 5. EMA 20 Daily */}
+                      <td className="indicator-cell">
+                        {item.daily_indicators?.ema_20 ? (
+                          <>
+                            <div className="indicator-value">
+                              {item.daily_indicators.ema_20.ema_value?.toFixed(5)}
+                            </div>
+                            {item.daily_indicators.ema_20.signal ? (
+                              <span className={`signal-badge-mini ${item.daily_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                {item.daily_indicators.ema_20.signal}
+                              </span>
+                            ) : (
+                              <span className="signal-badge-mini neutral">Neutral</span>
+                            )}
+                          </>
+                        ) : (
+                          <span className="signal-badge-mini neutral">N/A</span>
+                        )}
+                      </td>
+
+                      {/* 6. EMA 50 Daily */}
+                      <td className="indicator-cell">
+                        {item.daily_indicators?.ema_50 ? (
+                          <>
+                            <div className="indicator-value">
+                              {item.daily_indicators.ema_50.ema_value?.toFixed(5)}
+                            </div>
+                            {item.daily_indicators.ema_50.signal ? (
+                              <span className={`signal-badge-mini ${item.daily_indicators.ema_50.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                {item.daily_indicators.ema_50.signal}
+                              </span>
+                            ) : (
+                              <span className="signal-badge-mini neutral">Neutral</span>
+                            )}
+                          </>
+                        ) : (
+                          <span className="signal-badge-mini neutral">N/A</span>
+                        )}
+                      </td>
+
+                      {/* 7. EMA 200 Daily */}
+                      <td className="indicator-cell">
+                        {item.daily_indicators?.ema_200 ? (
+                          <>
+                            <div className="indicator-value">
+                              {item.daily_indicators.ema_200.ema_value?.toFixed(5)}
+                            </div>
+                            {item.daily_indicators.ema_200.signal ? (
+                              <span className={`signal-badge-mini ${item.daily_indicators.ema_200.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                {item.daily_indicators.ema_200.signal}
+                              </span>
+                            ) : (
+                              <span className="signal-badge-mini neutral">Neutral</span>
+                            )}
+                          </>
+                        ) : (
+                          <span className="signal-badge-mini neutral">N/A</span>
+                        )}
+                      </td>
+
+                      {/* 8. MA Crossover Daily */}
                       <td className="indicator-cell">
                         {item.daily_indicators?.ma_crossover ? (
                           <>
@@ -365,7 +460,7 @@ const Dashboard = () => {
                         )}
                       </td>
 
-                      {/* MACD */}
+                      {/* 9. MACD Daily */}
                       <td className="indicator-cell">
                         {item.daily_indicators?.macd ? (
                           <>
@@ -387,16 +482,16 @@ const Dashboard = () => {
                         )}
                       </td>
 
-                      {/* EMA 100 */}
+                      {/* 10. EMA 20 Weekly */}
                       <td className="indicator-cell">
-                        {item.hourly_indicators?.ema_100 ? (
+                        {item.weekly_indicators?.ema_20 ? (
                           <>
                             <div className="indicator-value">
-                              {item.hourly_indicators.ema_100.ema_value?.toFixed(5)}
+                              {item.weekly_indicators.ema_20.ema_value?.toFixed(5)}
                             </div>
-                            {item.hourly_indicators.ema_100.signal ? (
-                              <span className={`signal-badge-mini ${item.hourly_indicators.ema_100.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                {item.hourly_indicators.ema_100.signal}
+                            {item.weekly_indicators.ema_20.signal ? (
+                              <span className={`signal-badge-mini ${item.weekly_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                {item.weekly_indicators.ema_20.signal}
                               </span>
                             ) : (
                               <span className="signal-badge-mini neutral">Neutral</span>
