@@ -426,6 +426,14 @@
   border: 1px solid #d1d5db;
 }
 
+.signal-time {
+  font-size: 9px;
+  color: #9ca3af;
+  margin-top: 2px;
+  font-style: italic;
+  font-weight: 500;
+}
+
 /* Action Button */
 .action-cell {
   text-align: center;

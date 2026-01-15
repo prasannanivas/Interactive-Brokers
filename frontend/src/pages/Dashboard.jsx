@@ -175,6 +175,23 @@ const Dashboard = () => {
     return date.toLocaleString()
   }
 
+  const formatSignalTime = (timestamp) => {
+    if (!timestamp) return null
+    const date = new Date(timestamp)
+    const now = new Date()
+    const diffMs = now - date
+    const diffMins = Math.floor(diffMs / 60000)
+    const diffHours = Math.floor(diffMs / 3600000)
+    const diffDays = Math.floor(diffMs / 86400000)
+    
+    if (diffMins < 1) return 'Just now'
+    if (diffMins < 60) return `${diffMins}m ago`
+    if (diffHours < 24) return `${diffHours}h ago`
+    if (diffDays < 7) return `${diffDays}d ago`
+    
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  }
+
   const countNeutralSignals = (item) => {
     // Total indicators we're tracking
     const totalIndicators = 10 // EMA 100 (Hourly), Bollinger, RSI, EMA 9, EMA 20, EMA 50, EMA 200, MA Cross, MACD (Daily), EMA 20 (Weekly)
@@ -311,9 +328,14 @@ const Dashboard = () => {
                               {item.hourly_indicators.ema_100.ema_value?.toFixed(5)}
                             </div>
                             {item.hourly_indicators.ema_100.signal ? (
-                              <span className={`signal-badge-mini ${item.hourly_indicators.ema_100.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                {item.hourly_indicators.ema_100.signal}
-                              </span>
+                              <>
+                                <span className={`signal-badge-mini ${item.hourly_indicators.ema_100.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                  {item.hourly_indicators.ema_100.signal}
+                                </span>
+                                {item.hourly_indicators.ema_100.signal_timestamp && (
+                                  <div className="signal-time">{formatSignalTime(item.hourly_indicators.ema_100.signal_timestamp)}</div>
+                                )}
+                              </>
                             ) : (
                               <span className="signal-badge-mini neutral">Neutral</span>
                             )}
@@ -333,9 +355,14 @@ const Dashboard = () => {
                               L: {item.daily_indicators.bollinger_band.lower_band?.toFixed(5)}
                             </div>
                             {item.daily_indicators.bollinger_band.signal ? (
-                              <span className={`signal-badge-mini ${item.daily_indicators.bollinger_band.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                {item.daily_indicators.bollinger_band.signal}
-                              </span>
+                              <>
+                                <span className={`signal-badge-mini ${item.daily_indicators.bollinger_band.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                  {item.daily_indicators.bollinger_band.signal}
+                                </span>
+                                {item.daily_indicators.bollinger_band.signal_timestamp && (
+                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.bollinger_band.signal_timestamp)}</div>
+                                )}
+                              </>
                             ) : (
                               <span className="signal-badge-mini neutral">Neutral</span>
                             )}
@@ -351,9 +378,14 @@ const Dashboard = () => {
                           {item.daily_indicators?.rsi_9?.rsi_value?.toFixed(0)}
                         </div>
                         {item.daily_indicators?.rsi_9?.signal ? (
-                          <span className={`signal-badge-mini ${item.daily_indicators.rsi_9.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                            {item.daily_indicators.rsi_9.signal}
-                          </span>
+                          <>
+                            <span className={`signal-badge-mini ${item.daily_indicators.rsi_9.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                              {item.daily_indicators.rsi_9.signal}
+                            </span>
+                            {item.daily_indicators.rsi_9.signal_timestamp && (
+                              <div className="signal-time">{formatSignalTime(item.daily_indicators.rsi_9.signal_timestamp)}</div>
+                            )}
+                          </>
                         ) : (
                           <span className="signal-badge-mini neutral">Neutral</span>
                         )}
@@ -367,9 +399,14 @@ const Dashboard = () => {
                               {item.daily_indicators.ema_9.ema_value?.toFixed(5)}
                             </div>
                             {item.daily_indicators.ema_9.signal ? (
-                              <span className={`signal-badge-mini ${item.daily_indicators.ema_9.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                {item.daily_indicators.ema_9.signal}
-                              </span>
+                              <>
+                                <span className={`signal-badge-mini ${item.daily_indicators.ema_9.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                  {item.daily_indicators.ema_9.signal}
+                                </span>
+                                {item.daily_indicators.ema_9.signal_timestamp && (
+                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_9.signal_timestamp)}</div>
+                                )}
+                              </>
                             ) : (
                               <span className="signal-badge-mini neutral">Neutral</span>
                             )}
@@ -387,9 +424,14 @@ const Dashboard = () => {
                               {item.daily_indicators.ema_20.ema_value?.toFixed(5)}
                             </div>
                             {item.daily_indicators.ema_20.signal ? (
-                              <span className={`signal-badge-mini ${item.daily_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                {item.daily_indicators.ema_20.signal}
-                              </span>
+                              <>
+                                <span className={`signal-badge-mini ${item.daily_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                  {item.daily_indicators.ema_20.signal}
+                                </span>
+                                {item.daily_indicators.ema_20.signal_timestamp && (
+                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_20.signal_timestamp)}</div>
+                                )}
+                              </>
                             ) : (
                               <span className="signal-badge-mini neutral">Neutral</span>
                             )}
@@ -407,9 +449,14 @@ const Dashboard = () => {
                               {item.daily_indicators.ema_50.ema_value?.toFixed(5)}
                             </div>
                             {item.daily_indicators.ema_50.signal ? (
-                              <span className={`signal-badge-mini ${item.daily_indicators.ema_50.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                {item.daily_indicators.ema_50.signal}
-                              </span>
+                              <>
+                                <span className={`signal-badge-mini ${item.daily_indicators.ema_50.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                  {item.daily_indicators.ema_50.signal}
+                                </span>
+                                {item.daily_indicators.ema_50.signal_timestamp && (
+                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_50.signal_timestamp)}</div>
+                                )}
+                              </>
                             ) : (
                               <span className="signal-badge-mini neutral">Neutral</span>
                             )}
@@ -427,9 +474,14 @@ const Dashboard = () => {
                               {item.daily_indicators.ema_200.ema_value?.toFixed(5)}
                             </div>
                             {item.daily_indicators.ema_200.signal ? (
-                              <span className={`signal-badge-mini ${item.daily_indicators.ema_200.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                {item.daily_indicators.ema_200.signal}
-                              </span>
+                              <>
+                                <span className={`signal-badge-mini ${item.daily_indicators.ema_200.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                  {item.daily_indicators.ema_200.signal}
+                                </span>
+                                {item.daily_indicators.ema_200.signal_timestamp && (
+                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_200.signal_timestamp)}</div>
+                                )}
+                              </>
                             ) : (
                               <span className="signal-badge-mini neutral">Neutral</span>
                             )}
@@ -448,9 +500,14 @@ const Dashboard = () => {
                               Slow: {item.daily_indicators.ma_crossover.slow_ema?.toFixed(5)}
                             </div>
                             {item.daily_indicators.ma_crossover.signal ? (
-                              <span className={`signal-badge-mini ${item.daily_indicators.ma_crossover.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                {item.daily_indicators.ma_crossover.signal}
-                              </span>
+                              <>
+                                <span className={`signal-badge-mini ${item.daily_indicators.ma_crossover.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                  {item.daily_indicators.ma_crossover.signal}
+                                </span>
+                                {item.daily_indicators.ma_crossover.signal_timestamp && (
+                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.ma_crossover.signal_timestamp)}</div>
+                                )}
+                              </>
                             ) : (
                               <span className="signal-badge-mini neutral">Neutral</span>
                             )}
@@ -470,9 +527,14 @@ const Dashboard = () => {
                               Hist: {item.daily_indicators.macd.histogram?.toFixed(6)}
                             </div>
                             {item.daily_indicators.macd.signal ? (
-                              <span className={`signal-badge-mini ${item.daily_indicators.macd.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                {item.daily_indicators.macd.signal}
-                              </span>
+                              <>
+                                <span className={`signal-badge-mini ${item.daily_indicators.macd.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                  {item.daily_indicators.macd.signal}
+                                </span>
+                                {item.daily_indicators.macd.signal_timestamp && (
+                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.macd.signal_timestamp)}</div>
+                                )}
+                              </>
                             ) : (
                               <span className="signal-badge-mini neutral">Neutral</span>
                             )}
@@ -490,9 +552,14 @@ const Dashboard = () => {
                               {item.weekly_indicators.ema_20.ema_value?.toFixed(5)}
                             </div>
                             {item.weekly_indicators.ema_20.signal ? (
-                              <span className={`signal-badge-mini ${item.weekly_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                {item.weekly_indicators.ema_20.signal}
-                              </span>
+                              <>
+                                <span className={`signal-badge-mini ${item.weekly_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                  {item.weekly_indicators.ema_20.signal}
+                                </span>
+                                {item.weekly_indicators.ema_20.signal_timestamp && (
+                                  <div className="signal-time">{formatSignalTime(item.weekly_indicators.ema_20.signal_timestamp)}</div>
+                                )}
+                              </>
                             ) : (
                               <span className="signal-badge-mini neutral">Neutral</span>
                             )}

@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 // Separate services for auth and trading
-const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL || 'http://167.172.215.78:8001'
-const TRADING_API_URL = import.meta.env.VITE_TRADING_API_URL || 'http://167.172.215.78:8000'
+const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL || 'http://localhost:8001'
+const TRADING_API_URL = import.meta.env.VITE_TRADING_API_URL || 'http://localhost:8000'
 
 // Auth service API client
 const authApi = axios.create({

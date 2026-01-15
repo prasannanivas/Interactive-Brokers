@@ -80,7 +80,8 @@ class IndicatorCalculator:
             'middle_band': round(float(middle_value), 6),
             'lower_band': round(float(lower_value), 6),
             'current_price': round(float(current_price), 6),
-            'signal': signal
+            'signal': signal,
+            'signal_timestamp': datetime.now() if signal else None
         }
     
     @staticmethod
@@ -113,7 +114,8 @@ class IndicatorCalculator:
         return {
             'rsi_value': round(float(rsi_value), 2),
             'period': period,
-            'signal': signal
+            'signal': signal,
+            'signal_timestamp': datetime.now() if signal else None
         }
     
     @staticmethod
@@ -142,7 +144,8 @@ class IndicatorCalculator:
             'sma_value': round(float(sma_value), 6),
             'period': period,
             'current_price': round(float(current_price), 6) if period == 50 else None,
-            'signal': signal
+            'signal': signal,
+            'signal_timestamp': datetime.now() if signal else None
         }
     
     @staticmethod
@@ -175,7 +178,8 @@ class IndicatorCalculator:
         return {
             'fast_ema': round(float(fast_value), 6),
             'slow_ema': round(float(slow_value), 6),
-            'signal': signal
+            'signal': signal,
+            'signal_timestamp': datetime.now() if signal else None
         }
     
     @staticmethod
@@ -217,7 +221,8 @@ class IndicatorCalculator:
             'macd_line': round(float(macd_value), 6),
             'signal_line': round(float(signal_value), 6),
             'histogram': round(float(histogram_value), 6),
-            'signal': signal
+            'signal': signal,
+            'signal_timestamp': datetime.now() if signal else None
         }
     
     @staticmethod
@@ -245,7 +250,8 @@ class IndicatorCalculator:
             'ema_value': round(float(ema_value), 6),
             'period': period,
             'current_price': round(float(current_price), 6),
-            'signal': signal
+            'signal': signal,
+            'signal_timestamp': datetime.now() if signal else None
         }
     
     @staticmethod

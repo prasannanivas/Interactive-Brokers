@@ -168,6 +168,7 @@ class BollingerBandIndicator(BaseModel):
     lower_band: float
     current_price: float
     signal: Optional[str] = None  # "BUY" or "SELL"
+    signal_timestamp: Optional[datetime] = None  # When the signal was generated
 
 
 class RSIIndicator(BaseModel):
@@ -175,6 +176,7 @@ class RSIIndicator(BaseModel):
     rsi_value: float
     period: int = 9
     signal: Optional[str] = None  # "BUY" or "SELL"
+    signal_timestamp: Optional[datetime] = None  # When the signal was generated
 
 
 class SMAIndicator(BaseModel):
@@ -183,6 +185,7 @@ class SMAIndicator(BaseModel):
     period: int
     current_price: Optional[float] = None
     signal: Optional[str] = None  # "BUY" or "SELL" for 50 period only
+    signal_timestamp: Optional[datetime] = None  # When the signal was generated
 
 
 class MACrossoverIndicator(BaseModel):
@@ -190,6 +193,7 @@ class MACrossoverIndicator(BaseModel):
     fast_ema: float  # 9 day EMA
     slow_ema: float  # 21 day EMA
     signal: Optional[str] = None  # "BUY" or "SELL"
+    signal_timestamp: Optional[datetime] = None  # When the signal was generated
 
 
 class MACDIndicator(BaseModel):
@@ -198,6 +202,7 @@ class MACDIndicator(BaseModel):
     signal_line: float  # 26 EMA
     histogram: float  # 9 EMA of difference
     signal: Optional[str] = None  # "BUY" or "SELL"
+    signal_timestamp: Optional[datetime] = None  # When the signal was generated
 
 
 class EMAIndicator(BaseModel):
@@ -206,6 +211,7 @@ class EMAIndicator(BaseModel):
     period: int
     current_price: float
     signal: Optional[str] = None  # "BUY" or "SELL"
+    signal_timestamp: Optional[datetime] = None  # When the signal was generated
 
 
 class DailyIndicators(BaseModel):
@@ -225,6 +231,11 @@ class HourlyIndicators(BaseModel):
     ema_100: Optional[EMAIndicator] = None
 
 
+class WeeklyIndicators(BaseModel):
+    """All weekly timeframe indicators"""
+    ema_20: Optional[EMAIndicator] = None
+
+
 # Watchlist Storage Model (for MongoDB)
 class WatchlistSymbol(BaseModel):
     """Watchlist symbol stored in DB with all indicators"""
@@ -240,6 +251,7 @@ class WatchlistSymbol(BaseModel):
     # Indicators
     daily_indicators: Optional[DailyIndicators] = None
     hourly_indicators: Optional[HourlyIndicators] = None
+    weekly_indicators: Optional[WeeklyIndicators] = None
     
     # Overall signals
     buy_signals: List[str] = []  # List of indicator names that generated BUY
