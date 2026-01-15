@@ -32,6 +32,44 @@ def convert_datetime_to_string(obj: Any) -> Any:
         return obj
 
 
+def preserve_signal_timestamps(old_indicators: Optional[Dict], new_indicators: Optional[Dict]) -> Optional[Dict]:
+    """
+    Preserve signal_timestamp from old indicators if the signal hasn't changed.
+    Only update timestamp if signal is new or has changed.
+    """
+    if not new_indicators:
+        return new_indicators
+    
+    if not old_indicators:
+        return new_indicators
+    
+    # Handle different indicator structures
+    result = {}
+    
+    for key, new_value in new_indicators.items():
+        if isinstance(new_value, dict) and 'signal' in new_value:
+            # This is an indicator with a signal
+            old_value = old_indicators.get(key, {})
+            
+            if isinstance(old_value, dict):
+                old_signal = old_value.get('signal')
+                new_signal = new_value.get('signal')
+                
+                # If signal hasn't changed and old timestamp exists, preserve it
+                if old_signal == new_signal and old_value.get('signal_timestamp'):
+                    result[key] = {**new_value, 'signal_timestamp': old_value['signal_timestamp']}
+                else:
+                    # Signal changed or no old timestamp, use new one
+                    result[key] = new_value
+            else:
+                result[key] = new_value
+        else:
+            # Not an indicator object, just copy
+            result[key] = new_value
+    
+    return result
+
+
 class MassiveMonitorV2:
     def __init__(self, api_key: Optional[str] = None, use_db: bool = True):
         """
@@ -478,6 +516,11 @@ class MassiveMonitorV2:
         try:
             market_type = self.watchlist[symbol].get('market_type', 'forex')
             
+            # Get old indicators to preserve timestamps
+            old_daily = self.watchlist[symbol].get('daily_indicators')
+            old_hourly = self.watchlist[symbol].get('hourly_indicators')
+            old_weekly = self.watchlist[symbol].get('weekly_indicators')
+            
             # Fetch current quote
             quote = await self._fetch_quote(symbol, market_type)
             if not quote:
@@ -494,6 +537,11 @@ class MassiveMonitorV2:
             daily_indicators = self.indicator_calculator.calculate_all_daily_indicators(daily_data, current_price)
             hourly_indicators = self.indicator_calculator.calculate_all_hourly_indicators(hourly_data, current_price)
             weekly_indicators = self.indicator_calculator.calculate_all_weekly_indicators(weekly_data, current_price)
+            
+            # Preserve signal timestamps if signals haven't changed
+            daily_indicators = preserve_signal_timestamps(old_daily, daily_indicators)
+            hourly_indicators = preserve_signal_timestamps(old_hourly, hourly_indicators)
+            weekly_indicators = preserve_signal_timestamps(old_weekly, weekly_indicators)
             
             # Extract signals
             buy_signals, sell_signals = self.indicator_calculator.extract_signals(daily_indicators, hourly_indicators, weekly_indicators)
