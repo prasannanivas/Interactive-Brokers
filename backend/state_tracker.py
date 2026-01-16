@@ -162,7 +162,8 @@ async def track_and_detect_changes(
     
     # Detect indicator changes
     indicator_changes = []
-    indicator_states_collection = get_indicator_states_collection()
+    # NOTE: Disabled DB writes here - signal changes are now logged by massive_monitor_v2._log_signal_changes()
+    # indicator_states_collection = get_indicator_states_collection()
     
     for indicator, current_state in current_indicator_states.items():
         prev_state = previous_indicator_states.get(indicator, 'NEUTRAL')
@@ -179,16 +180,17 @@ async def track_and_detect_changes(
             }
             indicator_changes.append(change_doc)
             
-            # Save to DB
-            await indicator_states_collection.update_one(
-                {'symbol': symbol, 'indicator': indicator},
-                {'$set': {
-                    'state': current_state,
-                    'timestamp': timestamp.isoformat(),
-                    'price': symbol_data.get('last_price')
-                }},
-                upsert=True
-            )
+            # NOTE: Disabled - signal changes are now tracked in massive_monitor_v2._log_signal_changes()
+            # This was overwriting the proper change records with upsert=True
+            # await indicator_states_collection.update_one(
+            #     {'symbol': symbol, 'indicator': indicator},
+            #     {'$set': {
+            #         'state': current_state,
+            #         'timestamp': timestamp.isoformat(),
+            #         'price': symbol_data.get('last_price')
+            #     }},
+            #     upsert=True
+            # )
     
     # Detect position change
     position_changed = (current_position != previous_position)

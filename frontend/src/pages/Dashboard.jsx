@@ -895,18 +895,26 @@ const Dashboard = () => {
                         second: '2-digit'
                       })
                       
+                      // Split indicator and timeframe if they're combined (e.g., "EMA_9_Daily")
+                      const indicatorName = change.indicator || ''
+                      const timeframe = change.timeframe || ''
+                      
+                      // Use the correct field names from the API response
+                      const oldSignal = change.old_signal || 'Neutral'
+                      const newSignal = change.new_signal || 'Neutral'
+                      
                       return (
                         <div key={index} className="change-entry">
                           <div className="change-date">{dateStr}</div>
                           <div className="change-content">
                             <div className="change-text">
-                              <strong>{change.indicator} ({change.timeframe})</strong> changed from{' '}
-                              <span className={`signal-inline ${change.old_signal === 'BUY' ? 'buy' : change.old_signal === 'SELL' ? 'sell' : 'neutral'}`}>
-                                {change.old_signal}
+                              <strong>{indicatorName}{timeframe ? ` (${timeframe})` : ''}</strong> changed from{' '}
+                              <span className={`signal-inline ${oldSignal === 'BUY' ? 'buy' : oldSignal === 'SELL' ? 'sell' : 'neutral'}`}>
+                                {oldSignal}
                               </span>
                               {' '}to{' '}
-                              <span className={`signal-inline ${change.new_signal === 'BUY' ? 'buy' : change.new_signal === 'SELL' ? 'sell' : 'neutral'}`}>
-                                {change.new_signal}
+                              <span className={`signal-inline ${newSignal === 'BUY' ? 'buy' : newSignal === 'SELL' ? 'sell' : 'neutral'}`}>
+                                {newSignal}
                               </span>
                             </div>
                             <div className="change-meta">Price: ${change.price?.toFixed(5)} at {timeStr}</div>
