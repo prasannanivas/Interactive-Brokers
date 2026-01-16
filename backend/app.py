@@ -352,8 +352,7 @@ async def get_signal_history(
 @app.get("/api/signals/changes/{symbol}")
 async def get_signal_changes(
     symbol: str,
-    limit: int = 100,
-    current_user: Optional[dict] = Depends(get_optional_user)
+    limit: int = 100
 ):
     """Get signal change history for a specific symbol (only actual changes)"""
     from database import get_indicator_states_collection
