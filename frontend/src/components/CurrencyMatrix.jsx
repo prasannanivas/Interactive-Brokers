@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import './CurrencyMatrix.css'
 
-const CurrencyMatrix = ({ watchlist }) => {
+const CurrencyMatrix = ({ watchlist, onPairClick }) => {
   // Count neutral signals (same as Dashboard logic)
   const countNeutralSignals = (item) => {
     let count = 0
@@ -201,8 +201,10 @@ const CurrencyMatrix = ({ watchlist }) => {
                       className={`matrix-cell ${isNull ? 'diagonal' : ''}`}
                       style={{
                         backgroundColor: getHeatmapColor(value, type),
-                        fontWeight: value > 0 ? 'bold' : 'normal'
+                        fontWeight: value > 0 ? 'bold' : 'normal',
+                        cursor: isNull ? 'default' : 'pointer'
                       }}
+                      onClick={() => !isNull && onPairClick && onPairClick(`C:${baseCurrency}${quoteCurrency}`)}
                       title={isNull ? `${baseCurrency} (same currency)` : `${pairSymbol}: ${value} ${title.toLowerCase()} signal${value !== 1 ? 's' : ''}`}
                     >
                       {isNull ? '—' : value}

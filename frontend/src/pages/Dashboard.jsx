@@ -362,7 +362,7 @@ const Dashboard = () => {
       </div>
 
       {/* Currency Signal Matrix */}
-      <CurrencyMatrix watchlist={watchlist} />
+      <CurrencyMatrix watchlist={watchlist} onPairClick={viewSignalHistory} />
 
       <div className="dashboard-grid">
         <div className="panel">
