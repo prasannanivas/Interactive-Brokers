@@ -17,7 +17,58 @@ const Dashboard = () => {
   const [showChartModal, setShowChartModal] = useState(false)
   const [chartSymbol, setChartSymbol] = useState(null)
   const [loadingHistory, setLoadingHistory] = useState(false)
+  const [showColumnFilter, setShowColumnFilter] = useState(false)
   const wsRef = useRef(null)
+
+  // Column configuration - all available columns
+  const allColumns = [
+    { id: 'symbol', label: 'Symbol', fixed: true },
+    { id: 'price', label: 'Price', fixed: true },
+    { id: 'signals', label: 'Signals', fixed: true },
+    { id: 'ema100_hourly', label: 'EMA 100 (Hourly)', timeframe: '⏰ Hourly' },
+    { id: 'bollinger_daily', label: 'Bollinger (Daily)', timeframe: '📅 Daily' },
+    { id: 'rsi9_daily', label: 'RSI (9) (Daily)', timeframe: '📅 Daily' },
+    { id: 'ema9_daily', label: 'EMA 9 (Daily)', timeframe: '📅 Daily' },
+    { id: 'ema20_daily', label: 'EMA 20 (Daily)', timeframe: '📅 Daily' },
+    { id: 'ema50_daily', label: 'EMA 50 (Daily)', timeframe: '📅 Daily' },
+    { id: 'ema200_daily', label: 'EMA 200 (Daily)', timeframe: '📅 Daily' },
+    { id: 'macross_daily', label: 'MA Cross (Daily)', timeframe: '📅 Daily' },
+    { id: 'macd_daily', label: 'MACD (Daily)', timeframe: '📅 Daily' },
+    { id: 'ema20_weekly', label: 'EMA 20 (Weekly)', timeframe: '📆 Weekly' },
+    { id: 'action', label: 'Action', fixed: true }
+  ]
+
+  // Load visible columns from localStorage or default to all
+  const [visibleColumns, setVisibleColumns] = useState(() => {
+    const saved = localStorage.getItem('visibleColumns')
+    if (saved) {
+      try {
+        return JSON.parse(saved)
+      } catch {
+        return allColumns.map(col => col.id)
+      }
+    }
+    return allColumns.map(col => col.id)
+  })
+
+  // Save visible columns to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('visibleColumns', JSON.stringify(visibleColumns))
+  }, [visibleColumns])
+
+  const toggleColumn = (columnId) => {
+    // Don't allow toggling fixed columns
+    const column = allColumns.find(col => col.id === columnId)
+    if (column?.fixed) return
+
+    setVisibleColumns(prev => 
+      prev.includes(columnId) 
+        ? prev.filter(id => id !== columnId)
+        : [...prev, columnId]
+    )
+  }
+
+  const isColumnVisible = (columnId) => visibleColumns.includes(columnId)
 
   useEffect(() => {
     loadStatus()
@@ -336,7 +387,43 @@ const Dashboard = () => {
         </div>
 
         <div className="panel watchlist-panel">
-          <h2>📈 Watchlist ({watchlist.length})</h2>
+          <div className="panel-header">
+            <h2>📈 Watchlist ({watchlist.length})</h2>
+            <button 
+              className="column-filter-button"
+              onClick={() => setShowColumnFilter(!showColumnFilter)}
+              title="Configure visible columns"
+            >
+              ⚙️ Columns
+            </button>
+          </div>
+
+          {/* Column Filter Dropdown */}
+          {showColumnFilter && (
+            <div className="column-filter-dropdown">
+              <h4>Show/Hide Columns</h4>
+              <div className="column-checkboxes">
+                {allColumns.map(column => (
+                  <label 
+                    key={column.id} 
+                    className={`column-checkbox ${column.fixed ? 'fixed' : ''}`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={isColumnVisible(column.id)}
+                      onChange={() => toggleColumn(column.id)}
+                      disabled={column.fixed}
+                    />
+                    <span>{column.label}</span>
+                    {column.timeframe && (
+                      <span className="column-timeframe">{column.timeframe}</span>
+                    )}
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+
           {watchlist.length === 0 ? (
             <div className="empty-state">
               <div className="empty-icon">📭</div>
@@ -348,324 +435,352 @@ const Dashboard = () => {
               <table className="watchlist-table">
                 <thead>
                   <tr>
-                    <th>Symbol</th>
-                    <th>Price</th>
-                    <th>Signals</th>
-                    <th>EMA 100<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>⏰ Hourly</span></th>
-                    <th>Bollinger<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
-                    <th>RSI (9)<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
-                    <th>EMA 9<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
-                    <th>EMA 20<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
-                    <th>EMA 50<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
-                    <th>EMA 200<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
-                    <th>MA Cross<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
-                    <th>MACD<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>
-                    <th>EMA 20<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📆 Weekly</span></th>
-                    <th>Action</th>
+                    {isColumnVisible('symbol') && <th>Symbol</th>}
+                    {isColumnVisible('price') && <th>Price</th>}
+                    {isColumnVisible('signals') && <th>Signals</th>}
+                    {isColumnVisible('ema100_hourly') && <th>EMA 100<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>⏰ Hourly</span></th>}
+                    {isColumnVisible('bollinger_daily') && <th>Bollinger<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
+                    {isColumnVisible('rsi9_daily') && <th>RSI (9)<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
+                    {isColumnVisible('ema9_daily') && <th>EMA 9<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
+                    {isColumnVisible('ema20_daily') && <th>EMA 20<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
+                    {isColumnVisible('ema50_daily') && <th>EMA 50<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
+                    {isColumnVisible('ema200_daily') && <th>EMA 200<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
+                    {isColumnVisible('macross_daily') && <th>MA Cross<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
+                    {isColumnVisible('macd_daily') && <th>MACD<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
+                    {isColumnVisible('ema20_weekly') && <th>EMA 20<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📆 Weekly</span></th>}
+                    {isColumnVisible('action') && <th>Action</th>}
                   </tr>
                 </thead>
                 <tbody>
                   {watchlist.map((item, index) => (
                     <tr key={index} className="symbol-row">
                       {/* Symbol - Make it clickable */}
-                      <td className="symbol-cell">
-                        <div className="symbol-actions">
-                          <div 
-                            className="symbol-name clickable-symbol" 
-                            onClick={() => openChartModal(item.symbol)}
-                            title="Click to view detailed chart"
-                          >
-                            {item.symbol} 📊
+                      {isColumnVisible('symbol') && (
+                        <td className="symbol-cell">
+                          <div className="symbol-actions">
+                            <div 
+                              className="symbol-name clickable-symbol" 
+                              onClick={() => openChartModal(item.symbol)}
+                              title="Click to view detailed chart"
+                            >
+                              {item.symbol} 📊
+                            </div>
+                            <button
+                              onClick={() => viewSignalHistory(item.symbol)}
+                              className="history-button"
+                              title="View signal history"
+                            >
+                              📜
+                            </button>
                           </div>
-                          <button
-                            onClick={() => viewSignalHistory(item.symbol)}
-                            className="history-button"
-                            title="View signal history"
-                          >
-                            📜
-                          </button>
-                        </div>
-                      </td>
+                        </td>
+                      )}
 
                       {/* Price */}
-                      <td className="price-cell">
-                        ${(item.last_price || item.price || 0).toFixed(5)}
-                      </td>
+                      {isColumnVisible('price') && (
+                        <td className="price-cell">
+                          ${(item.last_price || item.price || 0).toFixed(5)}
+                        </td>
+                      )}
 
                       {/* Signals Summary */}
-                      <td className="signals-cell">
-                        <div className="signal-badges">
-                          <span className="signal-badge bullish">
-                            {item.buy_signals?.length || 0} 🟢
-                          </span>
-                          <span className="signal-badge bearish">
-                            {item.sell_signals?.length || 0} 🔴
-                          </span>
-                          <span className="signal-badge neutral">
-                            {countNeutralSignals(item)} ⚪
-                          </span>
-                        </div>
-                      </td>
+                      {isColumnVisible('signals') && (
+                        <td className="signals-cell">
+                          <div className="signal-badges">
+                            <span className="signal-badge bullish">
+                              {item.buy_signals?.length || 0} 🟢
+                            </span>
+                            <span className="signal-badge bearish">
+                              {item.sell_signals?.length || 0} 🔴
+                            </span>
+                            <span className="signal-badge neutral">
+                              {countNeutralSignals(item)} ⚪
+                            </span>
+                          </div>
+                        </td>
+                      )}
 
                       {/* 1. EMA 100 Hourly */}
-                      <td className="indicator-cell">
-                        {item.hourly_indicators?.ema_100 ? (
-                          <>
-                            <div className="indicator-value">
-                              {item.hourly_indicators.ema_100.ema_value?.toFixed(5)}
-                            </div>
-                            {item.hourly_indicators.ema_100.signal ? (
-                              <>
-                                <span className={`signal-badge-mini ${item.hourly_indicators.ema_100.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                  {item.hourly_indicators.ema_100.signal}
-                                </span>
-                                {item.hourly_indicators.ema_100.signal_timestamp && (
-                                  <div className="signal-time">{formatSignalTime(item.hourly_indicators.ema_100.signal_timestamp)}</div>
-                                )}
-                              </>
-                            ) : (
-                              <span className="signal-badge-mini neutral">Neutral</span>
-                            )}
-                          </>
-                        ) : (
-                          <span className="signal-badge-mini neutral">N/A</span>
-                        )}
-                      </td>
+                      {isColumnVisible('ema100_hourly') && (
+                        <td className="indicator-cell">
+                          {item.hourly_indicators?.ema_100 ? (
+                            <>
+                              <div className="indicator-value">
+                                {item.hourly_indicators.ema_100.ema_value?.toFixed(5)}
+                              </div>
+                              {item.hourly_indicators.ema_100.signal ? (
+                                <>
+                                  <span className={`signal-badge-mini ${item.hourly_indicators.ema_100.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                    {item.hourly_indicators.ema_100.signal}
+                                  </span>
+                                  {item.hourly_indicators.ema_100.signal_timestamp && (
+                                    <div className="signal-time">{formatSignalTime(item.hourly_indicators.ema_100.signal_timestamp)}</div>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="signal-badge-mini neutral">Neutral</span>
+                              )}
+                            </>
+                          ) : (
+                            <span className="signal-badge-mini neutral">N/A</span>
+                          )}
+                        </td>
+                      )}
 
                       {/* 2. Bollinger Bands Daily */}
-                      <td className="indicator-cell">
-                        {item.daily_indicators?.bollinger_band ? (
-                          <>
-                            <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
-                              U: {item.daily_indicators.bollinger_band.upper_band?.toFixed(5)}<br/>
-                              M: {item.daily_indicators.bollinger_band.middle_band?.toFixed(5)}<br/>
-                              L: {item.daily_indicators.bollinger_band.lower_band?.toFixed(5)}
-                            </div>
-                            {item.daily_indicators.bollinger_band.signal ? (
-                              <>
-                                <span className={`signal-badge-mini ${item.daily_indicators.bollinger_band.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                  {item.daily_indicators.bollinger_band.signal}
-                                </span>
-                                {item.daily_indicators.bollinger_band.signal_timestamp && (
-                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.bollinger_band.signal_timestamp)}</div>
-                                )}
-                              </>
-                            ) : (
-                              <span className="signal-badge-mini neutral">Neutral</span>
-                            )}
-                          </>
-                        ) : (
-                          <span className="signal-badge-mini neutral">N/A</span>
-                        )}
-                      </td>
+                      {isColumnVisible('bollinger_daily') && (
+                        <td className="indicator-cell">
+                          {item.daily_indicators?.bollinger_band ? (
+                            <>
+                              <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
+                                U: {item.daily_indicators.bollinger_band.upper_band?.toFixed(5)}<br/>
+                                M: {item.daily_indicators.bollinger_band.middle_band?.toFixed(5)}<br/>
+                                L: {item.daily_indicators.bollinger_band.lower_band?.toFixed(5)}
+                              </div>
+                              {item.daily_indicators.bollinger_band.signal ? (
+                                <>
+                                  <span className={`signal-badge-mini ${item.daily_indicators.bollinger_band.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                    {item.daily_indicators.bollinger_band.signal}
+                                  </span>
+                                  {item.daily_indicators.bollinger_band.signal_timestamp && (
+                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.bollinger_band.signal_timestamp)}</div>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="signal-badge-mini neutral">Neutral</span>
+                              )}
+                            </>
+                          ) : (
+                            <span className="signal-badge-mini neutral">N/A</span>
+                          )}
+                        </td>
+                      )}
 
                       {/* 3. RSI Daily */}
-                      <td className="indicator-cell">
-                        <div className="indicator-value">
-                          {item.daily_indicators?.rsi_9?.rsi_value?.toFixed(0)}
-                        </div>
-                        {item.daily_indicators?.rsi_9?.signal ? (
-                          <>
-                            <span className={`signal-badge-mini ${item.daily_indicators.rsi_9.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                              {item.daily_indicators.rsi_9.signal}
-                            </span>
-                            {item.daily_indicators.rsi_9.signal_timestamp && (
-                              <div className="signal-time">{formatSignalTime(item.daily_indicators.rsi_9.signal_timestamp)}</div>
-                            )}
-                          </>
-                        ) : (
-                          <span className="signal-badge-mini neutral">Neutral</span>
-                        )}
-                      </td>
+                      {isColumnVisible('rsi9_daily') && (
+                        <td className="indicator-cell">
+                          <div className="indicator-value">
+                            {item.daily_indicators?.rsi_9?.rsi_value?.toFixed(0)}
+                          </div>
+                          {item.daily_indicators?.rsi_9?.signal ? (
+                            <>
+                              <span className={`signal-badge-mini ${item.daily_indicators.rsi_9.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                {item.daily_indicators.rsi_9.signal}
+                              </span>
+                              {item.daily_indicators.rsi_9.signal_timestamp && (
+                                <div className="signal-time">{formatSignalTime(item.daily_indicators.rsi_9.signal_timestamp)}</div>
+                              )}
+                            </>
+                          ) : (
+                            <span className="signal-badge-mini neutral">Neutral</span>
+                          )}
+                        </td>
+                      )}
 
                       {/* 4. EMA 9 Daily */}
-                      <td className="indicator-cell">
-                        {item.daily_indicators?.ema_9 ? (
-                          <>
-                            <div className="indicator-value">
-                              {item.daily_indicators.ema_9.ema_value?.toFixed(5)}
-                            </div>
-                            {item.daily_indicators.ema_9.signal ? (
-                              <>
-                                <span className={`signal-badge-mini ${item.daily_indicators.ema_9.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                  {item.daily_indicators.ema_9.signal}
-                                </span>
-                                {item.daily_indicators.ema_9.signal_timestamp && (
-                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_9.signal_timestamp)}</div>
-                                )}
-                              </>
-                            ) : (
-                              <span className="signal-badge-mini neutral">Neutral</span>
-                            )}
-                          </>
-                        ) : (
-                          <span className="signal-badge-mini neutral">N/A</span>
-                        )}
-                      </td>
+                      {isColumnVisible('ema9_daily') && (
+                        <td className="indicator-cell">
+                          {item.daily_indicators?.ema_9 ? (
+                            <>
+                              <div className="indicator-value">
+                                {item.daily_indicators.ema_9.ema_value?.toFixed(5)}
+                              </div>
+                              {item.daily_indicators.ema_9.signal ? (
+                                <>
+                                  <span className={`signal-badge-mini ${item.daily_indicators.ema_9.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                    {item.daily_indicators.ema_9.signal}
+                                  </span>
+                                  {item.daily_indicators.ema_9.signal_timestamp && (
+                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_9.signal_timestamp)}</div>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="signal-badge-mini neutral">Neutral</span>
+                              )}
+                            </>
+                          ) : (
+                            <span className="signal-badge-mini neutral">N/A</span>
+                          )}
+                        </td>
+                      )}
 
                       {/* 5. EMA 20 Daily */}
-                      <td className="indicator-cell">
-                        {item.daily_indicators?.ema_20 ? (
-                          <>
-                            <div className="indicator-value">
-                              {item.daily_indicators.ema_20.ema_value?.toFixed(5)}
-                            </div>
-                            {item.daily_indicators.ema_20.signal ? (
-                              <>
-                                <span className={`signal-badge-mini ${item.daily_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                  {item.daily_indicators.ema_20.signal}
-                                </span>
-                                {item.daily_indicators.ema_20.signal_timestamp && (
-                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_20.signal_timestamp)}</div>
-                                )}
-                              </>
-                            ) : (
-                              <span className="signal-badge-mini neutral">Neutral</span>
-                            )}
-                          </>
-                        ) : (
-                          <span className="signal-badge-mini neutral">N/A</span>
-                        )}
-                      </td>
+                      {isColumnVisible('ema20_daily') && (
+                        <td className="indicator-cell">
+                          {item.daily_indicators?.ema_20 ? (
+                            <>
+                              <div className="indicator-value">
+                                {item.daily_indicators.ema_20.ema_value?.toFixed(5)}
+                              </div>
+                              {item.daily_indicators.ema_20.signal ? (
+                                <>
+                                  <span className={`signal-badge-mini ${item.daily_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                    {item.daily_indicators.ema_20.signal}
+                                  </span>
+                                  {item.daily_indicators.ema_20.signal_timestamp && (
+                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_20.signal_timestamp)}</div>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="signal-badge-mini neutral">Neutral</span>
+                              )}
+                            </>
+                          ) : (
+                            <span className="signal-badge-mini neutral">N/A</span>
+                          )}
+                        </td>
+                      )}
 
                       {/* 6. EMA 50 Daily */}
-                      <td className="indicator-cell">
-                        {item.daily_indicators?.ema_50 ? (
-                          <>
-                            <div className="indicator-value">
-                              {item.daily_indicators.ema_50.ema_value?.toFixed(5)}
-                            </div>
-                            {item.daily_indicators.ema_50.signal ? (
-                              <>
-                                <span className={`signal-badge-mini ${item.daily_indicators.ema_50.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                  {item.daily_indicators.ema_50.signal}
-                                </span>
-                                {item.daily_indicators.ema_50.signal_timestamp && (
-                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_50.signal_timestamp)}</div>
-                                )}
-                              </>
-                            ) : (
-                              <span className="signal-badge-mini neutral">Neutral</span>
-                            )}
-                          </>
-                        ) : (
-                          <span className="signal-badge-mini neutral">N/A</span>
-                        )}
-                      </td>
+                      {isColumnVisible('ema50_daily') && (
+                        <td className="indicator-cell">
+                          {item.daily_indicators?.ema_50 ? (
+                            <>
+                              <div className="indicator-value">
+                                {item.daily_indicators.ema_50.ema_value?.toFixed(5)}
+                              </div>
+                              {item.daily_indicators.ema_50.signal ? (
+                                <>
+                                  <span className={`signal-badge-mini ${item.daily_indicators.ema_50.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                    {item.daily_indicators.ema_50.signal}
+                                  </span>
+                                  {item.daily_indicators.ema_50.signal_timestamp && (
+                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_50.signal_timestamp)}</div>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="signal-badge-mini neutral">Neutral</span>
+                              )}
+                            </>
+                          ) : (
+                            <span className="signal-badge-mini neutral">N/A</span>
+                          )}
+                        </td>
+                      )}
 
                       {/* 7. EMA 200 Daily */}
-                      <td className="indicator-cell">
-                        {item.daily_indicators?.ema_200 ? (
-                          <>
-                            <div className="indicator-value">
-                              {item.daily_indicators.ema_200.ema_value?.toFixed(5)}
-                            </div>
-                            {item.daily_indicators.ema_200.signal ? (
-                              <>
-                                <span className={`signal-badge-mini ${item.daily_indicators.ema_200.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                  {item.daily_indicators.ema_200.signal}
-                                </span>
-                                {item.daily_indicators.ema_200.signal_timestamp && (
-                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_200.signal_timestamp)}</div>
-                                )}
-                              </>
-                            ) : (
-                              <span className="signal-badge-mini neutral">Neutral</span>
-                            )}
-                          </>
-                        ) : (
-                          <span className="signal-badge-mini neutral">N/A</span>
-                        )}
-                      </td>
+                      {isColumnVisible('ema200_daily') && (
+                        <td className="indicator-cell">
+                          {item.daily_indicators?.ema_200 ? (
+                            <>
+                              <div className="indicator-value">
+                                {item.daily_indicators.ema_200.ema_value?.toFixed(5)}
+                              </div>
+                              {item.daily_indicators.ema_200.signal ? (
+                                <>
+                                  <span className={`signal-badge-mini ${item.daily_indicators.ema_200.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                    {item.daily_indicators.ema_200.signal}
+                                  </span>
+                                  {item.daily_indicators.ema_200.signal_timestamp && (
+                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_200.signal_timestamp)}</div>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="signal-badge-mini neutral">Neutral</span>
+                              )}
+                            </>
+                          ) : (
+                            <span className="signal-badge-mini neutral">N/A</span>
+                          )}
+                        </td>
+                      )}
 
                       {/* 8. MA Crossover Daily */}
-                      <td className="indicator-cell">
-                        {item.daily_indicators?.ma_crossover ? (
-                          <>
-                            <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
-                              Fast: {item.daily_indicators.ma_crossover.fast_ema?.toFixed(5)}<br/>
-                              Slow: {item.daily_indicators.ma_crossover.slow_ema?.toFixed(5)}
-                            </div>
-                            {item.daily_indicators.ma_crossover.signal ? (
-                              <>
-                                <span className={`signal-badge-mini ${item.daily_indicators.ma_crossover.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                  {item.daily_indicators.ma_crossover.signal}
-                                </span>
-                                {item.daily_indicators.ma_crossover.signal_timestamp && (
-                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.ma_crossover.signal_timestamp)}</div>
-                                )}
-                              </>
-                            ) : (
-                              <span className="signal-badge-mini neutral">Neutral</span>
-                            )}
-                          </>
-                        ) : (
-                          <span className="signal-badge-mini neutral">N/A</span>
-                        )}
-                      </td>
+                      {isColumnVisible('macross_daily') && (
+                        <td className="indicator-cell">
+                          {item.daily_indicators?.ma_crossover ? (
+                            <>
+                              <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
+                                Fast: {item.daily_indicators.ma_crossover.fast_ema?.toFixed(5)}<br/>
+                                Slow: {item.daily_indicators.ma_crossover.slow_ema?.toFixed(5)}
+                              </div>
+                              {item.daily_indicators.ma_crossover.signal ? (
+                                <>
+                                  <span className={`signal-badge-mini ${item.daily_indicators.ma_crossover.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                    {item.daily_indicators.ma_crossover.signal}
+                                  </span>
+                                  {item.daily_indicators.ma_crossover.signal_timestamp && (
+                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.ma_crossover.signal_timestamp)}</div>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="signal-badge-mini neutral">Neutral</span>
+                              )}
+                            </>
+                          ) : (
+                            <span className="signal-badge-mini neutral">N/A</span>
+                          )}
+                        </td>
+                      )}
 
                       {/* 9. MACD Daily */}
-                      <td className="indicator-cell">
-                        {item.daily_indicators?.macd ? (
-                          <>
-                            <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
-                              Line: {item.daily_indicators.macd.macd_line?.toFixed(6)}<br/>
-                              Sig: {item.daily_indicators.macd.signal_line?.toFixed(6)}<br/>
-                              Hist: {item.daily_indicators.macd.histogram?.toFixed(6)}
-                            </div>
-                            {item.daily_indicators.macd.signal ? (
-                              <>
-                                <span className={`signal-badge-mini ${item.daily_indicators.macd.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                  {item.daily_indicators.macd.signal}
-                                </span>
-                                {item.daily_indicators.macd.signal_timestamp && (
-                                  <div className="signal-time">{formatSignalTime(item.daily_indicators.macd.signal_timestamp)}</div>
-                                )}
-                              </>
-                            ) : (
-                              <span className="signal-badge-mini neutral">Neutral</span>
-                            )}
-                          </>
-                        ) : (
-                          <span className="signal-badge-mini neutral">N/A</span>
-                        )}
-                      </td>
+                      {isColumnVisible('macd_daily') && (
+                        <td className="indicator-cell">
+                          {item.daily_indicators?.macd ? (
+                            <>
+                              <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
+                                Line: {item.daily_indicators.macd.macd_line?.toFixed(6)}<br/>
+                                Sig: {item.daily_indicators.macd.signal_line?.toFixed(6)}<br/>
+                                Hist: {item.daily_indicators.macd.histogram?.toFixed(6)}
+                              </div>
+                              {item.daily_indicators.macd.signal ? (
+                                <>
+                                  <span className={`signal-badge-mini ${item.daily_indicators.macd.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                    {item.daily_indicators.macd.signal}
+                                  </span>
+                                  {item.daily_indicators.macd.signal_timestamp && (
+                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.macd.signal_timestamp)}</div>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="signal-badge-mini neutral">Neutral</span>
+                              )}
+                            </>
+                          ) : (
+                            <span className="signal-badge-mini neutral">N/A</span>
+                          )}
+                        </td>
+                      )}
 
                       {/* 10. EMA 20 Weekly */}
-                      <td className="indicator-cell">
-                        {item.weekly_indicators?.ema_20 ? (
-                          <>
-                            <div className="indicator-value">
-                              {item.weekly_indicators.ema_20.ema_value?.toFixed(5)}
-                            </div>
-                            {item.weekly_indicators.ema_20.signal ? (
-                              <>
-                                <span className={`signal-badge-mini ${item.weekly_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                  {item.weekly_indicators.ema_20.signal}
-                                </span>
-                                {item.weekly_indicators.ema_20.signal_timestamp && (
-                                  <div className="signal-time">{formatSignalTime(item.weekly_indicators.ema_20.signal_timestamp)}</div>
-                                )}
-                              </>
-                            ) : (
-                              <span className="signal-badge-mini neutral">Neutral</span>
-                            )}
-                          </>
-                        ) : (
-                          <span className="signal-badge-mini neutral">N/A</span>
-                        )}
-                      </td>
+                      {isColumnVisible('ema20_weekly') && (
+                        <td className="indicator-cell">
+                          {item.weekly_indicators?.ema_20 ? (
+                            <>
+                              <div className="indicator-value">
+                                {item.weekly_indicators.ema_20.ema_value?.toFixed(5)}
+                              </div>
+                              {item.weekly_indicators.ema_20.signal ? (
+                                <>
+                                  <span className={`signal-badge-mini ${item.weekly_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                    {item.weekly_indicators.ema_20.signal}
+                                  </span>
+                                  {item.weekly_indicators.ema_20.signal_timestamp && (
+                                    <div className="signal-time">{formatSignalTime(item.weekly_indicators.ema_20.signal_timestamp)}</div>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="signal-badge-mini neutral">Neutral</span>
+                              )}
+                            </>
+                          ) : (
+                            <span className="signal-badge-mini neutral">N/A</span>
+                          )}
+                        </td>
+                      )}
 
                       {/* Action */}
-                      <td className="action-cell">
-                        <button
-                          onClick={() => removeSymbol(item.symbol)}
-                          className="remove-button"
-                          title="Remove"
-                        >
-                          🗑️
-                        </button>
-                      </td>
+                      {isColumnVisible('action') && (
+                        <td className="action-cell">
+                          <button
+                            onClick={() => removeSymbol(item.symbol)}
+                            className="remove-button"
+                            title="Remove"
+                          >
+                            🗑️
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
