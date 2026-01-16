@@ -192,6 +192,84 @@ const Dashboard = () => {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
 
+  const detectSignalChanges = (currentRecord, previousRecord) => {
+    if (!previousRecord) return null // First record, show all
+    
+    const changes = []
+    
+    // Helper to check and record changes
+    const checkIndicatorChange = (name, currentIndicator, previousIndicator, timeframe) => {
+      if (!currentIndicator || !previousIndicator) return
+      
+      const currentSignal = currentIndicator.signal
+      const previousSignal = previousIndicator.signal
+      
+      if (currentSignal !== previousSignal) {
+        changes.push({
+          name,
+          timeframe,
+          from: previousSignal || 'Neutral',
+          to: currentSignal || 'Neutral',
+          value: currentIndicator.ema_value || currentIndicator.rsi_value || currentIndicator.sma_value || null
+        })
+      }
+    }
+    
+    // Check hourly indicators
+    if (currentRecord.hourly_indicators && previousRecord.hourly_indicators) {
+      checkIndicatorChange('EMA 100', 
+        currentRecord.hourly_indicators.ema_100, 
+        previousRecord.hourly_indicators.ema_100, 
+        'Hourly')
+    }
+    
+    // Check daily indicators
+    if (currentRecord.daily_indicators && previousRecord.daily_indicators) {
+      checkIndicatorChange('Bollinger Bands', 
+        currentRecord.daily_indicators.bollinger_band, 
+        previousRecord.daily_indicators.bollinger_band, 
+        'Daily')
+      checkIndicatorChange('RSI (9)', 
+        currentRecord.daily_indicators.rsi_9, 
+        previousRecord.daily_indicators.rsi_9, 
+        'Daily')
+      checkIndicatorChange('EMA 9', 
+        currentRecord.daily_indicators.ema_9, 
+        previousRecord.daily_indicators.ema_9, 
+        'Daily')
+      checkIndicatorChange('EMA 20', 
+        currentRecord.daily_indicators.ema_20, 
+        previousRecord.daily_indicators.ema_20, 
+        'Daily')
+      checkIndicatorChange('EMA 50', 
+        currentRecord.daily_indicators.ema_50, 
+        previousRecord.daily_indicators.ema_50, 
+        'Daily')
+      checkIndicatorChange('EMA 200', 
+        currentRecord.daily_indicators.ema_200, 
+        previousRecord.daily_indicators.ema_200, 
+        'Daily')
+      checkIndicatorChange('MA Crossover', 
+        currentRecord.daily_indicators.ma_crossover, 
+        previousRecord.daily_indicators.ma_crossover, 
+        'Daily')
+      checkIndicatorChange('MACD', 
+        currentRecord.daily_indicators.macd, 
+        previousRecord.daily_indicators.macd, 
+        'Daily')
+    }
+    
+    // Check weekly indicators
+    if (currentRecord.weekly_indicators && previousRecord.weekly_indicators) {
+      checkIndicatorChange('EMA 20', 
+        currentRecord.weekly_indicators.ema_20, 
+        previousRecord.weekly_indicators.ema_20, 
+        'Weekly')
+    }
+    
+    return changes
+  }
+
   const countNeutralSignals = (item) => {
     // Total indicators we're tracking
     const totalIndicators = 10 // EMA 100 (Hourly), Bollinger, RSI, EMA 9, EMA 20, EMA 50, EMA 200, MA Cross, MACD (Daily), EMA 20 (Weekly)
@@ -291,12 +369,21 @@ const Dashboard = () => {
                     <tr key={index} className="symbol-row">
                       {/* Symbol - Make it clickable */}
                       <td className="symbol-cell">
-                        <div 
-                          className="symbol-name clickable-symbol" 
-                          onClick={() => openChartModal(item.symbol)}
-                          title="Click to view detailed chart"
-                        >
-                          {item.symbol} 📊
+                        <div className="symbol-actions">
+                          <div 
+                            className="symbol-name clickable-symbol" 
+                            onClick={() => openChartModal(item.symbol)}
+                            title="Click to view detailed chart"
+                          >
+                            {item.symbol} 📊
+                          </div>
+                          <button
+                            onClick={() => viewSignalHistory(item.symbol)}
+                            className="history-button"
+                            title="View signal history"
+                          >
+                            📜
+                          </button>
                         </div>
                       </td>
 
@@ -608,51 +695,63 @@ const Dashboard = () => {
                 </div>
               ) : (
                 <>
-                  {/* TradingView-style Price Chart with Signal Markers */}
-                  <TradingViewChart symbol={selectedSymbol} signalHistory={signalHistory} />
-                  
-                  {/* Signal History List */}
-                  <h3 style={{ marginTop: '30px', marginBottom: '15px', color: '#111827' }}>
-                    📋 Signal Details
+                  {/* Signal Changes Timeline */}
+                  <h3 style={{ marginTop: '20px', marginBottom: '15px', color: '#111827' }}>
+                    📋 Signal Changes History
                   </h3>
-                  <div className="history-list">
-                  {signalHistory.map((signal, index) => (
-                    <div key={index} className={`history-item signal-${getSignalClass(signal.signal_type)}`}>
-                      <div className="history-header">
-                        <span className={`signal-badge signal-${getSignalClass(signal.signal_type)}`}>
-                          {signal.signal_type}
-                        </span>
-                        <span className="history-time">{formatDateTime(signal.timestamp)}</span>
-                      </div>
-                      <div className="history-details">
-                        <div className="detail-row">
-                          <span className="detail-label">Price:</span>
-                          <span className="detail-value">${signal.price?.toFixed(4) || 'N/A'}</span>
+                  <div className="changes-timeline">
+                    {signalHistory.map((record, index) => {
+                      const changes = detectSignalChanges(record, signalHistory[index + 1])
+                      
+                      // Skip records with no changes (except the first one)
+                      if (changes && changes.length === 0) return null
+                      
+                      const dateStr = new Date(record.timestamp).toLocaleDateString('en-GB', { 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: 'numeric' 
+                      })
+                      const timeStr = new Date(record.timestamp).toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })
+                      
+                      if (changes === null) {
+                        // First record - show initial state
+                        return (
+                          <div key={index} className="change-entry initial">
+                            <div className="change-date">{dateStr}</div>
+                            <div className="change-content">
+                              <div className="change-text">
+                                <strong>Initial State</strong> - {record.buy_signals?.length || 0} Buy signals, {record.sell_signals?.length || 0} Sell signals
+                              </div>
+                              <div className="change-meta">Price: ${record.price?.toFixed(5)} at {timeStr}</div>
+                            </div>
+                          </div>
+                        )
+                      }
+                      
+                      // Show each change as a separate entry
+                      return changes.map((change, changeIndex) => (
+                        <div key={`${index}-${changeIndex}`} className="change-entry">
+                          <div className="change-date">{dateStr}</div>
+                          <div className="change-content">
+                            <div className="change-text">
+                              <strong>{change.name} ({change.timeframe})</strong> changed from{' '}
+                              <span className={`signal-inline ${change.from === 'BUY' ? 'buy' : change.from === 'SELL' ? 'sell' : 'neutral'}`}>
+                                {change.from}
+                              </span>
+                              {' '}to{' '}
+                              <span className={`signal-inline ${change.to === 'BUY' ? 'buy' : change.to === 'SELL' ? 'sell' : 'neutral'}`}>
+                                {change.to}
+                              </span>
+                            </div>
+                            <div className="change-meta">Price: ${record.price?.toFixed(5)} at {timeStr}</div>
+                          </div>
                         </div>
-                        {signal.ema_200 && (
-                          <div className="detail-row">
-                            <span className="detail-label">EMA 200:</span>
-                            <span className="detail-value">{signal.ema_200.toFixed(4)}</span>
-                          </div>
-                        )}
-                        {signal.rsi && (
-                          <div className="detail-row">
-                            <span className="detail-label">RSI:</span>
-                            <span className="detail-value">{signal.rsi.toFixed(2)}</span>
-                          </div>
-                        )}
-                        {signal.details && (
-                          <div className="detail-row">
-                            <span className="detail-label">Difference:</span>
-                            <span className="detail-value">
-                              {signal.details.diff ? signal.details.diff.toFixed(4) : 'N/A'}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                      ))
+                    }).flat().filter(Boolean)}
+                  </div>
                 </>
               )}
             </div>

@@ -560,13 +560,14 @@ class MassiveMonitorV2:
             # Save to DB
             await self._save_watchlist_symbol(symbol, self.watchlist[symbol])
             
+            # Log signal snapshot to history (log every update for change tracking)
+            await self._log_signal(symbol, 'UPDATE', self.watchlist[symbol])
+            
             # Log signals if any
             if buy_signals:
-                await self._log_signal(symbol, 'BUY', self.watchlist[symbol])
                 print(f"🟢 {symbol}: BUY signals - {', '.join(buy_signals)}")
             
             if sell_signals:
-                await self._log_signal(symbol, 'SELL', self.watchlist[symbol])
                 print(f"🔴 {symbol}: SELL signals - {', '.join(sell_signals)}")
             
             if not buy_signals and not sell_signals:
