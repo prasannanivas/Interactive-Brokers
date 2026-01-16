@@ -15,7 +15,8 @@ from database import (
     get_watchlist_collection, 
     get_signal_batches_collection, 
     get_watchlist_changes_collection,
-    get_signals_collection
+    get_signals_collection,
+    get_indicator_states_collection
 )
 from indicator_calculator import IndicatorCalculator
 
@@ -227,6 +228,85 @@ class MassiveMonitorV2:
             await signals_collection.insert_one(signal_doc)
         except Exception as e:
             print(f"✗ Failed to log signal: {e}")
+
+    async def _log_signal_changes(self, symbol: str, old_data: Optional[dict], new_data: dict):
+        """Log only signal changes to a dedicated collection"""
+        try:
+            if not self._use_db or not old_data:
+                return
+            
+            changes = []
+            timestamp = datetime.now()
+            
+            # Helper function to check and log changes
+            def check_indicator_change(indicator_name: str, old_indicator: dict, new_indicator: dict, timeframe: str):
+                if not old_indicator or not new_indicator:
+                    return
+                
+                old_signal = old_indicator.get('signal')
+                new_signal = new_indicator.get('signal')
+                
+                # Log change if signal actually changed
+                if old_signal != new_signal:
+                    changes.append({
+                        'indicator': indicator_name,
+                        'timeframe': timeframe,
+                        'old_signal': old_signal,
+                        'new_signal': new_signal,
+                        'timestamp': timestamp,
+                        'price': new_data.get('last_price')
+                    })
+            
+            # Check daily indicators
+            if old_data.get('daily_indicators') and new_data.get('daily_indicators'):
+                old_daily = old_data['daily_indicators']
+                new_daily = new_data['daily_indicators']
+                
+                check_indicator_change('Bollinger Band', old_daily.get('bollinger_band'), new_daily.get('bollinger_band'), 'Daily')
+                check_indicator_change('RSI 9', old_daily.get('rsi_9'), new_daily.get('rsi_9'), 'Daily')
+                check_indicator_change('EMA 9', old_daily.get('ema_9'), new_daily.get('ema_9'), 'Daily')
+                check_indicator_change('EMA 20', old_daily.get('ema_20'), new_daily.get('ema_20'), 'Daily')
+                check_indicator_change('EMA 50', old_daily.get('ema_50'), new_daily.get('ema_50'), 'Daily')
+                check_indicator_change('EMA 200', old_daily.get('ema_200'), new_daily.get('ema_200'), 'Daily')
+                check_indicator_change('MA Crossover', old_daily.get('ma_crossover'), new_daily.get('ma_crossover'), 'Daily')
+                check_indicator_change('MACD', old_daily.get('macd'), new_daily.get('macd'), 'Daily')
+            
+            # Check hourly indicators
+            if old_data.get('hourly_indicators') and new_data.get('hourly_indicators'):
+                old_hourly = old_data['hourly_indicators']
+                new_hourly = new_data['hourly_indicators']
+                
+                check_indicator_change('EMA 100', old_hourly.get('ema_100'), new_hourly.get('ema_100'), 'Hourly')
+            
+            # Check weekly indicators
+            if old_data.get('weekly_indicators') and new_data.get('weekly_indicators'):
+                old_weekly = old_data['weekly_indicators']
+                new_weekly = new_data['weekly_indicators']
+                
+                check_indicator_change('EMA 20', old_weekly.get('ema_20'), new_weekly.get('ema_20'), 'Weekly')
+            
+            # Save changes to database
+            if changes:
+                indicator_states_collection = get_indicator_states_collection()
+                
+                for change in changes:
+                    change_doc = {
+                        'symbol': symbol,
+                        'indicator': change['indicator'],
+                        'timeframe': change['timeframe'],
+                        'old_signal': change['old_signal'],
+                        'new_signal': change['new_signal'],
+                        'timestamp': change['timestamp'],
+                        'price': change['price']
+                    }
+                    
+                    await indicator_states_collection.insert_one(change_doc)
+                    
+                    # Print change notification
+                    print(f"📝 {symbol}: {change['indicator']} ({change['timeframe']}) changed from {change['old_signal'] or 'Neutral'} to {change['new_signal'] or 'Neutral'}")
+            
+        except Exception as e:
+            print(f"✗ Failed to log signal changes: {e}")
 
     async def _fetch_quote(self, symbol: str, market_type: str = "forex") -> Optional[dict]:
         """Fetch current quote for symbol"""
@@ -546,6 +626,9 @@ class MassiveMonitorV2:
             # Extract signals
             buy_signals, sell_signals = self.indicator_calculator.extract_signals(daily_indicators, hourly_indicators, weekly_indicators)
             
+            # Store old data for change detection
+            old_watchlist_data = self.watchlist[symbol].copy() if symbol in self.watchlist else None
+            
             # Update watchlist
             self.watchlist[symbol].update({
                 'last_price': current_price,
@@ -556,6 +639,9 @@ class MassiveMonitorV2:
                 'buy_signals': buy_signals,
                 'sell_signals': sell_signals
             })
+            
+            # Log signal changes (only what actually changed)
+            await self._log_signal_changes(symbol, old_watchlist_data, self.watchlist[symbol])
             
             # Save to DB
             await self._save_watchlist_symbol(symbol, self.watchlist[symbol])

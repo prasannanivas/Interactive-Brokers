@@ -1607,3 +1607,39 @@
   color: #6b7280;
 }
 
+/* Bollinger Band Toggles */
+.bollinger-toggles {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  justify-content: center;
+}
+
+.bb-toggle {
+  background: #e5e7eb;
+  border: 1px solid #d1d5db;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #6b7280;
+}
+
+.bb-toggle:hover {
+  background: #d1d5db;
+  border-color: #9ca3af;
+}
+
+.bb-toggle.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #2563eb;
+}
+
+.bb-toggle.active:hover {
+  background: #2563eb;
+  border-color: #1d4ed8;
+}
+

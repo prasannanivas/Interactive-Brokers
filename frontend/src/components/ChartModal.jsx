@@ -1018,7 +1018,7 @@ const ChartModal = ({ symbol, onClose }) => {
                 {timeframe === 'daily' && visibleIndicators.rsi && indicators.rsi && (
                   <div className="indicator-card">
                     <div className="indicator-card-header">
-                      <span className="indicator-name">RSI (9)</span>
+                      <span className="indicator-name">RSI 9</span>
                       <span className={`indicator-signal ${indicators.rsi?.signal}`}>
                         {indicators.rsi?.signal}
                       </span>

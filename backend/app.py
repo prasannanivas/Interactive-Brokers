@@ -349,6 +349,35 @@ async def get_signal_history(
     }
 
 
+@app.get("/api/signals/changes/{symbol}")
+async def get_signal_changes(
+    symbol: str,
+    limit: int = 100,
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """Get signal change history for a specific symbol (only actual changes)"""
+    from database import get_indicator_states_collection
+    
+    indicator_states_collection = get_indicator_states_collection()
+    
+    # Fetch signal changes for the symbol
+    changes = await indicator_states_collection.find(
+        {"symbol": symbol}
+    ).sort("timestamp", -1).limit(limit).to_list(length=limit)
+    
+    # Convert ObjectId and datetime to JSON-serializable format
+    for change in changes:
+        change["_id"] = str(change["_id"])
+        if "timestamp" in change and isinstance(change["timestamp"], datetime):
+            change["timestamp"] = change["timestamp"].isoformat()
+    
+    return {
+        "symbol": symbol,
+        "count": len(changes),
+        "changes": changes
+    }
+
+
 @app.get("/api/signals/recent")
 async def get_recent_signals(
     limit: int = 50,

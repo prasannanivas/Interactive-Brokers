@@ -19,6 +19,16 @@ const Dashboard = () => {
   const [chartSymbol, setChartSymbol] = useState(null)
   const [loadingHistory, setLoadingHistory] = useState(false)
   const [showColumnFilter, setShowColumnFilter] = useState(false)
+  const [bollingerBands, setBollingerBands] = useState({
+    upper: true,
+    middle: true,
+    lower: true
+  })
+  const [macdComponents, setMacdComponents] = useState({
+    line: true,
+    signal: true,
+    histogram: true
+  })
   const wsRef = useRef(null)
 
   // Column configuration - all available columns
@@ -28,7 +38,7 @@ const Dashboard = () => {
     { id: 'signals', label: 'Signals', fixed: true },
     { id: 'ema100_hourly', label: 'EMA 100 (Hourly)', timeframe: '⏰ Hourly' },
     { id: 'bollinger_daily', label: 'Bollinger (Daily)', timeframe: '📅 Daily' },
-    { id: 'rsi9_daily', label: 'RSI (9) (Daily)', timeframe: '📅 Daily' },
+    { id: 'rsi9_daily', label: 'RSI 9 (Daily)', timeframe: '📅 Daily' },
     { id: 'ema9_daily', label: 'EMA 9 (Daily)', timeframe: '📅 Daily' },
     { id: 'ema20_daily', label: 'EMA 20 (Daily)', timeframe: '📅 Daily' },
     { id: 'ema50_daily', label: 'EMA 50 (Daily)', timeframe: '📅 Daily' },
@@ -196,10 +206,10 @@ const Dashboard = () => {
     setLoadingHistory(true)
 
     try {
-      const response = await historyAPI.getSignalHistory(symbol)
-      setSignalHistory(response.data.signals || [])
+      const response = await historyAPI.getSignalChanges(symbol)
+      setSignalHistory(response.data.changes || [])
     } catch (error) {
-      console.error('Failed to load signal history:', error)
+      console.error('Failed to load signal changes:', error)
       setSignalHistory([])
     } finally {
       setLoadingHistory(false)
@@ -230,18 +240,16 @@ const Dashboard = () => {
   const formatSignalTime = (timestamp) => {
     if (!timestamp) return null
     const date = new Date(timestamp)
-    const now = new Date()
-    const diffMs = now - date
-    const diffMins = Math.floor(diffMs / 60000)
-    const diffHours = Math.floor(diffMs / 3600000)
-    const diffDays = Math.floor(diffMs / 86400000)
     
-    if (diffMins < 1) return 'Just now'
-    if (diffMins < 60) return `${diffMins}m ago`
-    if (diffHours < 24) return `${diffHours}h ago`
-    if (diffDays < 7) return `${diffDays}d ago`
+    // Format: DD/MM/YYYY HH:mm:ss
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = date.getFullYear()
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    const seconds = String(date.getSeconds()).padStart(2, '0')
     
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`
   }
 
   const detectSignalChanges = (currentRecord, previousRecord) => {
@@ -443,14 +451,70 @@ const Dashboard = () => {
                     {isColumnVisible('price') && <th>Price</th>}
                     {isColumnVisible('signals') && <th>Signals</th>}
                     {isColumnVisible('ema100_hourly') && <th>EMA 100<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>⏰ Hourly</span></th>}
-                    {isColumnVisible('bollinger_daily') && <th>Bollinger<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
-                    {isColumnVisible('rsi9_daily') && <th>RSI (9)<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
+                    {isColumnVisible('bollinger_daily') && (
+                      <th>
+                        Bollinger<br/>
+                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span>
+                        <div className="bollinger-toggles">
+                          <button
+                            className={`bb-toggle ${bollingerBands.upper ? 'active' : ''}`}
+                            onClick={() => setBollingerBands(prev => ({...prev, upper: !prev.upper}))}
+                            title="Toggle Upper Band"
+                          >
+                            U
+                          </button>
+                          <button
+                            className={`bb-toggle ${bollingerBands.middle ? 'active' : ''}`}
+                            onClick={() => setBollingerBands(prev => ({...prev, middle: !prev.middle}))}
+                            title="Toggle Middle Band"
+                          >
+                            M
+                          </button>
+                          <button
+                            className={`bb-toggle ${bollingerBands.lower ? 'active' : ''}`}
+                            onClick={() => setBollingerBands(prev => ({...prev, lower: !prev.lower}))}
+                            title="Toggle Lower Band"
+                          >
+                            L
+                          </button>
+                        </div>
+                      </th>
+                    )}
+                    {isColumnVisible('rsi9_daily') && <th>RSI 9<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
                     {isColumnVisible('ema9_daily') && <th>EMA 9<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
                     {isColumnVisible('ema20_daily') && <th>EMA 20<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
                     {isColumnVisible('ema50_daily') && <th>EMA 50<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
                     {isColumnVisible('ema200_daily') && <th>EMA 200<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
                     {isColumnVisible('macross_daily') && <th>MA Cross<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
-                    {isColumnVisible('macd_daily') && <th>MACD<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
+                    {isColumnVisible('macd_daily') && (
+                      <th>
+                        MACD<br/>
+                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span>
+                        <div className="bollinger-toggles">
+                          <button
+                            className={`bb-toggle ${macdComponents.line ? 'active' : ''}`}
+                            onClick={() => setMacdComponents(prev => ({...prev, line: !prev.line}))}
+                            title="Toggle MACD Line"
+                          >
+                            L
+                          </button>
+                          <button
+                            className={`bb-toggle ${macdComponents.signal ? 'active' : ''}`}
+                            onClick={() => setMacdComponents(prev => ({...prev, signal: !prev.signal}))}
+                            title="Toggle Signal Line"
+                          >
+                            S
+                          </button>
+                          <button
+                            className={`bb-toggle ${macdComponents.histogram ? 'active' : ''}`}
+                            onClick={() => setMacdComponents(prev => ({...prev, histogram: !prev.histogram}))}
+                            title="Toggle Histogram"
+                          >
+                            H
+                          </button>
+                        </div>
+                      </th>
+                    )}
                     {isColumnVisible('ema20_weekly') && <th>EMA 20<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📆 Weekly</span></th>}
                     {isColumnVisible('action') && <th>Action</th>}
                   </tr>
@@ -537,9 +601,9 @@ const Dashboard = () => {
                           {item.daily_indicators?.bollinger_band ? (
                             <>
                               <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
-                                U: {item.daily_indicators.bollinger_band.upper_band?.toFixed(5)}<br/>
-                                M: {item.daily_indicators.bollinger_band.middle_band?.toFixed(5)}<br/>
-                                L: {item.daily_indicators.bollinger_band.lower_band?.toFixed(5)}
+                                {bollingerBands.upper && <span>U: {item.daily_indicators.bollinger_band.upper_band?.toFixed(5)}<br/></span>}
+                                {bollingerBands.middle && <span>M: {item.daily_indicators.bollinger_band.middle_band?.toFixed(5)}<br/></span>}
+                                {bollingerBands.lower && <span>L: {item.daily_indicators.bollinger_band.lower_band?.toFixed(5)}</span>}
                               </div>
                               {item.daily_indicators.bollinger_band.signal ? (
                                 <>
@@ -723,9 +787,9 @@ const Dashboard = () => {
                           {item.daily_indicators?.macd ? (
                             <>
                               <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
-                                Line: {item.daily_indicators.macd.macd_line?.toFixed(6)}<br/>
-                                Sig: {item.daily_indicators.macd.signal_line?.toFixed(6)}<br/>
-                                Hist: {item.daily_indicators.macd.histogram?.toFixed(6)}
+                                {macdComponents.line && <span>Line: {item.daily_indicators.macd.macd_line?.toFixed(6)}<br/></span>}
+                                {macdComponents.signal && <span>Sig: {item.daily_indicators.macd.signal_line?.toFixed(6)}<br/></span>}
+                                {macdComponents.histogram && <span>Hist: {item.daily_indicators.macd.histogram?.toFixed(6)}</span>}
                               </div>
                               {item.daily_indicators.macd.signal ? (
                                 <>
@@ -816,60 +880,40 @@ const Dashboard = () => {
                 <>
                   {/* Signal Changes Timeline */}
                   <h3 style={{ marginTop: '20px', marginBottom: '15px', color: '#111827' }}>
-                    📋 Signal Changes History
+                    📋 Signal Changes History ({signalHistory.length} changes)
                   </h3>
                   <div className="changes-timeline">
-                    {signalHistory.map((record, index) => {
-                      const changes = detectSignalChanges(record, signalHistory[index + 1])
-                      
-                      // Skip records with no changes (except the first one)
-                      if (changes && changes.length === 0) return null
-                      
-                      const dateStr = new Date(record.timestamp).toLocaleDateString('en-GB', { 
+                    {signalHistory.map((change, index) => {
+                      const dateStr = new Date(change.timestamp).toLocaleDateString('en-GB', { 
                         day: '2-digit', 
                         month: '2-digit', 
                         year: 'numeric' 
                       })
-                      const timeStr = new Date(record.timestamp).toLocaleTimeString('en-US', {
+                      const timeStr = new Date(change.timestamp).toLocaleTimeString('en-US', {
                         hour: '2-digit',
-                        minute: '2-digit'
+                        minute: '2-digit',
+                        second: '2-digit'
                       })
                       
-                      if (changes === null) {
-                        // First record - show initial state
-                        return (
-                          <div key={index} className="change-entry initial">
-                            <div className="change-date">{dateStr}</div>
-                            <div className="change-content">
-                              <div className="change-text">
-                                <strong>Initial State</strong> - {record.buy_signals?.length || 0} Buy signals, {record.sell_signals?.length || 0} Sell signals
-                              </div>
-                              <div className="change-meta">Price: ${record.price?.toFixed(5)} at {timeStr}</div>
-                            </div>
-                          </div>
-                        )
-                      }
-                      
-                      // Show each change as a separate entry
-                      return changes.map((change, changeIndex) => (
-                        <div key={`${index}-${changeIndex}`} className="change-entry">
+                      return (
+                        <div key={index} className="change-entry">
                           <div className="change-date">{dateStr}</div>
                           <div className="change-content">
                             <div className="change-text">
-                              <strong>{change.name} ({change.timeframe})</strong> changed from{' '}
-                              <span className={`signal-inline ${change.from === 'BUY' ? 'buy' : change.from === 'SELL' ? 'sell' : 'neutral'}`}>
-                                {change.from}
+                              <strong>{change.indicator} ({change.timeframe})</strong> changed from{' '}
+                              <span className={`signal-inline ${change.old_signal === 'BUY' ? 'buy' : change.old_signal === 'SELL' ? 'sell' : 'neutral'}`}>
+                                {change.old_signal}
                               </span>
                               {' '}to{' '}
-                              <span className={`signal-inline ${change.to === 'BUY' ? 'buy' : change.to === 'SELL' ? 'sell' : 'neutral'}`}>
-                                {change.to}
+                              <span className={`signal-inline ${change.new_signal === 'BUY' ? 'buy' : change.new_signal === 'SELL' ? 'sell' : 'neutral'}`}>
+                                {change.new_signal}
                               </span>
                             </div>
-                            <div className="change-meta">Price: ${record.price?.toFixed(5)} at {timeStr}</div>
+                            <div className="change-meta">Price: ${change.price?.toFixed(5)} at {timeStr}</div>
                           </div>
                         </div>
-                      ))
-                    }).flat().filter(Boolean)}
+                      )
+                    })}
                   </div>
                 </>
               )}
