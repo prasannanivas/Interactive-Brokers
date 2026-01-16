@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { tradingAPI, dataAPI, historyAPI } from '../api/api'
 import TradingViewChart from '../components/TradingViewChart'
 import ChartModal from '../components/ChartModal'
+import CurrencyMatrix from '../components/CurrencyMatrix'
 import './Dashboard.css'
 
 const Dashboard = () => {
@@ -351,6 +352,9 @@ const Dashboard = () => {
           <span>Watchlist: {status.watchlist_count || 0} symbols</span>
         </div>
       </div>
+
+      {/* Currency Signal Matrix */}
+      <CurrencyMatrix watchlist={watchlist} />
 
       <div className="dashboard-grid">
         <div className="panel">
