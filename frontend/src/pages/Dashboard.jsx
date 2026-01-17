@@ -29,6 +29,30 @@ const Dashboard = () => {
     signal: true,
     histogram: true
   })
+  const [showSignals, setShowSignals] = useState({
+    ema100_hourly: true,
+    bollinger_daily: true,
+    rsi9_daily: true,
+    ema9_daily: true,
+    ema20_daily: true,
+    ema50_daily: true,
+    ema200_daily: true,
+    macross_daily: true,
+    macd_daily: true,
+    ema20_weekly: true
+  })
+  const [showTimestamps, setShowTimestamps] = useState({
+    ema100_hourly: true,
+    bollinger_daily: true,
+    rsi9_daily: true,
+    ema9_daily: true,
+    ema20_daily: true,
+    ema50_daily: true,
+    ema200_daily: true,
+    macross_daily: true,
+    macd_daily: true,
+    ema20_weekly: true
+  })
   const wsRef = useRef(null)
 
   // Column configuration - all available columns
@@ -450,7 +474,28 @@ const Dashboard = () => {
                     {isColumnVisible('symbol') && <th>Symbol</th>}
                     {isColumnVisible('price') && <th>Price</th>}
                     {isColumnVisible('signals') && <th>Signals</th>}
-                    {isColumnVisible('ema100_hourly') && <th>EMA 100<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>⏰ Hourly</span></th>}
+                    {isColumnVisible('ema100_hourly') && (
+                      <th>
+                        EMA 100<br/>
+                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>⏰ Hourly</span>
+                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
+                          <button
+                            className={`bb-toggle ${showSignals.ema100_hourly ? 'active' : ''}`}
+                            onClick={() => setShowSignals(prev => ({...prev, ema100_hourly: !prev.ema100_hourly}))}
+                            title="Toggle Signal"
+                          >
+                            Signal
+                          </button>
+                          <button
+                            className={`bb-toggle ${showTimestamps.ema100_hourly ? 'active' : ''}`}
+                            onClick={() => setShowTimestamps(prev => ({...prev, ema100_hourly: !prev.ema100_hourly}))}
+                            title="Toggle Timestamp"
+                          >
+                            Time
+                          </button>
+                        </div>
+                      </th>
+                    )}
                     {isColumnVisible('bollinger_daily') && (
                       <th>
                         Bollinger<br/>
@@ -478,14 +523,156 @@ const Dashboard = () => {
                             L
                           </button>
                         </div>
+                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
+                          <button
+                            className={`bb-toggle ${showSignals.bollinger_daily ? 'active' : ''}`}
+                            onClick={() => setShowSignals(prev => ({...prev, bollinger_daily: !prev.bollinger_daily}))}
+                            title="Toggle Signal"
+                          >
+                            Signal
+                          </button>
+                          <button
+                            className={`bb-toggle ${showTimestamps.bollinger_daily ? 'active' : ''}`}
+                            onClick={() => setShowTimestamps(prev => ({...prev, bollinger_daily: !prev.bollinger_daily}))}
+                            title="Toggle Timestamp"
+                          >
+                            Time
+                          </button>
+                        </div>
                       </th>
                     )}
-                    {isColumnVisible('rsi9_daily') && <th>RSI 9<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
-                    {isColumnVisible('ema9_daily') && <th>EMA 9<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
-                    {isColumnVisible('ema20_daily') && <th>EMA 20<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
-                    {isColumnVisible('ema50_daily') && <th>EMA 50<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
-                    {isColumnVisible('ema200_daily') && <th>EMA 200<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
-                    {isColumnVisible('macross_daily') && <th>MA Cross<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span></th>}
+                    {isColumnVisible('rsi9_daily') && (
+                      <th>
+                        RSI 9<br/>
+                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span>
+                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
+                          <button
+                            className={`bb-toggle ${showSignals.rsi9_daily ? 'active' : ''}`}
+                            onClick={() => setShowSignals(prev => ({...prev, rsi9_daily: !prev.rsi9_daily}))}
+                            title="Toggle Signal"
+                          >
+                            Signal
+                          </button>
+                          <button
+                            className={`bb-toggle ${showTimestamps.rsi9_daily ? 'active' : ''}`}
+                            onClick={() => setShowTimestamps(prev => ({...prev, rsi9_daily: !prev.rsi9_daily}))}
+                            title="Toggle Timestamp"
+                          >
+                            Time
+                          </button>
+                        </div>
+                      </th>
+                    )}
+                    {isColumnVisible('ema9_daily') && (
+                      <th>
+                        EMA 9<br/>
+                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span>
+                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
+                          <button
+                            className={`bb-toggle ${showSignals.ema9_daily ? 'active' : ''}`}
+                            onClick={() => setShowSignals(prev => ({...prev, ema9_daily: !prev.ema9_daily}))}
+                            title="Toggle Signal"
+                          >
+                            Signal
+                          </button>
+                          <button
+                            className={`bb-toggle ${showTimestamps.ema9_daily ? 'active' : ''}`}
+                            onClick={() => setShowTimestamps(prev => ({...prev, ema9_daily: !prev.ema9_daily}))}
+                            title="Toggle Timestamp"
+                          >
+                            Time
+                          </button>
+                        </div>
+                      </th>
+                    )}
+                    {isColumnVisible('ema20_daily') && (
+                      <th>
+                        EMA 20<br/>
+                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span>
+                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
+                          <button
+                            className={`bb-toggle ${showSignals.ema20_daily ? 'active' : ''}`}
+                            onClick={() => setShowSignals(prev => ({...prev, ema20_daily: !prev.ema20_daily}))}
+                            title="Toggle Signal"
+                          >
+                            Signal
+                          </button>
+                          <button
+                            className={`bb-toggle ${showTimestamps.ema20_daily ? 'active' : ''}`}
+                            onClick={() => setShowTimestamps(prev => ({...prev, ema20_daily: !prev.ema20_daily}))}
+                            title="Toggle Timestamp"
+                          >
+                            Time
+                          </button>
+                        </div>
+                      </th>
+                    )}
+                    {isColumnVisible('ema50_daily') && (
+                      <th>
+                        EMA 50<br/>
+                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span>
+                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
+                          <button
+                            className={`bb-toggle ${showSignals.ema50_daily ? 'active' : ''}`}
+                            onClick={() => setShowSignals(prev => ({...prev, ema50_daily: !prev.ema50_daily}))}
+                            title="Toggle Signal"
+                          >
+                            Signal
+                          </button>
+                          <button
+                            className={`bb-toggle ${showTimestamps.ema50_daily ? 'active' : ''}`}
+                            onClick={() => setShowTimestamps(prev => ({...prev, ema50_daily: !prev.ema50_daily}))}
+                            title="Toggle Timestamp"
+                          >
+                            Time
+                          </button>
+                        </div>
+                      </th>
+                    )}
+                    {isColumnVisible('ema200_daily') && (
+                      <th>
+                        EMA 200<br/>
+                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span>
+                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
+                          <button
+                            className={`bb-toggle ${showSignals.ema200_daily ? 'active' : ''}`}
+                            onClick={() => setShowSignals(prev => ({...prev, ema200_daily: !prev.ema200_daily}))}
+                            title="Toggle Signal"
+                          >
+                            Signal
+                          </button>
+                          <button
+                            className={`bb-toggle ${showTimestamps.ema200_daily ? 'active' : ''}`}
+                            onClick={() => setShowTimestamps(prev => ({...prev, ema200_daily: !prev.ema200_daily}))}
+                            title="Toggle Timestamp"
+                          >
+                            Time
+                          </button>
+                        </div>
+                      </th>
+                    )}
+                    {isColumnVisible('macross_daily') && (
+                      <th>
+                        MA Cross<br/>
+                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span>
+                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
+                          <button
+                            className={`bb-toggle ${showSignals.macross_daily ? 'active' : ''}`}
+                            onClick={() => setShowSignals(prev => ({...prev, macross_daily: !prev.macross_daily}))}
+                            title="Toggle Signal"
+                          >
+                            Signal
+                          </button>
+                          <button
+                            className={`bb-toggle ${showTimestamps.macross_daily ? 'active' : ''}`}
+                            onClick={() => setShowTimestamps(prev => ({...prev, macross_daily: !prev.macross_daily}))}
+                            title="Toggle Timestamp"
+                          >
+                            Time
+                          </button>
+                        </div>
+                      </th>
+                    )}
                     {isColumnVisible('macd_daily') && (
                       <th>
                         MACD<br/>
@@ -513,9 +700,46 @@ const Dashboard = () => {
                             H
                           </button>
                         </div>
+                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
+                          <button
+                            className={`bb-toggle ${showSignals.macd_daily ? 'active' : ''}`}
+                            onClick={() => setShowSignals(prev => ({...prev, macd_daily: !prev.macd_daily}))}
+                            title="Toggle Signal"
+                          >
+                            Signal
+                          </button>
+                          <button
+                            className={`bb-toggle ${showTimestamps.macd_daily ? 'active' : ''}`}
+                            onClick={() => setShowTimestamps(prev => ({...prev, macd_daily: !prev.macd_daily}))}
+                            title="Toggle Timestamp"
+                          >
+                            Time
+                          </button>
+                        </div>
                       </th>
                     )}
-                    {isColumnVisible('ema20_weekly') && <th>EMA 20<br/><span style={{fontSize: '10px', fontWeight: 'normal'}}>📆 Weekly</span></th>}
+                    {isColumnVisible('ema20_weekly') && (
+                      <th>
+                        EMA 20<br/>
+                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>📆 Weekly</span>
+                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
+                          <button
+                            className={`bb-toggle ${showSignals.ema20_weekly ? 'active' : ''}`}
+                            onClick={() => setShowSignals(prev => ({...prev, ema20_weekly: !prev.ema20_weekly}))}
+                            title="Toggle Signal"
+                          >
+                            Signal
+                          </button>
+                          <button
+                            className={`bb-toggle ${showTimestamps.ema20_weekly ? 'active' : ''}`}
+                            onClick={() => setShowTimestamps(prev => ({...prev, ema20_weekly: !prev.ema20_weekly}))}
+                            title="Toggle Timestamp"
+                          >
+                            Time
+                          </button>
+                        </div>
+                      </th>
+                    )}
                     {isColumnVisible('action') && <th>Action</th>}
                   </tr>
                 </thead>
@@ -576,17 +800,17 @@ const Dashboard = () => {
                               <div className="indicator-value">
                                 {item.hourly_indicators.ema_100.ema_value?.toFixed(5)}
                               </div>
-                              {item.hourly_indicators.ema_100.signal ? (
-                                <>
+                              {showSignals.ema100_hourly && (
+                                item.hourly_indicators.ema_100.signal ? (
                                   <span className={`signal-badge-mini ${item.hourly_indicators.ema_100.signal === 'BUY' ? 'buy' : 'sell'}`}>
                                     {item.hourly_indicators.ema_100.signal}
                                   </span>
-                                  {item.hourly_indicators.ema_100.signal_timestamp && (
-                                    <div className="signal-time">{formatSignalTime(item.hourly_indicators.ema_100.signal_timestamp)}</div>
-                                  )}
-                                </>
-                              ) : (
-                                <span className="signal-badge-mini neutral">Neutral</span>
+                                ) : (
+                                  <span className="signal-badge-mini neutral">Neutral</span>
+                                )
+                              )}
+                              {showTimestamps.ema100_hourly && item.hourly_indicators.ema_100.signal_timestamp && (
+                                <div className="signal-time">{formatSignalTime(item.hourly_indicators.ema_100.signal_timestamp)}</div>
                               )}
                             </>
                           ) : (
@@ -605,17 +829,17 @@ const Dashboard = () => {
                                 {bollingerBands.middle && <span>M: {item.daily_indicators.bollinger_band.middle_band?.toFixed(5)}<br/></span>}
                                 {bollingerBands.lower && <span>L: {item.daily_indicators.bollinger_band.lower_band?.toFixed(5)}</span>}
                               </div>
-                              {item.daily_indicators.bollinger_band.signal ? (
-                                <>
+                              {showSignals.bollinger_daily && (
+                                item.daily_indicators.bollinger_band.signal ? (
                                   <span className={`signal-badge-mini ${item.daily_indicators.bollinger_band.signal === 'BUY' ? 'buy' : 'sell'}`}>
                                     {item.daily_indicators.bollinger_band.signal}
                                   </span>
-                                  {item.daily_indicators.bollinger_band.signal_timestamp && (
-                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.bollinger_band.signal_timestamp)}</div>
-                                  )}
-                                </>
-                              ) : (
-                                <span className="signal-badge-mini neutral">Neutral</span>
+                                ) : (
+                                  <span className="signal-badge-mini neutral">Neutral</span>
+                                )
+                              )}
+                              {showTimestamps.bollinger_daily && item.daily_indicators.bollinger_band.signal_timestamp && (
+                                <div className="signal-time">{formatSignalTime(item.daily_indicators.bollinger_band.signal_timestamp)}</div>
                               )}
                             </>
                           ) : (
@@ -630,17 +854,17 @@ const Dashboard = () => {
                           <div className="indicator-value">
                             {item.daily_indicators?.rsi_9?.rsi_value?.toFixed(0)}
                           </div>
-                          {item.daily_indicators?.rsi_9?.signal ? (
-                            <>
+                          {showSignals.rsi9_daily && (
+                            item.daily_indicators?.rsi_9?.signal ? (
                               <span className={`signal-badge-mini ${item.daily_indicators.rsi_9.signal === 'BUY' ? 'buy' : 'sell'}`}>
                                 {item.daily_indicators.rsi_9.signal}
                               </span>
-                              {item.daily_indicators.rsi_9.signal_timestamp && (
-                                <div className="signal-time">{formatSignalTime(item.daily_indicators.rsi_9.signal_timestamp)}</div>
-                              )}
-                            </>
-                          ) : (
-                            <span className="signal-badge-mini neutral">Neutral</span>
+                            ) : (
+                              <span className="signal-badge-mini neutral">Neutral</span>
+                            )
+                          )}
+                          {showTimestamps.rsi9_daily && item.daily_indicators?.rsi_9?.signal_timestamp && (
+                            <div className="signal-time">{formatSignalTime(item.daily_indicators.rsi_9.signal_timestamp)}</div>
                           )}
                         </td>
                       )}
@@ -653,17 +877,17 @@ const Dashboard = () => {
                               <div className="indicator-value">
                                 {item.daily_indicators.ema_9.ema_value?.toFixed(5)}
                               </div>
-                              {item.daily_indicators.ema_9.signal ? (
-                                <>
+                              {showSignals.ema9_daily && (
+                                item.daily_indicators.ema_9.signal ? (
                                   <span className={`signal-badge-mini ${item.daily_indicators.ema_9.signal === 'BUY' ? 'buy' : 'sell'}`}>
                                     {item.daily_indicators.ema_9.signal}
                                   </span>
-                                  {item.daily_indicators.ema_9.signal_timestamp && (
-                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_9.signal_timestamp)}</div>
-                                  )}
-                                </>
-                              ) : (
-                                <span className="signal-badge-mini neutral">Neutral</span>
+                                ) : (
+                                  <span className="signal-badge-mini neutral">Neutral</span>
+                                )
+                              )}
+                              {showTimestamps.ema9_daily && item.daily_indicators.ema_9.signal_timestamp && (
+                                <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_9.signal_timestamp)}</div>
                               )}
                             </>
                           ) : (
@@ -680,17 +904,17 @@ const Dashboard = () => {
                               <div className="indicator-value">
                                 {item.daily_indicators.ema_20.ema_value?.toFixed(5)}
                               </div>
-                              {item.daily_indicators.ema_20.signal ? (
-                                <>
+                              {showSignals.ema20_daily && (
+                                item.daily_indicators.ema_20.signal ? (
                                   <span className={`signal-badge-mini ${item.daily_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
                                     {item.daily_indicators.ema_20.signal}
                                   </span>
-                                  {item.daily_indicators.ema_20.signal_timestamp && (
-                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_20.signal_timestamp)}</div>
-                                  )}
-                                </>
-                              ) : (
-                                <span className="signal-badge-mini neutral">Neutral</span>
+                                ) : (
+                                  <span className="signal-badge-mini neutral">Neutral</span>
+                                )
+                              )}
+                              {showTimestamps.ema20_daily && item.daily_indicators.ema_20.signal_timestamp && (
+                                <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_20.signal_timestamp)}</div>
                               )}
                             </>
                           ) : (
@@ -707,17 +931,17 @@ const Dashboard = () => {
                               <div className="indicator-value">
                                 {item.daily_indicators.ema_50.ema_value?.toFixed(5)}
                               </div>
-                              {item.daily_indicators.ema_50.signal ? (
-                                <>
+                              {showSignals.ema50_daily && (
+                                item.daily_indicators.ema_50.signal ? (
                                   <span className={`signal-badge-mini ${item.daily_indicators.ema_50.signal === 'BUY' ? 'buy' : 'sell'}`}>
                                     {item.daily_indicators.ema_50.signal}
                                   </span>
-                                  {item.daily_indicators.ema_50.signal_timestamp && (
-                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_50.signal_timestamp)}</div>
-                                  )}
-                                </>
-                              ) : (
-                                <span className="signal-badge-mini neutral">Neutral</span>
+                                ) : (
+                                  <span className="signal-badge-mini neutral">Neutral</span>
+                                )
+                              )}
+                              {showTimestamps.ema50_daily && item.daily_indicators.ema_50.signal_timestamp && (
+                                <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_50.signal_timestamp)}</div>
                               )}
                             </>
                           ) : (
@@ -734,17 +958,17 @@ const Dashboard = () => {
                               <div className="indicator-value">
                                 {item.daily_indicators.ema_200.ema_value?.toFixed(5)}
                               </div>
-                              {item.daily_indicators.ema_200.signal ? (
-                                <>
+                              {showSignals.ema200_daily && (
+                                item.daily_indicators.ema_200.signal ? (
                                   <span className={`signal-badge-mini ${item.daily_indicators.ema_200.signal === 'BUY' ? 'buy' : 'sell'}`}>
                                     {item.daily_indicators.ema_200.signal}
                                   </span>
-                                  {item.daily_indicators.ema_200.signal_timestamp && (
-                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_200.signal_timestamp)}</div>
-                                  )}
-                                </>
-                              ) : (
-                                <span className="signal-badge-mini neutral">Neutral</span>
+                                ) : (
+                                  <span className="signal-badge-mini neutral">Neutral</span>
+                                )
+                              )}
+                              {showTimestamps.ema200_daily && item.daily_indicators.ema_200.signal_timestamp && (
+                                <div className="signal-time">{formatSignalTime(item.daily_indicators.ema_200.signal_timestamp)}</div>
                               )}
                             </>
                           ) : (
@@ -791,17 +1015,17 @@ const Dashboard = () => {
                                 {macdComponents.signal && <span>Sig: {item.daily_indicators.macd.signal_line?.toFixed(6)}<br/></span>}
                                 {macdComponents.histogram && <span>Hist: {item.daily_indicators.macd.histogram?.toFixed(6)}</span>}
                               </div>
-                              {item.daily_indicators.macd.signal ? (
-                                <>
+                              {showSignals.macd_daily && (
+                                item.daily_indicators.macd.signal ? (
                                   <span className={`signal-badge-mini ${item.daily_indicators.macd.signal === 'BUY' ? 'buy' : 'sell'}`}>
                                     {item.daily_indicators.macd.signal}
                                   </span>
-                                  {item.daily_indicators.macd.signal_timestamp && (
-                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.macd.signal_timestamp)}</div>
-                                  )}
-                                </>
-                              ) : (
-                                <span className="signal-badge-mini neutral">Neutral</span>
+                                ) : (
+                                  <span className="signal-badge-mini neutral">Neutral</span>
+                                )
+                              )}
+                              {showTimestamps.macd_daily && item.daily_indicators.macd.signal_timestamp && (
+                                <div className="signal-time">{formatSignalTime(item.daily_indicators.macd.signal_timestamp)}</div>
                               )}
                             </>
                           ) : (
@@ -818,17 +1042,17 @@ const Dashboard = () => {
                               <div className="indicator-value">
                                 {item.weekly_indicators.ema_20.ema_value?.toFixed(5)}
                               </div>
-                              {item.weekly_indicators.ema_20.signal ? (
-                                <>
+                              {showSignals.ema20_weekly && (
+                                item.weekly_indicators.ema_20.signal ? (
                                   <span className={`signal-badge-mini ${item.weekly_indicators.ema_20.signal === 'BUY' ? 'buy' : 'sell'}`}>
                                     {item.weekly_indicators.ema_20.signal}
                                   </span>
-                                  {item.weekly_indicators.ema_20.signal_timestamp && (
-                                    <div className="signal-time">{formatSignalTime(item.weekly_indicators.ema_20.signal_timestamp)}</div>
-                                  )}
-                                </>
-                              ) : (
-                                <span className="signal-badge-mini neutral">Neutral</span>
+                                ) : (
+                                  <span className="signal-badge-mini neutral">Neutral</span>
+                                )
+                              )}
+                              {showTimestamps.ema20_weekly && item.weekly_indicators.ema_20.signal_timestamp && (
+                                <div className="signal-time">{formatSignalTime(item.weekly_indicators.ema_20.signal_timestamp)}</div>
                               )}
                             </>
                           ) : (
