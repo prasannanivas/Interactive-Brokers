@@ -82,7 +82,15 @@ const Dashboard = () => {
     const saved = localStorage.getItem('visibleColumns')
     if (saved) {
       try {
-        return JSON.parse(saved)
+        const savedColumns = JSON.parse(saved)
+        // Check if new bollinger_weekly column exists, if not add it
+        const allColumnIds = allColumns.map(col => col.id)
+        const missingColumns = allColumnIds.filter(id => !savedColumns.includes(id))
+        if (missingColumns.length > 0) {
+          // Add missing columns to saved list
+          return [...savedColumns, ...missingColumns]
+        }
+        return savedColumns
       } catch {
         return allColumns.map(col => col.id)
       }

@@ -21,7 +21,7 @@ const ChartModal = ({ symbol, onClose }) => {
   const indicatorAvailability = {
     hourly: ['ema100'], // Rule 1: EMA 100 Hourly only
     daily: ['bollingerBands', 'rsi', 'ema9', 'ema20', 'ema50', 'ema200', 'maCross', 'macd'], // Rules 2-9
-    weekly: ['ema20'] // Rule 10: EMA 20 Weekly only
+    weekly: ['bollingerBands', 'ema20'] // Rules: Bollinger Bands Weekly + EMA 20 Weekly
   }
   
   const [visibleIndicators, setVisibleIndicators] = useState({
@@ -201,12 +201,29 @@ const ChartModal = ({ symbol, onClose }) => {
         change: candles.length > 1 ? ((currentPrice - candles[0].close) / candles[0].close * 100).toFixed(2) : 0
       }
     } else if (timeframe === 'weekly') {
-      // WEEKLY: Rule 10 - EMA 20 only
+      // WEEKLY: Bollinger Bands + EMA 20
+      const bbPeriod = 20
+      const bb = calculateBollingerBands(closes, bbPeriod, 2)
       const ema20 = calculateEMA(closes, 20)
       const currentPrice = closes[closes.length - 1]
       const currentEMA20 = ema20[ema20.length - 1]
+      const currentBBUpper = bb.upper[bb.upper.length - 1]
+      const currentBBMiddle = bb.middle[bb.middle.length - 1]
+      const currentBBLower = bb.lower[bb.lower.length - 1]
+      
+      const bbSignal = currentPrice > currentBBUpper ? 'sell' : currentPrice < currentBBLower ? 'buy' : 'neutral'
       
       return {
+        bollingerBands: {
+          upper: currentBBUpper?.toFixed(2),
+          middle: currentBBMiddle?.toFixed(2),
+          lower: currentBBLower?.toFixed(2),
+          signal: bbSignal,
+          upperData: bb.upper,
+          middleData: bb.middle,
+          lowerData: bb.lower,
+          label: 'Bollinger Bands (20,2)'
+        },
         ema20: { 
           value: currentEMA20?.toFixed(2), 
           signal: currentPrice > currentEMA20 ? 'buy' : 'sell', 
@@ -470,45 +487,54 @@ const ChartModal = ({ symbol, onClose }) => {
     })
     candleSeries.setData(candles)
 
-    // Add Bollinger Bands
-    if (visibleIndicators.bollingerBands && indicators.bollinger && indicators.bollinger.data) {
-      const bb = indicators.bollinger.data
-      const bbStartIndex = candles.length - bb.upper.length
+    // Add Bollinger Bands (support both daily and weekly data structures)
+    if (visibleIndicators.bollingerBands) {
+      // Daily uses indicators.bollinger.data, Weekly uses indicators.bollingerBands with direct arrays
+      const bbData = indicators.bollinger?.data || 
+                     (indicators.bollingerBands?.upperData ? {
+                       upper: indicators.bollingerBands.upperData,
+                       middle: indicators.bollingerBands.middleData,
+                       lower: indicators.bollingerBands.lowerData
+                     } : null)
+      
+      if (bbData) {
+        const bbStartIndex = candles.length - bbData.upper.length
 
-      const upperBandSeries = chart.addLineSeries({
-        color: '#8b5cf6',
-        lineWidth: 2,
-        lineStyle: 2,
-        priceLineVisible: false,
-        lastValueVisible: false,
-      })
-      upperBandSeries.setData(bb.upper.map((val, i) => ({
-        time: candles[bbStartIndex + i].time,
-        value: val
-      })))
+        const upperBandSeries = chart.addLineSeries({
+          color: '#8b5cf6',
+          lineWidth: 2,
+          lineStyle: 2,
+          priceLineVisible: false,
+          lastValueVisible: false,
+        })
+        upperBandSeries.setData(bbData.upper.map((val, i) => ({
+          time: candles[bbStartIndex + i].time,
+          value: val
+        })))
 
-      const middleBandSeries = chart.addLineSeries({
-        color: '#6366f1',
-        lineWidth: 2,
-        priceLineVisible: false,
-        lastValueVisible: false,
-      })
-      middleBandSeries.setData(bb.middle.map((val, i) => ({
-        time: candles[bbStartIndex + i].time,
-        value: val
-      })))
+        const middleBandSeries = chart.addLineSeries({
+          color: '#6366f1',
+          lineWidth: 2,
+          priceLineVisible: false,
+          lastValueVisible: false,
+        })
+        middleBandSeries.setData(bbData.middle.map((val, i) => ({
+          time: candles[bbStartIndex + i].time,
+          value: val
+        })))
 
-      const lowerBandSeries = chart.addLineSeries({
-        color: '#8b5cf6',
-        lineWidth: 2,
-        lineStyle: 2,
-        priceLineVisible: false,
-        lastValueVisible: false,
-      })
-      lowerBandSeries.setData(bb.lower.map((val, i) => ({
-        time: candles[bbStartIndex + i].time,
-        value: val
-      })))
+        const lowerBandSeries = chart.addLineSeries({
+          color: '#8b5cf6',
+          lineWidth: 2,
+          lineStyle: 2,
+          priceLineVisible: false,
+          lastValueVisible: false,
+        })
+        lowerBandSeries.setData(bbData.lower.map((val, i) => ({
+          time: candles[bbStartIndex + i].time,
+          value: val
+        })))
+      }
     }
 
     // Add EMA 9 (Daily)
@@ -872,19 +898,33 @@ const ChartModal = ({ symbol, onClose }) => {
                     </label>
                   )}
 
-                  {/* Weekly: EMA 20 only */}
+                  {/* Weekly: Bollinger Bands + EMA 20 */}
                   {timeframe === 'weekly' && (
-                    <label className="toggle-item">
-                      <input
-                        type="checkbox"
-                        checked={visibleIndicators.ema20}
-                        onChange={() => toggleIndicator('ema20')}
-                      />
-                      <span className="toggle-label">
-                        <span className="toggle-color" style={{ background: '#3b82f6' }}></span>
-                        EMA 20
-                      </span>
-                    </label>
+                    <>
+                      <label className="toggle-item">
+                        <input
+                          type="checkbox"
+                          checked={visibleIndicators.bollingerBands}
+                          onChange={() => toggleIndicator('bollingerBands')}
+                        />
+                        <span className="toggle-label">
+                          <span className="toggle-color" style={{ background: '#8b5cf6' }}></span>
+                          Bollinger Bands
+                        </span>
+                      </label>
+                      
+                      <label className="toggle-item">
+                        <input
+                          type="checkbox"
+                          checked={visibleIndicators.ema20}
+                          onChange={() => toggleIndicator('ema20')}
+                        />
+                        <span className="toggle-label">
+                          <span className="toggle-color" style={{ background: '#3b82f6' }}></span>
+                          EMA 20
+                        </span>
+                      </label>
+                    </>
                   )}
 
                   {/* Daily: All 8 indicators */}
@@ -1027,19 +1067,19 @@ const ChartModal = ({ symbol, onClose }) => {
                   </div>
                 )}
 
-                {/* Bollinger Bands (Daily only) */}
-                {timeframe === 'daily' && visibleIndicators.bollingerBands && indicators.bollinger && (
+                {/* Bollinger Bands (Daily or Weekly) */}
+                {(timeframe === 'daily' || timeframe === 'weekly') && visibleIndicators.bollingerBands && (
                   <div className="indicator-card">
                     <div className="indicator-card-header">
                       <span className="indicator-name">Bollinger Bands</span>
-                      <span className={`indicator-signal ${indicators.bollinger?.signal}`}>
-                        {indicators.bollinger?.signal}
+                      <span className={`indicator-signal ${(indicators.bollinger?.signal || indicators.bollingerBands?.signal)}`}>
+                        {indicators.bollinger?.signal || indicators.bollingerBands?.signal}
                       </span>
                     </div>
                     <div className="indicator-value">
-                      U: {indicators.bollinger?.upper || 'N/A'}<br/>
-                      M: {indicators.bollinger?.middle || 'N/A'}<br/>
-                      L: {indicators.bollinger?.lower || 'N/A'}
+                      U: {indicators.bollinger?.upper || indicators.bollingerBands?.upper || 'N/A'}<br/>
+                      M: {indicators.bollinger?.middle || indicators.bollingerBands?.middle || 'N/A'}<br/>
+                      L: {indicators.bollinger?.lower || indicators.bollingerBands?.lower || 'N/A'}
                     </div>
                   </div>
                 )}
