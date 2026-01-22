@@ -32,7 +32,6 @@ const Dashboard = () => {
   })
   const [showSignals, setShowSignals] = useState({
     ema100_hourly: true,
-    bollinger_daily: true,
     rsi9_daily: true,
     ema9_daily: true,
     ema20_daily: true,
@@ -45,7 +44,6 @@ const Dashboard = () => {
   })
   const [showTimestamps, setShowTimestamps] = useState({
     ema100_hourly: true,
-    bollinger_daily: true,
     rsi9_daily: true,
     ema9_daily: true,
     ema20_daily: true,
@@ -64,7 +62,6 @@ const Dashboard = () => {
     { id: 'price', label: 'Price', fixed: true },
     { id: 'signals', label: 'Signals', fixed: true },
     { id: 'ema100_hourly', label: 'EMA 100 (Hourly)', timeframe: '⏰ Hourly' },
-    { id: 'bollinger_daily', label: 'Bollinger (Daily)', timeframe: '📅 Daily' },
     { id: 'rsi9_daily', label: 'RSI 9 (Daily)', timeframe: '📅 Daily' },
     { id: 'ema9_daily', label: 'EMA 9 (Daily)', timeframe: '📅 Daily' },
     { id: 'ema20_daily', label: 'EMA 20 (Daily)', timeframe: '📅 Daily' },
@@ -379,7 +376,7 @@ const Dashboard = () => {
 
   const countNeutralSignals = (item) => {
     // Total indicators we're tracking
-    const totalIndicators = 11 // EMA 100 (Hourly), Bollinger, RSI, EMA 9, EMA 20, EMA 50, EMA 200, MA Cross, MACD (Daily), Bollinger, EMA 20 (Weekly)
+    const totalIndicators = 10 // EMA 100 (Hourly), RSI, EMA 9, EMA 20, EMA 50, EMA 200, MA Cross, MACD (Daily), Bollinger, EMA 20 (Weekly)
     const buyCount = item.buy_signals?.length || 0
     const sellCount = item.sell_signals?.length || 0
     return totalIndicators - buyCount - sellCount
@@ -532,51 +529,6 @@ const Dashboard = () => {
                           <button
                             className={`bb-toggle ${showTimestamps.ema100_hourly ? 'active' : ''}`}
                             onClick={() => setShowTimestamps(prev => ({...prev, ema100_hourly: !prev.ema100_hourly}))}
-                            title="Toggle Timestamp"
-                          >
-                            Time
-                          </button>
-                        </div>
-                      </th>
-                    )}
-                    {isColumnVisible('bollinger_daily') && (
-                      <th>
-                        Bollinger<br/>
-                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>📅 Daily</span>
-                        <div className="bollinger-toggles">
-                          <button
-                            className={`bb-toggle ${bollingerBands.upper ? 'active' : ''}`}
-                            onClick={() => setBollingerBands(prev => ({...prev, upper: !prev.upper}))}
-                            title="Toggle Upper Band"
-                          >
-                            U
-                          </button>
-                          <button
-                            className={`bb-toggle ${bollingerBands.middle ? 'active' : ''}`}
-                            onClick={() => setBollingerBands(prev => ({...prev, middle: !prev.middle}))}
-                            title="Toggle Middle Band"
-                          >
-                            M
-                          </button>
-                          <button
-                            className={`bb-toggle ${bollingerBands.lower ? 'active' : ''}`}
-                            onClick={() => setBollingerBands(prev => ({...prev, lower: !prev.lower}))}
-                            title="Toggle Lower Band"
-                          >
-                            L
-                          </button>
-                        </div>
-                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
-                          <button
-                            className={`bb-toggle ${showSignals.bollinger_daily ? 'active' : ''}`}
-                            onClick={() => setShowSignals(prev => ({...prev, bollinger_daily: !prev.bollinger_daily}))}
-                            title="Toggle Signal"
-                          >
-                            Signal
-                          </button>
-                          <button
-                            className={`bb-toggle ${showTimestamps.bollinger_daily ? 'active' : ''}`}
-                            onClick={() => setShowTimestamps(prev => ({...prev, bollinger_daily: !prev.bollinger_daily}))}
                             title="Toggle Timestamp"
                           >
                             Time
@@ -914,43 +866,7 @@ const Dashboard = () => {
                         </td>
                       )}
 
-                      {/* 2. Bollinger Bands Daily */}
-                      {isColumnVisible('bollinger_daily') && (
-                        <td className="indicator-cell">
-                          {item.daily_indicators?.bollinger_band ? (
-                            <>
-                              <button
-                                onClick={() => viewSignalHistory(item.symbol, 'Bollinger Bands')}
-                                className="indicator-history-btn"
-                                title="View Bollinger Bands history"
-                              >
-                                📜
-                              </button>
-                              <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
-                                {bollingerBands.upper && <span>U: {item.daily_indicators.bollinger_band.upper_band?.toFixed(5)}<br/></span>}
-                                {bollingerBands.middle && <span>M: {item.daily_indicators.bollinger_band.middle_band?.toFixed(5)}<br/></span>}
-                                {bollingerBands.lower && <span>L: {item.daily_indicators.bollinger_band.lower_band?.toFixed(5)}</span>}
-                              </div>
-                              {showSignals.bollinger_daily && (
-                                item.daily_indicators.bollinger_band.signal ? (
-                                  <span className={`signal-badge-mini ${item.daily_indicators.bollinger_band.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                    {item.daily_indicators.bollinger_band.signal}
-                                  </span>
-                                ) : (
-                                  <span className="signal-badge-mini neutral">Neutral</span>
-                                )
-                              )}
-                              {showTimestamps.bollinger_daily && item.daily_indicators.bollinger_band.signal_timestamp && (
-                                <div className="signal-time">{formatSignalTime(item.daily_indicators.bollinger_band.signal_timestamp)}</div>
-                              )}
-                            </>
-                          ) : (
-                            <span className="signal-badge-mini neutral">N/A</span>
-                          )}
-                        </td>
-                      )}
-
-                      {/* 3. RSI Daily */}
+                      {/* 2. RSI Daily */}
                       {isColumnVisible('rsi9_daily') && (
                         <td className="indicator-cell">
                           {item.daily_indicators?.rsi_9 && (

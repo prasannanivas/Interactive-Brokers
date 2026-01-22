@@ -272,7 +272,6 @@ class IndicatorCalculator:
         closes = daily_data['close']
         
         indicators = {
-            'bollinger_band': IndicatorCalculator.calculate_bollinger_bands(closes, 20, 2),
             'rsi_9': IndicatorCalculator.calculate_rsi(closes, 9),
             'ema_9': IndicatorCalculator.calculate_ema_indicator(closes, 9, current_price),
             'ema_20': IndicatorCalculator.calculate_ema_indicator(closes, 20, current_price),
@@ -352,12 +351,6 @@ class IndicatorCalculator:
         
         # DAILY INDICATORS
         if daily_indicators:
-            # Bollinger Bands
-            if daily_indicators.get('bollinger_band') and daily_indicators['bollinger_band'].get('signal') == 'BUY':
-                buy_signals.append('Bollinger_Band_Daily')
-            elif daily_indicators.get('bollinger_band') and daily_indicators['bollinger_band'].get('signal') == 'SELL':
-                sell_signals.append('Bollinger_Band_Daily')
-            
             # RSI
             if daily_indicators.get('rsi_9') and daily_indicators['rsi_9'].get('signal') == 'BUY':
                 buy_signals.append('RSI_9_Daily')

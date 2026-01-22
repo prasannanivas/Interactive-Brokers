@@ -262,7 +262,6 @@ class MassiveMonitorV2:
                 old_daily = old_data['daily_indicators']
                 new_daily = new_data['daily_indicators']
                 
-                check_indicator_change('Bollinger Band', old_daily.get('bollinger_band'), new_daily.get('bollinger_band'), 'Daily')
                 check_indicator_change('RSI 9', old_daily.get('rsi_9'), new_daily.get('rsi_9'), 'Daily')
                 check_indicator_change('EMA 9', old_daily.get('ema_9'), new_daily.get('ema_9'), 'Daily')
                 check_indicator_change('EMA 20', old_daily.get('ema_20'), new_daily.get('ema_20'), 'Daily')

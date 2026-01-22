@@ -20,7 +20,7 @@ const ChartModal = ({ symbol, onClose }) => {
   // Define which indicators are available for each timeframe (based on Boss's rules)
   const indicatorAvailability = {
     hourly: ['ema100'], // Rule 1: EMA 100 Hourly only
-    daily: ['bollingerBands', 'rsi', 'ema9', 'ema20', 'ema50', 'ema200', 'maCross', 'macd'], // Rules 2-9
+    daily: ['rsi', 'ema9', 'ema20', 'ema50', 'ema200', 'maCross', 'macd'], // Rules 3-9 (7 indicators)
     weekly: ['bollingerBands', 'ema20'] // Rules: Bollinger Bands Weekly + EMA 20 Weekly
   }
   
@@ -235,9 +235,8 @@ const ChartModal = ({ symbol, onClose }) => {
       }
     }
     
-    // DAILY: Rules 2-9 - All 8 indicators
+    // DAILY: Rules 3-9 - 7 indicators (removed BB)
     const rsiPeriod = 9
-    const bbPeriod = 20
     const macdFast = 12
     const macdSlow = 26
     const macdSignalPeriod = 9
@@ -246,9 +245,6 @@ const ChartModal = ({ symbol, onClose }) => {
     
     // RSI (Rule 3)
     const rsi9 = calculateRSI(closes, rsiPeriod)
-    
-    // Bollinger Bands (Rule 2)
-    const bb = calculateBollingerBands(closes, bbPeriod, 2)
     
     // EMAs (Rules 4-7)
     const ema9 = calculateEMA(closes, 9)
@@ -265,9 +261,6 @@ const ChartModal = ({ symbol, onClose }) => {
     // Current values (last candle)
     const currentPrice = closes[closes.length - 1]
     const currentRSI = rsi9[rsi9.length - 1]
-    const currentBBUpper = bb.upper[bb.upper.length - 1]
-    const currentBBMiddle = bb.middle[bb.middle.length - 1]
-    const currentBBLower = bb.lower[bb.lower.length - 1]
     const currentEMA9 = ema9[ema9.length - 1]
     const currentEMA20 = ema20[ema20.length - 1]
     const currentEMA50 = ema50[ema50.length - 1]
@@ -278,7 +271,6 @@ const ChartModal = ({ symbol, onClose }) => {
 
     // Generate signals
     const rsiSignal = currentRSI > 70 ? 'sell' : currentRSI < 30 ? 'buy' : 'neutral'
-    const bbSignal = currentPrice > currentBBUpper ? 'sell' : currentPrice < currentBBLower ? 'buy' : 'neutral'
     const ema9Signal = currentPrice > currentEMA9 ? 'buy' : 'sell'
     const ema20Signal = currentPrice > currentEMA20 ? 'buy' : 'sell'
     const ema50Signal = currentPrice > currentEMA50 ? 'buy' : 'sell'
@@ -288,13 +280,6 @@ const ChartModal = ({ symbol, onClose }) => {
 
     return {
       rsi: { value: currentRSI?.toFixed(2), signal: rsiSignal, data: rsi9 },
-      bollinger: {
-        upper: currentBBUpper?.toFixed(2),
-        middle: currentBBMiddle?.toFixed(2),
-        lower: currentBBLower?.toFixed(2),
-        signal: bbSignal,
-        data: bb
-      },
       ema9: { value: currentEMA9?.toFixed(2), signal: ema9Signal, data: ema9, label: 'EMA 9' },
       ema20: { value: currentEMA20?.toFixed(2), signal: ema20Signal, data: ema20, label: 'EMA 20' },
       ema50: { value: currentEMA50?.toFixed(2), signal: ema50Signal, data: ema50, label: 'EMA 50' },
@@ -927,21 +912,9 @@ const ChartModal = ({ symbol, onClose }) => {
                     </>
                   )}
 
-                  {/* Daily: All 8 indicators */}
+                  {/* Daily: 7 indicators (removed BB) */}
                   {timeframe === 'daily' && (
                     <>
-                      <label className="toggle-item">
-                        <input
-                          type="checkbox"
-                          checked={visibleIndicators.bollingerBands}
-                          onChange={() => toggleIndicator('bollingerBands')}
-                        />
-                        <span className="toggle-label">
-                          <span className="toggle-color" style={{ background: '#8b5cf6' }}></span>
-                          Bollinger Bands
-                        </span>
-                      </label>
-                      
                       <label className="toggle-item">
                         <input
                           type="checkbox"
@@ -1067,8 +1040,8 @@ const ChartModal = ({ symbol, onClose }) => {
                   </div>
                 )}
 
-                {/* Bollinger Bands (Daily or Weekly) */}
-                {(timeframe === 'daily' || timeframe === 'weekly') && visibleIndicators.bollingerBands && (
+                {/* Bollinger Bands (Weekly only) */}
+                {timeframe === 'weekly' && visibleIndicators.bollingerBands && (
                   <div className="indicator-card">
                     <div className="indicator-card-header">
                       <span className="indicator-name">Bollinger Bands</span>

@@ -9,8 +9,7 @@ from database import get_indicator_states_collection, get_position_changes_colle
 
 
 INDICATOR_MAPPING = {
-    # Daily Indicators (8)
-    'Bollinger_Band_Daily': 'BB Daily',
+    # Daily Indicators (7)
     'RSI_9_Daily': 'RSI Daily',
     'EMA_9_Daily': 'EMA 9 Daily',
     'EMA_20_Daily': 'EMA 20 Daily',
@@ -50,7 +49,7 @@ def extract_current_indicator_states(symbol_data: dict) -> Dict[str, str]:
     
     RULES (per Boss's document):
     - 1 Hourly: EMA 100
-    - 8 Daily: BB, RSI 9, EMA 9, EMA 20, EMA 50, EMA 200, MA Crossover, MACD
+    - 7 Daily: RSI 9, EMA 9, EMA 20, EMA 50, EMA 200, MA Crossover, MACD
     - 2 Weekly: BB, EMA 20
     """
     states = {}
@@ -66,43 +65,38 @@ def extract_current_indicator_states(symbol_data: dict) -> Dict[str, str]:
     if not isinstance(weekly, dict):
         weekly = {}
     
-    # DAILY INDICATORS (8 total)
-    # 1. Bollinger Band (20,2,0) - EMA
-    bb = daily.get('bollinger_band', {})
-    if isinstance(bb, dict):
-        states['Bollinger_Band_Daily'] = get_indicator_state('BB', bb)
-    
-    # 2. RSI 9
+    # DAILY INDICATORS (7 total)
+    # 1. RSI 9
     rsi = daily.get('rsi_9', {})
     if isinstance(rsi, dict):
         states['RSI_9_Daily'] = get_indicator_state('RSI', rsi)
     
-    # 3. EMA 9
+    # 2. EMA 9
     ema9 = daily.get('ema_9', {})
     if isinstance(ema9, dict):
         states['EMA_9_Daily'] = get_indicator_state('EMA9', ema9)
     
-    # 4. EMA 20
+    # 3. EMA 20
     ema20 = daily.get('ema_20', {})
     if isinstance(ema20, dict):
         states['EMA_20_Daily'] = get_indicator_state('EMA20', ema20)
     
-    # 5. EMA 50
+    # 4. EMA 50
     ema50 = daily.get('ema_50', {})
     if isinstance(ema50, dict):
         states['EMA_50_Daily'] = get_indicator_state('EMA50', ema50)
     
-    # 6. EMA 200
+    # 5. EMA 200
     ema200 = daily.get('ema_200', {})
     if isinstance(ema200, dict):
         states['EMA_200_Daily'] = get_indicator_state('EMA200', ema200)
     
-    # 7. MA Crossover (9 day EMA, 21 day EMA)
+    # 6. MA Crossover (9 day EMA, 21 day EMA)
     ma_cross = daily.get('ma_crossover', {})
     if isinstance(ma_cross, dict):
         states['MA_Crossover_Daily'] = get_indicator_state('MA_Cross', ma_cross)
     
-    # 8. MACD (12,26,9 EMA)
+    # 7. MACD (12,26,9 EMA)
     macd = daily.get('macd', {})
     if isinstance(macd, dict):
         states['MACD_Daily'] = get_indicator_state('MACD', macd)
