@@ -12,6 +12,7 @@ const Dashboard = () => {
   const [searchResults, setSearchResults] = useState([])
   const [showSearchResults, setShowSearchResults] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [pairFilter, setPairFilter] = useState('')
   const [selectedSymbol, setSelectedSymbol] = useState(null)
   const [signalHistory, setSignalHistory] = useState([])
   const [showHistoryModal, setShowHistoryModal] = useState(false)
@@ -39,6 +40,7 @@ const Dashboard = () => {
     ema200_daily: true,
     macross_daily: true,
     macd_daily: true,
+    bollinger_weekly: true,
     ema20_weekly: true
   })
   const [showTimestamps, setShowTimestamps] = useState({
@@ -51,6 +53,7 @@ const Dashboard = () => {
     ema200_daily: true,
     macross_daily: true,
     macd_daily: true,
+    bollinger_weekly: true,
     ema20_weekly: true
   })
   const wsRef = useRef(null)
@@ -69,6 +72,7 @@ const Dashboard = () => {
     { id: 'ema200_daily', label: 'EMA 200 (Daily)', timeframe: '📅 Daily' },
     { id: 'macross_daily', label: 'MA Cross (Daily)', timeframe: '📅 Daily' },
     { id: 'macd_daily', label: 'MACD (Daily)', timeframe: '📅 Daily' },
+    { id: 'bollinger_weekly', label: 'Bollinger (Weekly)', timeframe: '📆 Weekly' },
     { id: 'ema20_weekly', label: 'EMA 20 (Weekly)', timeframe: '📆 Weekly' },
     { id: 'action', label: 'Action', fixed: true }
   ]
@@ -224,14 +228,25 @@ const Dashboard = () => {
     return signal.toLowerCase()
   }
 
-  const viewSignalHistory = async (symbol) => {
-    setSelectedSymbol(symbol)
+  const viewSignalHistory = async (symbol, indicator = null) => {
+    setSelectedSymbol(indicator ? `${symbol} - ${indicator}` : symbol)
     setShowHistoryModal(true)
     setLoadingHistory(true)
 
     try {
       const response = await historyAPI.getSignalChanges(symbol)
-      setSignalHistory(response.data.changes || [])
+      let changes = response.data.changes || []
+      
+      // Filter by indicator if specified
+      if (indicator) {
+        changes = changes.filter(change => {
+          const indicatorKey = change.indicator?.toLowerCase().replace(/[\s()]/g, '_')
+          const targetKey = indicator.toLowerCase().replace(/[\s()]/g, '_')
+          return indicatorKey === targetKey
+        })
+      }
+      
+      setSignalHistory(changes)
     } catch (error) {
       console.error('Failed to load signal changes:', error)
       setSignalHistory([])
@@ -356,11 +371,16 @@ const Dashboard = () => {
 
   const countNeutralSignals = (item) => {
     // Total indicators we're tracking
-    const totalIndicators = 10 // EMA 100 (Hourly), Bollinger, RSI, EMA 9, EMA 20, EMA 50, EMA 200, MA Cross, MACD (Daily), EMA 20 (Weekly)
+    const totalIndicators = 11 // EMA 100 (Hourly), Bollinger, RSI, EMA 9, EMA 20, EMA 50, EMA 200, MA Cross, MACD (Daily), Bollinger, EMA 20 (Weekly)
     const buyCount = item.buy_signals?.length || 0
     const sellCount = item.sell_signals?.length || 0
     return totalIndicators - buyCount - sellCount
   }
+
+  // Filter watchlist based on search
+  const filteredWatchlist = watchlist.filter(item => 
+    item.symbol.toLowerCase().includes(pairFilter.toLowerCase())
+  )
 
   return (
     <div className="dashboard-container">
@@ -425,13 +445,22 @@ const Dashboard = () => {
         <div className="panel watchlist-panel">
           <div className="panel-header">
             <h2>📈 Watchlist ({watchlist.length})</h2>
-            <button 
-              className="column-filter-button"
-              onClick={() => setShowColumnFilter(!showColumnFilter)}
-              title="Configure visible columns"
-            >
-              ⚙️ Columns
-            </button>
+            <div className="watchlist-controls">
+              <input
+                type="text"
+                value={pairFilter}
+                onChange={(e) => setPairFilter(e.target.value)}
+                placeholder="🔍 Filter pairs..."
+                className="pair-filter-input"
+              />
+              <button 
+                className="column-filter-button"
+                onClick={() => setShowColumnFilter(!showColumnFilter)}
+                title="Configure visible columns"
+              >
+                ⚙️ Columns
+              </button>
+            </div>
           </div>
 
           {/* Column Filter Dropdown */}
@@ -465,6 +494,12 @@ const Dashboard = () => {
               <div className="empty-icon">📭</div>
               <p>No symbols in watchlist</p>
               <p className="empty-subtitle">Search and add symbols to start monitoring</p>
+            </div>
+          ) : filteredWatchlist.length === 0 ? (
+            <div className="empty-state">
+              <div className="empty-icon">🔍</div>
+              <p>No pairs match "{pairFilter}"</p>
+              <p className="empty-subtitle">Try a different search term</p>
             </div>
           ) : (
             <div className="watchlist-table-container">
@@ -718,6 +753,51 @@ const Dashboard = () => {
                         </div>
                       </th>
                     )}
+                    {isColumnVisible('bollinger_weekly') && (
+                      <th>
+                        Bollinger<br/>
+                        <span style={{fontSize: '10px', fontWeight: 'normal'}}>📆 Weekly</span>
+                        <div className="bollinger-toggles">
+                          <button
+                            className={`bb-toggle ${bollingerBands.upper ? 'active' : ''}`}
+                            onClick={() => setBollingerBands(prev => ({...prev, upper: !prev.upper}))}
+                            title="Toggle Upper Band"
+                          >
+                            U
+                          </button>
+                          <button
+                            className={`bb-toggle ${bollingerBands.middle ? 'active' : ''}`}
+                            onClick={() => setBollingerBands(prev => ({...prev, middle: !prev.middle}))}
+                            title="Toggle Middle Band"
+                          >
+                            M
+                          </button>
+                          <button
+                            className={`bb-toggle ${bollingerBands.lower ? 'active' : ''}`}
+                            onClick={() => setBollingerBands(prev => ({...prev, lower: !prev.lower}))}
+                            title="Toggle Lower Band"
+                          >
+                            L
+                          </button>
+                        </div>
+                        <div className="bollinger-toggles" style={{marginTop: '4px'}}>
+                          <button
+                            className={`bb-toggle ${showSignals.bollinger_weekly ? 'active' : ''}`}
+                            onClick={() => setShowSignals(prev => ({...prev, bollinger_weekly: !prev.bollinger_weekly}))}
+                            title="Toggle Signal"
+                          >
+                            Signal
+                          </button>
+                          <button
+                            className={`bb-toggle ${showTimestamps.bollinger_weekly ? 'active' : ''}`}
+                            onClick={() => setShowTimestamps(prev => ({...prev, bollinger_weekly: !prev.bollinger_weekly}))}
+                            title="Toggle Timestamp"
+                          >
+                            Time
+                          </button>
+                        </div>
+                      </th>
+                    )}
                     {isColumnVisible('ema20_weekly') && (
                       <th>
                         EMA 20<br/>
@@ -744,7 +824,7 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {watchlist.map((item, index) => (
+                  {filteredWatchlist.map((item, index) => (
                     <tr key={index} className="symbol-row">
                       {/* Symbol - Make it clickable */}
                       {isColumnVisible('symbol') && (
@@ -797,6 +877,13 @@ const Dashboard = () => {
                         <td className="indicator-cell">
                           {item.hourly_indicators?.ema_100 ? (
                             <>
+                              <button
+                                onClick={() => viewSignalHistory(item.symbol, 'EMA 100 Hourly')}
+                                className="indicator-history-btn"
+                                title="View EMA 100 Hourly history"
+                              >
+                                📜
+                              </button>
                               <div className="indicator-value">
                                 {item.hourly_indicators.ema_100.ema_value?.toFixed(5)}
                               </div>
@@ -824,6 +911,13 @@ const Dashboard = () => {
                         <td className="indicator-cell">
                           {item.daily_indicators?.bollinger_band ? (
                             <>
+                              <button
+                                onClick={() => viewSignalHistory(item.symbol, 'Bollinger Bands')}
+                                className="indicator-history-btn"
+                                title="View Bollinger Bands history"
+                              >
+                                📜
+                              </button>
                               <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
                                 {bollingerBands.upper && <span>U: {item.daily_indicators.bollinger_band.upper_band?.toFixed(5)}<br/></span>}
                                 {bollingerBands.middle && <span>M: {item.daily_indicators.bollinger_band.middle_band?.toFixed(5)}<br/></span>}
@@ -851,6 +945,15 @@ const Dashboard = () => {
                       {/* 3. RSI Daily */}
                       {isColumnVisible('rsi9_daily') && (
                         <td className="indicator-cell">
+                          {item.daily_indicators?.rsi_9 && (
+                            <button
+                              onClick={() => viewSignalHistory(item.symbol, 'RSI (9)')}
+                              className="indicator-history-btn"
+                              title="View RSI 9 history"
+                            >
+                              📜
+                            </button>
+                          )}
                           <div className="indicator-value">
                             {item.daily_indicators?.rsi_9?.rsi_value?.toFixed(0)}
                           </div>
@@ -874,6 +977,13 @@ const Dashboard = () => {
                         <td className="indicator-cell">
                           {item.daily_indicators?.ema_9 ? (
                             <>
+                              <button
+                                onClick={() => viewSignalHistory(item.symbol, 'EMA 9')}
+                                className="indicator-history-btn"
+                                title="View EMA 9 history"
+                              >
+                                📜
+                              </button>
                               <div className="indicator-value">
                                 {item.daily_indicators.ema_9.ema_value?.toFixed(5)}
                               </div>
@@ -901,6 +1011,13 @@ const Dashboard = () => {
                         <td className="indicator-cell">
                           {item.daily_indicators?.ema_20 ? (
                             <>
+                              <button
+                                onClick={() => viewSignalHistory(item.symbol, 'EMA 20')}
+                                className="indicator-history-btn"
+                                title="View EMA 20 history"
+                              >
+                                📜
+                              </button>
                               <div className="indicator-value">
                                 {item.daily_indicators.ema_20.ema_value?.toFixed(5)}
                               </div>
@@ -928,6 +1045,13 @@ const Dashboard = () => {
                         <td className="indicator-cell">
                           {item.daily_indicators?.ema_50 ? (
                             <>
+                              <button
+                                onClick={() => viewSignalHistory(item.symbol, 'EMA 50')}
+                                className="indicator-history-btn"
+                                title="View EMA 50 history"
+                              >
+                                📜
+                              </button>
                               <div className="indicator-value">
                                 {item.daily_indicators.ema_50.ema_value?.toFixed(5)}
                               </div>
@@ -955,6 +1079,13 @@ const Dashboard = () => {
                         <td className="indicator-cell">
                           {item.daily_indicators?.ema_200 ? (
                             <>
+                              <button
+                                onClick={() => viewSignalHistory(item.symbol, 'EMA 200')}
+                                className="indicator-history-btn"
+                                title="View EMA 200 history"
+                              >
+                                📜
+                              </button>
                               <div className="indicator-value">
                                 {item.daily_indicators.ema_200.ema_value?.toFixed(5)}
                               </div>
@@ -982,6 +1113,13 @@ const Dashboard = () => {
                         <td className="indicator-cell">
                           {item.daily_indicators?.ma_crossover ? (
                             <>
+                              <button
+                                onClick={() => viewSignalHistory(item.symbol, 'MA Crossover')}
+                                className="indicator-history-btn"
+                                title="View MA Crossover history"
+                              >
+                                📜
+                              </button>
                               <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
                                 Fast: {item.daily_indicators.ma_crossover.fast_ema?.toFixed(5)}<br/>
                                 Slow: {item.daily_indicators.ma_crossover.slow_ema?.toFixed(5)}
@@ -1010,6 +1148,13 @@ const Dashboard = () => {
                         <td className="indicator-cell">
                           {item.daily_indicators?.macd ? (
                             <>
+                              <button
+                                onClick={() => viewSignalHistory(item.symbol, 'MACD')}
+                                className="indicator-history-btn"
+                                title="View MACD history"
+                              >
+                                📜
+                              </button>
                               <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
                                 {macdComponents.line && <span>Line: {item.daily_indicators.macd.macd_line?.toFixed(6)}<br/></span>}
                                 {macdComponents.signal && <span>Sig: {item.daily_indicators.macd.signal_line?.toFixed(6)}<br/></span>}
@@ -1034,11 +1179,54 @@ const Dashboard = () => {
                         </td>
                       )}
 
-                      {/* 10. EMA 20 Weekly */}
+                      {/* 10. Bollinger Bands Weekly */}
+                      {isColumnVisible('bollinger_weekly') && (
+                        <td className="indicator-cell">
+                          {item.weekly_indicators?.bollinger_band ? (
+                            <>
+                              <button
+                                onClick={() => viewSignalHistory(item.symbol, 'Bollinger Bands Weekly')}
+                                className="indicator-history-btn"
+                                title="View Bollinger Bands Weekly history"
+                              >
+                                📜
+                              </button>
+                              <div className="indicator-value" style={{fontSize: '10px', marginBottom: '2px'}}>
+                                {bollingerBands.upper && <span>U: {item.weekly_indicators.bollinger_band.upper_band?.toFixed(5)}<br/></span>}
+                                {bollingerBands.middle && <span>M: {item.weekly_indicators.bollinger_band.middle_band?.toFixed(5)}<br/></span>}
+                                {bollingerBands.lower && <span>L: {item.weekly_indicators.bollinger_band.lower_band?.toFixed(5)}</span>}
+                              </div>
+                              {showSignals.bollinger_weekly && (
+                                item.weekly_indicators.bollinger_band.signal ? (
+                                  <span className={`signal-badge-mini ${item.weekly_indicators.bollinger_band.signal === 'BUY' ? 'buy' : 'sell'}`}>
+                                    {item.weekly_indicators.bollinger_band.signal}
+                                  </span>
+                                ) : (
+                                  <span className="signal-badge-mini neutral">Neutral</span>
+                                )
+                              )}
+                              {showTimestamps.bollinger_weekly && item.weekly_indicators.bollinger_band.signal_timestamp && (
+                                <div className="signal-time">{formatSignalTime(item.weekly_indicators.bollinger_band.signal_timestamp)}</div>
+                              )}
+                            </>
+                          ) : (
+                            <span className="signal-badge-mini neutral">N/A</span>
+                          )}
+                        </td>
+                      )}
+
+                      {/* 11. EMA 20 Weekly */}
                       {isColumnVisible('ema20_weekly') && (
                         <td className="indicator-cell">
                           {item.weekly_indicators?.ema_20 ? (
                             <>
+                              <button
+                                onClick={() => viewSignalHistory(item.symbol, 'EMA 20 Weekly')}
+                                className="indicator-history-btn"
+                                title="View EMA 20 Weekly history"
+                              >
+                                📜
+                              </button>
                               <div className="indicator-value">
                                 {item.weekly_indicators.ema_20.ema_value?.toFixed(5)}
                               </div>

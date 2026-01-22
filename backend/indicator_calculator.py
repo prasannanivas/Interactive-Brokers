@@ -325,6 +325,7 @@ class IndicatorCalculator:
         closes = weekly_data['close']
         
         indicators = {
+            'bollinger_band': IndicatorCalculator.calculate_bollinger_bands(closes, 20, 2),
             'ema_20': IndicatorCalculator.calculate_ema_indicator(closes, 20, current_price)
         }
         
@@ -401,6 +402,12 @@ class IndicatorCalculator:
         
         # WEEKLY INDICATORS
         if weekly_indicators:
+            # Bollinger Bands
+            if weekly_indicators.get('bollinger_band') and weekly_indicators['bollinger_band'].get('signal') == 'BUY':
+                buy_signals.append('Bollinger_Band_Weekly')
+            elif weekly_indicators.get('bollinger_band') and weekly_indicators['bollinger_band'].get('signal') == 'SELL':
+                sell_signals.append('Bollinger_Band_Weekly')
+            
             # EMA 20
             if weekly_indicators.get('ema_20') and weekly_indicators['ema_20'].get('signal') == 'BUY':
                 buy_signals.append('EMA_20_Weekly')

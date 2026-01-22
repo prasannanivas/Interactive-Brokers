@@ -20,7 +20,8 @@ INDICATOR_MAPPING = {
     'MACD_Daily': 'MACD Daily',
     # Hourly Indicators (1)
     'EMA_100_Hourly': 'EMA 100 Hourly',
-    # Weekly Indicators (1)
+    # Weekly Indicators (2)
+    'Bollinger_Band_Weekly': 'BB Weekly',
     'EMA_20_Weekly': 'EMA 20 Weekly'
 }
 
@@ -50,7 +51,7 @@ def extract_current_indicator_states(symbol_data: dict) -> Dict[str, str]:
     RULES (per Boss's document):
     - 1 Hourly: EMA 100
     - 8 Daily: BB, RSI 9, EMA 9, EMA 20, EMA 50, EMA 200, MA Crossover, MACD
-    - 1 Weekly: EMA 20
+    - 2 Weekly: BB, EMA 20
     """
     states = {}
     daily = symbol_data.get('daily_indicators', {}) or {}
@@ -112,8 +113,13 @@ def extract_current_indicator_states(symbol_data: dict) -> Dict[str, str]:
     if isinstance(ema100, dict):
         states['EMA_100_Hourly'] = get_indicator_state('EMA100', ema100)
     
-    # WEEKLY INDICATORS (1 total)
-    # 1. EMA 20
+    # WEEKLY INDICATORS (2 total)
+    # 1. Bollinger Band (20,2,0) - EMA
+    bb_weekly = weekly.get('bollinger_band', {})
+    if isinstance(bb_weekly, dict):
+        states['Bollinger_Band_Weekly'] = get_indicator_state('BB', bb_weekly)
+    
+    # 2. EMA 20
     ema20_weekly = weekly.get('ema_20', {})
     if isinstance(ema20_weekly, dict):
         states['EMA_20_Weekly'] = get_indicator_state('EMA20', ema20_weekly)

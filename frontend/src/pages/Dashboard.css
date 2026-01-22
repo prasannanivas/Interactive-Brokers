@@ -223,8 +223,47 @@
   min-height: 400px;
 }
 
+/* Panel Header Controls */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.watchlist-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Pair Filter Input */
+.pair-filter-input {
+  padding: 10px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  min-width: 250px;
+  transition: all 0.3s;
+  background: #f9fafb;
+}
+
+.pair-filter-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.pair-filter-input::placeholder {
+  color: #9ca3af;
+}
+
 .watchlist-table-container {
   overflow-x: auto;
+  max-height: 600px;
+  overflow-y: auto;
   margin-top: 20px;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
@@ -244,6 +283,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .watchlist-table th {
@@ -397,6 +437,32 @@
 /* Indicator Cells */
 .indicator-cell {
   text-align: center;
+  position: relative;
+}
+
+/* Indicator History Button */
+.indicator-history-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: all 0.2s;
+  opacity: 0.5;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+}
+
+.indicator-history-btn:hover {
+  opacity: 1;
+  background: rgba(59, 130, 246, 0.1);
+  transform: scale(1.2);
+}
+
+.indicator-cell:hover .indicator-history-btn {
+  opacity: 0.8;
 }
 
 .indicator-value {

@@ -283,6 +283,7 @@ class MassiveMonitorV2:
                 old_weekly = old_data['weekly_indicators']
                 new_weekly = new_data['weekly_indicators']
                 
+                check_indicator_change('Bollinger Band', old_weekly.get('bollinger_band'), new_weekly.get('bollinger_band'), 'Weekly')
                 check_indicator_change('EMA 20', old_weekly.get('ema_20'), new_weekly.get('ema_20'), 'Weekly')
             
             # Save changes to database
