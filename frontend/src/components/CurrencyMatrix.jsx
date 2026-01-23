@@ -31,10 +31,6 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
   const matrixData = useMemo(() => {
     if (!watchlist || watchlist.length === 0) return null
 
-    // Define major currencies only
-    const majorCurrencies = ['USD', 'AUD', 'CAD', 'CHF', 'EUR', 'GBP', 'JPY']
-    const minorCurrencies = ['CZK', 'DKK', 'HUF', 'ILS', 'KRW', 'MXN', 'NOK', 'NZD', 'PLN', 'SAR', 'SEK', 'SGD', 'TRY', 'ZAR']
-
     // Extract unique currencies from symbols like "EUR/USD" or "C:EURUSD"
     const currenciesSet = new Set()
     const pairData = {}
@@ -67,8 +63,8 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
         quote = parts[1]
       }
       
-      // Only include if both currencies are major currencies
-      if (base && quote && majorCurrencies.includes(base) && majorCurrencies.includes(quote)) {
+      // Include all valid currency pairs
+      if (base && quote && base.length === 3 && quote.length === 3) {
         currenciesSet.add(base)
         currenciesSet.add(quote)
         
