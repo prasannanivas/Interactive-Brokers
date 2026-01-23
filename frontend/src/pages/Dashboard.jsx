@@ -406,7 +406,7 @@ const Dashboard = () => {
           <span>Telegram: {status.telegram_configured ? 'Active' : 'Not configured'}</span>
         </div>
         <div className="status-item">
-          <span>Watchlist: {status.watchlist_count || 0} symbols</span>
+          <span>Watchlist: {watchlist.length || 0} symbols</span>
         </div>
       </div>
 
