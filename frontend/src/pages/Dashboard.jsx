@@ -217,7 +217,7 @@ const Dashboard = () => {
   }
 
   const removeSymbol = async (symbol) => {
-    if (!window.confirm(`Remove ${symbol} from watchlist?`)) return
+    if (!window.confirm(`Remove ${symbol.replace(/^C:/, '')} from watchlist?`)) return
 
     try {
       await dataAPI.removeFromWatchlist(symbol)
@@ -795,7 +795,7 @@ const Dashboard = () => {
                               onClick={() => openChartModal(item.symbol)}
                               title="Click to view detailed chart"
                             >
-                              {item.symbol} 📊
+                              {item.symbol.replace(/^C:/, '')} 📊
                             </div>
                             <button
                               onClick={() => viewSignalHistory(item.symbol)}
@@ -1199,7 +1199,7 @@ const Dashboard = () => {
         <div className="modal-overlay" onClick={closeHistoryModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>📊 {selectedSymbol} - Signal History</h2>
+              <h2>📊 {selectedSymbol?.replace(/^C:/, '')} - Signal History</h2>
               <button className="modal-close" onClick={closeHistoryModal}>✕</button>
             </div>
             
