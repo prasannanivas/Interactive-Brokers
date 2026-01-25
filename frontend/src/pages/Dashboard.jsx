@@ -244,11 +244,38 @@ const Dashboard = () => {
       
       // Filter by indicator if specified
       if (indicator) {
+        console.log('Filtering for indicator:', indicator)
+        console.log('Available indicators in response:', changes.map(c => c.indicator))
+        
         changes = changes.filter(change => {
-          const indicatorKey = change.indicator?.toLowerCase().replace(/[\s()]/g, '_')
-          const targetKey = indicator.toLowerCase().replace(/[\s()]/g, '_')
-          return indicatorKey === targetKey
+          const changeIndicator = change.indicator?.toLowerCase() || ''
+          const targetIndicator = indicator.toLowerCase()
+          
+          // Normalize both strings by removing extra spaces and special characters
+          const normalizeString = (str) => str.replace(/[\s()]/g, '_').replace(/_+/g, '_').trim()
+          
+          const normalizedChange = normalizeString(changeIndicator)
+          const normalizedTarget = normalizeString(targetIndicator)
+          
+          // Try multiple matching strategies
+          const exactMatch = normalizedChange === normalizedTarget
+          const containsMatch = normalizedChange.includes(normalizedTarget) || normalizedTarget.includes(normalizedChange)
+          
+          // For EMA indicators, also try matching just the number and timeframe
+          const emaMatch = changeIndicator.includes('ema') && targetIndicator.includes('ema') &&
+                          changeIndicator.match(/\d+/) && targetIndicator.match(/\d+/) &&
+                          changeIndicator.match(/\d+/)[0] === targetIndicator.match(/\d+/)[0]
+          
+          const matches = exactMatch || containsMatch || emaMatch
+          
+          if (matches) {
+            console.log(`Match found: "${change.indicator}" matches "${indicator}"`)
+          }
+          
+          return matches
         })
+        
+        console.log('Filtered changes count:', changes.length)
       }
       
       setSignalHistory(changes)
