@@ -1,0 +1,2002 @@
+[
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "27/01/2026",
+    "Open": 3.37400,
+    "High": 3.41600,
+    "Low": 3.36800,
+    "Close": 3.41000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "26/01/2026",
+    "Open": 3.37100,
+    "High": 3.42300,
+    "Low": 3.36200,
+    "Close": 3.38000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "23/01/2026",
+    "Open": 3.40200,
+    "High": 3.44900,
+    "Low": 3.39000,
+    "Close": 3.41500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "22/01/2026",
+    "Open": 3.40200,
+    "High": 3.42500,
+    "Low": 3.39300,
+    "Close": 3.41100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "21/01/2026",
+    "Open": 3.42300,
+    "High": 3.45300,
+    "Low": 3.41200,
+    "Close": 3.41600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "20/01/2026",
+    "Open": 3.43600,
+    "High": 3.44400,
+    "Low": 3.39200,
+    "Close": 3.43500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "19/01/2026",
+    "Open": 3.39500,
+    "High": 3.40300,
+    "Low": 3.37800,
+    "Close": 3.38500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "16/01/2026",
+    "Open": 3.35500,
+    "High": 3.38500,
+    "Low": 3.34200,
+    "Close": 3.38400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "15/01/2026",
+    "Open": 3.35200,
+    "High": 3.38100,
+    "Low": 3.34200,
+    "Close": 3.35400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "14/01/2026",
+    "Open": 3.39400,
+    "High": 3.42200,
+    "Low": 3.35600,
+    "Close": 3.36800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "13/01/2026",
+    "Open": 3.41000,
+    "High": 3.43000,
+    "Low": 3.39500,
+    "Close": 3.40900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "12/01/2026",
+    "Open": 3.39700,
+    "High": 3.41700,
+    "Low": 3.39200,
+    "Close": 3.40000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "09/01/2026",
+    "Open": 3.41800,
+    "High": 3.43000,
+    "Low": 3.37200,
+    "Close": 3.39300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "08/01/2026",
+    "Open": 3.39800,
+    "High": 3.43300,
+    "Low": 3.39600,
+    "Close": 3.40200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "07/01/2026",
+    "Open": 3.40100,
+    "High": 3.44000,
+    "Low": 3.37800,
+    "Close": 3.39800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "06/01/2026",
+    "Open": 3.44300,
+    "High": 3.46300,
+    "Low": 3.42600,
+    "Close": 3.43200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "05/01/2026",
+    "Open": 3.44600,
+    "High": 3.48000,
+    "Low": 3.40700,
+    "Close": 3.42100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "02/01/2026",
+    "Open": 3.44900,
+    "High": 3.49200,
+    "Low": 3.43400,
+    "Close": 3.47200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "31/12/2025",
+    "Open": 3.41100,
+    "High": 3.44100,
+    "Low": 3.40200,
+    "Close": 3.43500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "30/12/2025",
+    "Open": 3.40100,
+    "High": 3.44100,
+    "Low": 3.39700,
+    "Close": 3.41200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "29/12/2025",
+    "Open": 3.39500,
+    "High": 3.41400,
+    "Low": 3.38500,
+    "Close": 3.39000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "24/12/2025",
+    "Open": 3.41100,
+    "High": 3.42900,
+    "Low": 3.39900,
+    "Close": 3.40100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "23/12/2025",
+    "Open": 3.44100,
+    "High": 3.47300,
+    "Low": 3.41800,
+    "Close": 3.41800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "22/12/2025",
+    "Open": 3.48600,
+    "High": 3.49600,
+    "Low": 3.46000,
+    "Close": 3.47300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "19/12/2025",
+    "Open": 3.44400,
+    "High": 3.49100,
+    "Low": 3.44400,
+    "Close": 3.46900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "18/12/2025",
+    "Open": 3.41200,
+    "High": 3.43600,
+    "Low": 3.39500,
+    "Close": 3.41200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "17/12/2025",
+    "Open": 3.42300,
+    "High": 3.44100,
+    "Low": 3.40700,
+    "Close": 3.43600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "16/12/2025",
+    "Open": 3.40800,
+    "High": 3.45300,
+    "Low": 3.39700,
+    "Close": 3.40600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "15/12/2025",
+    "Open": 3.43100,
+    "High": 3.43600,
+    "Low": 3.39400,
+    "Close": 3.42100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "12/12/2025",
+    "Open": 3.44900,
+    "High": 3.46100,
+    "Low": 3.43200,
+    "Close": 3.44300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "11/12/2025",
+    "Open": 3.42500,
+    "High": 3.43700,
+    "Low": 3.40000,
+    "Close": 3.43700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "10/12/2025",
+    "Open": 3.48400,
+    "High": 3.49500,
+    "Low": 3.42100,
+    "Close": 3.42300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "09/12/2025",
+    "Open": 3.42100,
+    "High": 3.47500,
+    "Low": 3.41000,
+    "Close": 3.47200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "08/12/2025",
+    "Open": 3.45800,
+    "High": 3.50000,
+    "Low": 3.41700,
+    "Close": 3.42400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "05/12/2025",
+    "Open": 3.27500,
+    "High": 3.44300,
+    "Low": 3.27000,
+    "Close": 3.41900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "04/12/2025",
+    "Open": 3.22800,
+    "High": 3.27100,
+    "Low": 3.21900,
+    "Close": 3.26200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "03/12/2025",
+    "Open": 3.22900,
+    "High": 3.25300,
+    "Low": 3.21300,
+    "Close": 3.22800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "02/12/2025",
+    "Open": 3.24900,
+    "High": 3.27700,
+    "Low": 3.23900,
+    "Close": 3.25100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "01/12/2025",
+    "Open": 3.18300,
+    "High": 3.25500,
+    "Low": 3.15700,
+    "Close": 3.25400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "28/11/2025",
+    "Open": 3.13900,
+    "High": 3.16500,
+    "Low": 3.13500,
+    "Close": 3.15200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "27/11/2025",
+    "Open": 3.14900,
+    "High": 3.16200,
+    "Low": 3.12400,
+    "Close": 3.12900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "26/11/2025",
+    "Open": 3.15700,
+    "High": 3.17500,
+    "Low": 3.13100,
+    "Close": 3.14000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "25/11/2025",
+    "Open": 3.17300,
+    "High": 3.18400,
+    "Low": 3.13000,
+    "Close": 3.15000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "24/11/2025",
+    "Open": 3.18800,
+    "High": 3.20700,
+    "Low": 3.17000,
+    "Close": 3.17400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "21/11/2025",
+    "Open": 3.20100,
+    "High": 3.23500,
+    "Low": 3.19300,
+    "Close": 3.20300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "20/11/2025",
+    "Open": 3.26300,
+    "High": 3.27600,
+    "Low": 3.21700,
+    "Close": 3.22800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "19/11/2025",
+    "Open": 3.26600,
+    "High": 3.26700,
+    "Low": 3.21800,
+    "Close": 3.26200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "18/11/2025",
+    "Open": 3.22300,
+    "High": 3.26900,
+    "Low": 3.20900,
+    "Close": 3.25700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "17/11/2025",
+    "Open": 3.21500,
+    "High": 3.23900,
+    "Low": 3.20700,
+    "Close": 3.23900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "14/11/2025",
+    "Open": 3.20300,
+    "High": 3.23400,
+    "Low": 3.15800,
+    "Close": 3.23400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "13/11/2025",
+    "Open": 3.15600,
+    "High": 3.19400,
+    "Low": 3.15000,
+    "Close": 3.18600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "12/11/2025",
+    "Open": 3.15800,
+    "High": 3.17700,
+    "Low": 3.13000,
+    "Close": 3.15400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "10/11/2025",
+    "Open": 3.20100,
+    "High": 3.21000,
+    "Low": 3.16900,
+    "Close": 3.17400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "07/11/2025",
+    "Open": 3.13100,
+    "High": 3.18500,
+    "Low": 3.11000,
+    "Close": 3.18500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "06/11/2025",
+    "Open": 3.15600,
+    "High": 3.17300,
+    "Low": 3.10000,
+    "Close": 3.10600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "05/11/2025",
+    "Open": 3.13300,
+    "High": 3.17300,
+    "Low": 3.12200,
+    "Close": 3.16800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "04/11/2025",
+    "Open": 3.15400,
+    "High": 3.16800,
+    "Low": 3.12500,
+    "Close": 3.13400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "03/11/2025",
+    "Open": 3.12700,
+    "High": 3.15600,
+    "Low": 3.12100,
+    "Close": 3.15400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "31/10/2025",
+    "Open": 3.14000,
+    "High": 3.15700,
+    "Low": 3.11500,
+    "Close": 3.12100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "30/10/2025",
+    "Open": 3.15800,
+    "High": 3.18100,
+    "Low": 3.12300,
+    "Close": 3.13200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "29/10/2025",
+    "Open": 3.05500,
+    "High": 3.16500,
+    "Low": 3.05100,
+    "Close": 3.15800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "28/10/2025",
+    "Open": 3.03900,
+    "High": 3.06300,
+    "Low": 3.03800,
+    "Close": 3.04300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "27/10/2025",
+    "Open": 3.10700,
+    "High": 3.11400,
+    "Low": 3.04900,
+    "Close": 3.05000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "24/10/2025",
+    "Open": 3.09400,
+    "High": 3.09900,
+    "Low": 3.04700,
+    "Close": 3.08700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "23/10/2025",
+    "Open": 3.10200,
+    "High": 3.11400,
+    "Low": 3.07100,
+    "Close": 3.10300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "22/10/2025",
+    "Open": 3.08500,
+    "High": 3.09600,
+    "Low": 3.06200,
+    "Close": 3.07000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "21/10/2025",
+    "Open": 3.04600,
+    "High": 3.09100,
+    "Low": 3.04200,
+    "Close": 3.08100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "20/10/2025",
+    "Open": 3.09200,
+    "High": 3.10400,
+    "Low": 3.04700,
+    "Close": 3.05800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "17/10/2025",
+    "Open": 3.06600,
+    "High": 3.10500,
+    "Low": 3.06200,
+    "Close": 3.10100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "16/10/2025",
+    "Open": 3.10700,
+    "High": 3.13300,
+    "Low": 3.07400,
+    "Close": 3.08500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "15/10/2025",
+    "Open": 3.13000,
+    "High": 3.15500,
+    "Low": 3.10200,
+    "Close": 3.12400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "14/10/2025",
+    "Open": 3.17800,
+    "High": 3.17800,
+    "Low": 3.12400,
+    "Close": 3.15500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "10/10/2025",
+    "Open": 3.17200,
+    "High": 3.22700,
+    "Low": 3.15400,
+    "Close": 3.16900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "09/10/2025",
+    "Open": 3.19300,
+    "High": 3.21400,
+    "Low": 3.17500,
+    "Close": 3.21200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "08/10/2025",
+    "Open": 3.17000,
+    "High": 3.20300,
+    "Low": 3.16000,
+    "Close": 3.19100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "07/10/2025",
+    "Open": 3.22600,
+    "High": 3.24500,
+    "Low": 3.17600,
+    "Close": 3.18500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "06/10/2025",
+    "Open": 3.24000,
+    "High": 3.24100,
+    "Low": 3.19700,
+    "Close": 3.22200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "03/10/2025",
+    "Open": 3.16600,
+    "High": 3.20500,
+    "Low": 3.15500,
+    "Close": 3.18700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "02/10/2025",
+    "Open": 3.17500,
+    "High": 3.21400,
+    "Low": 3.16300,
+    "Close": 3.17600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "01/10/2025",
+    "Open": 3.19600,
+    "High": 3.20500,
+    "Low": 3.14100,
+    "Close": 3.18500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "29/09/2025",
+    "Open": 3.20000,
+    "High": 3.23800,
+    "Low": 3.16900,
+    "Close": 3.18500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "26/09/2025",
+    "Open": 3.21200,
+    "High": 3.25000,
+    "Low": 3.19800,
+    "Close": 3.22800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "25/09/2025",
+    "Open": 3.20700,
+    "High": 3.24500,
+    "Low": 3.20100,
+    "Close": 3.23100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "24/09/2025",
+    "Open": 3.18200,
+    "High": 3.22600,
+    "Low": 3.18100,
+    "Close": 3.20600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "23/09/2025",
+    "Open": 3.16900,
+    "High": 3.20800,
+    "Low": 3.16800,
+    "Close": 3.18600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "22/09/2025",
+    "Open": 3.19100,
+    "High": 3.20900,
+    "Low": 3.17000,
+    "Close": 3.20000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "19/09/2025",
+    "Open": 3.19500,
+    "High": 3.22200,
+    "Low": 3.18300,
+    "Close": 3.20200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "18/09/2025",
+    "Open": 3.15900,
+    "High": 3.23100,
+    "Low": 3.15900,
+    "Close": 3.18600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "17/09/2025",
+    "Open": 3.14000,
+    "High": 3.20400,
+    "Low": 3.12700,
+    "Close": 3.19100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "16/09/2025",
+    "Open": 3.16400,
+    "High": 3.19900,
+    "Low": 3.15000,
+    "Close": 3.15800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "15/09/2025",
+    "Open": 3.18700,
+    "High": 3.20400,
+    "Low": 3.15600,
+    "Close": 3.17500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "12/09/2025",
+    "Open": 3.17900,
+    "High": 3.21300,
+    "Low": 3.16500,
+    "Close": 3.18900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "11/09/2025",
+    "Open": 3.16600,
+    "High": 3.18500,
+    "Low": 3.13300,
+    "Close": 3.17000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "10/09/2025",
+    "Open": 3.21700,
+    "High": 3.24300,
+    "Low": 3.15700,
+    "Close": 3.17600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "09/09/2025",
+    "Open": 3.22000,
+    "High": 3.25500,
+    "Low": 3.20900,
+    "Close": 3.23700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "08/09/2025",
+    "Open": 3.26100,
+    "High": 3.26900,
+    "Low": 3.20800,
+    "Close": 3.20900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "05/09/2025",
+    "Open": 3.34000,
+    "High": 3.36300,
+    "Low": 3.25300,
+    "Close": 3.26700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "04/09/2025",
+    "Open": 3.35900,
+    "High": 3.39900,
+    "Low": 3.34000,
+    "Close": 3.34700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "03/09/2025",
+    "Open": 3.45700,
+    "High": 3.47700,
+    "Low": 3.37700,
+    "Close": 3.39400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "02/09/2025",
+    "Open": 3.39100,
+    "High": 3.47400,
+    "Low": 3.39100,
+    "Close": 3.44200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "29/08/2025",
+    "Open": 3.44000,
+    "High": 3.45700,
+    "Low": 3.37400,
+    "Close": 3.37500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "28/08/2025",
+    "Open": 3.44500,
+    "High": 3.47100,
+    "Low": 3.42500,
+    "Close": 3.42800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "27/08/2025",
+    "Open": 3.46300,
+    "High": 3.50200,
+    "Low": 3.44600,
+    "Close": 3.45200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "26/08/2025",
+    "Open": 3.48700,
+    "High": 3.50100,
+    "Low": 3.45500,
+    "Close": 3.46400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "25/08/2025",
+    "Open": 3.45700,
+    "High": 3.49000,
+    "Low": 3.45000,
+    "Close": 3.47300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "22/08/2025",
+    "Open": 3.48400,
+    "High": 3.49400,
+    "Low": 3.39900,
+    "Close": 3.43100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "21/08/2025",
+    "Open": 3.45800,
+    "High": 3.49300,
+    "Low": 3.43700,
+    "Close": 3.48700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "20/08/2025",
+    "Open": 3.43200,
+    "High": 3.47200,
+    "Low": 3.42700,
+    "Close": 3.45600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "19/08/2025",
+    "Open": 3.48300,
+    "High": 3.51100,
+    "Low": 3.43400,
+    "Close": 3.45500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "18/08/2025",
+    "Open": 3.43300,
+    "High": 3.50600,
+    "Low": 3.43100,
+    "Close": 3.49000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "15/08/2025",
+    "Open": 3.43900,
+    "High": 3.47100,
+    "Low": 3.42700,
+    "Close": 3.46200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "14/08/2025",
+    "Open": 3.39300,
+    "High": 3.44400,
+    "Low": 3.36600,
+    "Close": 3.41200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "13/08/2025",
+    "Open": 3.40500,
+    "High": 3.44900,
+    "Low": 3.38100,
+    "Close": 3.40500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "12/08/2025",
+    "Open": 3.40000,
+    "High": 3.46600,
+    "Low": 3.38500,
+    "Close": 3.43500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "11/08/2025",
+    "Open": 3.35300,
+    "High": 3.40300,
+    "Low": 3.35300,
+    "Close": 3.39600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "08/08/2025",
+    "Open": 3.39900,
+    "High": 3.42400,
+    "Low": 3.36000,
+    "Close": 3.38400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "07/08/2025",
+    "Open": 3.40000,
+    "High": 3.42500,
+    "Low": 3.36600,
+    "Close": 3.40200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "06/08/2025",
+    "Open": 3.41000,
+    "High": 3.42900,
+    "Low": 3.38300,
+    "Close": 3.40800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "05/08/2025",
+    "Open": 3.36100,
+    "High": 3.40400,
+    "Low": 3.36000,
+    "Close": 3.38100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "01/08/2025",
+    "Open": 3.48100,
+    "High": 3.49500,
+    "Low": 3.37200,
+    "Close": 3.38500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "31/07/2025",
+    "Open": 3.47300,
+    "High": 3.49400,
+    "Low": 3.44100,
+    "Close": 3.46700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "30/07/2025",
+    "Open": 3.47200,
+    "High": 3.51700,
+    "Low": 3.46100,
+    "Close": 3.48900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "29/07/2025",
+    "Open": 3.54000,
+    "High": 3.54200,
+    "Low": 3.47000,
+    "Close": 3.47300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "28/07/2025",
+    "Open": 3.50500,
+    "High": 3.54900,
+    "Low": 3.50400,
+    "Close": 3.52900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "25/07/2025",
+    "Open": 3.57300,
+    "High": 3.58600,
+    "Low": 3.50800,
+    "Close": 3.52500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "24/07/2025",
+    "Open": 3.57400,
+    "High": 3.61400,
+    "Low": 3.54100,
+    "Close": 3.55600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "23/07/2025",
+    "Open": 3.52800,
+    "High": 3.57100,
+    "Low": 3.50900,
+    "Close": 3.56300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "22/07/2025",
+    "Open": 3.52800,
+    "High": 3.55100,
+    "Low": 3.48300,
+    "Close": 3.50300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "21/07/2025",
+    "Open": 3.54400,
+    "High": 3.55100,
+    "Low": 3.49700,
+    "Close": 3.51900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "18/07/2025",
+    "Open": 3.56500,
+    "High": 3.58900,
+    "Low": 3.54800,
+    "Close": 3.58100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "17/07/2025",
+    "Open": 3.58400,
+    "High": 3.61500,
+    "Low": 3.55300,
+    "Close": 3.57400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "16/07/2025",
+    "Open": 3.58700,
+    "High": 3.61900,
+    "Low": 3.55100,
+    "Close": 3.59000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "15/07/2025",
+    "Open": 3.50200,
+    "High": 3.62900,
+    "Low": 3.49700,
+    "Close": 3.61100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "14/07/2025",
+    "Open": 3.50300,
+    "High": 3.54200,
+    "Low": 3.49400,
+    "Close": 3.51900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "11/07/2025",
+    "Open": 3.42700,
+    "High": 3.51900,
+    "Low": 3.41200,
+    "Close": 3.50200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "10/07/2025",
+    "Open": 3.38800,
+    "High": 3.43500,
+    "Low": 3.38300,
+    "Close": 3.40900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "09/07/2025",
+    "Open": 3.43400,
+    "High": 3.46200,
+    "Low": 3.37100,
+    "Close": 3.38100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "08/07/2025",
+    "Open": 3.44500,
+    "High": 3.45200,
+    "Low": 3.41700,
+    "Close": 3.43900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "07/07/2025",
+    "Open": 3.35700,
+    "High": 3.42200,
+    "Low": 3.35500,
+    "Close": 3.39950
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "04/07/2025",
+    "Open": 3.35400,
+    "High": 3.40200,
+    "Low": 3.32400,
+    "Close": 3.35150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "03/07/2025",
+    "Open": 3.32400,
+    "High": 3.39900,
+    "Low": 3.31200,
+    "Close": 3.38300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "02/07/2025",
+    "Open": 3.32100,
+    "High": 3.38800,
+    "Low": 3.29000,
+    "Close": 3.35650
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "30/06/2025",
+    "Open": 3.31800,
+    "High": 3.33300,
+    "Low": 3.27200,
+    "Close": 3.27200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "27/06/2025",
+    "Open": 3.36000,
+    "High": 3.37700,
+    "Low": 3.27600,
+    "Close": 3.30550
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "26/06/2025",
+    "Open": 3.34000,
+    "High": 3.36800,
+    "Low": 3.31800,
+    "Close": 3.33750
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "25/06/2025",
+    "Open": 3.28200,
+    "High": 3.33900,
+    "Low": 3.27500,
+    "Close": 3.32150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "24/06/2025",
+    "Open": 3.28700,
+    "High": 3.32600,
+    "Low": 3.24700,
+    "Close": 3.27150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "23/06/2025",
+    "Open": 3.31000,
+    "High": 3.33300,
+    "Low": 3.21600,
+    "Close": 3.27650
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "20/06/2025",
+    "Open": 3.35600,
+    "High": 3.37700,
+    "Low": 3.29500,
+    "Close": 3.30050
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "19/06/2025",
+    "Open": 3.34400,
+    "High": 3.35900,
+    "Low": 3.30900,
+    "Close": 3.33250
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "18/06/2025",
+    "Open": 3.33600,
+    "High": 3.36900,
+    "Low": 3.30100,
+    "Close": 3.33350
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "17/06/2025",
+    "Open": 3.38400,
+    "High": 3.40100,
+    "Low": 3.35400,
+    "Close": 3.36700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "16/06/2025",
+    "Open": 3.38500,
+    "High": 3.40800,
+    "Low": 3.35400,
+    "Close": 3.39850
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "13/06/2025",
+    "Open": 3.37200,
+    "High": 3.38900,
+    "Low": 3.31400,
+    "Close": 3.37350
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "12/06/2025",
+    "Open": 3.30600,
+    "High": 3.34800,
+    "Low": 3.27900,
+    "Close": 3.32750
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "11/06/2025",
+    "Open": 3.36800,
+    "High": 3.38100,
+    "Low": 3.31700,
+    "Close": 3.34950
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "10/06/2025",
+    "Open": 3.32300,
+    "High": 3.35600,
+    "Low": 3.30900,
+    "Close": 3.34250
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "09/06/2025",
+    "Open": 3.32600,
+    "High": 3.39400,
+    "Low": 3.32000,
+    "Close": 3.35350
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "06/06/2025",
+    "Open": 3.25000,
+    "High": 3.35700,
+    "Low": 3.24800,
+    "Close": 3.33850
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "05/06/2025",
+    "Open": 3.23500,
+    "High": 3.27900,
+    "Low": 3.22000,
+    "Close": 3.25250
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "04/06/2025",
+    "Open": 3.27800,
+    "High": 3.30100,
+    "Low": 3.22600,
+    "Close": 3.23350
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "03/06/2025",
+    "Open": 3.19900,
+    "High": 3.27700,
+    "Low": 3.19500,
+    "Close": 3.27350
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "02/06/2025",
+    "Open": 3.26000,
+    "High": 3.26000,
+    "Low": 3.21200,
+    "Close": 3.22350
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "30/05/2025",
+    "Open": 3.22600,
+    "High": 3.23400,
+    "Low": 3.19300,
+    "Close": 3.19800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "29/05/2025",
+    "Open": 3.30600,
+    "High": 3.30600,
+    "Low": 3.20000,
+    "Close": 3.20450
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "28/05/2025",
+    "Open": 3.28900,
+    "High": 3.31500,
+    "Low": 3.23700,
+    "Close": 3.24350
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "27/05/2025",
+    "Open": 3.28500,
+    "High": 3.30100,
+    "Low": 3.24900,
+    "Close": 3.25450
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "26/05/2025",
+    "Open": 3.35600,
+    "High": 3.36100,
+    "Low": 3.29200,
+    "Close": 3.32650
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "23/05/2025",
+    "Open": 3.35800,
+    "High": 3.36400,
+    "Low": 3.30100,
+    "Close": 3.34850
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "22/05/2025",
+    "Open": 3.36300,
+    "High": 3.39000,
+    "Low": 3.36000,
+    "Close": 3.37250
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "21/05/2025",
+    "Open": 3.34400,
+    "High": 3.39000,
+    "Low": 3.33400,
+    "Close": 3.38550
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "20/05/2025",
+    "Open": 3.17700,
+    "High": 3.31900,
+    "Low": 3.16900,
+    "Close": 3.29550
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "16/05/2025",
+    "Open": 3.14100,
+    "High": 3.18800,
+    "Low": 3.13000,
+    "Close": 3.17150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "15/05/2025",
+    "Open": 3.22700,
+    "High": 3.24500,
+    "Low": 3.14400,
+    "Close": 3.14550
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "14/05/2025",
+    "Open": 3.20500,
+    "High": 3.26600,
+    "Low": 3.19900,
+    "Close": 3.25950
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "13/05/2025",
+    "Open": 3.20500,
+    "High": 3.24600,
+    "Low": 3.18200,
+    "Close": 3.20750
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "12/05/2025",
+    "Open": 3.23500,
+    "High": 3.25900,
+    "Low": 3.19300,
+    "Close": 3.20650
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "09/05/2025",
+    "Open": 3.20200,
+    "High": 3.23100,
+    "Low": 3.14700,
+    "Close": 3.15650
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "08/05/2025",
+    "Open": 3.13800,
+    "High": 3.21600,
+    "Low": 3.11800,
+    "Close": 3.20150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "07/05/2025",
+    "Open": 3.15400,
+    "High": 3.17200,
+    "Low": 3.08200,
+    "Close": 3.09750
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "06/05/2025",
+    "Open": 3.20800,
+    "High": 3.21900,
+    "Low": 3.14300,
+    "Close": 3.14550
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "05/05/2025",
+    "Open": 3.20000,
+    "High": 3.21100,
+    "Low": 3.17100,
+    "Close": 3.18650
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "02/05/2025",
+    "Open": 3.10400,
+    "High": 3.21800,
+    "Low": 3.09300,
+    "Close": 3.17350
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "01/05/2025",
+    "Open": 3.08700,
+    "High": 3.14600,
+    "Low": 3.06800,
+    "Close": 3.10000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "30/04/2025",
+    "Open": 3.12900,
+    "High": 3.14900,
+    "Low": 3.06000,
+    "Close": 3.08850
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "29/04/2025",
+    "Open": 3.19800,
+    "High": 3.20500,
+    "Low": 3.12200,
+    "Close": 3.13150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "28/04/2025",
+    "Open": 3.18800,
+    "High": 3.22600,
+    "Low": 3.15100,
+    "Close": 3.15650
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "25/04/2025",
+    "Open": 3.18600,
+    "High": 3.20600,
+    "Low": 3.14800,
+    "Close": 3.17150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "24/04/2025",
+    "Open": 3.21300,
+    "High": 3.26200,
+    "Low": 3.16900,
+    "Close": 3.19150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "23/04/2025",
+    "Open": 3.15500,
+    "High": 3.25500,
+    "Low": 3.11900,
+    "Close": 3.24050
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "22/04/2025",
+    "Open": 3.19900,
+    "High": 3.25300,
+    "Low": 3.18400,
+    "Close": 3.19200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "21/04/2025",
+    "Open": 3.15200,
+    "High": 3.24900,
+    "Low": 3.14900,
+    "Close": 3.23450
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "17/04/2025",
+    "Open": 3.11400,
+    "High": 3.14500,
+    "Low": 3.07400,
+    "Close": 3.13450
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "16/04/2025",
+    "Open": 3.12900,
+    "High": 3.15600,
+    "Low": 3.07300,
+    "Close": 3.07650
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "15/04/2025",
+    "Open": 3.12200,
+    "High": 3.15400,
+    "Low": 3.08700,
+    "Close": 3.10950
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "14/04/2025",
+    "Open": 3.19200,
+    "High": 3.21700,
+    "Low": 3.11600,
+    "Close": 3.11750
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "11/04/2025",
+    "Open": 3.20400,
+    "High": 3.30900,
+    "Low": 3.17000,
+    "Close": 3.26450
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "10/04/2025",
+    "Open": 3.21000,
+    "High": 3.24200,
+    "Low": 3.12300,
+    "Close": 3.23150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "09/04/2025",
+    "Open": 3.15600,
+    "High": 3.28900,
+    "Low": 3.12100,
+    "Close": 3.20200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "08/04/2025",
+    "Open": 3.05400,
+    "High": 3.14700,
+    "Low": 3.01900,
+    "Close": 3.13500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "07/04/2025",
+    "Open": 2.86200,
+    "High": 3.08000,
+    "Low": 2.83400,
+    "Close": 3.05650
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "04/04/2025",
+    "Open": 2.94000,
+    "High": 2.94000,
+    "Low": 2.78300,
+    "Close": 2.88150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "03/04/2025",
+    "Open": 2.91100,
+    "High": 2.97100,
+    "Low": 2.86900,
+    "Close": 2.92700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "02/04/2025",
+    "Open": 2.92400,
+    "High": 2.99300,
+    "Low": 2.88000,
+    "Close": 2.92150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "01/04/2025",
+    "Open": 2.98400,
+    "High": 2.98400,
+    "Low": 2.90100,
+    "Close": 2.92750
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "31/03/2025",
+    "Open": 2.97300,
+    "High": 3.01000,
+    "Low": 2.95900,
+    "Close": 2.96650
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "28/03/2025",
+    "Open": 3.05800,
+    "High": 3.11000,
+    "Low": 3.00200,
+    "Close": 3.00700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "27/03/2025",
+    "Open": 3.14200,
+    "High": 3.16100,
+    "Low": 3.08400,
+    "Close": 3.09450
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "26/03/2025",
+    "Open": 3.09000,
+    "High": 3.14200,
+    "Low": 3.08700,
+    "Close": 3.13050
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "25/03/2025",
+    "Open": 3.07800,
+    "High": 3.09500,
+    "Low": 3.02200,
+    "Close": 3.07750
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "24/03/2025",
+    "Open": 3.02700,
+    "High": 3.07500,
+    "Low": 3.01000,
+    "Close": 3.06150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "21/03/2025",
+    "Open": 3.00100,
+    "High": 3.03700,
+    "Low": 2.96100,
+    "Close": 2.99450
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "20/03/2025",
+    "Open": 3.01900,
+    "High": 3.02300,
+    "Low": 2.93200,
+    "Close": 3.00600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "19/03/2025",
+    "Open": 3.03800,
+    "High": 3.07800,
+    "Low": 2.98500,
+    "Close": 3.00000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "18/03/2025",
+    "Open": 3.02700,
+    "High": 3.11000,
+    "Low": 3.01100,
+    "Close": 3.02150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "17/03/2025",
+    "Open": 3.00300,
+    "High": 3.03800,
+    "Low": 2.96400,
+    "Close": 3.01100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "14/03/2025",
+    "Open": 3.06600,
+    "High": 3.10600,
+    "Low": 3.03100,
+    "Close": 3.06400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "13/03/2025",
+    "Open": 3.08700,
+    "High": 3.13600,
+    "Low": 3.02400,
+    "Close": 3.04900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "12/03/2025",
+    "Open": 3.02500,
+    "High": 3.09600,
+    "Low": 2.98400,
+    "Close": 3.07050
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "11/03/2025",
+    "Open": 3.00500,
+    "High": 3.03500,
+    "Low": 2.92700,
+    "Close": 3.00600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "10/03/2025",
+    "Open": 2.96300,
+    "High": 3.00400,
+    "Low": 2.94300,
+    "Close": 2.98400
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "07/03/2025",
+    "Open": 3.07200,
+    "High": 3.07200,
+    "Low": 2.99300,
+    "Close": 3.03100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "06/03/2025",
+    "Open": 2.98600,
+    "High": 3.08900,
+    "Low": 2.96600,
+    "Close": 3.06700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "05/03/2025",
+    "Open": 2.96300,
+    "High": 2.98800,
+    "Low": 2.87700,
+    "Close": 2.96900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "04/03/2025",
+    "Open": 2.84600,
+    "High": 2.95600,
+    "Low": 2.79600,
+    "Close": 2.93800
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "03/03/2025",
+    "Open": 2.95900,
+    "High": 2.97800,
+    "Low": 2.81300,
+    "Close": 2.83150
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "28/02/2025",
+    "Open": 2.98500,
+    "High": 2.98800,
+    "Low": 2.89750,
+    "Close": 2.89750
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "27/02/2025",
+    "Open": 2.99700,
+    "High": 3.06100,
+    "Low": 2.95800,
+    "Close": 2.96450
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "26/02/2025",
+    "Open": 3.01100,
+    "High": 3.02800,
+    "Low": 2.97300,
+    "Close": 2.97950
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "25/02/2025",
+    "Open": 3.08900,
+    "High": 3.08900,
+    "Low": 2.97900,
+    "Close": 2.99200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "24/02/2025",
+    "Open": 3.13200,
+    "High": 3.15400,
+    "Low": 3.07000,
+    "Close": 3.07100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "21/02/2025",
+    "Open": 3.22500,
+    "High": 3.22500,
+    "Low": 3.08700,
+    "Close": 3.10500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "20/02/2025",
+    "Open": 3.19000,
+    "High": 3.22900,
+    "Low": 3.17800,
+    "Close": 3.20850
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "19/02/2025",
+    "Open": 3.20700,
+    "High": 3.24100,
+    "Low": 3.17500,
+    "Close": 3.17500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "18/02/2025",
+    "Open": 3.12000,
+    "High": 3.21400,
+    "Low": 3.12000,
+    "Close": 3.18950
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "14/02/2025",
+    "Open": 3.14800,
+    "High": 3.15600,
+    "Low": 3.07400,
+    "Close": 3.10350
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "13/02/2025",
+    "Open": 3.19800,
+    "High": 3.19800,
+    "Low": 3.07600,
+    "Close": 3.11500
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "12/02/2025",
+    "Open": 3.11600,
+    "High": 3.19500,
+    "Low": 3.10900,
+    "Close": 3.17700
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "11/02/2025",
+    "Open": 3.07900,
+    "High": 3.11600,
+    "Low": 3.07800,
+    "Close": 3.09600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "10/02/2025",
+    "Open": 3.06500,
+    "High": 3.07900,
+    "Low": 3.01600,
+    "Close": 3.06200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "07/02/2025",
+    "Open": 2.97600,
+    "High": 3.09200,
+    "Low": 2.94400,
+    "Close": 3.07600
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "06/02/2025",
+    "Open": 2.96700,
+    "High": 3.01700,
+    "Low": 2.95600,
+    "Close": 2.95950
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "05/02/2025",
+    "Open": 3.03000,
+    "High": 3.03000,
+    "Low": 2.93900,
+    "Close": 2.94900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "04/02/2025",
+    "Open": 3.08600,
+    "High": 3.13600,
+    "Low": 2.99700,
+    "Close": 3.01200
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "03/02/2025",
+    "Open": 2.94900,
+    "High": 3.01600,
+    "Low": 2.87900,
+    "Close": 3.01350
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "31/01/2025",
+    "Open": 3.13700,
+    "High": 3.14400,
+    "Low": 3.06200,
+    "Close": 3.06300
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "30/01/2025",
+    "Open": 3.19300,
+    "High": 3.19300,
+    "Low": 3.11000,
+    "Close": 3.12000
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "29/01/2025",
+    "Open": 3.21700,
+    "High": 3.21900,
+    "Low": 3.16000,
+    "Close": 3.17100
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "28/01/2025",
+    "Open": 3.21200,
+    "High": 3.24900,
+    "Low": 3.19600,
+    "Close": 3.19900
+  },
+  {
+    "Symbol": "GCAN10YR:IND",
+    "Date": "27/01/2025",
+    "Open": 3.19400,
+    "High": 3.23500,
+    "Low": 3.19400,
+    "Close": 3.19650
+  }
+]

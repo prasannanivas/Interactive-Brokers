@@ -116,4 +116,20 @@ export const backtestingAPI = {
   getStatistics: (days = 30) => authApi.get(`/api/backtesting/statistics?days=${days}`),
 }
 
+// Bond/Interest Rate API - loads data from local JSON files
+export const bondAPI = {
+  getInterestRates: async () => {
+    try {
+      const response = await fetch('/bond/curr_central_bank_int_rate.json')
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      return { data: await response.json() }
+    } catch (error) {
+      console.error('Failed to load interest rate data:', error)
+      return { data: [] }
+    }
+  }
+}
+
 export default authApi

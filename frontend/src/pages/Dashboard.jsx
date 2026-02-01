@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { tradingAPI, dataAPI, historyAPI } from '../api/api'
+import { tradingAPI, dataAPI, historyAPI, bondAPI } from '../api/api'
 import TradingViewChart from '../components/TradingViewChart'
 import ChartModal from '../components/ChartModal'
 import CurrencyMatrix from '../components/CurrencyMatrix'
+import InterestRateChart from '../components/InterestRateChart'
+import CurrencyRateCorrelationChart from '../components/CurrencyRateCorrelationChart'
+import BondYieldsChart from '../components/BondYieldsChart'
+import ErrorBoundary from '../components/ErrorBoundary'
 import './Dashboard.css'
 
 const Dashboard = () => {
@@ -54,6 +58,8 @@ const Dashboard = () => {
     bollinger_weekly: true,
     ema20_weekly: true
   })
+  const [interestRateData, setInterestRateData] = useState([])
+  const [loadingInterestRates, setLoadingInterestRates] = useState(false)
   const wsRef = useRef(null)
 
   // Column configuration - all available columns
@@ -117,12 +123,16 @@ const Dashboard = () => {
   useEffect(() => {
     loadStatus()
     loadWatchlist()
+    loadInterestRates()
     connectWebSocket()
 
     const statusInterval = setInterval(loadStatus, 10000)
+    // Refresh interest rates every 30 minutes
+    const interestRateInterval = setInterval(loadInterestRates, 30 * 60 * 1000)
 
     return () => {
       clearInterval(statusInterval)
+      clearInterval(interestRateInterval)
       if (wsRef.current) {
         wsRef.current.close()
       }
@@ -144,6 +154,19 @@ const Dashboard = () => {
       setWatchlist(response.data || [])
     } catch (error) {
       console.error('Failed to load watchlist:', error)
+    }
+  }
+
+  const loadInterestRates = async () => {
+    setLoadingInterestRates(true)
+    try {
+      const response = await bondAPI.getInterestRates()
+      setInterestRateData(response.data || [])
+    } catch (error) {
+      console.error('Failed to load interest rates:', error)
+      setInterestRateData([])
+    } finally {
+      setLoadingInterestRates(false)
     }
   }
 
@@ -439,6 +462,25 @@ const Dashboard = () => {
 
       {/* Currency Signal Matrix */}
       <CurrencyMatrix watchlist={watchlist} onPairClick={viewSignalHistory} />
+
+      {/* Interest Rate Chart */}
+      <InterestRateChart 
+        interestRateData={interestRateData}
+        loading={loadingInterestRates}
+        onRefresh={loadInterestRates}
+      />
+
+      {/* Currency vs Interest Rate Correlation Chart */}
+      <ErrorBoundary>
+        <CurrencyRateCorrelationChart 
+          interestRateData={interestRateData}
+        />
+      </ErrorBoundary>
+
+      {/* Bond Yields Chart */}
+      <ErrorBoundary>
+        <BondYieldsChart />
+      </ErrorBoundary>
 
       <div className="dashboard-grid">
         <div className="panel">
