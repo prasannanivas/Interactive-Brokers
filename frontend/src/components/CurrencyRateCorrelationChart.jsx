@@ -266,35 +266,47 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
         
         try {
           // Handle different timestamp formats for candle data
-          const timeValue = item.t || item.timestamp || item.time || item.date || item.dt || item.datetime || new Date().toISOString()
+          const timeValue = item.t || item.timestamp || item.time || item.date || item.dt || item.datetime
           console.log('Processing time value:', timeValue, 'from item:', item)
           
-          // Convert timestamp if it's in milliseconds
-          if (typeof timeValue === 'number') {
+          if (!timeValue) {
+            console.warn('No time value found, using current date')
+            date = new Date()
+          } else if (typeof timeValue === 'number') {
+            // Handle Unix timestamps - could be in seconds or milliseconds
+            if (timeValue < 10000000000) {
+              // Timestamp is in seconds, convert to milliseconds
+              date = new Date(timeValue * 1000)
+            } else {
+              // Timestamp is already in milliseconds
+              date = new Date(timeValue)
+            }
+            console.log('Parsed timestamp:', timeValue, '→', date.toISOString())
+          } else if (typeof timeValue === 'string') {
+            // Handle string dates
             date = new Date(timeValue)
+            if (isNaN(date.getTime())) {
+              // Try alternative string parsing
+              date = new Date(timeValue.replace(/[T|Z]/g, ' ').replace(/-/g, '/'))
+            }
           } else {
             date = new Date(timeValue)
           }
           
-          // If date is invalid, try alternative parsing
+          // Validate the parsed date
           if (isNaN(date.getTime())) {
-            console.warn('Invalid date, trying alternative parsing:', timeValue)
-            // Try parsing as milliseconds if it's a number
-            if (typeof timeValue === 'number') {
-              date = new Date(timeValue)
-            } else if (typeof timeValue === 'string') {
-              // Try different date formats
-              date = new Date(timeValue.replace(/[T|Z]/g, ' '))
-            }
+            console.warn('Invalid date after parsing, using current date. Original:', timeValue)
+            date = new Date()
           }
           
-          // Final fallback
-          if (isNaN(date.getTime())) {
-            console.warn('Using current date as fallback for:', timeValue)
+          // Ensure date is reasonable (not before 2020 or after 2030)
+          if (date.getFullYear() < 2020 || date.getFullYear() > 2030) {
+            console.warn('Date year seems unrealistic:', date.getFullYear(), 'Using current date. Original:', timeValue)
             date = new Date()
           }
           
           dateKey = date.toISOString().split('T')[0]
+          console.log('Final processed date:', date.toISOString(), 'dateKey:', dateKey)
         } catch (error) {
           console.warn('Error processing date, using current date:', error)
           date = new Date()
@@ -356,7 +368,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
         const majorRateChange = markers.find(m => Math.abs(m.change) >= 0.5)
         
         const dataPoint = {
-          date: date.toLocaleDateString(),
+          date: date.toISOString().split('T')[0], // Use YYYY-MM-DD format instead
           dateTime: date,
           price: price || 0,
           rateDifferential: rateDifferential || 0,
@@ -648,6 +660,20 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
               textAnchor="end"
               height={80}
               interval={Math.ceil(chartData.length / 8)}
+              tickFormatter={(value) => {
+                // Handle date formatting safely
+                try {
+                  if (!value || value === 'unknown') return 'N/A'
+                  // If it's already in YYYY-MM-DD format, just format it nicely
+                  if (typeof value === 'string' && value.includes('-')) {
+                    const date = new Date(value)
+                    return isNaN(date.getTime()) ? 'Invalid' : date.toLocaleDateString()
+                  }
+                  return value
+                } catch (e) {
+                  return 'Invalid'
+                }
+              }}
             />
             <YAxis 
               yAxisId="price"
