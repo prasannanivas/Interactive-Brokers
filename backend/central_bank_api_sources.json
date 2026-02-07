@@ -1,0 +1,174 @@
+{
+  "apis": {
+    "US": {
+      "country": "United States",
+      "currency": "USD",
+      "central_bank": "Federal Reserve",
+      "official_rate_name": "Federal Funds Rate",
+      "free_apis": [
+        {
+          "name": "Alpha Vantage",
+          "endpoint": "https://www.alphavantage.co/query",
+          "params": {
+            "function": "FEDERAL_FUNDS_RATE",
+            "interval": "monthly",
+            "apikey": "demo"
+          },
+          "registration_required": false,
+          "rate_limit": "5 calls/minute, 100 calls/day (demo key)",
+          "data_format": "JSON",
+          "example_url": "https://www.alphavantage.co/query?function=FEDERAL_FUNDS_RATE&interval=monthly&apikey=demo",
+          "notes": "Works with demo key, but limited rate. Free API key available with registration.",
+          "tested": true,
+          "working": true
+        },
+        {
+          "name": "FRED API",
+          "endpoint": "https://api.stlouisfed.org/fred/series/observations",
+          "params": {
+            "series_id": "FEDFUNDS",
+            "api_key": "YOUR_API_KEY",
+            "file_type": "json"
+          },
+          "registration_required": true,
+          "rate_limit": "120 calls/minute",
+          "data_format": "JSON",
+          "example_url": "https://api.stlouisfed.org/fred/series/observations?series_id=FEDFUNDS&api_key=YOUR_API_KEY&file_type=json",
+          "notes": "Requires free registration at https://fred.stlouisfed.org/docs/api/api_key.html",
+          "tested": false,
+          "working": "requires_key"
+        }
+      ]
+    },
+    "EUR": {
+      "country": "Euro Area",
+      "currency": "EUR",
+      "central_bank": "European Central Bank (ECB)",
+      "official_rate_name": "Main Refinancing Operations Rate",
+      "free_apis": [
+        {
+          "name": "ECB Statistical Data Warehouse",
+          "endpoint": "https://data-api.ecb.europa.eu/service/data/FM/M.U2.EUR.4F.KR.MRR_FR.LEV",
+          "params": {},
+          "registration_required": false,
+          "rate_limit": "No official limit",
+          "data_format": "XML (SDMX)",
+          "example_url": "https://data-api.ecb.europa.eu/service/data/FM/M.U2.EUR.4F.KR.MRR_FR.LEV",
+          "notes": "Free, no API key needed. Returns SDMX-ML format. Documentation: https://data.ecb.europa.eu/help/api/overview",
+          "tested": false,
+          "working": "untested"
+        }
+      ]
+    },
+    "GBP": {
+      "country": "United Kingdom",
+      "currency": "GBP",
+      "central_bank": "Bank of England",
+      "official_rate_name": "Official Bank Rate",
+      "free_apis": [
+        {
+          "name": "Bank of England Statistical Interactive Database API",
+          "endpoint": "https://www.bankofengland.co.uk/boeapps/database/fromshowcolumns.asp",
+          "params": {
+            "SeriesCodes": "IUDBEDR",
+            "UsingCodes": "Y",
+            "VPD": "Y",
+            "VFD": "Y"
+          },
+          "registration_required": false,
+          "rate_limit": "No official limit",
+          "data_format": "CSV",
+          "example_url": "https://www.bankofengland.co.uk/boeapps/database/fromshowcolumns.asp?SeriesCodes=IUDBEDR&UsingCodes=Y&VPD=Y&VFD=Y",
+          "notes": "Free, no API key needed. Series code IUDBEDR is the Official Bank Rate. Returns CSV format.",
+          "tested": false,
+          "working": "untested"
+        }
+      ]
+    },
+    "JPY": {
+      "country": "Japan",
+      "currency": "JPY",
+      "central_bank": "Bank of Japan",
+      "official_rate_name": "Policy Rate",
+      "free_apis": [
+        {
+          "name": "No Free API Available",
+          "endpoint": null,
+          "notes": "Bank of Japan does not provide a free public API. Data available at https://www.boj.or.jp/en/statistics/index.htm but requires manual download or web scraping.",
+          "tested": false,
+          "working": false,
+          "alternative": "Use static JSON or web scraping"
+        }
+      ]
+    },
+    "CAD": {
+      "country": "Canada",
+      "currency": "CAD",
+      "central_bank": "Bank of Canada",
+      "official_rate_name": "Target for the Overnight Rate",
+      "free_apis": [
+        {
+          "name": "Bank of Canada Valet API",
+          "endpoint": "https://www.bankofcanada.ca/valet/observations/V39079",
+          "params": {
+            "recent": "1"
+          },
+          "registration_required": false,
+          "rate_limit": "No official limit (reasonable use)",
+          "data_format": "JSON/XML/CSV",
+          "example_url": "https://www.bankofcanada.ca/valet/observations/V39079/json?recent=1",
+          "notes": "Free, no API key needed. V39079 is the policy interest rate series. Documentation: https://www.bankofcanada.ca/valet/docs",
+          "tested": false,
+          "working": "untested"
+        }
+      ]
+    },
+    "AUD": {
+      "country": "Australia",
+      "currency": "AUD",
+      "central_bank": "Reserve Bank of Australia",
+      "official_rate_name": "Cash Rate",
+      "free_apis": [
+        {
+          "name": "RBA Statistical Tables",
+          "endpoint": "https://www.rba.gov.au/statistics/tables/xls/f01d.xlsx",
+          "params": {},
+          "registration_required": false,
+          "rate_limit": "No official limit",
+          "data_format": "XLSX",
+          "example_url": "https://www.rba.gov.au/statistics/tables/xls/f01d.xlsx",
+          "notes": "Free Excel file download. Table F1 contains Cash Rate Target. No JSON API available - requires parsing Excel file.",
+          "tested": false,
+          "working": "untested",
+          "alternative": "Use static JSON or parse Excel file"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "fully_working_no_key": [
+      "US (Alpha Vantage with demo key - limited rate)"
+    ],
+    "requires_registration": [
+      "US (FRED API - free but needs key)"
+    ],
+    "untested_but_available": [
+      "EUR (ECB)",
+      "GBP (Bank of England)",
+      "CAD (Bank of Canada)"
+    ],
+    "no_free_api": [
+      "JPY (Bank of Japan)",
+      "AUD (Reserve Bank of Australia - only Excel files)"
+    ],
+    "recommendation": "Use static JSON for reliable, maintenance-free solution. Central bank rates change infrequently (monthly meetings), making static data practical."
+  },
+  "implementation_notes": {
+    "alpha_vantage": "Rate limited with demo key. Request free key at https://www.alphavantage.co/support/#api-key",
+    "ecb": "Returns SDMX-ML (XML) format - requires XML parsing",
+    "bank_of_england": "Returns CSV format - requires CSV parsing",
+    "bank_of_canada": "Best structured API - returns clean JSON",
+    "bank_of_japan": "No API - would require web scraping",
+    "rba": "Excel files only - would require openpyxl library"
+  }
+}

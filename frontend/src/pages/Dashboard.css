@@ -12,6 +12,54 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
+/* Stacked Charts Container - TradingView Style */
+.stacked-charts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 24px;
+  background: #1f2937;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.stacked-chart-item {
+  width: 100%;
+  border-bottom: 2px solid #374151;
+}
+
+.stacked-chart-item:last-child {
+  border-bottom: none;
+}
+
+/* Override individual chart styles to fit stacked layout */
+.stacked-chart-item .interest-rate-chart,
+.stacked-chart-item .correlation-chart,
+.stacked-chart-item .bond-yields-chart {
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Ensure bond yields chart matches dark theme in stacked layout */
+.stacked-chart-item .bond-yields-chart {
+  background: #1f2937 !important;
+}
+
+.stacked-chart-item .bond-yields-chart h3,
+.stacked-chart-item .bond-yields-chart h4,
+.stacked-chart-item .bond-yields-chart .chart-title-section h3 {
+  color: #f9fafb !important;
+}
+
+.stacked-chart-item .bond-yields-chart .country-checkbox,
+.stacked-chart-item .bond-yields-chart .auto-refresh-label {
+  color: #9ca3af !important;
+}
+
 /* Header */
 .dashboard-header {
   background: linear-gradient(135deg, #27282b 0%, #0b0b0b 100%);

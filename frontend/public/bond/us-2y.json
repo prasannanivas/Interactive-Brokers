@@ -1,0 +1,2342 @@
+[
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "31/12/2025",
+    "open": 3.459,
+    "high": 3.485,
+    "low": 3.446,
+    "close": 3.483
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "31/10/2025",
+    "open": 3.616,
+    "high": 3.627,
+    "low": 3.582,
+    "close": 3.582
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "31/07/2025",
+    "open": 3.951,
+    "high": 3.969,
+    "low": 3.922,
+    "close": 3.963
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "31/03/2025",
+    "open": 3.865,
+    "high": 3.924,
+    "low": 3.838,
+    "close": 3.912
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "31/01/2025",
+    "open": 4.216,
+    "high": 4.247,
+    "low": 4.191,
+    "close": 4.216
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "30/12/2025",
+    "open": 3.438,
+    "high": 3.479,
+    "low": 3.438,
+    "close": 3.459
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "30/10/2025",
+    "open": 3.604,
+    "high": 3.641,
+    "low": 3.58,
+    "close": 3.616
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "30/09/2025",
+    "open": 3.635,
+    "high": 3.635,
+    "low": 3.596,
+    "close": 3.617
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "30/07/2025",
+    "open": 3.875,
+    "high": 3.959,
+    "low": 3.867,
+    "close": 3.951
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "30/06/2025",
+    "open": 3.748,
+    "high": 3.758,
+    "low": 3.721,
+    "close": 3.723
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "30/05/2025",
+    "open": 3.947,
+    "high": 3.967,
+    "low": 3.9,
+    "close": 3.908
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "30/04/2025",
+    "open": 3.65,
+    "high": 3.676,
+    "low": 3.591,
+    "close": 3.621
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "30/01/2025",
+    "open": 4.222,
+    "high": 4.234,
+    "low": 4.193,
+    "close": 4.216
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "29/12/2025",
+    "open": 3.481,
+    "high": 3.499,
+    "low": 3.438,
+    "close": 3.438
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "29/10/2025",
+    "open": 3.498,
+    "high": 3.618,
+    "low": 3.494,
+    "close": 3.604
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "29/09/2025",
+    "open": 3.647,
+    "high": 3.655,
+    "low": 3.629,
+    "close": 3.635
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "29/08/2025",
+    "open": 3.637,
+    "high": 3.69,
+    "low": 3.613,
+    "close": 3.625
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "29/07/2025",
+    "open": 3.93,
+    "high": 3.937,
+    "low": 3.875,
+    "close": 3.875
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "29/05/2025",
+    "open": 4.0,
+    "high": 4.06,
+    "low": 3.941,
+    "close": 3.947
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "29/04/2025",
+    "open": 3.701,
+    "high": 3.723,
+    "low": 3.656,
+    "close": 3.656
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "29/01/2025",
+    "open": 4.211,
+    "high": 4.269,
+    "low": 4.191,
+    "close": 4.222
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "28/11/2025",
+    "open": 3.489,
+    "high": 3.514,
+    "low": 3.467,
+    "close": 3.502
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "28/10/2025",
+    "open": 3.499,
+    "high": 3.522,
+    "low": 3.49,
+    "close": 3.498
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "28/08/2025",
+    "open": 3.621,
+    "high": 3.658,
+    "low": 3.619,
+    "close": 3.637
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "28/07/2025",
+    "open": 3.94,
+    "high": 3.958,
+    "low": 3.915,
+    "close": 3.93
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "28/05/2025",
+    "open": 3.987,
+    "high": 4.013,
+    "low": 3.959,
+    "close": 4.0
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "28/04/2025",
+    "open": 3.764,
+    "high": 3.783,
+    "low": 3.678,
+    "close": 3.685
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "28/03/2025",
+    "open": 4.0,
+    "high": 4.0,
+    "low": 3.904,
+    "close": 3.91
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "28/02/2025",
+    "open": 4.061,
+    "high": 4.082,
+    "low": 3.989,
+    "close": 4.007
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "28/01/2025",
+    "open": 4.208,
+    "high": 4.24,
+    "low": 4.201,
+    "close": 4.211
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "27/11/2025",
+    "open": 3.489,
+    "high": 3.489,
+    "low": 3.489,
+    "close": 3.489
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "27/10/2025",
+    "open": 3.501,
+    "high": 3.526,
+    "low": 3.497,
+    "close": 3.499
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "27/08/2025",
+    "open": 3.692,
+    "high": 3.692,
+    "low": 3.619,
+    "close": 3.621
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "27/06/2025",
+    "open": 3.728,
+    "high": 3.77,
+    "low": 3.723,
+    "close": 3.748
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "27/05/2025",
+    "open": 4.0,
+    "high": 4.006,
+    "low": 3.97,
+    "close": 3.987
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "27/03/2025",
+    "open": 4.004,
+    "high": 4.039,
+    "low": 3.98,
+    "close": 3.998
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "27/02/2025",
+    "open": 4.082,
+    "high": 4.127,
+    "low": 4.057,
+    "close": 4.061
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "27/01/2026",
+    "open": 3.598,
+    "high": 3.613,
+    "low": 3.574,
+    "close": 3.584
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "27/01/2025",
+    "open": 4.28,
+    "high": 4.285,
+    "low": 4.176,
+    "close": 4.208
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "26/12/2025",
+    "open": 3.516,
+    "high": 3.52,
+    "low": 3.479,
+    "close": 3.481
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "26/11/2025",
+    "open": 3.465,
+    "high": 3.512,
+    "low": 3.457,
+    "close": 3.485
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "26/09/2025",
+    "open": 3.655,
+    "high": 3.678,
+    "low": 3.647,
+    "close": 3.647
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "26/08/2025",
+    "open": 3.734,
+    "high": 3.744,
+    "low": 3.681,
+    "close": 3.692
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "26/06/2025",
+    "open": 3.793,
+    "high": 3.793,
+    "low": 3.717,
+    "close": 3.728
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "26/05/2025",
+    "open": 4.0,
+    "high": 4.0,
+    "low": 4.0,
+    "close": 4.0
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "26/03/2025",
+    "open": 4.006,
+    "high": 4.025,
+    "low": 3.994,
+    "close": 4.008
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "26/02/2025",
+    "open": 4.096,
+    "high": 4.141,
+    "low": 4.074,
+    "close": 4.082
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "26/01/2026",
+    "open": 3.607,
+    "high": 3.615,
+    "low": 3.584,
+    "close": 3.598
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "25/12/2025",
+    "open": 3.516,
+    "high": 3.516,
+    "low": 3.516,
+    "close": 3.516
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "25/11/2025",
+    "open": 3.503,
+    "high": 3.51,
+    "low": 3.457,
+    "close": 3.465
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "25/09/2025",
+    "open": 3.612,
+    "high": 3.682,
+    "low": 3.606,
+    "close": 3.655
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "25/08/2025",
+    "open": 3.709,
+    "high": 3.745,
+    "low": 3.707,
+    "close": 3.734
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "25/07/2025",
+    "open": 3.931,
+    "high": 3.94,
+    "low": 3.917,
+    "close": 3.94
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "25/06/2025",
+    "open": 3.831,
+    "high": 3.831,
+    "low": 3.777,
+    "close": 3.793
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "25/04/2025",
+    "open": 3.805,
+    "high": 3.824,
+    "low": 3.748,
+    "close": 3.762
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "25/03/2025",
+    "open": 4.037,
+    "high": 4.058,
+    "low": 3.996,
+    "close": 4.003
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "25/02/2025",
+    "open": 4.185,
+    "high": 4.185,
+    "low": 4.08,
+    "close": 4.096
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "24/12/2025",
+    "open": 3.536,
+    "high": 3.546,
+    "low": 3.506,
+    "close": 3.514
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "24/11/2025",
+    "open": 3.518,
+    "high": 3.541,
+    "low": 3.503,
+    "close": 3.503
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "24/10/2025",
+    "open": 3.501,
+    "high": 3.514,
+    "low": 3.446,
+    "close": 3.501
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "24/09/2025",
+    "open": 3.594,
+    "high": 3.618,
+    "low": 3.565,
+    "close": 3.612
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "24/07/2025",
+    "open": 3.886,
+    "high": 3.942,
+    "low": 3.884,
+    "close": 3.931
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "24/06/2025",
+    "open": 3.87,
+    "high": 3.884,
+    "low": 3.815,
+    "close": 3.831
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "24/04/2025",
+    "open": 3.856,
+    "high": 3.856,
+    "low": 3.787,
+    "close": 3.791
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "24/03/2025",
+    "open": 3.967,
+    "high": 4.049,
+    "low": 3.967,
+    "close": 4.043
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "24/02/2025",
+    "open": 4.202,
+    "high": 4.232,
+    "low": 4.173,
+    "close": 4.185
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "23/12/2025",
+    "open": 3.509,
+    "high": 3.567,
+    "low": 3.497,
+    "close": 3.536
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "23/10/2025",
+    "open": 3.451,
+    "high": 3.503,
+    "low": 3.446,
+    "close": 3.501
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "23/09/2025",
+    "open": 3.622,
+    "high": 3.622,
+    "low": 3.59,
+    "close": 3.594
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "23/07/2025",
+    "open": 3.852,
+    "high": 3.899,
+    "low": 3.846,
+    "close": 3.886
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "23/06/2025",
+    "open": 3.916,
+    "high": 3.939,
+    "low": 3.819,
+    "close": 3.87
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "23/05/2025",
+    "open": 4.001,
+    "high": 4.006,
+    "low": 3.912,
+    "close": 4.004
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "23/04/2025",
+    "open": 3.844,
+    "high": 3.879,
+    "low": 3.762,
+    "close": 3.861
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "23/01/2026",
+    "open": 3.61,
+    "high": 3.632,
+    "low": 3.602,
+    "close": 3.607
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "22/12/2025",
+    "open": 3.49,
+    "high": 3.521,
+    "low": 3.483,
+    "close": 3.509
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "22/10/2025",
+    "open": 3.461,
+    "high": 3.474,
+    "low": 3.444,
+    "close": 3.451
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "22/09/2025",
+    "open": 3.584,
+    "high": 3.622,
+    "low": 3.574,
+    "close": 3.622
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "22/08/2025",
+    "open": 3.794,
+    "high": 3.815,
+    "low": 3.684,
+    "close": 3.709
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "22/07/2025",
+    "open": 3.876,
+    "high": 3.88,
+    "low": 3.831,
+    "close": 3.852
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "22/05/2025",
+    "open": 4.03,
+    "high": 4.03,
+    "low": 3.984,
+    "close": 4.001
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "22/04/2025",
+    "open": 3.762,
+    "high": 3.823,
+    "low": 3.76,
+    "close": 3.806
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "22/01/2026",
+    "open": 3.597,
+    "high": 3.64,
+    "low": 3.585,
+    "close": 3.61
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "21/11/2025",
+    "open": 3.545,
+    "high": 3.564,
+    "low": 3.491,
+    "close": 3.518
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "21/10/2025",
+    "open": 3.466,
+    "high": 3.478,
+    "low": 3.445,
+    "close": 3.461
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "21/08/2025",
+    "open": 3.767,
+    "high": 3.811,
+    "low": 3.752,
+    "close": 3.794
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "21/07/2025",
+    "open": 3.88,
+    "high": 3.884,
+    "low": 3.848,
+    "close": 3.876
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "21/05/2025",
+    "open": 3.977,
+    "high": 4.038,
+    "low": 3.964,
+    "close": 4.03
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "21/04/2025",
+    "open": 3.767,
+    "high": 3.796,
+    "low": 3.716,
+    "close": 3.752
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "21/03/2025",
+    "open": 3.974,
+    "high": 3.982,
+    "low": 3.921,
+    "close": 3.967
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "21/02/2025",
+    "open": 4.285,
+    "high": 4.287,
+    "low": 4.194,
+    "close": 4.202
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "21/01/2026",
+    "open": 3.605,
+    "high": 3.608,
+    "low": 3.576,
+    "close": 3.597
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "20/11/2025",
+    "open": 3.602,
+    "high": 3.625,
+    "low": 3.539,
+    "close": 3.545
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "20/10/2025",
+    "open": 3.472,
+    "high": 3.489,
+    "low": 3.459,
+    "close": 3.466
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "20/08/2025",
+    "open": 3.759,
+    "high": 3.779,
+    "low": 3.723,
+    "close": 3.767
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "20/06/2025",
+    "open": 3.952,
+    "high": 3.975,
+    "low": 3.899,
+    "close": 3.916
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "20/05/2025",
+    "open": 3.979,
+    "high": 4.006,
+    "low": 3.962,
+    "close": 3.977
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "20/03/2025",
+    "open": 3.993,
+    "high": 4.002,
+    "low": 3.926,
+    "close": 3.974
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "20/02/2025",
+    "open": 4.274,
+    "high": 4.285,
+    "low": 4.255,
+    "close": 4.285
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "20/01/2026",
+    "open": 3.593,
+    "high": 3.616,
+    "low": 3.58,
+    "close": 3.605
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "19/12/2025",
+    "open": 3.473,
+    "high": 3.502,
+    "low": 3.469,
+    "close": 3.49
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "19/11/2025",
+    "open": 3.585,
+    "high": 3.61,
+    "low": 3.564,
+    "close": 3.602
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "19/09/2025",
+    "open": 3.574,
+    "high": 3.599,
+    "low": 3.567,
+    "close": 3.584
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "19/08/2025",
+    "open": 3.771,
+    "high": 3.784,
+    "low": 3.748,
+    "close": 3.759
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "19/06/2025",
+    "open": 3.952,
+    "high": 3.952,
+    "low": 3.929,
+    "close": 3.931
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "19/05/2025",
+    "open": 4.014,
+    "high": 4.046,
+    "low": 3.972,
+    "close": 3.979
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "19/03/2025",
+    "open": 4.048,
+    "high": 4.126,
+    "low": 3.979,
+    "close": 3.993
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "19/02/2025",
+    "open": 4.314,
+    "high": 4.318,
+    "low": 4.272,
+    "close": 4.274
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "19/01/2026",
+    "open": 3.594,
+    "high": 3.601,
+    "low": 3.593,
+    "close": 3.597
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "18/12/2025",
+    "open": 3.493,
+    "high": 3.493,
+    "low": 3.441,
+    "close": 3.473
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "18/11/2025",
+    "open": 3.619,
+    "high": 3.627,
+    "low": 3.554,
+    "close": 3.585
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "18/09/2025",
+    "open": 3.572,
+    "high": 3.597,
+    "low": 3.526,
+    "close": 3.574
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "18/08/2025",
+    "open": 3.763,
+    "high": 3.786,
+    "low": 3.744,
+    "close": 3.771
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "18/07/2025",
+    "open": 3.913,
+    "high": 3.913,
+    "low": 3.867,
+    "close": 3.88
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "18/06/2025",
+    "open": 3.962,
+    "high": 3.967,
+    "low": 3.895,
+    "close": 3.954
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "18/03/2025",
+    "open": 4.057,
+    "high": 4.071,
+    "low": 4.031,
+    "close": 4.048
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "18/02/2025",
+    "open": 4.263,
+    "high": 4.32,
+    "low": 4.263,
+    "close": 4.314
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "17/12/2025",
+    "open": 3.5,
+    "high": 3.521,
+    "low": 3.487,
+    "close": 3.493
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "17/11/2025",
+    "open": 3.612,
+    "high": 3.627,
+    "low": 3.6,
+    "close": 3.619
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "17/10/2025",
+    "open": 3.431,
+    "high": 3.478,
+    "low": 3.384,
+    "close": 3.472
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "17/09/2025",
+    "open": 3.512,
+    "high": 3.576,
+    "low": 3.476,
+    "close": 3.572
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "17/07/2025",
+    "open": 3.898,
+    "high": 3.949,
+    "low": 3.894,
+    "close": 3.913
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "17/06/2025",
+    "open": 3.983,
+    "high": 3.985,
+    "low": 3.903,
+    "close": 3.962
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "17/04/2025",
+    "open": 3.786,
+    "high": 3.819,
+    "low": 3.758,
+    "close": 3.796
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "17/03/2025",
+    "open": 4.03,
+    "high": 4.071,
+    "low": 4.013,
+    "close": 4.057
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "17/02/2025",
+    "open": 4.263,
+    "high": 4.263,
+    "low": 4.263,
+    "close": 4.263
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "16/12/2025",
+    "open": 3.516,
+    "high": 3.518,
+    "low": 3.462,
+    "close": 3.5
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "16/10/2025",
+    "open": 3.51,
+    "high": 3.524,
+    "low": 3.418,
+    "close": 3.431
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "16/09/2025",
+    "open": 3.545,
+    "high": 3.557,
+    "low": 3.512,
+    "close": 3.512
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "16/07/2025",
+    "open": 3.959,
+    "high": 3.965,
+    "low": 3.867,
+    "close": 3.898
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "16/06/2025",
+    "open": 3.958,
+    "high": 4.0,
+    "low": 3.95,
+    "close": 3.983
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "16/05/2025",
+    "open": 3.982,
+    "high": 4.016,
+    "low": 3.93,
+    "close": 4.014
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "16/04/2025",
+    "open": 3.828,
+    "high": 3.832,
+    "low": 3.77,
+    "close": 3.786
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "16/01/2026",
+    "open": 3.575,
+    "high": 3.622,
+    "low": 3.565,
+    "close": 3.592
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "15/12/2025",
+    "open": 3.533,
+    "high": 3.537,
+    "low": 3.497,
+    "close": 3.516
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "15/10/2025",
+    "open": 3.491,
+    "high": 3.52,
+    "low": 3.472,
+    "close": 3.51
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "15/09/2025",
+    "open": 3.562,
+    "high": 3.576,
+    "low": 3.535,
+    "close": 3.545
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "15/08/2025",
+    "open": 3.741,
+    "high": 3.769,
+    "low": 3.719,
+    "close": 3.763
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "15/07/2025",
+    "open": 3.919,
+    "high": 3.969,
+    "low": 3.892,
+    "close": 3.959
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "15/05/2025",
+    "open": 4.057,
+    "high": 4.066,
+    "low": 3.961,
+    "close": 3.982
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "15/04/2025",
+    "open": 3.845,
+    "high": 3.883,
+    "low": 3.812,
+    "close": 3.828
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "15/01/2026",
+    "open": 3.52,
+    "high": 3.577,
+    "low": 3.52,
+    "close": 3.575
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "14/11/2025",
+    "open": 3.603,
+    "high": 3.627,
+    "low": 3.549,
+    "close": 3.612
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "14/10/2025",
+    "open": 3.516,
+    "high": 3.524,
+    "low": 3.472,
+    "close": 3.491
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "14/08/2025",
+    "open": 3.683,
+    "high": 3.755,
+    "low": 3.662,
+    "close": 3.741
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "14/07/2025",
+    "open": 3.91,
+    "high": 3.919,
+    "low": 3.883,
+    "close": 3.919
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "14/05/2025",
+    "open": 4.015,
+    "high": 4.07,
+    "low": 3.994,
+    "close": 4.057
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "14/04/2025",
+    "open": 3.935,
+    "high": 3.952,
+    "low": 3.826,
+    "close": 3.832
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "14/03/2025",
+    "open": 3.98,
+    "high": 4.034,
+    "low": 3.965,
+    "close": 4.03
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "14/02/2025",
+    "open": 4.321,
+    "high": 4.321,
+    "low": 4.246,
+    "close": 4.269
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "14/01/2026",
+    "open": 3.545,
+    "high": 3.547,
+    "low": 3.514,
+    "close": 3.52
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "13/11/2025",
+    "open": 3.576,
+    "high": 3.614,
+    "low": 3.57,
+    "close": 3.603
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "13/10/2025",
+    "open": 3.516,
+    "high": 3.516,
+    "low": 3.508,
+    "close": 3.51
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "13/08/2025",
+    "open": 3.741,
+    "high": 3.751,
+    "low": 3.677,
+    "close": 3.683
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "13/06/2025",
+    "open": 3.918,
+    "high": 3.987,
+    "low": 3.864,
+    "close": 3.958
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "13/05/2025",
+    "open": 4.035,
+    "high": 4.036,
+    "low": 3.964,
+    "close": 4.015
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "13/03/2025",
+    "open": 3.991,
+    "high": 4.022,
+    "low": 3.938,
+    "close": 3.98
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "13/02/2025",
+    "open": 4.357,
+    "high": 4.368,
+    "low": 4.307,
+    "close": 4.321
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "13/01/2026",
+    "open": 3.541,
+    "high": 3.564,
+    "low": 3.503,
+    "close": 3.545
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "12/12/2025",
+    "open": 3.551,
+    "high": 3.56,
+    "low": 3.528,
+    "close": 3.533
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "12/11/2025",
+    "open": 3.605,
+    "high": 3.605,
+    "low": 3.558,
+    "close": 3.576
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "12/09/2025",
+    "open": 3.552,
+    "high": 3.583,
+    "low": 3.543,
+    "close": 3.562
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "12/08/2025",
+    "open": 3.783,
+    "high": 3.793,
+    "low": 3.718,
+    "close": 3.741
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "12/06/2025",
+    "open": 3.956,
+    "high": 3.96,
+    "low": 3.883,
+    "close": 3.918
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "12/05/2025",
+    "open": 3.91,
+    "high": 4.035,
+    "low": 3.91,
+    "close": 4.035
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "12/03/2025",
+    "open": 3.951,
+    "high": 4.03,
+    "low": 3.922,
+    "close": 3.991
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "12/02/2025",
+    "open": 4.296,
+    "high": 4.393,
+    "low": 4.286,
+    "close": 4.357
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "12/01/2026",
+    "open": 3.536,
+    "high": 3.559,
+    "low": 3.526,
+    "close": 3.541
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "11/12/2025",
+    "open": 3.553,
+    "high": 3.553,
+    "low": 3.507,
+    "close": 3.551
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "11/11/2025",
+    "open": 3.605,
+    "high": 3.605,
+    "low": 3.603,
+    "close": 3.603
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "11/09/2025",
+    "open": 3.55,
+    "high": 3.581,
+    "low": 3.484,
+    "close": 3.552
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "11/08/2025",
+    "open": 3.769,
+    "high": 3.783,
+    "low": 3.752,
+    "close": 3.783
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "11/07/2025",
+    "open": 3.885,
+    "high": 3.923,
+    "low": 3.87,
+    "close": 3.91
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "11/06/2025",
+    "open": 4.033,
+    "high": 4.054,
+    "low": 3.945,
+    "close": 3.956
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "11/04/2025",
+    "open": 3.814,
+    "high": 3.977,
+    "low": 3.797,
+    "close": 3.954
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "11/03/2025",
+    "open": 3.894,
+    "high": 3.962,
+    "low": 3.835,
+    "close": 3.951
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "11/02/2025",
+    "open": 4.285,
+    "high": 4.308,
+    "low": 4.283,
+    "close": 4.296
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "10/12/2025",
+    "open": 3.625,
+    "high": 3.636,
+    "low": 3.536,
+    "close": 3.553
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "10/11/2025",
+    "open": 3.578,
+    "high": 3.612,
+    "low": 3.578,
+    "close": 3.601
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "10/10/2025",
+    "open": 3.605,
+    "high": 3.605,
+    "low": 3.499,
+    "close": 3.512
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "10/09/2025",
+    "open": 3.577,
+    "high": 3.577,
+    "low": 3.525,
+    "close": 3.55
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "10/07/2025",
+    "open": 3.849,
+    "high": 3.901,
+    "low": 3.845,
+    "close": 3.885
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "10/06/2025",
+    "open": 4.012,
+    "high": 4.039,
+    "low": 3.989,
+    "close": 4.033
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "10/04/2025",
+    "open": 3.891,
+    "high": 3.904,
+    "low": 3.785,
+    "close": 3.847
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "10/03/2025",
+    "open": 4.002,
+    "high": 4.002,
+    "low": 3.885,
+    "close": 3.894
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "10/02/2025",
+    "open": 4.302,
+    "high": 4.304,
+    "low": 4.258,
+    "close": 4.285
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "09/12/2025",
+    "open": 3.581,
+    "high": 3.631,
+    "low": 3.569,
+    "close": 3.625
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "09/10/2025",
+    "open": 3.591,
+    "high": 3.611,
+    "low": 3.584,
+    "close": 3.605
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "09/09/2025",
+    "open": 3.497,
+    "high": 3.581,
+    "low": 3.49,
+    "close": 3.577
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "09/07/2025",
+    "open": 3.903,
+    "high": 3.918,
+    "low": 3.849,
+    "close": 3.849
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "09/06/2025",
+    "open": 4.045,
+    "high": 4.045,
+    "low": 4.001,
+    "close": 4.012
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "09/05/2025",
+    "open": 3.882,
+    "high": 3.914,
+    "low": 3.841,
+    "close": 3.91
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "09/04/2025",
+    "open": 3.705,
+    "high": 4.039,
+    "low": 3.657,
+    "close": 3.949
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "09/01/2026",
+    "open": 3.494,
+    "high": 3.555,
+    "low": 3.493,
+    "close": 3.536
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "08/12/2025",
+    "open": 3.571,
+    "high": 3.619,
+    "low": 3.561,
+    "close": 3.581
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "08/10/2025",
+    "open": 3.576,
+    "high": 3.603,
+    "low": 3.566,
+    "close": 3.591
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "08/09/2025",
+    "open": 3.519,
+    "high": 3.538,
+    "low": 3.49,
+    "close": 3.497
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "08/08/2025",
+    "open": 3.736,
+    "high": 3.777,
+    "low": 3.731,
+    "close": 3.769
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "08/07/2025",
+    "open": 3.907,
+    "high": 3.928,
+    "low": 3.893,
+    "close": 3.903
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "08/05/2025",
+    "open": 3.789,
+    "high": 3.915,
+    "low": 3.785,
+    "close": 3.882
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "08/04/2025",
+    "open": 3.753,
+    "high": 3.864,
+    "low": 3.672,
+    "close": 3.738
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "08/01/2026",
+    "open": 3.48,
+    "high": 3.507,
+    "low": 3.459,
+    "close": 3.494
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "07/11/2025",
+    "open": 3.57,
+    "high": 3.586,
+    "low": 3.537,
+    "close": 3.568
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "07/10/2025",
+    "open": 3.597,
+    "high": 3.613,
+    "low": 3.572,
+    "close": 3.576
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "07/08/2025",
+    "open": 3.72,
+    "high": 3.744,
+    "low": 3.711,
+    "close": 3.736
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "07/07/2025",
+    "open": 3.888,
+    "high": 3.911,
+    "low": 3.857,
+    "close": 3.907
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "07/05/2025",
+    "open": 3.791,
+    "high": 3.834,
+    "low": 3.766,
+    "close": 3.789
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "07/04/2025",
+    "open": 3.461,
+    "high": 3.86,
+    "low": 3.435,
+    "close": 3.738
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "07/03/2025",
+    "open": 3.971,
+    "high": 4.031,
+    "low": 3.904,
+    "close": 4.002
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "07/02/2025",
+    "open": 4.222,
+    "high": 4.306,
+    "low": 4.199,
+    "close": 4.302
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "07/01/2026",
+    "open": 3.473,
+    "high": 3.488,
+    "low": 3.453,
+    "close": 3.48
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "06/11/2025",
+    "open": 3.638,
+    "high": 3.638,
+    "low": 3.555,
+    "close": 3.57
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "06/10/2025",
+    "open": 3.574,
+    "high": 3.607,
+    "low": 3.574,
+    "close": 3.597
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "06/08/2025",
+    "open": 3.739,
+    "high": 3.753,
+    "low": 3.705,
+    "close": 3.72
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "06/06/2025",
+    "open": 3.928,
+    "high": 4.051,
+    "low": 3.914,
+    "close": 4.045
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "06/05/2025",
+    "open": 3.843,
+    "high": 3.857,
+    "low": 3.787,
+    "close": 3.791
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "06/03/2025",
+    "open": 4.013,
+    "high": 4.05,
+    "low": 3.926,
+    "close": 3.971
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "06/02/2025",
+    "open": 4.197,
+    "high": 4.23,
+    "low": 4.193,
+    "close": 4.222
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "06/01/2026",
+    "open": 3.465,
+    "high": 3.494,
+    "low": 3.459,
+    "close": 3.473
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "05/12/2025",
+    "open": 3.531,
+    "high": 3.575,
+    "low": 3.525,
+    "close": 3.571
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "05/11/2025",
+    "open": 3.586,
+    "high": 3.644,
+    "low": 3.555,
+    "close": 3.638
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "05/09/2025",
+    "open": 3.598,
+    "high": 3.602,
+    "low": 3.472,
+    "close": 3.519
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "05/08/2025",
+    "open": 3.685,
+    "high": 3.739,
+    "low": 3.675,
+    "close": 3.739
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "05/06/2025",
+    "open": 3.883,
+    "high": 3.945,
+    "low": 3.831,
+    "close": 3.928
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "05/05/2025",
+    "open": 3.832,
+    "high": 3.865,
+    "low": 3.797,
+    "close": 3.843
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "05/03/2025",
+    "open": 4.005,
+    "high": 4.019,
+    "low": 3.9,
+    "close": 4.013
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "05/02/2025",
+    "open": 4.216,
+    "high": 4.247,
+    "low": 4.17,
+    "close": 4.197
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "05/01/2026",
+    "open": 3.488,
+    "high": 3.498,
+    "low": 3.455,
+    "close": 3.465
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "04/12/2025",
+    "open": 3.498,
+    "high": 3.539,
+    "low": 3.498,
+    "close": 3.531
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "04/11/2025",
+    "open": 3.617,
+    "high": 3.623,
+    "low": 3.576,
+    "close": 3.586
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "04/09/2025",
+    "open": 3.625,
+    "high": 3.635,
+    "low": 3.594,
+    "close": 3.598
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "04/08/2025",
+    "open": 3.698,
+    "high": 3.737,
+    "low": 3.661,
+    "close": 3.685
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "04/06/2025",
+    "open": 3.963,
+    "high": 3.976,
+    "low": 3.866,
+    "close": 3.883
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "04/04/2025",
+    "open": 3.686,
+    "high": 3.705,
+    "low": 3.465,
+    "close": 3.67
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "04/03/2025",
+    "open": 3.958,
+    "high": 4.005,
+    "low": 3.851,
+    "close": 4.005
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "04/02/2025",
+    "open": 4.265,
+    "high": 4.28,
+    "low": 4.216,
+    "close": 4.216
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "03/12/2025",
+    "open": 3.518,
+    "high": 3.518,
+    "low": 3.477,
+    "close": 3.498
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "03/11/2025",
+    "open": 3.582,
+    "high": 3.621,
+    "low": 3.582,
+    "close": 3.617
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "03/10/2025",
+    "open": 3.545,
+    "high": 3.588,
+    "low": 3.524,
+    "close": 3.574
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "03/09/2025",
+    "open": 3.645,
+    "high": 3.67,
+    "low": 3.608,
+    "close": 3.625
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "03/07/2025",
+    "open": 3.797,
+    "high": 3.921,
+    "low": 3.762,
+    "close": 3.892
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "03/06/2025",
+    "open": 3.949,
+    "high": 3.98,
+    "low": 3.91,
+    "close": 3.963
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "03/04/2025",
+    "open": 3.766,
+    "high": 3.825,
+    "low": 3.686,
+    "close": 3.725
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "03/03/2025",
+    "open": 4.007,
+    "high": 4.048,
+    "low": 3.948,
+    "close": 3.958
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "03/02/2025",
+    "open": 4.216,
+    "high": 4.288,
+    "low": 4.216,
+    "close": 4.265
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "02/12/2025",
+    "open": 3.549,
+    "high": 3.551,
+    "low": 3.516,
+    "close": 3.518
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "02/10/2025",
+    "open": 3.537,
+    "high": 3.582,
+    "low": 3.533,
+    "close": 3.545
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "02/09/2025",
+    "open": 3.635,
+    "high": 3.684,
+    "low": 3.625,
+    "close": 3.645
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "02/07/2025",
+    "open": 3.785,
+    "high": 3.809,
+    "low": 3.754,
+    "close": 3.797
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "02/06/2025",
+    "open": 3.908,
+    "high": 3.955,
+    "low": 3.904,
+    "close": 3.949
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "02/05/2025",
+    "open": 3.688,
+    "high": 3.845,
+    "low": 3.686,
+    "close": 3.84
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "02/04/2025",
+    "open": 3.904,
+    "high": 3.961,
+    "low": 3.834,
+    "close": 3.904
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "02/01/2026",
+    "open": 3.487,
+    "high": 3.5,
+    "low": 3.471,
+    "close": 3.488
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "01/12/2025",
+    "open": 3.504,
+    "high": 3.549,
+    "low": 3.489,
+    "close": 3.549
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "01/10/2025",
+    "open": 3.617,
+    "high": 3.625,
+    "low": 3.537,
+    "close": 3.537
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "01/09/2025",
+    "open": 3.625,
+    "high": 3.645,
+    "low": 3.625,
+    "close": 3.645
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "01/08/2025",
+    "open": 3.963,
+    "high": 3.974,
+    "low": 3.676,
+    "close": 3.698
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "01/07/2025",
+    "open": 3.723,
+    "high": 3.795,
+    "low": 3.703,
+    "close": 3.785
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "01/05/2025",
+    "open": 3.619,
+    "high": 3.723,
+    "low": 3.558,
+    "close": 3.701
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "01/04/2025",
+    "open": 3.889,
+    "high": 3.893,
+    "low": 3.844,
+    "close": 3.863
+  },
+  {
+    "country": "United States",
+    "symbol": "USGG2YR:IND",
+    "date": "01/01/2026",
+    "open": 3.487,
+    "high": 3.487,
+    "low": 3.487,
+    "close": 3.487
+  }
+]

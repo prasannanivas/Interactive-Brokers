@@ -19,8 +19,7 @@ import {
 import { historyAPI } from '../api/api'
 import './CurrencyRateCorrelationChart.css'
 
-const CurrencyRateCorrelationChart = ({ interestRateData }) => {
-  const [selectedPair, setSelectedPair] = useState('USDCAD')
+const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, onPairChange }) => {
   const [priceHistory, setPriceHistory] = useState([])
   const [loading, setLoading] = useState(false)
   const [timeframe, setTimeframe] = useState(90) // days
@@ -44,12 +43,12 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
   // Load price history when pair or timeframe changes
   useEffect(() => {
     loadPriceHistory()
-  }, [selectedPair, timeframe])
+  }, [selectedCurrencyPair, timeframe])
 
   const loadPriceHistory = async () => {
     setLoading(true)
     try {
-      const pairInfo = currencyPairs[selectedPair]
+      const pairInfo = currencyPairs[selectedCurrencyPair]
       if (!pairInfo) {
         setPriceHistory([])
         return
@@ -195,7 +194,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
   const chartData = useMemo(() => {
     if (!priceHistory || !Array.isArray(priceHistory) || priceHistory.length === 0) return []
     
-    const pairInfo = currencyPairs[selectedPair]
+    const pairInfo = currencyPairs[selectedCurrencyPair]
     if (!pairInfo) return []
 
     const historicalRates = getHistoricalRateDifferentials(pairInfo.base, pairInfo.quote)
@@ -398,7 +397,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
       console.error('Error processing chart data:', error)
       return []
     }
-  }, [priceHistory, selectedPair, interestRateData])
+  }, [priceHistory, selectedCurrencyPair, interestRateData])
 
   const stats = useMemo(() => {
     if (!chartData || !Array.isArray(chartData) || chartData.length === 0) return null
@@ -504,8 +503,8 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
           <h2>Currency vs Interest Rate Correlation</h2>
           <div className="chart-controls">
             <select 
-              value={selectedPair} 
-              onChange={(e) => setSelectedPair(e.target.value)}
+              value={selectedCurrencyPair} 
+              onChange={(e) => onPairChange(e.target.value)}
               disabled={loading}
             >
               {Object.entries(currencyPairs).map(([pair, info]) => (
@@ -531,8 +530,8 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
           <h2>Currency vs Interest Rate Correlation</h2>
           <div className="chart-controls">
             <select 
-              value={selectedPair} 
-              onChange={(e) => setSelectedPair(e.target.value)}
+              value={selectedCurrencyPair} 
+              onChange={(e) => onPairChange(e.target.value)}
             >
               {Object.entries(currencyPairs).map(([pair, info]) => (
                 <option key={pair} value={pair}>
@@ -552,7 +551,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
           </div>
         </div>
         <div className="no-data">
-          <p>No price history available for {selectedPair}</p>
+          <p>No price history available for {selectedCurrencyPair}</p>
           <button onClick={loadPriceHistory} className="retry-button">
             Try Again
           </button>
@@ -561,7 +560,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
     )
   }
 
-  const pairInfo = currencyPairs[selectedPair]
+  const pairInfo = currencyPairs[selectedCurrencyPair]
 
   return (
     <div className="correlation-chart">
@@ -569,8 +568,8 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
         <h2>Currency vs Interest Rate Correlation</h2>
         <div className="chart-controls">
           <select 
-            value={selectedPair} 
-            onChange={(e) => setSelectedPair(e.target.value)}
+            value={selectedCurrencyPair} 
+            onChange={(e) => onPairChange(e.target.value)}
             className="pair-selector"
           >
             {Object.entries(currencyPairs).map(([pair, info]) => (
@@ -631,7 +630,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
 
       <div className="chart-info">
         <p>
-          <strong>{selectedPair}</strong>: Showing {pairInfo.base} vs {pairInfo.quote} exchange rate 
+          <strong>{selectedCurrencyPair}</strong>: Showing {pairInfo.base} vs {pairInfo.quote} exchange rate 
           against historical interest rate differentials. 
           <br />
           <strong>Current differential:</strong> {stats?.currentRateDiff}% | 
@@ -679,7 +678,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
               yAxisId="price"
               orientation="left"
               tick={{ fill: '#9ca3af', fontSize: 12 }}
-              label={{ value: `${selectedPair} Price`, angle: -90, position: 'insideLeft' }}
+              label={{ value: `${selectedCurrencyPair} Price`, angle: -90, position: 'insideLeft' }}
               domain={['dataMin - 0.001', 'dataMax + 0.001']}
             />
             <YAxis 
@@ -689,7 +688,6 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
               label={{ value: 'Interest Rate Differential (%)', angle: 90, position: 'insideRight' }}
             />
             <Tooltip content={customTooltip} />
-            <Legend />
             
             <Line
               yAxisId="price"
@@ -724,7 +722,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
                 }
                 return null
               }}
-              name={`${selectedPair} Price`}
+              name={`${selectedCurrencyPair} Price`}
             />
             
             <Line
@@ -778,34 +776,6 @@ const CurrencyRateCorrelationChart = ({ interestRateData }) => {
             />
           </ComposedChart>
         </ResponsiveContainer>
-      </div>
-
-      <div className="chart-note">
-        <p className="note-text">
-          📊 <strong>How to interpret:</strong> When interest rate differential increases (base country rate {'>'}  quote country rate), 
-          the currency pair typically strengthens. This chart helps visualize this correlation over time.
-        </p>
-        <div className="chart-markers-legend">
-          <h4>📍 Rate Change Markers:</h4>
-          <div className="markers-grid">
-            <div className="marker-item">
-              <span className="marker-dot major-change"></span>
-              <span>Major Rate Change (≥0.5%)</span>
-            </div>
-            <div className="marker-item">
-              <span className="marker-dot minor-change"></span>
-              <span>Minor Rate Change (≥0.25%)</span>
-            </div>
-            <div className="marker-item">
-              <span className="reference-line zero"></span>
-              <span>Zero Differential</span>
-            </div>
-            <div className="marker-item">
-              <span className="reference-line positive"></span>
-              <span>±1.0% Reference</span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   )

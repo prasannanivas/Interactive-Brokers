@@ -12,7 +12,23 @@ import {
 } from 'recharts'
 import './InterestRateChart.css'
 
-const InterestRateChart = ({ interestRateData, loading, onRefresh }) => {
+const InterestRateChart = ({ interestRateData, loading, onRefresh, selectedCurrencyPair }) => {
+  // Map currency pairs to their countries
+  const pairToCountries = {
+    'USDCAD': ['United States', 'Canada'],
+    'EURUSD': ['Germany', 'United States'],
+    'GBPUSD': ['United Kingdom', 'United States'],
+    'AUDUSD': ['Australia', 'United States'],
+    'USDJPY': ['United States', 'Japan'],
+    'EURJPY': ['Germany', 'Japan'],
+    'GBPJPY': ['United Kingdom', 'Japan'],
+    'AUDJPY': ['Australia', 'Japan'],
+    'CADGBP': ['Canada', 'United Kingdom'],
+    'CADJPY': ['Canada', 'Japan'],
+    'AUDCAD': ['Australia', 'Canada'],
+    'EURGBP': ['Germany', 'United Kingdom']
+  }
+
   const chartData = useMemo(() => {
     if (!interestRateData || interestRateData.length === 0) return []
 
@@ -38,8 +54,14 @@ const InterestRateChart = ({ interestRateData, loading, onRefresh }) => {
       }
     })
 
+    // Filter based on selected currency pair
+    const selectedCountries = pairToCountries[selectedCurrencyPair] || []
+    const filteredData = Object.values(countryData).filter(item => 
+      selectedCountries.includes(item.Country)
+    )
+
     // Convert to chart format
-    return Object.values(countryData).map(item => ({
+    return filteredData.map(item => ({
       country: item.Country,
       currency: countryToCurrency[item.Country] || '',
       rate: item.Value,
@@ -49,7 +71,7 @@ const InterestRateChart = ({ interestRateData, loading, onRefresh }) => {
       displayName: `${item.Country} (${countryToCurrency[item.Country] || ''})`
     })).sort((a, b) => b.rate - a.rate) // Sort by rate descending
 
-  }, [interestRateData])
+  }, [interestRateData, selectedCurrencyPair])
 
   const getBarColor = (rate) => {
     if (rate >= 4.5) return '#e74c3c' // Red for high rates
@@ -176,7 +198,6 @@ const InterestRateChart = ({ interestRateData, loading, onRefresh }) => {
               label={{ value: 'Interest Rate (%)', angle: -90, position: 'insideLeft' }}
             />
             <Tooltip content={customTooltip} />
-            <Legend />
             <Bar 
               dataKey="rate" 
               name="Interest Rate (%)"

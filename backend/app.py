@@ -15,6 +15,7 @@ from typing import List, Dict, Optional
 import asyncio
 import json
 import os
+import logging
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from massive_monitor_v2 import MassiveMonitorV2
@@ -23,6 +24,7 @@ from database import Database, get_users_collection, get_login_history_collectio
 from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
 from state_tracker import track_and_detect_changes, INDICATOR_MAPPING
+from bis_data_fetcher import get_bis_fetcher
 import time
 
 # Load environment variables from .env file
@@ -461,6 +463,76 @@ async def get_telegram_status():
         "configured": telegram_bot.is_configured(),
         "chat_id": telegram_bot.chat_id if telegram_bot.is_configured() else None
     }
+
+
+@app.get("/api/bond/interest-rates")
+async def get_interest_rates(use_cache: bool = True):
+    """
+    Get latest central bank policy rates from BIS SDMX API
+    
+    Query params:
+        use_cache: Whether to use cached data (default: True, 12-hour cache)
+    
+    Returns:
+        List of interest rate data matching the format:
+        [{
+            "Country": str,
+            "Category": "Interest Rate",
+            "DateTime": str,
+            "Value": float,
+            "Frequency": "Daily",
+            "HistoricalDataSymbol": str,
+            "LastUpdate": str
+        }]
+    """
+    try:
+        bis_fetcher = get_bis_fetcher()
+        data = bis_fetcher.get_latest_rates(use_cache=use_cache)
+        return data
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to fetch BIS interest rates: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch interest rate data from BIS: {str(e)}"
+        )
+
+
+@app.get("/api/bond/interest-rates/{ref_area}")
+async def get_historical_interest_rates(ref_area: str, days: int = 365):
+    """
+    Get historical central bank policy rates for a specific country
+    
+    Path params:
+        ref_area: BIS reference area code (US, XM, JP, GB, CA, AU)
+    
+    Query params:
+        days: Number of days of history (default: 365)
+    
+    Returns:
+        List of historical interest rate data
+    """
+    try:
+        # Validate ref_area
+        valid_areas = ['US', 'XM', 'JP', 'GB', 'CA', 'AU']
+        if ref_area.upper() not in valid_areas:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid ref_area. Must be one of: {', '.join(valid_areas)}"
+            )
+        
+        bis_fetcher = get_bis_fetcher()
+        data = bis_fetcher.get_historical_rates(ref_area.upper(), days=days)
+        return data
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to fetch BIS historical rates: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch historical data: {str(e)}"
+        )
 
 
 @app.websocket("/ws")

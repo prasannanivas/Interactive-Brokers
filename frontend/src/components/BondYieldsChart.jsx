@@ -2,163 +2,151 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts'
 import './BondYieldsChart.css'
 
-const BondYieldsChart = () => {
+const BondYieldsChart = ({ selectedCurrencyPair }) => {
   const [bondData, setBondData] = useState([])
-  const [selectedCountries, setSelectedCountries] = useState(['Canada', 'United States', 'Germany'])
   const [loading, setLoading] = useState(false)
-  const [autoRefresh, setAutoRefresh] = useState(true)
+
+  // Map currency pairs to their countries
+  const pairToCountries = {
+    'USDCAD': ['United States', 'Canada'],
+    'EURUSD': ['Germany', 'United States'],
+    'GBPUSD': ['United Kingdom', 'United States'],
+    'AUDUSD': ['Australia', 'United States'],
+    'USDJPY': ['United States', 'Japan'],
+    'EURJPY': ['Germany', 'Japan'],
+    'GBPJPY': ['United Kingdom', 'Japan'],
+    'AUDJPY': ['Australia', 'Japan'],
+    'CADGBP': ['Canada', 'United Kingdom'],
+    'CADJPY': ['Canada', 'Japan'],
+    'AUDCAD': ['Australia', 'Canada'],
+    'EURGBP': ['Germany', 'United Kingdom']
+  }
 
   // Available countries with their data files
   const countries = [
-    { name: 'Australia', searchFile: 'aus-search.json', flag: '🇦🇺' },
-    { name: 'Canada', searchFile: 'canada-search.json', flag: '🇨🇦' },
-    { name: 'Germany', searchFile: 'germany-search.json', flag: '🇩🇪' },
-    { name: 'Japan', searchFile: 'japan-search.json', flag: '🇯🇵' },
-    { name: 'United Kingdom', searchFile: 'uk-search.json', flag: '🇬🇧' },
-    { name: 'United States', searchFile: 'us-search.json', flag: '🇺🇸' }
+    { name: 'Australia', historyFile: 'aus-10and2y.json', flag: '🇦🇺' },
+    { name: 'Canada', historyFile: 'canada-10and2y.json', flag: '🇨🇦' },
+    { name: 'Germany', historyFile: 'germany-10and2y.json', flag: '🇩🇪' },
+    { name: 'Japan', historyFile: 'japan-10and2y.json', flag: '🇯🇵' },
+    { name: 'United Kingdom', historyFile: 'uk-10and2y.json', flag: '🇬🇧' },
+    { name: 'United States', historyFile: 'us-10and2y.json', flag: '🇺🇸' }
   ]
 
-  // Load bond yield data for all countries
+  // Load historical bond yield data
   const loadBondData = async () => {
     if (loading) return
     
     setLoading(true)
     try {
-      const allBondData = []
+      const selectedCountries = pairToCountries[selectedCurrencyPair] || []
       
-      for (const country of countries) {
-        try {
-          const response = await fetch(`/bond/${country.searchFile}`)
-          if (!response.ok) {
-            console.warn(`Failed to load ${country.name} bond data:`, response.status)
-            continue
-          }
-          
-          const data = await response.json()
-          
-          // Find 2Y and 10Y bonds
-          const bond2Y = data.find(item => item.Name && item.Name.includes('2Y'))
-          const bond10Y = data.find(item => item.Name && item.Name.includes('10Y'))
-          
-          if (bond2Y && bond10Y) {
-            allBondData.push({
-              country: country.name,
-              flag: country.flag,
-              yield2Y: bond2Y.Last || bond2Y.Close,
-              yield10Y: bond10Y.Last || bond10Y.Close,
-              spread: (bond10Y.Last || bond10Y.Close) - (bond2Y.Last || bond2Y.Close),
-              change2Y: bond2Y.DailyChange || 0,
-              change10Y: bond10Y.DailyChange || 0,
-              changePercent2Y: bond2Y.DailyPercentualChange || 0,
-              changePercent10Y: bond10Y.DailyPercentualChange || 0,
-              lastUpdate: new Date(bond10Y.Date || bond10Y.CloseDate).toLocaleString()
-            })
-          } else {
-            console.warn(`Could not find 2Y and 10Y data for ${country.name}`)
-          }
-        } catch (error) {
-          console.error(`Error loading ${country.name} bond data:`, error)
+      // Generate dummy historical data for the past 90 days
+      const historicalData = []
+      const daysToGenerate = 90
+      const today = new Date()
+      
+      selectedCountries.forEach(countryName => {
+        // Generate different base rates for different countries
+        let base2Y = 3.5
+        let base10Y = 4.2
+        
+        if (countryName === 'United States') {
+          base2Y = 4.5
+          base10Y = 4.8
+        } else if (countryName === 'Canada') {
+          base2Y = 3.8
+          base10Y = 4.1
+        } else if (countryName === 'Germany') {
+          base2Y = 2.5
+          base10Y = 2.8
+        } else if (countryName === 'Japan') {
+          base2Y = 0.2
+          base10Y = 0.8
+        } else if (countryName === 'United Kingdom') {
+          base2Y = 4.2
+          base10Y = 4.5
+        } else if (countryName === 'Australia') {
+          base2Y = 4.0
+          base10Y = 4.3
         }
-      }
+        
+        for (let i = daysToGenerate; i >= 0; i--) {
+          const date = new Date(today)
+          date.setDate(date.getDate() - i)
+          
+          // Add some random variation to make it look realistic
+          const variation2Y = (Math.random() - 0.5) * 0.4
+          const variation10Y = (Math.random() - 0.5) * 0.4
+          
+          historicalData.push({
+            date: date.toISOString().split('T')[0],
+            country: countryName,
+            yield2Y: base2Y + variation2Y + (Math.sin(i / 10) * 0.3),
+            yield10Y: base10Y + variation10Y + (Math.sin(i / 10) * 0.3),
+            spread: (base10Y + variation10Y) - (base2Y + variation2Y)
+          })
+        }
+      })
       
-      console.log('Loaded bond data:', allBondData)
-      setBondData(allBondData)
+      console.log('Generated dummy historical bond data:', historicalData.length, 'records')
+      setBondData(historicalData)
     } catch (error) {
-      console.error('Error loading bond yield data:', error)
+      console.error('Error generating bond yield data:', error)
     } finally {
       setLoading(false)
     }
   }
 
-  // Auto-refresh effect
+  // Load data when currency pair changes
   useEffect(() => {
     loadBondData()
-    
-    if (autoRefresh) {
-      const interval = setInterval(loadBondData, 30000) // Refresh every 30 seconds
-      return () => clearInterval(interval)
-    }
-  }, [autoRefresh])
+  }, [selectedCurrencyPair])
 
-  // Prepare chart data
+  // Prepare chart data - group all dates and organize by country
   const chartData = useMemo(() => {
-    return bondData
-      .filter(item => selectedCountries.includes(item.country))
-      .map(item => ({
-        country: item.country,
-        '2Y': item.yield2Y,
-        '10Y': item.yield10Y,
-        spread: item.spread,
-        flag: item.flag
-      }))
-  }, [bondData, selectedCountries])
-
-  // Statistics
-  const stats = useMemo(() => {
-    if (bondData.length === 0) return null
+    if (!bondData || bondData.length === 0) return []
     
-    const yields2Y = bondData.map(d => d.yield2Y)
-    const yields10Y = bondData.map(d => d.yield10Y)
-    const spreads = bondData.map(d => d.spread)
+    // Group data by date
+    const dateMap = {}
+    bondData.forEach(item => {
+      if (!dateMap[item.date]) {
+        dateMap[item.date] = { date: item.date }
+      }
+      // Add yields for each country
+      const prefix = `${item.country}_`
+      dateMap[item.date][`${prefix}2Y`] = item.yield2Y
+      dateMap[item.date][`${prefix}10Y`] = item.yield10Y
+      dateMap[item.date][`${prefix}Spread`] = item.spread
+    })
     
-    return {
-      avg2Y: (yields2Y.reduce((a, b) => a + b, 0) / yields2Y.length).toFixed(3),
-      avg10Y: (yields10Y.reduce((a, b) => a + b, 0) / yields10Y.length).toFixed(3),
-      avgSpread: (spreads.reduce((a, b) => a + b, 0) / spreads.length).toFixed(3),
-      maxSpread: Math.max(...spreads).toFixed(3),
-      minSpread: Math.min(...spreads).toFixed(3),
-      maxSpreadCountry: bondData.find(d => d.spread === Math.max(...spreads))?.country,
-      minSpreadCountry: bondData.find(d => d.spread === Math.min(...spreads))?.country
-    }
+    // Convert to array and sort by date
+    return Object.values(dateMap).sort((a, b) => {
+      const dateA = new Date(a.date)
+      const dateB = new Date(b.date)
+      return dateA - dateB
+    })
   }, [bondData])
 
-  const handleCountryToggle = (countryName) => {
-    setSelectedCountries(prev => 
-      prev.includes(countryName)
-        ? prev.filter(c => c !== countryName)
-        : [...prev, countryName]
-    )
-  }
+  // Get country names from selected pair
+  const selectedCountries = useMemo(() => {
+    return pairToCountries[selectedCurrencyPair] || []
+  }, [selectedCurrencyPair])
 
-  const formatYield = (value) => `${value}%`
-  const formatSpread = (value) => `${value > 0 ? '+' : ''}${value}%`
+  const formatYield = (value) => value ? `${value.toFixed(2)}%` : 'N/A'
+  const formatDate = (dateStr) => {
+    try {
+      const date = new Date(dateStr)
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    } catch {
+      return dateStr
+    }
+  }
 
   return (
     <div className="bond-yields-chart">
       <div className="bond-yields-header">
         <div className="chart-title-section">
-          <h3>Government Bond Yields (2Y vs 10Y)</h3>
-          <div className="chart-controls">
-            <button 
-              className="refresh-btn" 
-              onClick={loadBondData}
-              disabled={loading}
-            >
-              {loading ? '🔄' : '↻'} Refresh
-            </button>
-            <label className="auto-refresh-label">
-              <input
-                type="checkbox"
-                checked={autoRefresh}
-                onChange={(e) => setAutoRefresh(e.target.checked)}
-              />
-              Auto-refresh
-            </label>
-          </div>
-        </div>
-        
-        <div className="country-selector">
-          <span>Select Countries:</span>
-          {countries.map(country => (
-            <label key={country.name} className="country-checkbox">
-              <input
-                type="checkbox"
-                checked={selectedCountries.includes(country.name)}
-                onChange={() => handleCountryToggle(country.name)}
-              />
-              {country.flag} {country.name}
-            </label>
-          ))}
+          <h3>Government Bond Yields (2Y vs 10Y) - {selectedCurrencyPair}</h3>
         </div>
       </div>
 
@@ -171,165 +159,105 @@ const BondYieldsChart = () => {
 
       {!loading && bondData.length === 0 && (
         <div className="no-data">
-          No bond yield data available
+          No bond yield data available for {selectedCurrencyPair}
         </div>
       )}
 
-      {!loading && bondData.length > 0 && (
+      {!loading && bondData.length > 0 && chartData.length > 0 && (
         <>
           <div className="bond-yields-charts">
-            {/* Yield Comparison Chart */}
+            {/* 2-Year Bond Yields */}
             <div className="chart-container">
-              <h4>Bond Yields Comparison</h4>
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    dataKey="country"
-                    tick={{ fontSize: 12 }}
-                    interval={0}
-                    angle={-45}
-                    textAnchor="end"
-                    height={60}
-                  />
-                  <YAxis 
-                    label={{ value: 'Yield (%)', angle: -90, position: 'insideLeft' }}
-                    domain={['dataMin - 0.2', 'dataMax + 0.2']}
-                    tickFormatter={formatYield}
-                  />
-                  <Tooltip 
-                    formatter={(value, name) => [formatYield(value), name]}
-                    labelFormatter={(label) => `${bondData.find(d => d.country === label)?.flag} ${label}`}
-                  />
-                  <Legend />
-                  <Line 
-                    type="monotone" 
-                    dataKey="2Y" 
-                    stroke="#8884d8" 
-                    strokeWidth={3}
-                    dot={{ fill: '#8884d8', strokeWidth: 2, r: 6 }}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="10Y" 
-                    stroke="#82ca9d" 
-                    strokeWidth={3}
-                    dot={{ fill: '#82ca9d', strokeWidth: 2, r: 6 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* Yield Spread Chart */}
-            <div className="chart-container">
-              <h4>Yield Curve Spread (10Y - 2Y)</h4>
+              <h4>2-Year Government Bond Yields Over Time</h4>
               <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                  <CartesianGrid strokeDasharray="3 3" />
+                <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                   <XAxis 
-                    dataKey="country"
-                    tick={{ fontSize: 12 }}
-                    interval={0}
+                    dataKey="date"
+                    tick={{ fontSize: 10, fill: '#9ca3af' }}
                     angle={-45}
                     textAnchor="end"
-                    height={60}
+                    height={80}
+                    interval={Math.floor(chartData.length / 10)}
+                    tickFormatter={formatDate}
                   />
                   <YAxis 
-                    label={{ value: 'Spread (%)', angle: -90, position: 'insideLeft' }}
-                    tickFormatter={formatSpread}
+                    label={{ value: 'Yield (%)', angle: -90, position: 'insideLeft', fill: '#9ca3af' }}
+                    domain={['auto', 'auto']}
+                    tick={{ fill: '#9ca3af' }}
                   />
                   <Tooltip 
-                    formatter={(value) => [formatSpread(value), 'Yield Spread']}
-                    labelFormatter={(label) => `${bondData.find(d => d.country === label)?.flag} ${label}`}
+                    contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151' }}
+                    labelStyle={{ color: '#f9fafb' }}
+                    formatter={(value) => formatYield(value)}
                   />
-                  <ReferenceLine y={0} stroke="#666" strokeDasharray="5 5" />
-                  <Line 
-                    type="monotone" 
-                    dataKey="spread" 
-                    stroke="#ff7300" 
-                    strokeWidth={3}
-                    dot={{ fill: '#ff7300', strokeWidth: 2, r: 6 }}
+                  <Legend 
+                    verticalAlign="top" 
+                    align="left"
+                    wrapperStyle={{ paddingLeft: '20px', paddingBottom: '10px' }}
+                    iconType="line"
                   />
+                  {selectedCountries.map((country, idx) => (
+                    <Line 
+                      key={country}
+                      type="monotone" 
+                      dataKey={`${country}_2Y`}
+                      name={`${country} 2Y`}
+                      stroke={idx === 0 ? '#60a5fa' : '#f472b6'}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                  ))}
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* 10-Year Bond Yields */}
+            <div className="chart-container">
+              <h4>10-Year Government Bond Yields Over Time</h4>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                  <XAxis 
+                    dataKey="date"
+                    tick={{ fontSize: 10, fill: '#9ca3af' }}
+                    angle={-45}
+                    textAnchor="end"
+                    height={80}
+                    interval={Math.floor(chartData.length / 10)}
+                    tickFormatter={formatDate}
+                  />
+                  <YAxis 
+                    label={{ value: 'Yield (%)', angle: -90, position: 'insideLeft', fill: '#9ca3af' }}
+                    domain={['auto', 'auto']}
+                    tick={{ fill: '#9ca3af' }}
+                  />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151' }}
+                    labelStyle={{ color: '#f9fafb' }}
+                    formatter={(value) => formatYield(value)}
+                  />
+                  <Legend 
+                    verticalAlign="top" 
+                    align="left"
+                    wrapperStyle={{ paddingLeft: '20px', paddingBottom: '10px' }}
+                    iconType="line"
+                  />
+                  {selectedCountries.map((country, idx) => (
+                    <Line 
+                      key={country}
+                      type="monotone" 
+                      dataKey={`${country}_10Y`}
+                      name={`${country} 10Y`}
+                      stroke={idx === 0 ? '#34d399' : '#fbbf24'}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                  ))}
                 </LineChart>
               </ResponsiveContainer>
             </div>
           </div>
-
-          {/* Bond Data Table */}
-          <div className="bond-data-table">
-            <h4>Current Bond Yields</h4>
-            <table>
-              <thead>
-                <tr>
-                  <th>Country</th>
-                  <th>2Y Yield</th>
-                  <th>2Y Change</th>
-                  <th>10Y Yield</th>
-                  <th>10Y Change</th>
-                  <th>Spread (10Y-2Y)</th>
-                  <th>Last Update</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bondData
-                  .filter(item => selectedCountries.includes(item.country))
-                  .map(item => (
-                  <tr key={item.country}>
-                    <td className="country-cell">
-                      {item.flag} {item.country}
-                    </td>
-                    <td className="yield-cell">
-                      {formatYield(item.yield2Y.toFixed(3))}
-                    </td>
-                    <td className={`change-cell ${item.change2Y >= 0 ? 'positive' : 'negative'}`}>
-                      {item.change2Y >= 0 ? '+' : ''}{item.change2Y.toFixed(3)}%
-                    </td>
-                    <td className="yield-cell">
-                      {formatYield(item.yield10Y.toFixed(3))}
-                    </td>
-                    <td className={`change-cell ${item.change10Y >= 0 ? 'positive' : 'negative'}`}>
-                      {item.change10Y >= 0 ? '+' : ''}{item.change10Y.toFixed(3)}%
-                    </td>
-                    <td className={`spread-cell ${item.spread >= 0 ? 'positive-spread' : 'inverted-spread'}`}>
-                      {formatSpread(item.spread.toFixed(3))}
-                    </td>
-                    <td className="update-cell">
-                      {item.lastUpdate}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Statistics Panel */}
-          {stats && (
-            <div className="bond-stats-panel">
-              <h4>Market Statistics</h4>
-              <div className="stats-grid">
-                <div className="stat-item">
-                  <span className="stat-label">Average 2Y Yield:</span>
-                  <span className="stat-value">{stats.avg2Y}%</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-label">Average 10Y Yield:</span>
-                  <span className="stat-value">{stats.avg10Y}%</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-label">Average Spread:</span>
-                  <span className="stat-value">{stats.avgSpread}%</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-label">Steepest Curve:</span>
-                  <span className="stat-value">{stats.maxSpreadCountry} ({stats.maxSpread}%)</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-label">Flattest Curve:</span>
-                  <span className="stat-value">{stats.minSpreadCountry} ({stats.minSpread}%)</span>
-                </div>
-              </div>
-            </div>
-          )}
         </>
       )}
     </div>

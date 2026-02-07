@@ -6,6 +6,7 @@ import CurrencyMatrix from '../components/CurrencyMatrix'
 import InterestRateChart from '../components/InterestRateChart'
 import CurrencyRateCorrelationChart from '../components/CurrencyRateCorrelationChart'
 import BondYieldsChart from '../components/BondYieldsChart'
+import ComprehensiveAnalysisChart from '../components/ComprehensiveAnalysisChart'
 import ErrorBoundary from '../components/ErrorBoundary'
 import './Dashboard.css'
 
@@ -60,6 +61,7 @@ const Dashboard = () => {
   })
   const [interestRateData, setInterestRateData] = useState([])
   const [loadingInterestRates, setLoadingInterestRates] = useState(false)
+  const [selectedCurrencyPair, setSelectedCurrencyPair] = useState('USDCAD')
   const wsRef = useRef(null)
 
   // Column configuration - all available columns
@@ -463,24 +465,47 @@ const Dashboard = () => {
       {/* Currency Signal Matrix */}
       <CurrencyMatrix watchlist={watchlist} onPairClick={viewSignalHistory} />
 
-      {/* Interest Rate Chart */}
-      <InterestRateChart 
-        interestRateData={interestRateData}
-        loading={loadingInterestRates}
-        onRefresh={loadInterestRates}
-      />
-
-      {/* Currency vs Interest Rate Correlation Chart */}
+      {/* Comprehensive Analysis Chart - New TradingView-style Layout */}
       <ErrorBoundary>
-        <CurrencyRateCorrelationChart 
-          interestRateData={interestRateData}
+        <ComprehensiveAnalysisChart 
+          selectedCurrencyPair={selectedCurrencyPair}
+          onPairChange={setSelectedCurrencyPair}
+          watchlist={watchlist}
         />
       </ErrorBoundary>
 
-      {/* Bond Yields Chart */}
-      <ErrorBoundary>
-        <BondYieldsChart />
-      </ErrorBoundary>
+      {/* Stacked Charts Section - Original Charts (Can be toggled/hidden) */}
+      <div className="stacked-charts-container" style={{ display: 'none' }}>
+        {/* Interest Rate Chart */}
+        <div className="stacked-chart-item">
+          <InterestRateChart 
+            interestRateData={interestRateData}
+            loading={loadingInterestRates}
+            onRefresh={loadInterestRates}
+            selectedCurrencyPair={selectedCurrencyPair}
+          />
+        </div>
+
+        {/* Currency vs Interest Rate Correlation Chart */}
+        <div className="stacked-chart-item">
+          <ErrorBoundary>
+            <CurrencyRateCorrelationChart 
+              interestRateData={interestRateData}
+              selectedCurrencyPair={selectedCurrencyPair}
+              onPairChange={setSelectedCurrencyPair}
+            />
+          </ErrorBoundary>
+        </div>
+
+        {/* Bond Yields Chart */}
+        <div className="stacked-chart-item">
+          <ErrorBoundary>
+            <BondYieldsChart 
+              selectedCurrencyPair={selectedCurrencyPair}
+            />
+          </ErrorBoundary>
+        </div>
+      </div>
 
       <div className="dashboard-grid">
         <div className="panel">
