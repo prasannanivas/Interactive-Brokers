@@ -2,425 +2,11 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
-    "date": "31/12/2025",
-    "open": 2.862,
-    "high": 2.8623,
-    "low": 2.859,
-    "close": 2.8623
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "31/10/2025",
-    "open": 2.644,
-    "high": 2.658,
-    "low": 2.632,
-    "close": 2.6369
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "31/07/2025",
-    "open": 2.701,
-    "high": 2.707,
-    "low": 2.674,
-    "close": 2.693
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "31/03/2025",
-    "open": 2.728,
-    "high": 2.734,
-    "low": 2.659,
-    "close": 2.727
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "31/01/2025",
-    "open": 2.519,
-    "high": 2.539,
-    "low": 2.453,
-    "close": 2.459
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "30/12/2025",
-    "open": 2.846,
-    "high": 2.862,
-    "low": 2.833,
-    "close": 2.8533
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "30/10/2025",
-    "open": 2.621,
-    "high": 2.661,
-    "low": 2.621,
-    "close": 2.6375
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "30/09/2025",
-    "open": 2.708,
-    "high": 2.724,
-    "low": 2.693,
-    "close": 2.712
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "30/07/2025",
-    "open": 2.691,
-    "high": 2.714,
-    "low": 2.674,
-    "close": 2.705
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "30/06/2025",
-    "open": 2.586,
-    "high": 2.603,
-    "low": 2.563,
-    "close": 2.596
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "30/05/2025",
-    "open": 2.509,
-    "high": 2.539,
-    "low": 2.497,
-    "close": 2.508
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "30/04/2025",
-    "open": 2.491,
-    "high": 2.498,
-    "low": 2.439,
-    "close": 2.44
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "30/01/2025",
-    "open": 2.562,
-    "high": 2.573,
-    "low": 2.496,
-    "close": 2.517
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "29/12/2025",
-    "open": 2.862,
-    "high": 2.865,
-    "low": 2.824,
-    "close": 2.8257
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "29/10/2025",
-    "open": 2.626,
-    "high": 2.629,
-    "low": 2.615,
-    "close": 2.6186
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "29/09/2025",
-    "open": 2.741,
-    "high": 2.744,
-    "low": 2.706,
-    "close": 2.7062
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "29/08/2025",
-    "open": 2.701,
-    "high": 2.724,
-    "low": 2.693,
-    "close": 2.7222
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "29/07/2025",
-    "open": 2.69,
-    "high": 2.712,
-    "low": 2.683,
-    "close": 2.69
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "29/05/2025",
-    "open": 2.583,
-    "high": 2.594,
-    "low": 2.512,
-    "close": 2.512
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "29/04/2025",
-    "open": 2.5,
-    "high": 2.51,
-    "low": 2.486,
-    "close": 2.492
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "29/01/2025",
-    "open": 2.556,
-    "high": 2.573,
-    "low": 2.525,
-    "close": 2.571
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "28/11/2025",
-    "open": 2.681,
-    "high": 2.697,
-    "low": 2.671,
-    "close": 2.6913
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "28/10/2025",
-    "open": 2.614,
-    "high": 2.6212,
-    "low": 2.603,
-    "close": 2.6212
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "28/08/2025",
-    "open": 2.699,
-    "high": 2.716,
-    "low": 2.679,
-    "close": 2.6977
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "28/07/2025",
-    "open": 2.729,
-    "high": 2.73,
-    "low": 2.679,
-    "close": 2.688
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "28/05/2025",
-    "open": 2.545,
-    "high": 2.562,
-    "low": 2.535,
-    "close": 2.547
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "28/04/2025",
-    "open": 2.473,
-    "high": 2.524,
-    "low": 2.471,
-    "close": 2.5065
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "28/03/2025",
-    "open": 2.775,
-    "high": 2.775,
-    "low": 2.708,
-    "close": 2.732
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "28/02/2025",
-    "open": 2.415,
-    "high": 2.415,
-    "low": 2.374,
-    "close": 2.3865
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "28/01/2025",
-    "open": 2.531,
-    "high": 2.565,
-    "low": 2.531,
-    "close": 2.5605
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "27/11/2025",
-    "open": 2.668,
-    "high": 2.69,
-    "low": 2.666,
-    "close": 2.6775
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "27/10/2025",
-    "open": 2.632,
-    "high": 2.645,
-    "low": 2.616,
-    "close": 2.6167
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "27/08/2025",
-    "open": 2.724,
-    "high": 2.732,
-    "low": 2.685,
-    "close": 2.694
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "27/06/2025",
-    "open": 2.559,
-    "high": 2.605,
-    "low": 2.548,
-    "close": 2.597
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "27/05/2025",
-    "open": 2.536,
-    "high": 2.552,
-    "low": 2.513,
-    "close": 2.533
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "27/03/2025",
-    "open": 2.772,
-    "high": 2.792,
-    "low": 2.746,
-    "close": 2.7735
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "27/02/2025",
-    "open": 2.433,
-    "high": 2.452,
-    "low": 2.412,
-    "close": 2.4135
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
     "date": "27/01/2026",
     "open": 2.8677,
     "high": 2.8862,
     "low": 2.8607,
     "close": 2.8708
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "27/01/2025",
-    "open": 2.496,
-    "high": 2.524,
-    "low": 2.466,
-    "close": 2.503
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "26/12/2025",
-    "open": 2.8624,
-    "high": 2.8624,
-    "low": 2.8624,
-    "close": 2.8624
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "26/11/2025",
-    "open": 2.673,
-    "high": 2.689,
-    "low": 2.661,
-    "close": 2.6741
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "26/09/2025",
-    "open": 2.774,
-    "high": 2.779,
-    "low": 2.728,
-    "close": 2.7451
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "26/08/2025",
-    "open": 2.751,
-    "high": 2.751,
-    "low": 2.716,
-    "close": 2.7219
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "26/06/2025",
-    "open": 2.55,
-    "high": 2.573,
-    "low": 2.533,
-    "close": 2.564
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "26/05/2025",
-    "open": 2.585,
-    "high": 2.609,
-    "low": 2.558,
-    "close": 2.5595
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "26/03/2025",
-    "open": 2.802,
-    "high": 2.81,
-    "low": 2.774,
-    "close": 2.7895
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "26/02/2025",
-    "open": 2.457,
-    "high": 2.474,
-    "low": 2.421,
-    "close": 2.438
   },
   {
     "country": "Germany",
@@ -434,299 +20,11 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
-    "date": "25/12/2025",
-    "open": 2.8624,
-    "high": 2.8624,
-    "low": 2.8624,
-    "close": 2.8624
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "25/11/2025",
-    "open": 2.694,
-    "high": 2.704,
-    "low": 2.666,
-    "close": 2.6728
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "25/09/2025",
-    "open": 2.748,
-    "high": 2.778,
-    "low": 2.732,
-    "close": 2.7721
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "25/08/2025",
-    "open": 2.749,
-    "high": 2.778,
-    "low": 2.74,
-    "close": 2.7581
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "25/07/2025",
-    "open": 2.71,
-    "high": 2.768,
-    "low": 2.708,
-    "close": 2.716
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "25/06/2025",
-    "open": 2.544,
-    "high": 2.577,
-    "low": 2.503,
-    "close": 2.5615
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "25/04/2025",
-    "open": 2.455,
-    "high": 2.48,
-    "low": 2.455,
-    "close": 2.473
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "25/03/2025",
-    "open": 2.776,
-    "high": 2.831,
-    "low": 2.773,
-    "close": 2.793
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "25/02/2025",
-    "open": 2.499,
-    "high": 2.499,
-    "low": 2.446,
-    "close": 2.451
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "24/12/2025",
-    "open": 2.8716,
-    "high": 2.8716,
-    "low": 2.867,
-    "close": 2.867
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "24/11/2025",
-    "open": 2.703,
-    "high": 2.708,
-    "low": 2.681,
-    "close": 2.697
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "24/10/2025",
-    "open": 2.585,
-    "high": 2.632,
-    "low": 2.572,
-    "close": 2.6242
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "24/09/2025",
-    "open": 2.74,
-    "high": 2.754,
-    "low": 2.73,
-    "close": 2.7474
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "24/07/2025",
-    "open": 2.679,
-    "high": 2.71,
-    "low": 2.659,
-    "close": 2.694
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "24/06/2025",
-    "open": 2.518,
-    "high": 2.572,
-    "low": 2.497,
-    "close": 2.533
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "24/04/2025",
-    "open": 2.495,
-    "high": 2.5,
-    "low": 2.442,
-    "close": 2.442
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "24/03/2025",
-    "open": 2.79,
-    "high": 2.8,
-    "low": 2.763,
-    "close": 2.77
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "24/02/2025",
-    "open": 2.48,
-    "high": 2.499,
-    "low": 2.453,
-    "close": 2.4695
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "23/12/2025",
-    "open": 2.907,
-    "high": 2.907,
-    "low": 2.859,
-    "close": 2.8647
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "23/10/2025",
-    "open": 2.566,
-    "high": 2.582,
-    "low": 2.565,
-    "close": 2.5779
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "23/09/2025",
-    "open": 2.753,
-    "high": 2.753,
-    "low": 2.73,
-    "close": 2.752
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "23/07/2025",
-    "open": 2.589,
-    "high": 2.625,
-    "low": 2.589,
-    "close": 2.6
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "23/06/2025",
-    "open": 2.53,
-    "high": 2.558,
-    "low": 2.494,
-    "close": 2.505
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "23/05/2025",
-    "open": 2.64,
-    "high": 2.644,
-    "low": 2.539,
-    "close": 2.574
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "23/04/2025",
-    "open": 2.457,
-    "high": 2.518,
-    "low": 2.454,
-    "close": 2.4935
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
     "date": "23/01/2026",
     "open": 2.888,
     "high": 2.907,
     "low": 2.878,
     "close": 2.903
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "22/12/2025",
-    "open": 2.913,
-    "high": 2.917,
-    "low": 2.891,
-    "close": 2.9044
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "22/10/2025",
-    "open": 2.558,
-    "high": 2.569,
-    "low": 2.54,
-    "close": 2.5592
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "22/09/2025",
-    "open": 2.762,
-    "high": 2.762,
-    "low": 2.729,
-    "close": 2.7481
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "22/08/2025",
-    "open": 2.75,
-    "high": 2.762,
-    "low": 2.7181,
-    "close": 2.7191
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "22/07/2025",
-    "open": 2.616,
-    "high": 2.632,
-    "low": 2.584,
-    "close": 2.588
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "22/05/2025",
-    "open": 2.66,
-    "high": 2.665,
-    "low": 2.636,
-    "close": 2.6375
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "22/04/2025",
-    "open": 2.473,
-    "high": 2.478,
-    "low": 2.439,
-    "close": 2.439
   },
   {
     "country": "Germany",
@@ -740,146 +38,11 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
-    "date": "21/11/2025",
-    "open": 2.72,
-    "high": 2.72,
-    "low": 2.672,
-    "close": 2.698
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "21/10/2025",
-    "open": 2.577,
-    "high": 2.582,
-    "low": 2.549,
-    "close": 2.5508
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "21/08/2025",
-    "open": 2.73,
-    "high": 2.761,
-    "low": 2.707,
-    "close": 2.7537
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "21/07/2025",
-    "open": 2.69,
-    "high": 2.69,
-    "low": 2.61,
-    "close": 2.618
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "21/05/2025",
-    "open": 2.613,
-    "high": 2.67,
-    "low": 2.613,
-    "close": 2.642
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "21/04/2025",
-    "open": 2.469,
-    "high": 2.4695,
-    "low": 2.469,
-    "close": 2.4695
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "21/03/2025",
-    "open": 2.784,
-    "high": 2.786,
-    "low": 2.746,
-    "close": 2.765
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "21/02/2025",
-    "open": 2.53,
-    "high": 2.532,
-    "low": 2.461,
-    "close": 2.4625
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
     "date": "21/01/2026",
     "open": 2.854,
     "high": 2.885,
     "low": 2.836,
     "close": 2.8781
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "20/11/2025",
-    "open": 2.728,
-    "high": 2.741,
-    "low": 2.714,
-    "close": 2.7194
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "20/10/2025",
-    "open": 2.592,
-    "high": 2.599,
-    "low": 2.575,
-    "close": 2.5839
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "20/08/2025",
-    "open": 2.758,
-    "high": 2.77,
-    "low": 2.712,
-    "close": 2.7164
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "20/06/2025",
-    "open": 2.519,
-    "high": 2.539,
-    "low": 2.487,
-    "close": 2.513
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "20/05/2025",
-    "open": 2.579,
-    "high": 2.624,
-    "low": 2.555,
-    "close": 2.599
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "20/03/2025",
-    "open": 2.766,
-    "high": 2.791,
-    "low": 2.748,
-    "close": 2.7775
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "20/02/2025",
-    "open": 2.545,
-    "high": 2.563,
-    "low": 2.531,
-    "close": 2.5335
   },
   {
     "country": "Germany",
@@ -893,308 +56,11 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
-    "date": "19/12/2025",
-    "open": 2.851,
-    "high": 2.894,
-    "low": 2.85,
-    "close": 2.8925
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "19/11/2025",
-    "open": 2.707,
-    "high": 2.714,
-    "low": 2.683,
-    "close": 2.7103
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "19/09/2025",
-    "open": 2.73,
-    "high": 2.751,
-    "low": 2.726,
-    "close": 2.7485
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "19/08/2025",
-    "open": 2.769,
-    "high": 2.784,
-    "low": 2.748,
-    "close": 2.7543
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "19/06/2025",
-    "open": 2.511,
-    "high": 2.538,
-    "low": 2.501,
-    "close": 2.5185
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "19/05/2025",
-    "open": 2.594,
-    "high": 2.653,
-    "low": 2.572,
-    "close": 2.576
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "19/03/2025",
-    "open": 2.806,
-    "high": 2.815,
-    "low": 2.748,
-    "close": 2.798
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "19/02/2025",
-    "open": 2.502,
-    "high": 2.555,
-    "low": 2.494,
-    "close": 2.549
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
     "date": "19/01/2026",
     "open": 2.83,
     "high": 2.841,
     "low": 2.81,
     "close": 2.8402
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "18/12/2025",
-    "open": 2.859,
-    "high": 2.895,
-    "low": 2.841,
-    "close": 2.8491
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "18/11/2025",
-    "open": 2.702,
-    "high": 2.71,
-    "low": 2.684,
-    "close": 2.7095
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "18/09/2025",
-    "open": 2.684,
-    "high": 2.724,
-    "low": 2.666,
-    "close": 2.716
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "18/08/2025",
-    "open": 2.787,
-    "high": 2.787,
-    "low": 2.741,
-    "close": 2.7759
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "18/07/2025",
-    "open": 2.681,
-    "high": 2.702,
-    "low": 2.678,
-    "close": 2.691
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "18/06/2025",
-    "open": 2.537,
-    "high": 2.548,
-    "low": 2.497,
-    "close": 2.4985
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "18/04/2025",
-    "open": 2.469,
-    "high": 2.469,
-    "low": 2.463,
-    "close": 2.463
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "18/03/2025",
-    "open": 2.826,
-    "high": 2.855,
-    "low": 2.808,
-    "close": 2.815
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "18/02/2025",
-    "open": 2.489,
-    "high": 2.517,
-    "low": 2.489,
-    "close": 2.4905
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "17/12/2025",
-    "open": 2.843,
-    "high": 2.867,
-    "low": 2.826,
-    "close": 2.8642
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "17/11/2025",
-    "open": 2.716,
-    "high": 2.718,
-    "low": 2.7,
-    "close": 2.713
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "17/10/2025",
-    "open": 2.576,
-    "high": 2.587,
-    "low": 2.523,
-    "close": 2.5784
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "17/09/2025",
-    "open": 2.692,
-    "high": 2.694,
-    "low": 2.664,
-    "close": 2.6763
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "17/07/2025",
-    "open": 2.697,
-    "high": 2.712,
-    "low": 2.664,
-    "close": 2.675
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "17/06/2025",
-    "open": 2.541,
-    "high": 2.558,
-    "low": 2.505,
-    "close": 2.5345
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "17/04/2025",
-    "open": 2.511,
-    "high": 2.538,
-    "low": 2.453,
-    "close": 2.4645
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "17/03/2025",
-    "open": 2.869,
-    "high": 2.878,
-    "low": 2.8,
-    "close": 2.802
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "17/02/2025",
-    "open": 2.431,
-    "high": 2.5,
-    "low": 2.431,
-    "close": 2.483
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "16/12/2025",
-    "open": 2.855,
-    "high": 2.869,
-    "low": 2.839,
-    "close": 2.8466
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "16/10/2025",
-    "open": 2.578,
-    "high": 2.586,
-    "low": 2.563,
-    "close": 2.5694
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "16/09/2025",
-    "open": 2.697,
-    "high": 2.716,
-    "low": 2.68,
-    "close": 2.6945
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "16/07/2025",
-    "open": 2.696,
-    "high": 2.727,
-    "low": 2.679,
-    "close": 2.692
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "16/06/2025",
-    "open": 2.539,
-    "high": 2.588,
-    "low": 2.516,
-    "close": 2.5285
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "16/05/2025",
-    "open": 2.614,
-    "high": 2.614,
-    "low": 2.563,
-    "close": 2.586
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "16/04/2025",
-    "open": 2.536,
-    "high": 2.536,
-    "low": 2.479,
-    "close": 2.502
   },
   {
     "country": "Germany",
@@ -1208,146 +74,11 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
-    "date": "15/12/2025",
-    "open": 2.859,
-    "high": 2.859,
-    "low": 2.834,
-    "close": 2.8508
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "15/10/2025",
-    "open": 2.604,
-    "high": 2.604,
-    "low": 2.557,
-    "close": 2.558
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "15/09/2025",
-    "open": 2.705,
-    "high": 2.709,
-    "low": 2.687,
-    "close": 2.6959
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "15/08/2025",
-    "open": 2.707,
-    "high": 2.78,
-    "low": 2.7,
-    "close": 2.7787
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "15/07/2025",
-    "open": 2.726,
-    "high": 2.728,
-    "low": 2.67,
-    "close": 2.715
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "15/05/2025",
-    "open": 2.696,
-    "high": 2.7,
-    "low": 2.623,
-    "close": 2.625
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "15/04/2025",
-    "open": 2.504,
-    "high": 2.551,
-    "low": 2.493,
-    "close": 2.544
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
     "date": "15/01/2026",
     "open": 2.824,
     "high": 2.835,
     "low": 2.811,
     "close": 2.8177
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "14/11/2025",
-    "open": 2.701,
-    "high": 2.718,
-    "low": 2.682,
-    "close": 2.7166
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "14/10/2025",
-    "open": 2.637,
-    "high": 2.637,
-    "low": 2.587,
-    "close": 2.6071
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "14/08/2025",
-    "open": 2.684,
-    "high": 2.707,
-    "low": 2.655,
-    "close": 2.7062
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "14/07/2025",
-    "open": 2.726,
-    "high": 2.737,
-    "low": 2.707,
-    "close": 2.732
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "14/05/2025",
-    "open": 2.683,
-    "high": 2.694,
-    "low": 2.656,
-    "close": 2.692
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "14/04/2025",
-    "open": 2.571,
-    "high": 2.58,
-    "low": 2.509,
-    "close": 2.521
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "14/03/2025",
-    "open": 2.866,
-    "high": 2.936,
-    "low": 2.846,
-    "close": 2.873
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "14/02/2025",
-    "open": 2.424,
-    "high": 2.444,
-    "low": 2.413,
-    "close": 2.423
   },
   {
     "country": "Germany",
@@ -1361,146 +92,11 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
-    "date": "13/11/2025",
-    "open": 2.649,
-    "high": 2.69,
-    "low": 2.639,
-    "close": 2.6874
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "13/10/2025",
-    "open": 2.653,
-    "high": 2.656,
-    "low": 2.622,
-    "close": 2.6301
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "13/08/2025",
-    "open": 2.741,
-    "high": 2.741,
-    "low": 2.675,
-    "close": 2.6801
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "13/06/2025",
-    "open": 2.477,
-    "high": 2.537,
-    "low": 2.422,
-    "close": 2.536
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "13/05/2025",
-    "open": 2.663,
-    "high": 2.68,
-    "low": 2.653,
-    "close": 2.675
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "13/03/2025",
-    "open": 2.869,
-    "high": 2.909,
-    "low": 2.845,
-    "close": 2.8535
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "13/02/2025",
-    "open": 2.472,
-    "high": 2.479,
-    "low": 2.413,
-    "close": 2.419
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
     "date": "13/01/2026",
     "open": 2.817,
     "high": 2.833,
     "low": 2.805,
     "close": 2.8134
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "12/12/2025",
-    "open": 2.844,
-    "high": 2.871,
-    "low": 2.844,
-    "close": 2.8611
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "12/11/2025",
-    "open": 2.66,
-    "high": 2.68,
-    "low": 2.645,
-    "close": 2.6465
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "12/09/2025",
-    "open": 2.66,
-    "high": 2.715,
-    "low": 2.66,
-    "close": 2.7133
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "12/08/2025",
-    "open": 2.694,
-    "high": 2.756,
-    "low": 2.69,
-    "close": 2.7431
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "12/06/2025",
-    "open": 2.531,
-    "high": 2.536,
-    "low": 2.469,
-    "close": 2.478
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "12/05/2025",
-    "open": 2.563,
-    "high": 2.65,
-    "low": 2.562,
-    "close": 2.642
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "12/03/2025",
-    "open": 2.903,
-    "high": 2.938,
-    "low": 2.875,
-    "close": 2.8865
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "12/02/2025",
-    "open": 2.44,
-    "high": 2.488,
-    "low": 2.431,
-    "close": 2.478
   },
   {
     "country": "Germany",
@@ -1514,299 +110,11 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
-    "date": "11/12/2025",
-    "open": 2.852,
-    "high": 2.865,
-    "low": 2.835,
-    "close": 2.8456
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "11/11/2025",
-    "open": 2.678,
-    "high": 2.681,
-    "low": 2.652,
-    "close": 2.6574
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "11/09/2025",
-    "open": 2.65,
-    "high": 2.684,
-    "low": 2.636,
-    "close": 2.6505
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "11/08/2025",
-    "open": 2.691,
-    "high": 2.698,
-    "low": 2.66,
-    "close": 2.6966
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "11/07/2025",
-    "open": 2.655,
-    "high": 2.695,
-    "low": 2.643,
-    "close": 2.686
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "11/06/2025",
-    "open": 2.528,
-    "high": 2.555,
-    "low": 2.515,
-    "close": 2.5385
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "11/04/2025",
-    "open": 2.612,
-    "high": 2.632,
-    "low": 2.49,
-    "close": 2.527
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "11/03/2025",
-    "open": 2.831,
-    "high": 2.877,
-    "low": 2.82,
-    "close": 2.872
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "11/02/2025",
-    "open": 2.379,
-    "high": 2.437,
-    "low": 2.377,
-    "close": 2.427
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "10/12/2025",
-    "open": 2.858,
-    "high": 2.894,
-    "low": 2.855,
-    "close": 2.8563
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "10/11/2025",
-    "open": 2.697,
-    "high": 2.699,
-    "low": 2.659,
-    "close": 2.6658
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "10/10/2025",
-    "open": 2.698,
-    "high": 2.698,
-    "low": 2.632,
-    "close": 2.634
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "10/09/2025",
-    "open": 2.653,
-    "high": 2.671,
-    "low": 2.636,
-    "close": 2.6539
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "10/07/2025",
-    "open": 2.628,
-    "high": 2.667,
-    "low": 2.615,
-    "close": 2.662
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "10/06/2025",
-    "open": 2.56,
-    "high": 2.568,
-    "low": 2.517,
-    "close": 2.531
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "10/04/2025",
-    "open": 2.707,
-    "high": 2.715,
-    "low": 2.568,
-    "close": 2.5815
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "10/03/2025",
-    "open": 2.879,
-    "high": 2.879,
-    "low": 2.773,
-    "close": 2.825
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "10/02/2025",
-    "open": 2.374,
-    "high": 2.385,
-    "low": 2.35,
-    "close": 2.36
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "09/12/2025",
-    "open": 2.865,
-    "high": 2.879,
-    "low": 2.836,
-    "close": 2.8519
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "09/10/2025",
-    "open": 2.683,
-    "high": 2.706,
-    "low": 2.677,
-    "close": 2.704
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "09/09/2025",
-    "open": 2.655,
-    "high": 2.673,
-    "low": 2.65,
-    "close": 2.6644
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "09/07/2025",
-    "open": 2.648,
-    "high": 2.653,
-    "low": 2.622,
-    "close": 2.632
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "09/06/2025",
-    "open": 2.569,
-    "high": 2.593,
-    "low": 2.514,
-    "close": 2.5695
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "09/05/2025",
-    "open": 2.541,
-    "high": 2.588,
-    "low": 2.541,
-    "close": 2.551
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "09/04/2025",
-    "open": 2.626,
-    "high": 2.675,
-    "low": 2.557,
-    "close": 2.5795
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
     "date": "09/01/2026",
     "open": 2.825,
     "high": 2.843,
     "low": 2.819,
     "close": 2.8256
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "08/12/2025",
-    "open": 2.799,
-    "high": 2.876,
-    "low": 2.798,
-    "close": 2.8666
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "08/10/2025",
-    "open": 2.714,
-    "high": 2.715,
-    "low": 2.666,
-    "close": 2.6769
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "08/09/2025",
-    "open": 2.665,
-    "high": 2.677,
-    "low": 2.638,
-    "close": 2.6387
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "08/08/2025",
-    "open": 2.638,
-    "high": 2.694,
-    "low": 2.637,
-    "close": 2.6874
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "08/07/2025",
-    "open": 2.611,
-    "high": 2.668,
-    "low": 2.611,
-    "close": 2.643
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "08/05/2025",
-    "open": 2.481,
-    "high": 2.52,
-    "low": 2.475,
-    "close": 2.5175
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "08/04/2025",
-    "open": 2.649,
-    "high": 2.68,
-    "low": 2.574,
-    "close": 2.6245
   },
   {
     "country": "Germany",
@@ -1820,146 +128,11 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
-    "date": "07/11/2025",
-    "open": 2.652,
-    "high": 2.681,
-    "low": 2.649,
-    "close": 2.6676
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "07/10/2025",
-    "open": 2.719,
-    "high": 2.743,
-    "low": 2.7107,
-    "close": 2.7107
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "07/08/2025",
-    "open": 2.653,
-    "high": 2.665,
-    "low": 2.623,
-    "close": 2.6369
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "07/07/2025",
-    "open": 2.562,
-    "high": 2.608,
-    "low": 2.552,
-    "close": 2.607
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "07/05/2025",
-    "open": 2.544,
-    "high": 2.547,
-    "low": 2.474,
-    "close": 2.474
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "07/04/2025",
-    "open": 2.577,
-    "high": 2.668,
-    "low": 2.431,
-    "close": 2.598
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "07/03/2025",
-    "open": 2.8,
-    "high": 2.843,
-    "low": 2.771,
-    "close": 2.835
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "07/02/2025",
-    "open": 2.378,
-    "high": 2.408,
-    "low": 2.358,
-    "close": 2.377
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
     "date": "07/01/2026",
     "open": 2.836,
     "high": 2.845,
     "low": 2.792,
     "close": 2.8076
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "06/11/2025",
-    "open": 2.675,
-    "high": 2.676,
-    "low": 2.652,
-    "close": 2.6576
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "06/10/2025",
-    "open": 2.705,
-    "high": 2.734,
-    "low": 2.694,
-    "close": 2.7174
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "06/08/2025",
-    "open": 2.624,
-    "high": 2.65,
-    "low": 2.623,
-    "close": 2.6432
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "06/06/2025",
-    "open": 2.578,
-    "high": 2.581,
-    "low": 2.534,
-    "close": 2.562
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "06/05/2025",
-    "open": 2.531,
-    "high": 2.557,
-    "low": 2.519,
-    "close": 2.5315
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "06/03/2025",
-    "open": 2.795,
-    "high": 2.929,
-    "low": 2.795,
-    "close": 2.8845
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "06/02/2025",
-    "open": 2.373,
-    "high": 2.393,
-    "low": 2.355,
-    "close": 2.3725
   },
   {
     "country": "Germany",
@@ -1973,308 +146,11 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
-    "date": "05/12/2025",
-    "open": 2.772,
-    "high": 2.8001,
-    "low": 2.77,
-    "close": 2.8001
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "05/11/2025",
-    "open": 2.652,
-    "high": 2.674,
-    "low": 2.638,
-    "close": 2.6723
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "05/09/2025",
-    "open": 2.716,
-    "high": 2.717,
-    "low": 2.653,
-    "close": 2.6582
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "05/08/2025",
-    "open": 2.617,
-    "high": 2.647,
-    "low": 2.601,
-    "close": 2.6221
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "05/06/2025",
-    "open": 2.52,
-    "high": 2.591,
-    "low": 2.476,
-    "close": 2.5865
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "05/05/2025",
-    "open": 2.543,
-    "high": 2.543,
-    "low": 2.503,
-    "close": 2.518
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "05/03/2025",
-    "open": 2.667,
-    "high": 2.796,
-    "low": 2.655,
-    "close": 2.783
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "05/02/2025",
-    "open": 2.398,
-    "high": 2.398,
-    "low": 2.345,
-    "close": 2.359
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
     "date": "05/01/2026",
     "open": 2.899,
     "high": 2.905,
     "low": 2.871,
     "close": 2.873
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "04/12/2025",
-    "open": 2.754,
-    "high": 2.773,
-    "low": 2.748,
-    "close": 2.7706
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "04/11/2025",
-    "open": 2.657,
-    "high": 2.66,
-    "low": 2.64,
-    "close": 2.6518
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "04/09/2025",
-    "open": 2.741,
-    "high": 2.741,
-    "low": 2.701,
-    "close": 2.7229
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "04/08/2025",
-    "open": 2.681,
-    "high": 2.701,
-    "low": 2.626,
-    "close": 2.6282
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "04/07/2025",
-    "open": 2.563,
-    "high": 2.567,
-    "low": 2.538,
-    "close": 2.566
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "04/06/2025",
-    "open": 2.52,
-    "high": 2.54,
-    "low": 2.504,
-    "close": 2.521
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "04/04/2025",
-    "open": 2.623,
-    "high": 2.63,
-    "low": 2.487,
-    "close": 2.5695
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "04/03/2025",
-    "open": 2.463,
-    "high": 2.504,
-    "low": 2.423,
-    "close": 2.4795
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "04/02/2025",
-    "open": 2.419,
-    "high": 2.433,
-    "low": 2.39,
-    "close": 2.3925
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "03/12/2025",
-    "open": 2.75,
-    "high": 2.756,
-    "low": 2.735,
-    "close": 2.7461
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "03/11/2025",
-    "open": 2.637,
-    "high": 2.666,
-    "low": 2.635,
-    "close": 2.6625
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "03/10/2025",
-    "open": 2.703,
-    "high": 2.707,
-    "low": 2.69,
-    "close": 2.7
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "03/09/2025",
-    "open": 2.793,
-    "high": 2.8,
-    "low": 2.74,
-    "close": 2.7406
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "03/07/2025",
-    "open": 2.621,
-    "high": 2.624,
-    "low": 2.571,
-    "close": 2.5795
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "03/06/2025",
-    "open": 2.502,
-    "high": 2.515,
-    "low": 2.485,
-    "close": 2.504
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "03/04/2025",
-    "open": 2.654,
-    "high": 2.672,
-    "low": 2.625,
-    "close": 2.6405
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "03/03/2025",
-    "open": 2.442,
-    "high": 2.519,
-    "low": 2.412,
-    "close": 2.491
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "03/02/2025",
-    "open": 2.46,
-    "high": 2.461,
-    "low": 2.359,
-    "close": 2.387
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "02/12/2025",
-    "open": 2.748,
-    "high": 2.768,
-    "low": 2.745,
-    "close": 2.7515
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "02/10/2025",
-    "open": 2.717,
-    "high": 2.728,
-    "low": 2.696,
-    "close": 2.6978
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "02/09/2025",
-    "open": 2.752,
-    "high": 2.8,
-    "low": 2.752,
-    "close": 2.7899
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "02/07/2025",
-    "open": 2.571,
-    "high": 2.632,
-    "low": 2.571,
-    "close": 2.618
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "02/06/2025",
-    "open": 2.508,
-    "high": 2.56,
-    "low": 2.506,
-    "close": 2.5225
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "02/05/2025",
-    "open": 2.46,
-    "high": 2.522,
-    "low": 2.458,
-    "close": 2.52
-  },
-  {
-    "country": "Germany",
-    "symbol": "GDBR10:IND",
-    "date": "02/04/2025",
-    "open": 2.685,
-    "high": 2.726,
-    "low": 2.655,
-    "close": 2.724
   },
   {
     "country": "Germany",
@@ -2288,11 +164,596 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
+    "date": "01/01/2026",
+    "open": 2.8557,
+    "high": 2.8557,
+    "low": 2.8557,
+    "close": 2.8557
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "31/12/2025",
+    "open": 2.862,
+    "high": 2.8623,
+    "low": 2.859,
+    "close": 2.8623
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "30/12/2025",
+    "open": 2.846,
+    "high": 2.862,
+    "low": 2.833,
+    "close": 2.8533
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "29/12/2025",
+    "open": 2.862,
+    "high": 2.865,
+    "low": 2.824,
+    "close": 2.8257
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "26/12/2025",
+    "open": 2.8624,
+    "high": 2.8624,
+    "low": 2.8624,
+    "close": 2.8624
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "25/12/2025",
+    "open": 2.8624,
+    "high": 2.8624,
+    "low": 2.8624,
+    "close": 2.8624
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "24/12/2025",
+    "open": 2.8716,
+    "high": 2.8716,
+    "low": 2.867,
+    "close": 2.867
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "23/12/2025",
+    "open": 2.907,
+    "high": 2.907,
+    "low": 2.859,
+    "close": 2.8647
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "22/12/2025",
+    "open": 2.913,
+    "high": 2.917,
+    "low": 2.891,
+    "close": 2.9044
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "19/12/2025",
+    "open": 2.851,
+    "high": 2.894,
+    "low": 2.85,
+    "close": 2.8925
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "18/12/2025",
+    "open": 2.859,
+    "high": 2.895,
+    "low": 2.841,
+    "close": 2.8491
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "17/12/2025",
+    "open": 2.843,
+    "high": 2.867,
+    "low": 2.826,
+    "close": 2.8642
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "16/12/2025",
+    "open": 2.855,
+    "high": 2.869,
+    "low": 2.839,
+    "close": 2.8466
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "15/12/2025",
+    "open": 2.859,
+    "high": 2.859,
+    "low": 2.834,
+    "close": 2.8508
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "12/12/2025",
+    "open": 2.844,
+    "high": 2.871,
+    "low": 2.844,
+    "close": 2.8611
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "11/12/2025",
+    "open": 2.852,
+    "high": 2.865,
+    "low": 2.835,
+    "close": 2.8456
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "10/12/2025",
+    "open": 2.858,
+    "high": 2.894,
+    "low": 2.855,
+    "close": 2.8563
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "09/12/2025",
+    "open": 2.865,
+    "high": 2.879,
+    "low": 2.836,
+    "close": 2.8519
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "08/12/2025",
+    "open": 2.799,
+    "high": 2.876,
+    "low": 2.798,
+    "close": 2.8666
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "05/12/2025",
+    "open": 2.772,
+    "high": 2.8001,
+    "low": 2.77,
+    "close": 2.8001
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "04/12/2025",
+    "open": 2.754,
+    "high": 2.773,
+    "low": 2.748,
+    "close": 2.7706
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "03/12/2025",
+    "open": 2.75,
+    "high": 2.756,
+    "low": 2.735,
+    "close": 2.7461
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "02/12/2025",
+    "open": 2.748,
+    "high": 2.768,
+    "low": 2.745,
+    "close": 2.7515
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
     "date": "01/12/2025",
     "open": 2.7,
     "high": 2.756,
     "low": 2.699,
     "close": 2.7492
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "28/11/2025",
+    "open": 2.681,
+    "high": 2.697,
+    "low": 2.671,
+    "close": 2.6913
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "27/11/2025",
+    "open": 2.668,
+    "high": 2.69,
+    "low": 2.666,
+    "close": 2.6775
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "26/11/2025",
+    "open": 2.673,
+    "high": 2.689,
+    "low": 2.661,
+    "close": 2.6741
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "25/11/2025",
+    "open": 2.694,
+    "high": 2.704,
+    "low": 2.666,
+    "close": 2.6728
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "24/11/2025",
+    "open": 2.703,
+    "high": 2.708,
+    "low": 2.681,
+    "close": 2.697
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "21/11/2025",
+    "open": 2.72,
+    "high": 2.72,
+    "low": 2.672,
+    "close": 2.698
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "20/11/2025",
+    "open": 2.728,
+    "high": 2.741,
+    "low": 2.714,
+    "close": 2.7194
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "19/11/2025",
+    "open": 2.707,
+    "high": 2.714,
+    "low": 2.683,
+    "close": 2.7103
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "18/11/2025",
+    "open": 2.702,
+    "high": 2.71,
+    "low": 2.684,
+    "close": 2.7095
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "17/11/2025",
+    "open": 2.716,
+    "high": 2.718,
+    "low": 2.7,
+    "close": 2.713
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "14/11/2025",
+    "open": 2.701,
+    "high": 2.718,
+    "low": 2.682,
+    "close": 2.7166
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "13/11/2025",
+    "open": 2.649,
+    "high": 2.69,
+    "low": 2.639,
+    "close": 2.6874
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "12/11/2025",
+    "open": 2.66,
+    "high": 2.68,
+    "low": 2.645,
+    "close": 2.6465
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "11/11/2025",
+    "open": 2.678,
+    "high": 2.681,
+    "low": 2.652,
+    "close": 2.6574
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "10/11/2025",
+    "open": 2.697,
+    "high": 2.699,
+    "low": 2.659,
+    "close": 2.6658
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "07/11/2025",
+    "open": 2.652,
+    "high": 2.681,
+    "low": 2.649,
+    "close": 2.6676
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "06/11/2025",
+    "open": 2.675,
+    "high": 2.676,
+    "low": 2.652,
+    "close": 2.6576
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "05/11/2025",
+    "open": 2.652,
+    "high": 2.674,
+    "low": 2.638,
+    "close": 2.6723
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "04/11/2025",
+    "open": 2.657,
+    "high": 2.66,
+    "low": 2.64,
+    "close": 2.6518
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "03/11/2025",
+    "open": 2.637,
+    "high": 2.666,
+    "low": 2.635,
+    "close": 2.6625
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "31/10/2025",
+    "open": 2.644,
+    "high": 2.658,
+    "low": 2.632,
+    "close": 2.6369
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "30/10/2025",
+    "open": 2.621,
+    "high": 2.661,
+    "low": 2.621,
+    "close": 2.6375
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "29/10/2025",
+    "open": 2.626,
+    "high": 2.629,
+    "low": 2.615,
+    "close": 2.6186
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "28/10/2025",
+    "open": 2.614,
+    "high": 2.6212,
+    "low": 2.603,
+    "close": 2.6212
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "27/10/2025",
+    "open": 2.632,
+    "high": 2.645,
+    "low": 2.616,
+    "close": 2.6167
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "24/10/2025",
+    "open": 2.585,
+    "high": 2.632,
+    "low": 2.572,
+    "close": 2.6242
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "23/10/2025",
+    "open": 2.566,
+    "high": 2.582,
+    "low": 2.565,
+    "close": 2.5779
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "22/10/2025",
+    "open": 2.558,
+    "high": 2.569,
+    "low": 2.54,
+    "close": 2.5592
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "21/10/2025",
+    "open": 2.577,
+    "high": 2.582,
+    "low": 2.549,
+    "close": 2.5508
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "20/10/2025",
+    "open": 2.592,
+    "high": 2.599,
+    "low": 2.575,
+    "close": 2.5839
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "17/10/2025",
+    "open": 2.576,
+    "high": 2.587,
+    "low": 2.523,
+    "close": 2.5784
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "16/10/2025",
+    "open": 2.578,
+    "high": 2.586,
+    "low": 2.563,
+    "close": 2.5694
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "15/10/2025",
+    "open": 2.604,
+    "high": 2.604,
+    "low": 2.557,
+    "close": 2.558
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "14/10/2025",
+    "open": 2.637,
+    "high": 2.637,
+    "low": 2.587,
+    "close": 2.6071
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "13/10/2025",
+    "open": 2.653,
+    "high": 2.656,
+    "low": 2.622,
+    "close": 2.6301
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "10/10/2025",
+    "open": 2.698,
+    "high": 2.698,
+    "low": 2.632,
+    "close": 2.634
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "09/10/2025",
+    "open": 2.683,
+    "high": 2.706,
+    "low": 2.677,
+    "close": 2.704
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "08/10/2025",
+    "open": 2.714,
+    "high": 2.715,
+    "low": 2.666,
+    "close": 2.6769
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "07/10/2025",
+    "open": 2.719,
+    "high": 2.743,
+    "low": 2.7107,
+    "close": 2.7107
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "06/10/2025",
+    "open": 2.705,
+    "high": 2.734,
+    "low": 2.694,
+    "close": 2.7174
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "03/10/2025",
+    "open": 2.703,
+    "high": 2.707,
+    "low": 2.69,
+    "close": 2.7
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "02/10/2025",
+    "open": 2.717,
+    "high": 2.728,
+    "low": 2.696,
+    "close": 2.6978
   },
   {
     "country": "Germany",
@@ -2306,11 +767,380 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
+    "date": "30/09/2025",
+    "open": 2.708,
+    "high": 2.724,
+    "low": 2.693,
+    "close": 2.712
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "29/09/2025",
+    "open": 2.741,
+    "high": 2.744,
+    "low": 2.706,
+    "close": 2.7062
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "26/09/2025",
+    "open": 2.774,
+    "high": 2.779,
+    "low": 2.728,
+    "close": 2.7451
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "25/09/2025",
+    "open": 2.748,
+    "high": 2.778,
+    "low": 2.732,
+    "close": 2.7721
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "24/09/2025",
+    "open": 2.74,
+    "high": 2.754,
+    "low": 2.73,
+    "close": 2.7474
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "23/09/2025",
+    "open": 2.753,
+    "high": 2.753,
+    "low": 2.73,
+    "close": 2.752
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "22/09/2025",
+    "open": 2.762,
+    "high": 2.762,
+    "low": 2.729,
+    "close": 2.7481
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "19/09/2025",
+    "open": 2.73,
+    "high": 2.751,
+    "low": 2.726,
+    "close": 2.7485
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "18/09/2025",
+    "open": 2.684,
+    "high": 2.724,
+    "low": 2.666,
+    "close": 2.716
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "17/09/2025",
+    "open": 2.692,
+    "high": 2.694,
+    "low": 2.664,
+    "close": 2.6763
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "16/09/2025",
+    "open": 2.697,
+    "high": 2.716,
+    "low": 2.68,
+    "close": 2.6945
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "15/09/2025",
+    "open": 2.705,
+    "high": 2.709,
+    "low": 2.687,
+    "close": 2.6959
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "12/09/2025",
+    "open": 2.66,
+    "high": 2.715,
+    "low": 2.66,
+    "close": 2.7133
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "11/09/2025",
+    "open": 2.65,
+    "high": 2.684,
+    "low": 2.636,
+    "close": 2.6505
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "10/09/2025",
+    "open": 2.653,
+    "high": 2.671,
+    "low": 2.636,
+    "close": 2.6539
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "09/09/2025",
+    "open": 2.655,
+    "high": 2.673,
+    "low": 2.65,
+    "close": 2.6644
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "08/09/2025",
+    "open": 2.665,
+    "high": 2.677,
+    "low": 2.638,
+    "close": 2.6387
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "05/09/2025",
+    "open": 2.716,
+    "high": 2.717,
+    "low": 2.653,
+    "close": 2.6582
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "04/09/2025",
+    "open": 2.741,
+    "high": 2.741,
+    "low": 2.701,
+    "close": 2.7229
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "03/09/2025",
+    "open": 2.793,
+    "high": 2.8,
+    "low": 2.74,
+    "close": 2.7406
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "02/09/2025",
+    "open": 2.752,
+    "high": 2.8,
+    "low": 2.752,
+    "close": 2.7899
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
     "date": "01/09/2025",
     "open": 2.733,
     "high": 2.758,
     "low": 2.728,
     "close": 2.749
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "29/08/2025",
+    "open": 2.701,
+    "high": 2.724,
+    "low": 2.693,
+    "close": 2.7222
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "28/08/2025",
+    "open": 2.699,
+    "high": 2.716,
+    "low": 2.679,
+    "close": 2.6977
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "27/08/2025",
+    "open": 2.724,
+    "high": 2.732,
+    "low": 2.685,
+    "close": 2.694
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "26/08/2025",
+    "open": 2.751,
+    "high": 2.751,
+    "low": 2.716,
+    "close": 2.7219
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "25/08/2025",
+    "open": 2.749,
+    "high": 2.778,
+    "low": 2.74,
+    "close": 2.7581
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "22/08/2025",
+    "open": 2.75,
+    "high": 2.762,
+    "low": 2.7181,
+    "close": 2.7191
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "21/08/2025",
+    "open": 2.73,
+    "high": 2.761,
+    "low": 2.707,
+    "close": 2.7537
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "20/08/2025",
+    "open": 2.758,
+    "high": 2.77,
+    "low": 2.712,
+    "close": 2.7164
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "19/08/2025",
+    "open": 2.769,
+    "high": 2.784,
+    "low": 2.748,
+    "close": 2.7543
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "18/08/2025",
+    "open": 2.787,
+    "high": 2.787,
+    "low": 2.741,
+    "close": 2.7759
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "15/08/2025",
+    "open": 2.707,
+    "high": 2.78,
+    "low": 2.7,
+    "close": 2.7787
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "14/08/2025",
+    "open": 2.684,
+    "high": 2.707,
+    "low": 2.655,
+    "close": 2.7062
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "13/08/2025",
+    "open": 2.741,
+    "high": 2.741,
+    "low": 2.675,
+    "close": 2.6801
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "12/08/2025",
+    "open": 2.694,
+    "high": 2.756,
+    "low": 2.69,
+    "close": 2.7431
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "11/08/2025",
+    "open": 2.691,
+    "high": 2.698,
+    "low": 2.66,
+    "close": 2.6966
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "08/08/2025",
+    "open": 2.638,
+    "high": 2.694,
+    "low": 2.637,
+    "close": 2.6874
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "07/08/2025",
+    "open": 2.653,
+    "high": 2.665,
+    "low": 2.623,
+    "close": 2.6369
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "06/08/2025",
+    "open": 2.624,
+    "high": 2.65,
+    "low": 2.623,
+    "close": 2.6432
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "05/08/2025",
+    "open": 2.617,
+    "high": 2.647,
+    "low": 2.601,
+    "close": 2.6221
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "04/08/2025",
+    "open": 2.681,
+    "high": 2.701,
+    "low": 2.626,
+    "close": 2.6282
   },
   {
     "country": "Germany",
@@ -2324,11 +1154,587 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
+    "date": "31/07/2025",
+    "open": 2.701,
+    "high": 2.707,
+    "low": 2.674,
+    "close": 2.693
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "30/07/2025",
+    "open": 2.691,
+    "high": 2.714,
+    "low": 2.674,
+    "close": 2.705
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "29/07/2025",
+    "open": 2.69,
+    "high": 2.712,
+    "low": 2.683,
+    "close": 2.69
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "28/07/2025",
+    "open": 2.729,
+    "high": 2.73,
+    "low": 2.679,
+    "close": 2.688
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "25/07/2025",
+    "open": 2.71,
+    "high": 2.768,
+    "low": 2.708,
+    "close": 2.716
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "24/07/2025",
+    "open": 2.679,
+    "high": 2.71,
+    "low": 2.659,
+    "close": 2.694
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "23/07/2025",
+    "open": 2.589,
+    "high": 2.625,
+    "low": 2.589,
+    "close": 2.6
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "22/07/2025",
+    "open": 2.616,
+    "high": 2.632,
+    "low": 2.584,
+    "close": 2.588
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "21/07/2025",
+    "open": 2.69,
+    "high": 2.69,
+    "low": 2.61,
+    "close": 2.618
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "18/07/2025",
+    "open": 2.681,
+    "high": 2.702,
+    "low": 2.678,
+    "close": 2.691
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "17/07/2025",
+    "open": 2.697,
+    "high": 2.712,
+    "low": 2.664,
+    "close": 2.675
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "16/07/2025",
+    "open": 2.696,
+    "high": 2.727,
+    "low": 2.679,
+    "close": 2.692
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "15/07/2025",
+    "open": 2.726,
+    "high": 2.728,
+    "low": 2.67,
+    "close": 2.715
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "14/07/2025",
+    "open": 2.726,
+    "high": 2.737,
+    "low": 2.707,
+    "close": 2.732
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "11/07/2025",
+    "open": 2.655,
+    "high": 2.695,
+    "low": 2.643,
+    "close": 2.686
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "10/07/2025",
+    "open": 2.628,
+    "high": 2.667,
+    "low": 2.615,
+    "close": 2.662
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "09/07/2025",
+    "open": 2.648,
+    "high": 2.653,
+    "low": 2.622,
+    "close": 2.632
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "08/07/2025",
+    "open": 2.611,
+    "high": 2.668,
+    "low": 2.611,
+    "close": 2.643
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "07/07/2025",
+    "open": 2.562,
+    "high": 2.608,
+    "low": 2.552,
+    "close": 2.607
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "04/07/2025",
+    "open": 2.563,
+    "high": 2.567,
+    "low": 2.538,
+    "close": 2.566
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "03/07/2025",
+    "open": 2.621,
+    "high": 2.624,
+    "low": 2.571,
+    "close": 2.5795
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "02/07/2025",
+    "open": 2.571,
+    "high": 2.632,
+    "low": 2.571,
+    "close": 2.618
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
     "date": "01/07/2025",
     "open": 2.593,
     "high": 2.593,
     "low": 2.543,
     "close": 2.567
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "30/06/2025",
+    "open": 2.586,
+    "high": 2.603,
+    "low": 2.563,
+    "close": 2.596
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "27/06/2025",
+    "open": 2.559,
+    "high": 2.605,
+    "low": 2.548,
+    "close": 2.597
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "26/06/2025",
+    "open": 2.55,
+    "high": 2.573,
+    "low": 2.533,
+    "close": 2.564
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "25/06/2025",
+    "open": 2.544,
+    "high": 2.577,
+    "low": 2.503,
+    "close": 2.5615
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "24/06/2025",
+    "open": 2.518,
+    "high": 2.572,
+    "low": 2.497,
+    "close": 2.533
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "23/06/2025",
+    "open": 2.53,
+    "high": 2.558,
+    "low": 2.494,
+    "close": 2.505
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "20/06/2025",
+    "open": 2.519,
+    "high": 2.539,
+    "low": 2.487,
+    "close": 2.513
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "19/06/2025",
+    "open": 2.511,
+    "high": 2.538,
+    "low": 2.501,
+    "close": 2.5185
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "18/06/2025",
+    "open": 2.537,
+    "high": 2.548,
+    "low": 2.497,
+    "close": 2.4985
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "17/06/2025",
+    "open": 2.541,
+    "high": 2.558,
+    "low": 2.505,
+    "close": 2.5345
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "16/06/2025",
+    "open": 2.539,
+    "high": 2.588,
+    "low": 2.516,
+    "close": 2.5285
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "13/06/2025",
+    "open": 2.477,
+    "high": 2.537,
+    "low": 2.422,
+    "close": 2.536
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "12/06/2025",
+    "open": 2.531,
+    "high": 2.536,
+    "low": 2.469,
+    "close": 2.478
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "11/06/2025",
+    "open": 2.528,
+    "high": 2.555,
+    "low": 2.515,
+    "close": 2.5385
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "10/06/2025",
+    "open": 2.56,
+    "high": 2.568,
+    "low": 2.517,
+    "close": 2.531
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "09/06/2025",
+    "open": 2.569,
+    "high": 2.593,
+    "low": 2.514,
+    "close": 2.5695
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "06/06/2025",
+    "open": 2.578,
+    "high": 2.581,
+    "low": 2.534,
+    "close": 2.562
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "05/06/2025",
+    "open": 2.52,
+    "high": 2.591,
+    "low": 2.476,
+    "close": 2.5865
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "04/06/2025",
+    "open": 2.52,
+    "high": 2.54,
+    "low": 2.504,
+    "close": 2.521
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "03/06/2025",
+    "open": 2.502,
+    "high": 2.515,
+    "low": 2.485,
+    "close": 2.504
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "02/06/2025",
+    "open": 2.508,
+    "high": 2.56,
+    "low": 2.506,
+    "close": 2.5225
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "30/05/2025",
+    "open": 2.509,
+    "high": 2.539,
+    "low": 2.497,
+    "close": 2.508
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "29/05/2025",
+    "open": 2.583,
+    "high": 2.594,
+    "low": 2.512,
+    "close": 2.512
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "28/05/2025",
+    "open": 2.545,
+    "high": 2.562,
+    "low": 2.535,
+    "close": 2.547
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "27/05/2025",
+    "open": 2.536,
+    "high": 2.552,
+    "low": 2.513,
+    "close": 2.533
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "26/05/2025",
+    "open": 2.585,
+    "high": 2.609,
+    "low": 2.558,
+    "close": 2.5595
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "23/05/2025",
+    "open": 2.64,
+    "high": 2.644,
+    "low": 2.539,
+    "close": 2.574
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "22/05/2025",
+    "open": 2.66,
+    "high": 2.665,
+    "low": 2.636,
+    "close": 2.6375
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "21/05/2025",
+    "open": 2.613,
+    "high": 2.67,
+    "low": 2.613,
+    "close": 2.642
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "20/05/2025",
+    "open": 2.579,
+    "high": 2.624,
+    "low": 2.555,
+    "close": 2.599
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "19/05/2025",
+    "open": 2.594,
+    "high": 2.653,
+    "low": 2.572,
+    "close": 2.576
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "16/05/2025",
+    "open": 2.614,
+    "high": 2.614,
+    "low": 2.563,
+    "close": 2.586
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "15/05/2025",
+    "open": 2.696,
+    "high": 2.7,
+    "low": 2.623,
+    "close": 2.625
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "14/05/2025",
+    "open": 2.683,
+    "high": 2.694,
+    "low": 2.656,
+    "close": 2.692
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "13/05/2025",
+    "open": 2.663,
+    "high": 2.68,
+    "low": 2.653,
+    "close": 2.675
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "12/05/2025",
+    "open": 2.563,
+    "high": 2.65,
+    "low": 2.562,
+    "close": 2.642
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "09/05/2025",
+    "open": 2.541,
+    "high": 2.588,
+    "low": 2.541,
+    "close": 2.551
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "08/05/2025",
+    "open": 2.481,
+    "high": 2.52,
+    "low": 2.475,
+    "close": 2.5175
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "07/05/2025",
+    "open": 2.544,
+    "high": 2.547,
+    "low": 2.474,
+    "close": 2.474
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "06/05/2025",
+    "open": 2.531,
+    "high": 2.557,
+    "low": 2.519,
+    "close": 2.5315
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "05/05/2025",
+    "open": 2.543,
+    "high": 2.543,
+    "low": 2.503,
+    "close": 2.518
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "02/05/2025",
+    "open": 2.46,
+    "high": 2.522,
+    "low": 2.458,
+    "close": 2.52
   },
   {
     "country": "Germany",
@@ -2342,6 +1748,195 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
+    "date": "30/04/2025",
+    "open": 2.491,
+    "high": 2.498,
+    "low": 2.439,
+    "close": 2.44
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "29/04/2025",
+    "open": 2.5,
+    "high": 2.51,
+    "low": 2.486,
+    "close": 2.492
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "28/04/2025",
+    "open": 2.473,
+    "high": 2.524,
+    "low": 2.471,
+    "close": 2.5065
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "25/04/2025",
+    "open": 2.455,
+    "high": 2.48,
+    "low": 2.455,
+    "close": 2.473
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "24/04/2025",
+    "open": 2.495,
+    "high": 2.5,
+    "low": 2.442,
+    "close": 2.442
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "23/04/2025",
+    "open": 2.457,
+    "high": 2.518,
+    "low": 2.454,
+    "close": 2.4935
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "22/04/2025",
+    "open": 2.473,
+    "high": 2.478,
+    "low": 2.439,
+    "close": 2.439
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "21/04/2025",
+    "open": 2.469,
+    "high": 2.4695,
+    "low": 2.469,
+    "close": 2.4695
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "18/04/2025",
+    "open": 2.469,
+    "high": 2.469,
+    "low": 2.463,
+    "close": 2.463
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "17/04/2025",
+    "open": 2.511,
+    "high": 2.538,
+    "low": 2.453,
+    "close": 2.4645
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "16/04/2025",
+    "open": 2.536,
+    "high": 2.536,
+    "low": 2.479,
+    "close": 2.502
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "15/04/2025",
+    "open": 2.504,
+    "high": 2.551,
+    "low": 2.493,
+    "close": 2.544
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "14/04/2025",
+    "open": 2.571,
+    "high": 2.58,
+    "low": 2.509,
+    "close": 2.521
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "11/04/2025",
+    "open": 2.612,
+    "high": 2.632,
+    "low": 2.49,
+    "close": 2.527
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "10/04/2025",
+    "open": 2.707,
+    "high": 2.715,
+    "low": 2.568,
+    "close": 2.5815
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "09/04/2025",
+    "open": 2.626,
+    "high": 2.675,
+    "low": 2.557,
+    "close": 2.5795
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "08/04/2025",
+    "open": 2.649,
+    "high": 2.68,
+    "low": 2.574,
+    "close": 2.6245
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "07/04/2025",
+    "open": 2.577,
+    "high": 2.668,
+    "low": 2.431,
+    "close": 2.598
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "04/04/2025",
+    "open": 2.623,
+    "high": 2.63,
+    "low": 2.487,
+    "close": 2.5695
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "03/04/2025",
+    "open": 2.654,
+    "high": 2.672,
+    "low": 2.625,
+    "close": 2.6405
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "02/04/2025",
+    "open": 2.685,
+    "high": 2.726,
+    "low": 2.655,
+    "close": 2.724
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
     "date": "01/04/2025",
     "open": 2.732,
     "high": 2.733,
@@ -2351,10 +1946,2935 @@
   {
     "country": "Germany",
     "symbol": "GDBR10:IND",
-    "date": "01/01/2026",
-    "open": 2.8557,
-    "high": 2.8557,
-    "low": 2.8557,
-    "close": 2.8557
+    "date": "31/03/2025",
+    "open": 2.728,
+    "high": 2.734,
+    "low": 2.659,
+    "close": 2.727
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "28/03/2025",
+    "open": 2.775,
+    "high": 2.775,
+    "low": 2.708,
+    "close": 2.732
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "27/03/2025",
+    "open": 2.772,
+    "high": 2.792,
+    "low": 2.746,
+    "close": 2.7735
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "26/03/2025",
+    "open": 2.802,
+    "high": 2.81,
+    "low": 2.774,
+    "close": 2.7895
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "25/03/2025",
+    "open": 2.776,
+    "high": 2.831,
+    "low": 2.773,
+    "close": 2.793
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "24/03/2025",
+    "open": 2.79,
+    "high": 2.8,
+    "low": 2.763,
+    "close": 2.77
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "21/03/2025",
+    "open": 2.784,
+    "high": 2.786,
+    "low": 2.746,
+    "close": 2.765
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "20/03/2025",
+    "open": 2.766,
+    "high": 2.791,
+    "low": 2.748,
+    "close": 2.7775
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "19/03/2025",
+    "open": 2.806,
+    "high": 2.815,
+    "low": 2.748,
+    "close": 2.798
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "18/03/2025",
+    "open": 2.826,
+    "high": 2.855,
+    "low": 2.808,
+    "close": 2.815
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "17/03/2025",
+    "open": 2.869,
+    "high": 2.878,
+    "low": 2.8,
+    "close": 2.802
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "14/03/2025",
+    "open": 2.866,
+    "high": 2.936,
+    "low": 2.846,
+    "close": 2.873
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "13/03/2025",
+    "open": 2.869,
+    "high": 2.909,
+    "low": 2.845,
+    "close": 2.8535
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "12/03/2025",
+    "open": 2.903,
+    "high": 2.938,
+    "low": 2.875,
+    "close": 2.8865
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "11/03/2025",
+    "open": 2.831,
+    "high": 2.877,
+    "low": 2.82,
+    "close": 2.872
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "10/03/2025",
+    "open": 2.879,
+    "high": 2.879,
+    "low": 2.773,
+    "close": 2.825
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "07/03/2025",
+    "open": 2.8,
+    "high": 2.843,
+    "low": 2.771,
+    "close": 2.835
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "06/03/2025",
+    "open": 2.795,
+    "high": 2.929,
+    "low": 2.795,
+    "close": 2.8845
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "05/03/2025",
+    "open": 2.667,
+    "high": 2.796,
+    "low": 2.655,
+    "close": 2.783
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "04/03/2025",
+    "open": 2.463,
+    "high": 2.504,
+    "low": 2.423,
+    "close": 2.4795
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "03/03/2025",
+    "open": 2.442,
+    "high": 2.519,
+    "low": 2.412,
+    "close": 2.491
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "28/02/2025",
+    "open": 2.415,
+    "high": 2.415,
+    "low": 2.374,
+    "close": 2.3865
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "27/02/2025",
+    "open": 2.433,
+    "high": 2.452,
+    "low": 2.412,
+    "close": 2.4135
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "26/02/2025",
+    "open": 2.457,
+    "high": 2.474,
+    "low": 2.421,
+    "close": 2.438
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "25/02/2025",
+    "open": 2.499,
+    "high": 2.499,
+    "low": 2.446,
+    "close": 2.451
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "24/02/2025",
+    "open": 2.48,
+    "high": 2.499,
+    "low": 2.453,
+    "close": 2.4695
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "21/02/2025",
+    "open": 2.53,
+    "high": 2.532,
+    "low": 2.461,
+    "close": 2.4625
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "20/02/2025",
+    "open": 2.545,
+    "high": 2.563,
+    "low": 2.531,
+    "close": 2.5335
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "19/02/2025",
+    "open": 2.502,
+    "high": 2.555,
+    "low": 2.494,
+    "close": 2.549
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "18/02/2025",
+    "open": 2.489,
+    "high": 2.517,
+    "low": 2.489,
+    "close": 2.4905
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "17/02/2025",
+    "open": 2.431,
+    "high": 2.5,
+    "low": 2.431,
+    "close": 2.483
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "14/02/2025",
+    "open": 2.424,
+    "high": 2.444,
+    "low": 2.413,
+    "close": 2.423
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "13/02/2025",
+    "open": 2.472,
+    "high": 2.479,
+    "low": 2.413,
+    "close": 2.419
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "12/02/2025",
+    "open": 2.44,
+    "high": 2.488,
+    "low": 2.431,
+    "close": 2.478
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "11/02/2025",
+    "open": 2.379,
+    "high": 2.437,
+    "low": 2.377,
+    "close": 2.427
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "10/02/2025",
+    "open": 2.374,
+    "high": 2.385,
+    "low": 2.35,
+    "close": 2.36
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "07/02/2025",
+    "open": 2.378,
+    "high": 2.408,
+    "low": 2.358,
+    "close": 2.377
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "06/02/2025",
+    "open": 2.373,
+    "high": 2.393,
+    "low": 2.355,
+    "close": 2.3725
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "05/02/2025",
+    "open": 2.398,
+    "high": 2.398,
+    "low": 2.345,
+    "close": 2.359
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "04/02/2025",
+    "open": 2.419,
+    "high": 2.433,
+    "low": 2.39,
+    "close": 2.3925
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "03/02/2025",
+    "open": 2.46,
+    "high": 2.461,
+    "low": 2.359,
+    "close": 2.387
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "31/01/2025",
+    "open": 2.519,
+    "high": 2.539,
+    "low": 2.453,
+    "close": 2.459
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "30/01/2025",
+    "open": 2.562,
+    "high": 2.573,
+    "low": 2.496,
+    "close": 2.517
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "29/01/2025",
+    "open": 2.556,
+    "high": 2.573,
+    "low": 2.525,
+    "close": 2.571
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "28/01/2025",
+    "open": 2.531,
+    "high": 2.565,
+    "low": 2.531,
+    "close": 2.5605
+  },
+  {
+    "country": "Germany",
+    "symbol": "GDBR10:IND",
+    "date": "27/01/2025",
+    "open": 2.496,
+    "high": 2.524,
+    "low": 2.466,
+    "close": 2.503
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "24/01/2025",
+    "open": 2.00449,
+    "high": 2.00877,
+    "low": 1.97518,
+    "close": 1.98572
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "23/01/2025",
+    "open": 2.00396,
+    "high": 2.02215,
+    "low": 2.00044,
+    "close": 2.02003
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "22/01/2025",
+    "open": 2.04501,
+    "high": 2.04769,
+    "low": 2.03051,
+    "close": 2.04123
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "21/01/2025",
+    "open": 2.00044,
+    "high": 2.01904,
+    "low": 1.99407,
+    "close": 2.00814
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "20/01/2025",
+    "open": 2.01113,
+    "high": 2.04157,
+    "low": 2.00397,
+    "close": 2.03235
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "17/01/2025",
+    "open": 2.01474,
+    "high": 2.01616,
+    "low": 1.99147,
+    "close": 1.99823
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "16/01/2025",
+    "open": 1.99604,
+    "high": 2.01642,
+    "low": 1.98843,
+    "close": 2.00926
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "15/01/2025",
+    "open": 2.00773,
+    "high": 2.01458,
+    "low": 1.99667,
+    "close": 2.01136
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "14/01/2025",
+    "open": 2.02877,
+    "high": 2.02945,
+    "low": 1.99234,
+    "close": 2.00571
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "13/01/2025",
+    "open": 1.9877,
+    "high": 2.01932,
+    "low": 1.97364,
+    "close": 2.01267
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "10/01/2025",
+    "open": 1.98502,
+    "high": 1.98827,
+    "low": 1.98404,
+    "close": 1.98659
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/01/2025",
+    "open": 1.95246,
+    "high": 1.97889,
+    "low": 1.946,
+    "close": 1.97696
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "08/01/2025",
+    "open": 1.96427,
+    "high": 1.96837,
+    "low": 1.94617,
+    "close": 1.96025
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "07/01/2025",
+    "open": 1.94626,
+    "high": 1.9488,
+    "low": 1.92822,
+    "close": 1.93555
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "06/01/2025",
+    "open": 1.95131,
+    "high": 1.9521,
+    "low": 1.9339,
+    "close": 1.94361
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "03/01/2025",
+    "open": 1.96473,
+    "high": 1.99108,
+    "low": 1.95252,
+    "close": 1.98709
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "02/01/2025",
+    "open": 1.95359,
+    "high": 1.95658,
+    "low": 1.93921,
+    "close": 1.95523
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "01/01/2025",
+    "open": 1.97028,
+    "high": 1.9785,
+    "low": 1.95254,
+    "close": 1.96704
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "31/12/2024",
+    "open": 1.93487,
+    "high": 1.95716,
+    "low": 1.92267,
+    "close": 1.94376
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "30/12/2024",
+    "open": 1.93698,
+    "high": 1.94952,
+    "low": 1.92243,
+    "close": 1.923
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "27/12/2024",
+    "open": 1.91264,
+    "high": 1.93624,
+    "low": 1.91024,
+    "close": 1.92851
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "26/12/2024",
+    "open": 1.89507,
+    "high": 1.91086,
+    "low": 1.88382,
+    "close": 1.90172
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "25/12/2024",
+    "open": 1.92312,
+    "high": 1.94118,
+    "low": 1.91152,
+    "close": 1.93564
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "24/12/2024",
+    "open": 1.93467,
+    "high": 1.97179,
+    "low": 1.92611,
+    "close": 1.9603
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "23/12/2024",
+    "open": 1.92764,
+    "high": 1.95468,
+    "low": 1.91312,
+    "close": 1.94981
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "20/12/2024",
+    "open": 1.90292,
+    "high": 1.92259,
+    "low": 1.88823,
+    "close": 1.91459
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "19/12/2024",
+    "open": 1.92154,
+    "high": 1.94947,
+    "low": 1.91559,
+    "close": 1.93519
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "18/12/2024",
+    "open": 1.90555,
+    "high": 1.91595,
+    "low": 1.8856,
+    "close": 1.89657
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "17/12/2024",
+    "open": 1.90467,
+    "high": 1.91552,
+    "low": 1.87885,
+    "close": 1.89001
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "16/12/2024",
+    "open": 1.91424,
+    "high": 1.92673,
+    "low": 1.89013,
+    "close": 1.89409
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "13/12/2024",
+    "open": 1.93039,
+    "high": 1.94804,
+    "low": 1.92611,
+    "close": 1.94059
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/12/2024",
+    "open": 1.89434,
+    "high": 1.92622,
+    "low": 1.88174,
+    "close": 1.91476
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "11/12/2024",
+    "open": 1.92598,
+    "high": 1.93873,
+    "low": 1.91755,
+    "close": 1.93274
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "10/12/2024",
+    "open": 1.90728,
+    "high": 1.94379,
+    "low": 1.90308,
+    "close": 1.9289
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/12/2024",
+    "open": 1.88847,
+    "high": 1.90968,
+    "low": 1.88631,
+    "close": 1.90138
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "06/12/2024",
+    "open": 1.887,
+    "high": 1.88963,
+    "low": 1.87964,
+    "close": 1.88011
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "05/12/2024",
+    "open": 1.8845,
+    "high": 1.88528,
+    "low": 1.8632,
+    "close": 1.87036
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "04/12/2024",
+    "open": 1.90181,
+    "high": 1.90229,
+    "low": 1.87826,
+    "close": 1.88076
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "03/12/2024",
+    "open": 1.86264,
+    "high": 1.90335,
+    "low": 1.85736,
+    "close": 1.88856
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "02/12/2024",
+    "open": 1.86497,
+    "high": 1.89172,
+    "low": 1.86037,
+    "close": 1.88016
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "29/11/2024",
+    "open": 1.87363,
+    "high": 1.90907,
+    "low": 1.86635,
+    "close": 1.89777
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "28/11/2024",
+    "open": 1.85544,
+    "high": 1.88661,
+    "low": 1.84238,
+    "close": 1.87463
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "27/11/2024",
+    "open": 1.86956,
+    "high": 1.88467,
+    "low": 1.86921,
+    "close": 1.88282
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "26/11/2024",
+    "open": 1.85722,
+    "high": 1.86475,
+    "low": 1.85642,
+    "close": 1.85766
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "25/11/2024",
+    "open": 1.9072,
+    "high": 1.91921,
+    "low": 1.88882,
+    "close": 1.89775
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "22/11/2024",
+    "open": 1.89359,
+    "high": 1.90306,
+    "low": 1.87928,
+    "close": 1.88731
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "21/11/2024",
+    "open": 1.88024,
+    "high": 1.91308,
+    "low": 1.87999,
+    "close": 1.89931
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "20/11/2024",
+    "open": 1.88479,
+    "high": 1.89689,
+    "low": 1.87819,
+    "close": 1.88367
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "19/11/2024",
+    "open": 1.88339,
+    "high": 1.88501,
+    "low": 1.87035,
+    "close": 1.87527
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "18/11/2024",
+    "open": 1.90989,
+    "high": 1.92328,
+    "low": 1.88525,
+    "close": 1.89449
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "15/11/2024",
+    "open": 1.87255,
+    "high": 1.87309,
+    "low": 1.85452,
+    "close": 1.86657
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "14/11/2024",
+    "open": 1.85455,
+    "high": 1.86764,
+    "low": 1.84481,
+    "close": 1.86381
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "13/11/2024",
+    "open": 1.86393,
+    "high": 1.88907,
+    "low": 1.85148,
+    "close": 1.87732
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/11/2024",
+    "open": 1.87424,
+    "high": 1.87924,
+    "low": 1.84563,
+    "close": 1.85695
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "11/11/2024",
+    "open": 1.87713,
+    "high": 1.88822,
+    "low": 1.86804,
+    "close": 1.8827
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "08/11/2024",
+    "open": 1.87253,
+    "high": 1.87943,
+    "low": 1.86059,
+    "close": 1.874
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "07/11/2024",
+    "open": 1.87864,
+    "high": 1.8962,
+    "low": 1.86798,
+    "close": 1.88935
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "06/11/2024",
+    "open": 1.906,
+    "high": 1.91181,
+    "low": 1.87931,
+    "close": 1.89004
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "05/11/2024",
+    "open": 1.93134,
+    "high": 1.93888,
+    "low": 1.91709,
+    "close": 1.9347
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "04/11/2024",
+    "open": 1.96201,
+    "high": 1.97652,
+    "low": 1.94495,
+    "close": 1.95637
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "01/11/2024",
+    "open": 1.96567,
+    "high": 1.98669,
+    "low": 1.95402,
+    "close": 1.98497
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "31/10/2024",
+    "open": 1.99366,
+    "high": 1.99531,
+    "low": 1.96473,
+    "close": 1.96752
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "30/10/2024",
+    "open": 1.96675,
+    "high": 1.97999,
+    "low": 1.94054,
+    "close": 1.94397
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "29/10/2024",
+    "open": 1.95606,
+    "high": 1.96174,
+    "low": 1.9514,
+    "close": 1.95644
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "28/10/2024",
+    "open": 1.96763,
+    "high": 1.97645,
+    "low": 1.94315,
+    "close": 1.94964
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "25/10/2024",
+    "open": 1.93164,
+    "high": 1.94527,
+    "low": 1.92552,
+    "close": 1.93117
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "24/10/2024",
+    "open": 1.91283,
+    "high": 1.91312,
+    "low": 1.90385,
+    "close": 1.90996
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "23/10/2024",
+    "open": 1.923,
+    "high": 1.93296,
+    "low": 1.89557,
+    "close": 1.90662
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "22/10/2024",
+    "open": 1.87831,
+    "high": 1.9004,
+    "low": 1.87147,
+    "close": 1.89507
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "21/10/2024",
+    "open": 1.90095,
+    "high": 1.91844,
+    "low": 1.89721,
+    "close": 1.91153
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "18/10/2024",
+    "open": 1.91631,
+    "high": 1.94036,
+    "low": 1.91436,
+    "close": 1.9278
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "17/10/2024",
+    "open": 1.95351,
+    "high": 1.95473,
+    "low": 1.9464,
+    "close": 1.95106
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "16/10/2024",
+    "open": 1.95356,
+    "high": 1.95807,
+    "low": 1.94392,
+    "close": 1.95136
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "15/10/2024",
+    "open": 1.95552,
+    "high": 1.96677,
+    "low": 1.94383,
+    "close": 1.96103
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "14/10/2024",
+    "open": 1.91923,
+    "high": 1.93593,
+    "low": 1.91903,
+    "close": 1.9228
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "11/10/2024",
+    "open": 1.9629,
+    "high": 1.97255,
+    "low": 1.94624,
+    "close": 1.95565
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "10/10/2024",
+    "open": 1.96318,
+    "high": 1.96854,
+    "low": 1.95091,
+    "close": 1.95732
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/10/2024",
+    "open": 1.97006,
+    "high": 1.97691,
+    "low": 1.96323,
+    "close": 1.97044
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "08/10/2024",
+    "open": 1.93162,
+    "high": 1.93224,
+    "low": 1.915,
+    "close": 1.92665
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "07/10/2024",
+    "open": 1.95371,
+    "high": 1.96546,
+    "low": 1.94714,
+    "close": 1.95959
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "04/10/2024",
+    "open": 1.93412,
+    "high": 1.93865,
+    "low": 1.93343,
+    "close": 1.93838
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "03/10/2024",
+    "open": 1.96174,
+    "high": 1.99322,
+    "low": 1.95819,
+    "close": 1.97915
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "02/10/2024",
+    "open": 1.9705,
+    "high": 1.97435,
+    "low": 1.96655,
+    "close": 1.97027
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "01/10/2024",
+    "open": 1.94479,
+    "high": 1.95527,
+    "low": 1.92469,
+    "close": 1.93673
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "30/09/2024",
+    "open": 1.95976,
+    "high": 1.99035,
+    "low": 1.9545,
+    "close": 1.98415
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "27/09/2024",
+    "open": 1.99682,
+    "high": 2.01174,
+    "low": 1.99371,
+    "close": 2.00321
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "26/09/2024",
+    "open": 2.00031,
+    "high": 2.00728,
+    "low": 1.9936,
+    "close": 2.00716
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "25/09/2024",
+    "open": 2.03389,
+    "high": 2.04702,
+    "low": 2.02192,
+    "close": 2.02631
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "24/09/2024",
+    "open": 2.04672,
+    "high": 2.06041,
+    "low": 2.03625,
+    "close": 2.05889
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "23/09/2024",
+    "open": 2.07276,
+    "high": 2.0769,
+    "low": 2.05452,
+    "close": 2.06638
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "20/09/2024",
+    "open": 2.07931,
+    "high": 2.0905,
+    "low": 2.06752,
+    "close": 2.08133
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "19/09/2024",
+    "open": 2.10449,
+    "high": 2.11029,
+    "low": 2.08238,
+    "close": 2.09442
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "18/09/2024",
+    "open": 2.10308,
+    "high": 2.11282,
+    "low": 2.09536,
+    "close": 2.09865
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "17/09/2024",
+    "open": 2.11715,
+    "high": 2.13152,
+    "low": 2.09998,
+    "close": 2.10898
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "16/09/2024",
+    "open": 2.12744,
+    "high": 2.14558,
+    "low": 2.11249,
+    "close": 2.13118
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "13/09/2024",
+    "open": 2.12446,
+    "high": 2.15369,
+    "low": 2.12204,
+    "close": 2.14576
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/09/2024",
+    "open": 2.15131,
+    "high": 2.1629,
+    "low": 2.12585,
+    "close": 2.13813
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "11/09/2024",
+    "open": 2.15348,
+    "high": 2.16232,
+    "low": 2.14166,
+    "close": 2.15495
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "10/09/2024",
+    "open": 2.14404,
+    "high": 2.15279,
+    "low": 2.13625,
+    "close": 2.14773
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/09/2024",
+    "open": 2.11786,
+    "high": 2.12811,
+    "low": 2.1147,
+    "close": 2.11711
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "06/09/2024",
+    "open": 2.10614,
+    "high": 2.11874,
+    "low": 2.07771,
+    "close": 2.09016
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "05/09/2024",
+    "open": 2.09336,
+    "high": 2.10559,
+    "low": 2.08082,
+    "close": 2.1046
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "04/09/2024",
+    "open": 2.08207,
+    "high": 2.10183,
+    "low": 2.08189,
+    "close": 2.08847
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "03/09/2024",
+    "open": 2.10344,
+    "high": 2.13325,
+    "low": 2.09967,
+    "close": 2.12357
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "02/09/2024",
+    "open": 2.11028,
+    "high": 2.11308,
+    "low": 2.09805,
+    "close": 2.09809
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "30/08/2024",
+    "open": 2.10295,
+    "high": 2.11033,
+    "low": 2.07933,
+    "close": 2.08269
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "29/08/2024",
+    "open": 2.10028,
+    "high": 2.11365,
+    "low": 2.09503,
+    "close": 2.11273
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "28/08/2024",
+    "open": 2.11777,
+    "high": 2.11969,
+    "low": 2.0982,
+    "close": 2.10591
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "27/08/2024",
+    "open": 2.12588,
+    "high": 2.13822,
+    "low": 2.10489,
+    "close": 2.11266
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "26/08/2024",
+    "open": 2.12729,
+    "high": 2.1601,
+    "low": 2.12713,
+    "close": 2.14568
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "23/08/2024",
+    "open": 2.11807,
+    "high": 2.12722,
+    "low": 2.11427,
+    "close": 2.1203
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "22/08/2024",
+    "open": 2.13071,
+    "high": 2.13218,
+    "low": 2.11559,
+    "close": 2.12435
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "21/08/2024",
+    "open": 2.14561,
+    "high": 2.1601,
+    "low": 2.14025,
+    "close": 2.15031
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "20/08/2024",
+    "open": 2.13873,
+    "high": 2.1441,
+    "low": 2.1297,
+    "close": 2.14396
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "19/08/2024",
+    "open": 2.15318,
+    "high": 2.16561,
+    "low": 2.1445,
+    "close": 2.15245
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "16/08/2024",
+    "open": 2.16125,
+    "high": 2.17444,
+    "low": 2.1586,
+    "close": 2.16587
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "15/08/2024",
+    "open": 2.18576,
+    "high": 2.19585,
+    "low": 2.17588,
+    "close": 2.19287
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "14/08/2024",
+    "open": 2.22211,
+    "high": 2.22423,
+    "low": 2.20451,
+    "close": 2.21874
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "13/08/2024",
+    "open": 2.21374,
+    "high": 2.22084,
+    "low": 2.21232,
+    "close": 2.21715
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/08/2024",
+    "open": 2.21447,
+    "high": 2.22132,
+    "low": 2.20642,
+    "close": 2.21263
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/08/2024",
+    "open": 2.2259,
+    "high": 2.22655,
+    "low": 2.19708,
+    "close": 2.21085
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "08/08/2024",
+    "open": 2.25561,
+    "high": 2.25858,
+    "low": 2.24582,
+    "close": 2.25498
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "07/08/2024",
+    "open": 2.23651,
+    "high": 2.25138,
+    "low": 2.21587,
+    "close": 2.22218
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "06/08/2024",
+    "open": 2.22525,
+    "high": 2.23858,
+    "low": 2.22015,
+    "close": 2.22968
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "05/08/2024",
+    "open": 2.21389,
+    "high": 2.23378,
+    "low": 2.20504,
+    "close": 2.23033
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "02/08/2024",
+    "open": 2.2276,
+    "high": 2.2313,
+    "low": 2.18821,
+    "close": 2.20204
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "01/08/2024",
+    "open": 2.18647,
+    "high": 2.2138,
+    "low": 2.18632,
+    "close": 2.20512
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "31/07/2024",
+    "open": 2.18054,
+    "high": 2.20077,
+    "low": 2.16779,
+    "close": 2.19154
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "30/07/2024",
+    "open": 2.19252,
+    "high": 2.20909,
+    "low": 2.19149,
+    "close": 2.19635
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "29/07/2024",
+    "open": 2.17425,
+    "high": 2.20915,
+    "low": 2.16726,
+    "close": 2.2037
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "26/07/2024",
+    "open": 2.21712,
+    "high": 2.2277,
+    "low": 2.18855,
+    "close": 2.18909
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "25/07/2024",
+    "open": 2.2121,
+    "high": 2.22492,
+    "low": 2.20353,
+    "close": 2.22382
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "24/07/2024",
+    "open": 2.20413,
+    "high": 2.22951,
+    "low": 2.20231,
+    "close": 2.21742
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "23/07/2024",
+    "open": 2.20099,
+    "high": 2.21275,
+    "low": 2.19804,
+    "close": 2.20064
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "22/07/2024",
+    "open": 2.20506,
+    "high": 2.22384,
+    "low": 2.20393,
+    "close": 2.21472
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "19/07/2024",
+    "open": 2.23006,
+    "high": 2.2387,
+    "low": 2.22915,
+    "close": 2.23431
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "18/07/2024",
+    "open": 2.23797,
+    "high": 2.25243,
+    "low": 2.23528,
+    "close": 2.2473
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "17/07/2024",
+    "open": 2.25652,
+    "high": 2.26755,
+    "low": 2.25608,
+    "close": 2.26131
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "16/07/2024",
+    "open": 2.25751,
+    "high": 2.26162,
+    "low": 2.2544,
+    "close": 2.25518
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "15/07/2024",
+    "open": 2.25744,
+    "high": 2.26774,
+    "low": 2.22637,
+    "close": 2.23928
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/07/2024",
+    "open": 2.22289,
+    "high": 2.22839,
+    "low": 2.21729,
+    "close": 2.22218
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "11/07/2024",
+    "open": 2.25242,
+    "high": 2.25482,
+    "low": 2.24406,
+    "close": 2.24872
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "10/07/2024",
+    "open": 2.23047,
+    "high": 2.23242,
+    "low": 2.22242,
+    "close": 2.2292
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/07/2024",
+    "open": 2.25131,
+    "high": 2.26231,
+    "low": 2.23612,
+    "close": 2.24787
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "08/07/2024",
+    "open": 2.24802,
+    "high": 2.2569,
+    "low": 2.24183,
+    "close": 2.247
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "05/07/2024",
+    "open": 2.26834,
+    "high": 2.2856,
+    "low": 2.25495,
+    "close": 2.27558
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "04/07/2024",
+    "open": 2.27129,
+    "high": 2.27511,
+    "low": 2.25317,
+    "close": 2.26231
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "03/07/2024",
+    "open": 2.27592,
+    "high": 2.28417,
+    "low": 2.2536,
+    "close": 2.26306
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "02/07/2024",
+    "open": 2.25719,
+    "high": 2.2728,
+    "low": 2.25338,
+    "close": 2.25806
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "01/07/2024",
+    "open": 2.23221,
+    "high": 2.23492,
+    "low": 2.21917,
+    "close": 2.22653
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "28/06/2024",
+    "open": 2.25956,
+    "high": 2.27296,
+    "low": 2.25087,
+    "close": 2.25598
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "27/06/2024",
+    "open": 2.26305,
+    "high": 2.27445,
+    "low": 2.25211,
+    "close": 2.26519
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "26/06/2024",
+    "open": 2.23451,
+    "high": 2.27415,
+    "low": 2.22147,
+    "close": 2.26005
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "25/06/2024",
+    "open": 2.26516,
+    "high": 2.2716,
+    "low": 2.25827,
+    "close": 2.26179
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "24/06/2024",
+    "open": 2.2739,
+    "high": 2.2821,
+    "low": 2.26768,
+    "close": 2.27294
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "21/06/2024",
+    "open": 2.26524,
+    "high": 2.2789,
+    "low": 2.25084,
+    "close": 2.26726
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "20/06/2024",
+    "open": 2.279,
+    "high": 2.29307,
+    "low": 2.26637,
+    "close": 2.27653
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "19/06/2024",
+    "open": 2.2537,
+    "high": 2.27869,
+    "low": 2.24594,
+    "close": 2.26952
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "18/06/2024",
+    "open": 2.27876,
+    "high": 2.28229,
+    "low": 2.25255,
+    "close": 2.25333
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "17/06/2024",
+    "open": 2.24047,
+    "high": 2.24461,
+    "low": 2.23772,
+    "close": 2.24018
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "14/06/2024",
+    "open": 2.23422,
+    "high": 2.23846,
+    "low": 2.20793,
+    "close": 2.22168
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "13/06/2024",
+    "open": 2.24261,
+    "high": 2.25365,
+    "low": 2.23526,
+    "close": 2.24318
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/06/2024",
+    "open": 2.26866,
+    "high": 2.27223,
+    "low": 2.24975,
+    "close": 2.25244
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "11/06/2024",
+    "open": 2.26489,
+    "high": 2.29493,
+    "low": 2.26473,
+    "close": 2.2834
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "10/06/2024",
+    "open": 2.29455,
+    "high": 2.30504,
+    "low": 2.28776,
+    "close": 2.29332
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "07/06/2024",
+    "open": 2.30103,
+    "high": 2.30582,
+    "low": 2.29018,
+    "close": 2.30398
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "06/06/2024",
+    "open": 2.30816,
+    "high": 2.31299,
+    "low": 2.29789,
+    "close": 2.30097
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "05/06/2024",
+    "open": 2.29992,
+    "high": 2.30752,
+    "low": 2.27796,
+    "close": 2.28596
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "04/06/2024",
+    "open": 2.28848,
+    "high": 2.29749,
+    "low": 2.28055,
+    "close": 2.28882
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "03/06/2024",
+    "open": 2.26586,
+    "high": 2.27369,
+    "low": 2.25159,
+    "close": 2.25683
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "31/05/2024",
+    "open": 2.25181,
+    "high": 2.262,
+    "low": 2.24771,
+    "close": 2.25205
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "30/05/2024",
+    "open": 2.22647,
+    "high": 2.23295,
+    "low": 2.21934,
+    "close": 2.22441
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "29/05/2024",
+    "open": 2.24002,
+    "high": 2.24171,
+    "low": 2.23069,
+    "close": 2.24008
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "28/05/2024",
+    "open": 2.23641,
+    "high": 2.26228,
+    "low": 2.22972,
+    "close": 2.25262
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "27/05/2024",
+    "open": 2.23059,
+    "high": 2.23131,
+    "low": 2.22398,
+    "close": 2.2306
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "24/05/2024",
+    "open": 2.24353,
+    "high": 2.25809,
+    "low": 2.22095,
+    "close": 2.23112
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "23/05/2024",
+    "open": 2.27042,
+    "high": 2.28444,
+    "low": 2.23579,
+    "close": 2.24394
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "22/05/2024",
+    "open": 2.26574,
+    "high": 2.28048,
+    "low": 2.24107,
+    "close": 2.25023
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "21/05/2024",
+    "open": 2.27555,
+    "high": 2.30301,
+    "low": 2.26108,
+    "close": 2.28969
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "20/05/2024",
+    "open": 2.27061,
+    "high": 2.27715,
+    "low": 2.24776,
+    "close": 2.24958
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "17/05/2024",
+    "open": 2.27567,
+    "high": 2.29676,
+    "low": 2.26948,
+    "close": 2.2947
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "16/05/2024",
+    "open": 2.26697,
+    "high": 2.29201,
+    "low": 2.25883,
+    "close": 2.28912
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "15/05/2024",
+    "open": 2.25935,
+    "high": 2.27132,
+    "low": 2.24447,
+    "close": 2.25614
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "14/05/2024",
+    "open": 2.26146,
+    "high": 2.27508,
+    "low": 2.24372,
+    "close": 2.25559
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "13/05/2024",
+    "open": 2.28035,
+    "high": 2.28481,
+    "low": 2.25612,
+    "close": 2.26215
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "10/05/2024",
+    "open": 2.22467,
+    "high": 2.25051,
+    "low": 2.21816,
+    "close": 2.2471
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/05/2024",
+    "open": 2.23651,
+    "high": 2.2618,
+    "low": 2.22664,
+    "close": 2.24835
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "08/05/2024",
+    "open": 2.23526,
+    "high": 2.2456,
+    "low": 2.22636,
+    "close": 2.24474
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "07/05/2024",
+    "open": 2.23809,
+    "high": 2.24735,
+    "low": 2.20726,
+    "close": 2.21967
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "06/05/2024",
+    "open": 2.22045,
+    "high": 2.23587,
+    "low": 2.21245,
+    "close": 2.22304
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "03/05/2024",
+    "open": 2.24983,
+    "high": 2.26812,
+    "low": 2.24196,
+    "close": 2.26281
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "02/05/2024",
+    "open": 2.24672,
+    "high": 2.25885,
+    "low": 2.2279,
+    "close": 2.23786
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "01/05/2024",
+    "open": 2.25842,
+    "high": 2.26156,
+    "low": 2.23709,
+    "close": 2.24866
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "30/04/2024",
+    "open": 2.2555,
+    "high": 2.26237,
+    "low": 2.24127,
+    "close": 2.2483
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "29/04/2024",
+    "open": 2.24554,
+    "high": 2.25842,
+    "low": 2.23931,
+    "close": 2.24374
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "26/04/2024",
+    "open": 2.24192,
+    "high": 2.24885,
+    "low": 2.22668,
+    "close": 2.23878
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "25/04/2024",
+    "open": 2.24315,
+    "high": 2.25436,
+    "low": 2.211,
+    "close": 2.21974
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "24/04/2024",
+    "open": 2.26038,
+    "high": 2.28352,
+    "low": 2.24998,
+    "close": 2.27127
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "23/04/2024",
+    "open": 2.26486,
+    "high": 2.26656,
+    "low": 2.25603,
+    "close": 2.25978
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "22/04/2024",
+    "open": 2.24801,
+    "high": 2.26187,
+    "low": 2.24059,
+    "close": 2.26046
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "19/04/2024",
+    "open": 2.22915,
+    "high": 2.24566,
+    "low": 2.2179,
+    "close": 2.23971
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "18/04/2024",
+    "open": 2.25488,
+    "high": 2.26675,
+    "low": 2.25207,
+    "close": 2.25948
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "17/04/2024",
+    "open": 2.27923,
+    "high": 2.30366,
+    "low": 2.26887,
+    "close": 2.30052
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "16/04/2024",
+    "open": 2.29609,
+    "high": 2.31056,
+    "low": 2.29245,
+    "close": 2.30139
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "15/04/2024",
+    "open": 2.33829,
+    "high": 2.3443,
+    "low": 2.33068,
+    "close": 2.33554
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/04/2024",
+    "open": 2.29393,
+    "high": 2.31421,
+    "low": 2.29279,
+    "close": 2.30085
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "11/04/2024",
+    "open": 2.31724,
+    "high": 2.32921,
+    "low": 2.30749,
+    "close": 2.31012
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "10/04/2024",
+    "open": 2.33587,
+    "high": 2.34589,
+    "low": 2.31007,
+    "close": 2.3238
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/04/2024",
+    "open": 2.3327,
+    "high": 2.3426,
+    "low": 2.32889,
+    "close": 2.33797
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "08/04/2024",
+    "open": 2.32073,
+    "high": 2.34618,
+    "low": 2.31925,
+    "close": 2.33653
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "05/04/2024",
+    "open": 2.33357,
+    "high": 2.34594,
+    "low": 2.31262,
+    "close": 2.32451
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "04/04/2024",
+    "open": 2.3053,
+    "high": 2.31442,
+    "low": 2.28847,
+    "close": 2.29783
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "03/04/2024",
+    "open": 2.31218,
+    "high": 2.3232,
+    "low": 2.30414,
+    "close": 2.30704
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "02/04/2024",
+    "open": 2.31777,
+    "high": 2.34816,
+    "low": 2.3142,
+    "close": 2.33425
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "01/04/2024",
+    "open": 2.35364,
+    "high": 2.36332,
+    "low": 2.34797,
+    "close": 2.35825
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "29/03/2024",
+    "open": 2.33247,
+    "high": 2.34678,
+    "low": 2.31787,
+    "close": 2.33177
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "28/03/2024",
+    "open": 2.2933,
+    "high": 2.30568,
+    "low": 2.28393,
+    "close": 2.29913
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "27/03/2024",
+    "open": 2.28027,
+    "high": 2.29887,
+    "low": 2.27005,
+    "close": 2.28768
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "26/03/2024",
+    "open": 2.29672,
+    "high": 2.3145,
+    "low": 2.28866,
+    "close": 2.3035
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "25/03/2024",
+    "open": 2.31056,
+    "high": 2.31546,
+    "low": 2.30293,
+    "close": 2.30577
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "22/03/2024",
+    "open": 2.28283,
+    "high": 2.28555,
+    "low": 2.26019,
+    "close": 2.27485
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "21/03/2024",
+    "open": 2.251,
+    "high": 2.25942,
+    "low": 2.24236,
+    "close": 2.24946
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "20/03/2024",
+    "open": 2.24999,
+    "high": 2.25461,
+    "low": 2.23234,
+    "close": 2.24705
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "19/03/2024",
+    "open": 2.25145,
+    "high": 2.25326,
+    "low": 2.22076,
+    "close": 2.22268
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "18/03/2024",
+    "open": 2.20021,
+    "high": 2.20553,
+    "low": 2.18631,
+    "close": 2.1951
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "15/03/2024",
+    "open": 2.20487,
+    "high": 2.22313,
+    "low": 2.19566,
+    "close": 2.21556
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "14/03/2024",
+    "open": 2.23819,
+    "high": 2.24795,
+    "low": 2.23435,
+    "close": 2.24405
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "13/03/2024",
+    "open": 2.21691,
+    "high": 2.22926,
+    "low": 2.18904,
+    "close": 2.19858
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/03/2024",
+    "open": 2.23123,
+    "high": 2.24824,
+    "low": 2.21849,
+    "close": 2.23954
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "11/03/2024",
+    "open": 2.21866,
+    "high": 2.21992,
+    "low": 2.20461,
+    "close": 2.2169
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "08/03/2024",
+    "open": 2.21336,
+    "high": 2.22225,
+    "low": 2.20749,
+    "close": 2.21074
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "07/03/2024",
+    "open": 2.2454,
+    "high": 2.24597,
+    "low": 2.21018,
+    "close": 2.22507
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "06/03/2024",
+    "open": 2.224,
+    "high": 2.25883,
+    "low": 2.21717,
+    "close": 2.24609
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "05/03/2024",
+    "open": 2.25213,
+    "high": 2.25604,
+    "low": 2.23565,
+    "close": 2.24269
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "04/03/2024",
+    "open": 2.24432,
+    "high": 2.27654,
+    "low": 2.24215,
+    "close": 2.26398
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "01/03/2024",
+    "open": 2.26672,
+    "high": 2.29434,
+    "low": 2.26381,
+    "close": 2.2864
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "29/02/2024",
+    "open": 2.26654,
+    "high": 2.28574,
+    "low": 2.2652,
+    "close": 2.28512
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "28/02/2024",
+    "open": 2.266,
+    "high": 2.28012,
+    "low": 2.25174,
+    "close": 2.27447
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "27/02/2024",
+    "open": 2.25151,
+    "high": 2.26956,
+    "low": 2.24281,
+    "close": 2.26527
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "26/02/2024",
+    "open": 2.26918,
+    "high": 2.28823,
+    "low": 2.26349,
+    "close": 2.27818
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "23/02/2024",
+    "open": 2.29614,
+    "high": 2.30389,
+    "low": 2.29115,
+    "close": 2.2965
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "22/02/2024",
+    "open": 2.26993,
+    "high": 2.28264,
+    "low": 2.26877,
+    "close": 2.27312
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "21/02/2024",
+    "open": 2.23679,
+    "high": 2.25353,
+    "low": 2.2282,
+    "close": 2.24733
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "20/02/2024",
+    "open": 2.23325,
+    "high": 2.24641,
+    "low": 2.23027,
+    "close": 2.2447
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "19/02/2024",
+    "open": 2.23211,
+    "high": 2.25478,
+    "low": 2.22364,
+    "close": 2.25145
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "16/02/2024",
+    "open": 2.25474,
+    "high": 2.26074,
+    "low": 2.24211,
+    "close": 2.25005
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "15/02/2024",
+    "open": 2.24943,
+    "high": 2.25756,
+    "low": 2.23203,
+    "close": 2.24182
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "14/02/2024",
+    "open": 2.23392,
+    "high": 2.25841,
+    "low": 2.22057,
+    "close": 2.24927
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "13/02/2024",
+    "open": 2.21168,
+    "high": 2.24184,
+    "low": 2.19863,
+    "close": 2.23466
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/02/2024",
+    "open": 2.21539,
+    "high": 2.21718,
+    "low": 2.19963,
+    "close": 2.20644
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/02/2024",
+    "open": 2.24362,
+    "high": 2.2506,
+    "low": 2.23695,
+    "close": 2.23954
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "08/02/2024",
+    "open": 2.24417,
+    "high": 2.25785,
+    "low": 2.23532,
+    "close": 2.25333
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "07/02/2024",
+    "open": 2.22703,
+    "high": 2.25369,
+    "low": 2.21705,
+    "close": 2.23999
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "06/02/2024",
+    "open": 2.22883,
+    "high": 2.23807,
+    "low": 2.19609,
+    "close": 2.20536
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "05/02/2024",
+    "open": 2.1932,
+    "high": 2.22612,
+    "low": 2.1824,
+    "close": 2.21296
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "02/02/2024",
+    "open": 2.23563,
+    "high": 2.2475,
+    "low": 2.21985,
+    "close": 2.22089
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "01/02/2024",
+    "open": 2.26226,
+    "high": 2.26792,
+    "low": 2.24886,
+    "close": 2.25418
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "31/01/2024",
+    "open": 2.24401,
+    "high": 2.27761,
+    "low": 2.22949,
+    "close": 2.26791
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "30/01/2024",
+    "open": 2.23999,
+    "high": 2.25371,
+    "low": 2.22617,
+    "close": 2.23927
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "29/01/2024",
+    "open": 2.22589,
+    "high": 2.24062,
+    "low": 2.21907,
+    "close": 2.22105
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "26/01/2024",
+    "open": 2.20824,
+    "high": 2.21604,
+    "low": 2.19728,
+    "close": 2.21595
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "25/01/2024",
+    "open": 2.24671,
+    "high": 2.2597,
+    "low": 2.23367,
+    "close": 2.2439
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "24/01/2024",
+    "open": 2.25663,
+    "high": 2.2756,
+    "low": 2.25322,
+    "close": 2.2712
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "23/01/2024",
+    "open": 2.27907,
+    "high": 2.28693,
+    "low": 2.26246,
+    "close": 2.26728
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "22/01/2024",
+    "open": 2.28563,
+    "high": 2.29907,
+    "low": 2.28478,
+    "close": 2.29051
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "19/01/2024",
+    "open": 2.306,
+    "high": 2.32213,
+    "low": 2.30073,
+    "close": 2.3191
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "18/01/2024",
+    "open": 2.31551,
+    "high": 2.32188,
+    "low": 2.29831,
+    "close": 2.3106
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "17/01/2024",
+    "open": 2.31936,
+    "high": 2.33996,
+    "low": 2.31648,
+    "close": 2.33695
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "16/01/2024",
+    "open": 2.35206,
+    "high": 2.35431,
+    "low": 2.3373,
+    "close": 2.35255
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "15/01/2024",
+    "open": 2.34672,
+    "high": 2.35961,
+    "low": 2.34214,
+    "close": 2.34304
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/01/2024",
+    "open": 2.34631,
+    "high": 2.3533,
+    "low": 2.33563,
+    "close": 2.34547
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "11/01/2024",
+    "open": 2.35431,
+    "high": 2.37271,
+    "low": 2.34366,
+    "close": 2.36656
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "10/01/2024",
+    "open": 2.38963,
+    "high": 2.39559,
+    "low": 2.37806,
+    "close": 2.37819
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/01/2024",
+    "open": 2.34439,
+    "high": 2.37149,
+    "low": 2.33408,
+    "close": 2.36364
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "08/01/2024",
+    "open": 2.39257,
+    "high": 2.4002,
+    "low": 2.38582,
+    "close": 2.38959
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "05/01/2024",
+    "open": 2.36867,
+    "high": 2.39156,
+    "low": 2.36508,
+    "close": 2.38439
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "04/01/2024",
+    "open": 2.36277,
+    "high": 2.36754,
+    "low": 2.35511,
+    "close": 2.36492
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "03/01/2024",
+    "open": 2.35015,
+    "high": 2.37239,
+    "low": 2.33976,
+    "close": 2.37149
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "02/01/2024",
+    "open": 2.38524,
+    "high": 2.39864,
+    "low": 2.36359,
+    "close": 2.36918
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "01/01/2024",
+    "open": 2.40524,
+    "high": 2.41352,
+    "low": 2.39725,
+    "close": 2.40872
   }
 ]

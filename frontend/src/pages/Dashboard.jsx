@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { tradingAPI, dataAPI, historyAPI, bondAPI } from '../api/api'
 import TradingViewChart from '../components/TradingViewChart'
 import ChartModal from '../components/ChartModal'
@@ -11,6 +12,7 @@ import ErrorBoundary from '../components/ErrorBoundary'
 import './Dashboard.css'
 
 const Dashboard = () => {
+  const navigate = useNavigate()
   const [status, setStatus] = useState({})
   const [watchlist, setWatchlist] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
@@ -460,6 +462,13 @@ const Dashboard = () => {
         <div className="status-item">
           <span>Watchlist: {watchlist.length || 0} symbols</span>
         </div>
+        <button 
+          className="economic-calendar-button"
+          onClick={() => navigate('/economic-calendar')}
+          title="View Economic Calendar"
+        >
+          📅 Economic Calendar
+        </button>
       </div>
 
       {/* Currency Signal Matrix */}

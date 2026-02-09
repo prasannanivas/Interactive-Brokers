@@ -2,425 +2,11 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
-    "date": "31/12/2025",
-    "open": 4.5049,
-    "high": 4.5049,
-    "low": 4.4631,
-    "close": 4.4784
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "31/10/2025",
-    "open": 4.4322,
-    "high": 4.4449,
-    "low": 4.4067,
-    "close": 4.4084
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "31/07/2025",
-    "open": 4.6079,
-    "high": 4.6079,
-    "low": 4.5547,
-    "close": 4.5729
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "31/03/2025",
-    "open": 4.7107,
-    "high": 4.7107,
-    "low": 4.6402,
-    "close": 4.6895
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "31/01/2025",
-    "open": 4.5687,
-    "high": 4.5798,
-    "low": 4.5173,
-    "close": 4.5392
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "30/12/2025",
-    "open": 4.4893,
-    "high": 4.5102,
-    "low": 4.473,
-    "close": 4.5049
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "30/10/2025",
-    "open": 4.3942,
-    "high": 4.4573,
-    "low": 4.3942,
-    "close": 4.4322
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "30/09/2025",
-    "open": 4.7047,
-    "high": 4.7248,
-    "low": 4.6932,
-    "close": 4.7004
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "30/07/2025",
-    "open": 4.6382,
-    "high": 4.6382,
-    "low": 4.5739,
-    "close": 4.6079
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "30/06/2025",
-    "open": 4.5062,
-    "high": 4.5243,
-    "low": 4.4664,
-    "close": 4.4884
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "30/05/2025",
-    "open": 4.6512,
-    "high": 4.6898,
-    "low": 4.6351,
-    "close": 4.649
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "30/04/2025",
-    "open": 4.464,
-    "high": 4.483,
-    "low": 4.432,
-    "close": 4.441
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "30/01/2025",
-    "open": 4.6291,
-    "high": 4.6291,
-    "low": 4.536,
-    "close": 4.5687
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "29/12/2025",
-    "open": 4.5044,
-    "high": 4.513,
-    "low": 4.4713,
-    "close": 4.4893
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "29/10/2025",
-    "open": 4.4051,
-    "high": 4.4085,
-    "low": 4.3831,
-    "close": 4.3942
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "29/09/2025",
-    "open": 4.7573,
-    "high": 4.7573,
-    "low": 4.6951,
-    "close": 4.7047
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "29/08/2025",
-    "open": 4.702,
-    "high": 4.7428,
-    "low": 4.7011,
-    "close": 4.7236
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "29/07/2025",
-    "open": 4.6552,
-    "high": 4.6924,
-    "low": 4.6059,
-    "close": 4.6382
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "29/05/2025",
-    "open": 4.7315,
-    "high": 4.7742,
-    "low": 4.6417,
-    "close": 4.6512
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "29/04/2025",
-    "open": 4.5125,
-    "high": 4.5217,
-    "low": 4.4568,
-    "close": 4.4812
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "29/01/2025",
-    "open": 4.6213,
-    "high": 4.6345,
-    "low": 4.5638,
-    "close": 4.6291
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "28/11/2025",
-    "open": 4.4563,
-    "high": 4.4731,
-    "low": 4.4277,
-    "close": 4.447
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "28/10/2025",
-    "open": 4.4047,
-    "high": 4.4192,
-    "low": 4.37,
-    "close": 4.4051
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "28/08/2025",
-    "open": 4.7391,
-    "high": 4.7392,
-    "low": 4.6906,
-    "close": 4.702
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "28/07/2025",
-    "open": 4.6322,
-    "high": 4.664,
-    "low": 4.6014,
-    "close": 4.6552
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "28/05/2025",
-    "open": 4.6707,
-    "high": 4.7451,
-    "low": 4.6685,
-    "close": 4.7315
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "28/04/2025",
-    "open": 4.4822,
-    "high": 4.5395,
-    "low": 4.477,
-    "close": 4.5125
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "28/03/2025",
-    "open": 4.7905,
-    "high": 4.7905,
-    "low": 4.6917,
-    "close": 4.7107
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "28/02/2025",
-    "open": 4.5143,
-    "high": 4.5143,
-    "low": 4.4567,
-    "close": 4.4849
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "28/01/2025",
-    "open": 4.5909,
-    "high": 4.6299,
-    "low": 4.5741,
-    "close": 4.6213
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "27/11/2025",
-    "open": 4.4271,
-    "high": 4.4897,
-    "low": 4.426,
-    "close": 4.4563
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "27/10/2025",
-    "open": 4.4346,
-    "high": 4.4602,
-    "low": 4.4004,
-    "close": 4.4047
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "27/08/2025",
-    "open": 4.7449,
-    "high": 4.7652,
-    "low": 4.7102,
-    "close": 4.7391
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "27/06/2025",
-    "open": 4.4766,
-    "high": 4.5212,
-    "low": 4.4693,
-    "close": 4.5062
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "27/05/2025",
-    "open": 4.6834,
-    "high": 4.7069,
-    "low": 4.6125,
-    "close": 4.6707
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "27/03/2025",
-    "open": 4.731,
-    "high": 4.8306,
-    "low": 4.7146,
-    "close": 4.7905
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "27/02/2025",
-    "open": 4.5058,
-    "high": 4.5441,
-    "low": 4.4899,
-    "close": 4.5143
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
     "date": "27/01/2026",
     "open": 4.4977,
     "high": 4.539,
     "low": 4.4893,
     "close": 4.53
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "27/01/2025",
-    "open": 4.6408,
-    "high": 4.6408,
-    "low": 4.5507,
-    "close": 4.5909
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "26/12/2025",
-    "open": 4.5044,
-    "high": 4.5044,
-    "low": 4.5044,
-    "close": 4.5044
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "26/11/2025",
-    "open": 4.499,
-    "high": 4.562,
-    "low": 4.4128,
-    "close": 4.4271
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "26/09/2025",
-    "open": 4.7587,
-    "high": 4.7724,
-    "low": 4.7141,
-    "close": 4.7573
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "26/08/2025",
-    "open": 4.6965,
-    "high": 4.7746,
-    "low": 4.6965,
-    "close": 4.7449
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "26/06/2025",
-    "open": 4.4838,
-    "high": 4.4939,
-    "low": 4.4542,
-    "close": 4.4766
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "26/05/2025",
-    "open": 4.683,
-    "high": 4.683,
-    "low": 4.683,
-    "close": 4.683
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "26/03/2025",
-    "open": 4.7615,
-    "high": 4.8015,
-    "low": 4.6875,
-    "close": 4.731
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "26/02/2025",
-    "open": 4.5143,
-    "high": 4.5246,
-    "low": 4.4702,
-    "close": 4.5058
   },
   {
     "country": "United Kingdom",
@@ -434,299 +20,11 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
-    "date": "25/12/2025",
-    "open": 4.5044,
-    "high": 4.5044,
-    "low": 4.5044,
-    "close": 4.5044
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "25/11/2025",
-    "open": 4.5436,
-    "high": 4.5598,
-    "low": 4.4808,
-    "close": 4.499
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "25/09/2025",
-    "open": 4.6755,
-    "high": 4.7755,
-    "low": 4.6714,
-    "close": 4.7587
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "25/08/2025",
-    "open": 4.696,
-    "high": 4.696,
-    "low": 4.696,
-    "close": 4.696
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "25/07/2025",
-    "open": 4.625,
-    "high": 4.6706,
-    "low": 4.625,
-    "close": 4.6322
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "25/06/2025",
-    "open": 4.479,
-    "high": 4.5041,
-    "low": 4.44,
-    "close": 4.4838
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "25/04/2025",
-    "open": 4.5032,
-    "high": 4.5238,
-    "low": 4.4774,
-    "close": 4.4822
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "25/03/2025",
-    "open": 4.7208,
-    "high": 4.7759,
-    "low": 4.7208,
-    "close": 4.7615
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "25/02/2025",
-    "open": 4.5726,
-    "high": 4.5726,
-    "low": 4.4814,
-    "close": 4.5143
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "24/12/2025",
-    "open": 4.5133,
-    "high": 4.5348,
-    "low": 4.4923,
-    "close": 4.5044
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "24/11/2025",
-    "open": 4.5511,
-    "high": 4.5638,
-    "low": 4.5265,
-    "close": 4.5436
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "24/10/2025",
-    "open": 4.4347,
-    "high": 4.4469,
-    "low": 4.3895,
-    "close": 4.4346
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "24/09/2025",
-    "open": 4.6833,
-    "high": 4.697,
-    "low": 4.6548,
-    "close": 4.6755
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "24/07/2025",
-    "open": 4.6478,
-    "high": 4.6787,
-    "low": 4.6124,
-    "close": 4.625
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "24/06/2025",
-    "open": 4.4956,
-    "high": 4.5557,
-    "low": 4.4417,
-    "close": 4.479
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "24/04/2025",
-    "open": 4.5632,
-    "high": 4.571,
-    "low": 4.4891,
-    "close": 4.5032
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "24/03/2025",
-    "open": 4.7216,
-    "high": 4.7473,
-    "low": 4.6566,
-    "close": 4.7208
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "24/02/2025",
-    "open": 4.5766,
-    "high": 4.6088,
-    "low": 4.5425,
-    "close": 4.5726
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "23/12/2025",
-    "open": 4.5383,
-    "high": 4.5383,
-    "low": 4.4898,
-    "close": 4.5133
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "23/10/2025",
-    "open": 4.4154,
-    "high": 4.4451,
-    "low": 4.401,
-    "close": 4.4347
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "23/09/2025",
-    "open": 4.7168,
-    "high": 4.7168,
-    "low": 4.6664,
-    "close": 4.6833
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "23/07/2025",
-    "open": 4.5753,
-    "high": 4.6492,
-    "low": 4.5753,
-    "close": 4.6478
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "23/06/2025",
-    "open": 4.5434,
-    "high": 4.5737,
-    "low": 4.4901,
-    "close": 4.4956
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "23/05/2025",
-    "open": 4.7563,
-    "high": 4.7762,
-    "low": 4.6653,
-    "close": 4.6834
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "23/04/2025",
-    "open": 4.5602,
-    "high": 4.5752,
-    "low": 4.471,
-    "close": 4.5632
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
     "date": "23/01/2026",
     "open": 4.475,
     "high": 4.5319,
     "low": 4.4532,
     "close": 4.5291
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "22/12/2025",
-    "open": 4.53,
-    "high": 4.5493,
-    "low": 4.5242,
-    "close": 4.5383
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "22/10/2025",
-    "open": 4.488,
-    "high": 4.488,
-    "low": 4.3692,
-    "close": 4.4154
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "22/09/2025",
-    "open": 4.7167,
-    "high": 4.7298,
-    "low": 4.6921,
-    "close": 4.7168
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "22/08/2025",
-    "open": 4.7324,
-    "high": 4.7729,
-    "low": 4.6836,
-    "close": 4.6965
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "22/07/2025",
-    "open": 4.6062,
-    "high": 4.6523,
-    "low": 4.5619,
-    "close": 4.5753
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "22/05/2025",
-    "open": 4.7614,
-    "high": 4.8201,
-    "low": 4.7418,
-    "close": 4.7563
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "22/04/2025",
-    "open": 4.5703,
-    "high": 4.6197,
-    "low": 4.5378,
-    "close": 4.5602
   },
   {
     "country": "United Kingdom",
@@ -740,146 +38,11 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
-    "date": "21/11/2025",
-    "open": 4.5894,
-    "high": 4.5894,
-    "low": 4.5214,
-    "close": 4.5511
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "21/10/2025",
-    "open": 4.5139,
-    "high": 4.5213,
-    "low": 4.4647,
-    "close": 4.488
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "21/08/2025",
-    "open": 4.6734,
-    "high": 4.7501,
-    "low": 4.6734,
-    "close": 4.7324
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "21/07/2025",
-    "open": 4.6789,
-    "high": 4.6789,
-    "low": 4.5982,
-    "close": 4.6062
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "21/05/2025",
-    "open": 4.7048,
-    "high": 4.7857,
-    "low": 4.7048,
-    "close": 4.7614
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "21/04/2025",
-    "open": 4.57,
-    "high": 4.57,
-    "low": 4.57,
-    "close": 4.57
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "21/03/2025",
-    "open": 4.6581,
-    "high": 4.7319,
-    "low": 4.6449,
-    "close": 4.7216
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "21/02/2025",
-    "open": 4.6149,
-    "high": 4.6269,
-    "low": 4.5677,
-    "close": 4.5766
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
     "date": "21/01/2026",
     "open": 4.4621,
     "high": 4.484,
     "low": 4.4246,
     "close": 4.463
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "20/11/2025",
-    "open": 4.5992,
-    "high": 4.623,
-    "low": 4.5751,
-    "close": 4.5894
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "20/10/2025",
-    "open": 4.5367,
-    "high": 4.5421,
-    "low": 4.502,
-    "close": 4.5139
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "20/08/2025",
-    "open": 4.7456,
-    "high": 4.7538,
-    "low": 4.672,
-    "close": 4.6734
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "20/06/2025",
-    "open": 4.5322,
-    "high": 4.5713,
-    "low": 4.4996,
-    "close": 4.5434
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "20/05/2025",
-    "open": 4.6654,
-    "high": 4.7276,
-    "low": 4.6025,
-    "close": 4.7048
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "20/03/2025",
-    "open": 4.6418,
-    "high": 4.6961,
-    "low": 4.5602,
-    "close": 4.6581
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "20/02/2025",
-    "open": 4.6134,
-    "high": 4.6408,
-    "low": 4.5915,
-    "close": 4.6149
   },
   {
     "country": "United Kingdom",
@@ -893,299 +56,11 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
-    "date": "19/12/2025",
-    "open": 4.4904,
-    "high": 4.5421,
-    "low": 4.4904,
-    "close": 4.53
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "19/11/2025",
-    "open": 4.5563,
-    "high": 4.6272,
-    "low": 4.539,
-    "close": 4.5992
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "19/09/2025",
-    "open": 4.6804,
-    "high": 4.7275,
-    "low": 4.6804,
-    "close": 4.7167
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "19/08/2025",
-    "open": 4.7423,
-    "high": 4.7657,
-    "low": 4.7156,
-    "close": 4.7456
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "19/06/2025",
-    "open": 4.4976,
-    "high": 4.5556,
-    "low": 4.4976,
-    "close": 4.5322
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "19/05/2025",
-    "open": 4.6474,
-    "high": 4.7404,
-    "low": 4.6474,
-    "close": 4.6654
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "19/03/2025",
-    "open": 4.6473,
-    "high": 4.6651,
-    "low": 4.6201,
-    "close": 4.6418
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "19/02/2025",
-    "open": 4.5594,
-    "high": 4.6333,
-    "low": 4.5594,
-    "close": 4.6134
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
     "date": "19/01/2026",
     "open": 4.3971,
     "high": 4.4294,
     "low": 4.3958,
     "close": 4.4213
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "18/12/2025",
-    "open": 4.4872,
-    "high": 4.5402,
-    "low": 4.4296,
-    "close": 4.4904
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "18/11/2025",
-    "open": 4.5367,
-    "high": 4.5685,
-    "low": 4.514,
-    "close": 4.5563
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "18/09/2025",
-    "open": 4.6287,
-    "high": 4.6897,
-    "low": 4.6096,
-    "close": 4.6804
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "18/08/2025",
-    "open": 4.6999,
-    "high": 4.7644,
-    "low": 4.6583,
-    "close": 4.7423
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "18/07/2025",
-    "open": 4.6593,
-    "high": 4.6943,
-    "low": 4.6561,
-    "close": 4.6789
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "18/06/2025",
-    "open": 4.5585,
-    "high": 4.5604,
-    "low": 4.4934,
-    "close": 4.4976
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "18/03/2025",
-    "open": 4.6493,
-    "high": 4.7,
-    "low": 4.6374,
-    "close": 4.6473
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "18/02/2025",
-    "open": 4.5382,
-    "high": 4.5803,
-    "low": 4.5382,
-    "close": 4.5594
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "17/12/2025",
-    "open": 4.5229,
-    "high": 4.5229,
-    "low": 4.4484,
-    "close": 4.4872
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "17/11/2025",
-    "open": 4.5828,
-    "high": 4.5828,
-    "low": 4.5338,
-    "close": 4.5367
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "17/10/2025",
-    "open": 4.5015,
-    "high": 4.5538,
-    "low": 4.4587,
-    "close": 4.5367
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "17/09/2025",
-    "open": 4.6437,
-    "high": 4.6437,
-    "low": 4.6084,
-    "close": 4.6287
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "17/07/2025",
-    "open": 4.6409,
-    "high": 4.6877,
-    "low": 4.6394,
-    "close": 4.6593
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "17/06/2025",
-    "open": 4.5339,
-    "high": 4.5825,
-    "low": 4.5056,
-    "close": 4.5585
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "17/04/2025",
-    "open": 4.61,
-    "high": 4.639,
-    "low": 4.55,
-    "close": 4.574
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "17/03/2025",
-    "open": 4.6744,
-    "high": 4.6997,
-    "low": 4.6247,
-    "close": 4.6493
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "17/02/2025",
-    "open": 4.5092,
-    "high": 4.6116,
-    "low": 4.5049,
-    "close": 4.5382
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "16/12/2025",
-    "open": 4.508,
-    "high": 4.5801,
-    "low": 4.4959,
-    "close": 4.5229
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "16/10/2025",
-    "open": 4.5511,
-    "high": 4.5588,
-    "low": 4.4944,
-    "close": 4.5015
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "16/09/2025",
-    "open": 4.6352,
-    "high": 4.6737,
-    "low": 4.6266,
-    "close": 4.6437
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "16/07/2025",
-    "open": 4.6305,
-    "high": 4.6873,
-    "low": 4.615,
-    "close": 4.6409
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "16/06/2025",
-    "open": 4.5569,
-    "high": 4.5999,
-    "low": 4.5228,
-    "close": 4.5339
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "16/05/2025",
-    "open": 4.6611,
-    "high": 4.6611,
-    "low": 4.6063,
-    "close": 4.6474
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "16/04/2025",
-    "open": 4.596,
-    "high": 4.63,
-    "low": 4.574,
-    "close": 4.606
   },
   {
     "country": "United Kingdom",
@@ -1199,146 +74,11 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
-    "date": "15/12/2025",
-    "open": 4.5248,
-    "high": 4.5248,
-    "low": 4.4859,
-    "close": 4.508
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "15/10/2025",
-    "open": 4.5887,
-    "high": 4.5887,
-    "low": 4.5254,
-    "close": 4.5511
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "15/09/2025",
-    "open": 4.676,
-    "high": 4.6798,
-    "low": 4.6284,
-    "close": 4.6352
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "15/08/2025",
-    "open": 4.6472,
-    "high": 4.7078,
-    "low": 4.6353,
-    "close": 4.6999
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "15/07/2025",
-    "open": 4.6073,
-    "high": 4.6586,
-    "low": 4.5553,
-    "close": 4.6305
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "15/05/2025",
-    "open": 4.716,
-    "high": 4.7245,
-    "low": 4.6534,
-    "close": 4.6611
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "15/04/2025",
-    "open": 4.672,
-    "high": 4.673,
-    "low": 4.623,
-    "close": 4.649
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
     "date": "15/01/2026",
     "open": 4.3441,
     "high": 4.4032,
     "low": 4.3382,
     "close": 4.3921
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "14/11/2025",
-    "open": 4.4412,
-    "high": 4.5883,
-    "low": 4.4412,
-    "close": 4.5828
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "14/10/2025",
-    "open": 4.6605,
-    "high": 4.6605,
-    "low": 4.5707,
-    "close": 4.5887
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "14/08/2025",
-    "open": 4.5945,
-    "high": 4.6514,
-    "low": 4.5713,
-    "close": 4.6472
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "14/07/2025",
-    "open": 4.6285,
-    "high": 4.6453,
-    "low": 4.5925,
-    "close": 4.6073
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "14/05/2025",
-    "open": 4.6765,
-    "high": 4.7336,
-    "low": 4.6548,
-    "close": 4.716
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "14/04/2025",
-    "open": 4.7669,
-    "high": 4.7669,
-    "low": 4.649,
-    "close": 4.6656
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "14/03/2025",
-    "open": 4.633,
-    "high": 4.7306,
-    "low": 4.633,
-    "close": 4.6744
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "14/02/2025",
-    "open": 4.5011,
-    "high": 4.5372,
-    "low": 4.4781,
-    "close": 4.5092
   },
   {
     "country": "United Kingdom",
@@ -1352,146 +92,11 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
-    "date": "13/11/2025",
-    "open": 4.4032,
-    "high": 4.4455,
-    "low": 4.3799,
-    "close": 4.4412
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "13/10/2025",
-    "open": 4.6737,
-    "high": 4.6975,
-    "low": 4.6431,
-    "close": 4.6605
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "13/08/2025",
-    "open": 4.629,
-    "high": 4.629,
-    "low": 4.5806,
-    "close": 4.5945
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "13/06/2025",
-    "open": 4.4824,
-    "high": 4.5694,
-    "low": 4.4807,
-    "close": 4.5569
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "13/05/2025",
-    "open": 4.65,
-    "high": 4.6885,
-    "low": 4.6398,
-    "close": 4.6765
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "13/03/2025",
-    "open": 4.6807,
-    "high": 4.712,
-    "low": 4.6235,
-    "close": 4.633
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "13/02/2025",
-    "open": 4.5378,
-    "high": 4.557,
-    "low": 4.4647,
-    "close": 4.5011
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
     "date": "13/01/2026",
     "open": 4.3744,
     "high": 4.4143,
     "low": 4.3744,
     "close": 4.4019
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "12/12/2025",
-    "open": 4.4918,
-    "high": 4.5343,
-    "low": 4.4723,
-    "close": 4.5248
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "12/11/2025",
-    "open": 4.3914,
-    "high": 4.433,
-    "low": 4.3914,
-    "close": 4.4032
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "12/09/2025",
-    "open": 4.6102,
-    "high": 4.6789,
-    "low": 4.5962,
-    "close": 4.676
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "12/08/2025",
-    "open": 4.5683,
-    "high": 4.6473,
-    "low": 4.5683,
-    "close": 4.629
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "12/06/2025",
-    "open": 4.551,
-    "high": 4.551,
-    "low": 4.4755,
-    "close": 4.4824
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "12/05/2025",
-    "open": 4.5713,
-    "high": 4.665,
-    "low": 4.5713,
-    "close": 4.65
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "12/03/2025",
-    "open": 4.6296,
-    "high": 4.6973,
-    "low": 4.6213,
-    "close": 4.6807
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "12/02/2025",
-    "open": 4.5122,
-    "high": 4.5957,
-    "low": 4.5037,
-    "close": 4.5378
   },
   {
     "country": "United Kingdom",
@@ -1505,299 +110,11 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
-    "date": "11/12/2025",
-    "open": 4.5089,
-    "high": 4.5089,
-    "low": 4.4547,
-    "close": 4.4918
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "11/11/2025",
-    "open": 4.4677,
-    "high": 4.4677,
-    "low": 4.3745,
-    "close": 4.3914
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "11/09/2025",
-    "open": 4.6334,
-    "high": 4.6479,
-    "low": 4.5911,
-    "close": 4.6102
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "11/08/2025",
-    "open": 4.604,
-    "high": 4.604,
-    "low": 4.5476,
-    "close": 4.5683
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "11/07/2025",
-    "open": 4.6003,
-    "high": 4.644,
-    "low": 4.5831,
-    "close": 4.6285
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "11/06/2025",
-    "open": 4.5442,
-    "high": 4.619,
-    "low": 4.5427,
-    "close": 4.551
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "11/04/2025",
-    "open": 4.6514,
-    "high": 4.7897,
-    "low": 4.6514,
-    "close": 4.7669
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "11/03/2025",
-    "open": 4.6014,
-    "high": 4.6475,
-    "low": 4.5799,
-    "close": 4.6296
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "11/02/2025",
-    "open": 4.4615,
-    "high": 4.5278,
-    "low": 4.4615,
-    "close": 4.5122
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "10/12/2025",
-    "open": 4.5039,
-    "high": 4.5703,
-    "low": 4.5039,
-    "close": 4.5089
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "10/11/2025",
-    "open": 4.4695,
-    "high": 4.5072,
-    "low": 4.4521,
-    "close": 4.4677
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "10/10/2025",
-    "open": 4.7489,
-    "high": 4.7489,
-    "low": 4.6582,
-    "close": 4.6737
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "10/09/2025",
-    "open": 4.6247,
-    "high": 4.6518,
-    "low": 4.6064,
-    "close": 4.6334
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "10/07/2025",
-    "open": 4.606,
-    "high": 4.6201,
-    "low": 4.5697,
-    "close": 4.6003
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "10/06/2025",
-    "open": 4.637,
-    "high": 4.637,
-    "low": 4.5262,
-    "close": 4.5442
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "10/04/2025",
-    "open": 4.815,
-    "high": 4.815,
-    "low": 4.6138,
-    "close": 4.6514
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "10/03/2025",
-    "open": 4.6031,
-    "high": 4.611,
-    "low": 4.5549,
-    "close": 4.6014
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "10/02/2025",
-    "open": 4.4808,
-    "high": 4.4941,
-    "low": 4.4295,
-    "close": 4.4615
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "09/12/2025",
-    "open": 4.528,
-    "high": 4.5533,
-    "low": 4.4887,
-    "close": 4.5039
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "09/10/2025",
-    "open": 4.7207,
-    "high": 4.7587,
-    "low": 4.7066,
-    "close": 4.7489
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "09/09/2025",
-    "open": 4.6087,
-    "high": 4.6445,
-    "low": 4.5937,
-    "close": 4.6247
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "09/07/2025",
-    "open": 4.6359,
-    "high": 4.6472,
-    "low": 4.6004,
-    "close": 4.606
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "09/06/2025",
-    "open": 4.652,
-    "high": 4.6809,
-    "low": 4.5997,
-    "close": 4.637
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "09/05/2025",
-    "open": 4.5522,
-    "high": 4.6164,
-    "low": 4.544,
-    "close": 4.5713
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "09/04/2025",
-    "open": 4.6188,
-    "high": 4.8581,
-    "low": 4.6188,
-    "close": 4.815
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
     "date": "09/01/2026",
     "open": 4.3948,
     "high": 4.4258,
     "low": 4.3726,
     "close": 4.378
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "08/12/2025",
-    "open": 4.4809,
-    "high": 4.5679,
-    "low": 4.4809,
-    "close": 4.528
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "08/10/2025",
-    "open": 4.7257,
-    "high": 4.7265,
-    "low": 4.6986,
-    "close": 4.7207
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "08/09/2025",
-    "open": 4.6539,
-    "high": 4.6698,
-    "low": 4.6031,
-    "close": 4.6087
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "08/08/2025",
-    "open": 4.5495,
-    "high": 4.6122,
-    "low": 4.5495,
-    "close": 4.604
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "08/07/2025",
-    "open": 4.5926,
-    "high": 4.6637,
-    "low": 4.5926,
-    "close": 4.6359
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "08/05/2025",
-    "open": 4.4636,
-    "high": 4.5701,
-    "low": 4.4294,
-    "close": 4.5522
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "08/04/2025",
-    "open": 4.6075,
-    "high": 4.6807,
-    "low": 4.5391,
-    "close": 4.6188
   },
   {
     "country": "United Kingdom",
@@ -1811,146 +128,11 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
-    "date": "07/11/2025",
-    "open": 4.4375,
-    "high": 4.5007,
-    "low": 4.4375,
-    "close": 4.4695
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "07/10/2025",
-    "open": 4.7414,
-    "high": 4.7665,
-    "low": 4.7191,
-    "close": 4.7257
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "07/08/2025",
-    "open": 4.5329,
-    "high": 4.596,
-    "low": 4.5132,
-    "close": 4.5495
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "07/07/2025",
-    "open": 4.5625,
-    "high": 4.5996,
-    "low": 4.5212,
-    "close": 4.5926
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "07/05/2025",
-    "open": 4.5197,
-    "high": 4.5294,
-    "low": 4.4532,
-    "close": 4.4636
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "07/04/2025",
-    "open": 4.4533,
-    "high": 4.7386,
-    "low": 4.3758,
-    "close": 4.6075
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "07/03/2025",
-    "open": 4.6217,
-    "high": 4.6651,
-    "low": 4.5484,
-    "close": 4.6031
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "07/02/2025",
-    "open": 4.4902,
-    "high": 4.5224,
-    "low": 4.4256,
-    "close": 4.4808
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
     "date": "07/01/2026",
     "open": 4.4866,
     "high": 4.4866,
     "low": 4.3788,
     "close": 4.4168
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "06/11/2025",
-    "open": 4.4646,
-    "high": 4.4789,
-    "low": 4.4219,
-    "close": 4.4375
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "06/10/2025",
-    "open": 4.6952,
-    "high": 4.7606,
-    "low": 4.6952,
-    "close": 4.7414
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "06/08/2025",
-    "open": 4.5219,
-    "high": 4.5793,
-    "low": 4.5021,
-    "close": 4.5329
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "06/06/2025",
-    "open": 4.6253,
-    "high": 4.6712,
-    "low": 4.59,
-    "close": 4.652
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "06/05/2025",
-    "open": 4.5241,
-    "high": 4.6,
-    "low": 4.4847,
-    "close": 4.5197
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "06/03/2025",
-    "open": 4.648,
-    "high": 4.7198,
-    "low": 4.6176,
-    "close": 4.6217
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "06/02/2025",
-    "open": 4.4413,
-    "high": 4.5048,
-    "low": 4.3947,
-    "close": 4.4902
   },
   {
     "country": "United Kingdom",
@@ -1964,308 +146,11 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
-    "date": "05/12/2025",
-    "open": 4.4409,
-    "high": 4.4878,
-    "low": 4.4255,
-    "close": 4.4809
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "05/11/2025",
-    "open": 4.429,
-    "high": 4.4786,
-    "low": 4.4094,
-    "close": 4.4646
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "05/09/2025",
-    "open": 4.7247,
-    "high": 4.7247,
-    "low": 4.6412,
-    "close": 4.6539
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "05/08/2025",
-    "open": 4.5097,
-    "high": 4.5442,
-    "low": 4.4938,
-    "close": 4.5219
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "05/06/2025",
-    "open": 4.611,
-    "high": 4.6462,
-    "low": 4.5555,
-    "close": 4.6253
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "05/05/2025",
-    "open": 4.524,
-    "high": 4.524,
-    "low": 4.524,
-    "close": 4.524
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "05/03/2025",
-    "open": 4.5008,
-    "high": 4.6753,
-    "low": 4.5008,
-    "close": 4.648
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "05/02/2025",
-    "open": 4.5256,
-    "high": 4.5256,
-    "low": 4.4177,
-    "close": 4.4413
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
     "date": "05/01/2026",
     "open": 4.5391,
     "high": 4.5425,
     "low": 4.4922,
     "close": 4.507
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "04/12/2025",
-    "open": 4.4507,
-    "high": 4.473,
-    "low": 4.4134,
-    "close": 4.4409
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "04/11/2025",
-    "open": 4.4421,
-    "high": 4.4445,
-    "low": 4.3706,
-    "close": 4.429
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "04/09/2025",
-    "open": 4.7491,
-    "high": 4.7553,
-    "low": 4.7092,
-    "close": 4.7247
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "04/08/2025",
-    "open": 4.5302,
-    "high": 4.564,
-    "low": 4.4954,
-    "close": 4.5097
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "04/07/2025",
-    "open": 4.5445,
-    "high": 4.5751,
-    "low": 4.5052,
-    "close": 4.5625
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "04/06/2025",
-    "open": 4.6469,
-    "high": 4.6772,
-    "low": 4.5996,
-    "close": 4.611
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "04/04/2025",
-    "open": 4.5311,
-    "high": 4.5311,
-    "low": 4.374,
-    "close": 4.4533
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "04/03/2025",
-    "open": 4.512,
-    "high": 4.512,
-    "low": 4.4307,
-    "close": 4.5008
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "04/02/2025",
-    "open": 4.4882,
-    "high": 4.5648,
-    "low": 4.4882,
-    "close": 4.5256
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "03/12/2025",
-    "open": 4.4725,
-    "high": 4.4923,
-    "low": 4.4259,
-    "close": 4.4507
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "03/11/2025",
-    "open": 4.4084,
-    "high": 4.4549,
-    "low": 4.402,
-    "close": 4.4421
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "03/10/2025",
-    "open": 4.7138,
-    "high": 4.7138,
-    "low": 4.6808,
-    "close": 4.6952
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "03/09/2025",
-    "open": 4.8093,
-    "high": 4.8589,
-    "low": 4.7345,
-    "close": 4.7491
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "03/07/2025",
-    "open": 4.6172,
-    "high": 4.6172,
-    "low": 4.5079,
-    "close": 4.5445
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "03/06/2025",
-    "open": 4.6698,
-    "high": 4.6698,
-    "low": 4.5981,
-    "close": 4.6469
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "03/04/2025",
-    "open": 4.6472,
-    "high": 4.6472,
-    "low": 4.5048,
-    "close": 4.5311
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "03/03/2025",
-    "open": 4.4849,
-    "high": 4.5622,
-    "low": 4.4686,
-    "close": 4.512
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "03/02/2025",
-    "open": 4.5392,
-    "high": 4.5586,
-    "low": 4.4354,
-    "close": 4.4882
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "02/12/2025",
-    "open": 4.4861,
-    "high": 4.5164,
-    "low": 4.4683,
-    "close": 4.4725
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "02/10/2025",
-    "open": 4.6952,
-    "high": 4.7481,
-    "low": 4.6908,
-    "close": 4.7138
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "02/09/2025",
-    "open": 4.7539,
-    "high": 4.8333,
-    "low": 4.7539,
-    "close": 4.8093
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "02/07/2025",
-    "open": 4.4579,
-    "high": 4.6804,
-    "low": 4.4579,
-    "close": 4.6172
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "02/06/2025",
-    "open": 4.649,
-    "high": 4.7105,
-    "low": 4.6447,
-    "close": 4.6698
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "02/05/2025",
-    "open": 4.496,
-    "high": 4.502,
-    "low": 4.41,
-    "close": 4.499
-  },
-  {
-    "country": "United Kingdom",
-    "symbol": "GUKG10:IND",
-    "date": "02/04/2025",
-    "open": 4.6519,
-    "high": 4.6776,
-    "low": 4.5924,
-    "close": 4.6472
   },
   {
     "country": "United Kingdom",
@@ -2279,11 +164,596 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
+    "date": "01/01/2026",
+    "open": 4.4784,
+    "high": 4.4784,
+    "low": 4.4784,
+    "close": 4.4784
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "31/12/2025",
+    "open": 4.5049,
+    "high": 4.5049,
+    "low": 4.4631,
+    "close": 4.4784
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "30/12/2025",
+    "open": 4.4893,
+    "high": 4.5102,
+    "low": 4.473,
+    "close": 4.5049
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "29/12/2025",
+    "open": 4.5044,
+    "high": 4.513,
+    "low": 4.4713,
+    "close": 4.4893
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "26/12/2025",
+    "open": 4.5044,
+    "high": 4.5044,
+    "low": 4.5044,
+    "close": 4.5044
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "25/12/2025",
+    "open": 4.5044,
+    "high": 4.5044,
+    "low": 4.5044,
+    "close": 4.5044
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "24/12/2025",
+    "open": 4.5133,
+    "high": 4.5348,
+    "low": 4.4923,
+    "close": 4.5044
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "23/12/2025",
+    "open": 4.5383,
+    "high": 4.5383,
+    "low": 4.4898,
+    "close": 4.5133
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "22/12/2025",
+    "open": 4.53,
+    "high": 4.5493,
+    "low": 4.5242,
+    "close": 4.5383
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "19/12/2025",
+    "open": 4.4904,
+    "high": 4.5421,
+    "low": 4.4904,
+    "close": 4.53
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "18/12/2025",
+    "open": 4.4872,
+    "high": 4.5402,
+    "low": 4.4296,
+    "close": 4.4904
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "17/12/2025",
+    "open": 4.5229,
+    "high": 4.5229,
+    "low": 4.4484,
+    "close": 4.4872
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "16/12/2025",
+    "open": 4.508,
+    "high": 4.5801,
+    "low": 4.4959,
+    "close": 4.5229
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "15/12/2025",
+    "open": 4.5248,
+    "high": 4.5248,
+    "low": 4.4859,
+    "close": 4.508
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "12/12/2025",
+    "open": 4.4918,
+    "high": 4.5343,
+    "low": 4.4723,
+    "close": 4.5248
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "11/12/2025",
+    "open": 4.5089,
+    "high": 4.5089,
+    "low": 4.4547,
+    "close": 4.4918
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "10/12/2025",
+    "open": 4.5039,
+    "high": 4.5703,
+    "low": 4.5039,
+    "close": 4.5089
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "09/12/2025",
+    "open": 4.528,
+    "high": 4.5533,
+    "low": 4.4887,
+    "close": 4.5039
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "08/12/2025",
+    "open": 4.4809,
+    "high": 4.5679,
+    "low": 4.4809,
+    "close": 4.528
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "05/12/2025",
+    "open": 4.4409,
+    "high": 4.4878,
+    "low": 4.4255,
+    "close": 4.4809
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "04/12/2025",
+    "open": 4.4507,
+    "high": 4.473,
+    "low": 4.4134,
+    "close": 4.4409
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "03/12/2025",
+    "open": 4.4725,
+    "high": 4.4923,
+    "low": 4.4259,
+    "close": 4.4507
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "02/12/2025",
+    "open": 4.4861,
+    "high": 4.5164,
+    "low": 4.4683,
+    "close": 4.4725
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
     "date": "01/12/2025",
     "open": 4.447,
     "high": 4.5124,
     "low": 4.447,
     "close": 4.4861
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "28/11/2025",
+    "open": 4.4563,
+    "high": 4.4731,
+    "low": 4.4277,
+    "close": 4.447
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "27/11/2025",
+    "open": 4.4271,
+    "high": 4.4897,
+    "low": 4.426,
+    "close": 4.4563
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "26/11/2025",
+    "open": 4.499,
+    "high": 4.562,
+    "low": 4.4128,
+    "close": 4.4271
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "25/11/2025",
+    "open": 4.5436,
+    "high": 4.5598,
+    "low": 4.4808,
+    "close": 4.499
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "24/11/2025",
+    "open": 4.5511,
+    "high": 4.5638,
+    "low": 4.5265,
+    "close": 4.5436
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "21/11/2025",
+    "open": 4.5894,
+    "high": 4.5894,
+    "low": 4.5214,
+    "close": 4.5511
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "20/11/2025",
+    "open": 4.5992,
+    "high": 4.623,
+    "low": 4.5751,
+    "close": 4.5894
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "19/11/2025",
+    "open": 4.5563,
+    "high": 4.6272,
+    "low": 4.539,
+    "close": 4.5992
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "18/11/2025",
+    "open": 4.5367,
+    "high": 4.5685,
+    "low": 4.514,
+    "close": 4.5563
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "17/11/2025",
+    "open": 4.5828,
+    "high": 4.5828,
+    "low": 4.5338,
+    "close": 4.5367
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "14/11/2025",
+    "open": 4.4412,
+    "high": 4.5883,
+    "low": 4.4412,
+    "close": 4.5828
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "13/11/2025",
+    "open": 4.4032,
+    "high": 4.4455,
+    "low": 4.3799,
+    "close": 4.4412
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "12/11/2025",
+    "open": 4.3914,
+    "high": 4.433,
+    "low": 4.3914,
+    "close": 4.4032
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "11/11/2025",
+    "open": 4.4677,
+    "high": 4.4677,
+    "low": 4.3745,
+    "close": 4.3914
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "10/11/2025",
+    "open": 4.4695,
+    "high": 4.5072,
+    "low": 4.4521,
+    "close": 4.4677
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "07/11/2025",
+    "open": 4.4375,
+    "high": 4.5007,
+    "low": 4.4375,
+    "close": 4.4695
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "06/11/2025",
+    "open": 4.4646,
+    "high": 4.4789,
+    "low": 4.4219,
+    "close": 4.4375
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "05/11/2025",
+    "open": 4.429,
+    "high": 4.4786,
+    "low": 4.4094,
+    "close": 4.4646
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "04/11/2025",
+    "open": 4.4421,
+    "high": 4.4445,
+    "low": 4.3706,
+    "close": 4.429
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "03/11/2025",
+    "open": 4.4084,
+    "high": 4.4549,
+    "low": 4.402,
+    "close": 4.4421
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "31/10/2025",
+    "open": 4.4322,
+    "high": 4.4449,
+    "low": 4.4067,
+    "close": 4.4084
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "30/10/2025",
+    "open": 4.3942,
+    "high": 4.4573,
+    "low": 4.3942,
+    "close": 4.4322
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "29/10/2025",
+    "open": 4.4051,
+    "high": 4.4085,
+    "low": 4.3831,
+    "close": 4.3942
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "28/10/2025",
+    "open": 4.4047,
+    "high": 4.4192,
+    "low": 4.37,
+    "close": 4.4051
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "27/10/2025",
+    "open": 4.4346,
+    "high": 4.4602,
+    "low": 4.4004,
+    "close": 4.4047
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "24/10/2025",
+    "open": 4.4347,
+    "high": 4.4469,
+    "low": 4.3895,
+    "close": 4.4346
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "23/10/2025",
+    "open": 4.4154,
+    "high": 4.4451,
+    "low": 4.401,
+    "close": 4.4347
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "22/10/2025",
+    "open": 4.488,
+    "high": 4.488,
+    "low": 4.3692,
+    "close": 4.4154
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "21/10/2025",
+    "open": 4.5139,
+    "high": 4.5213,
+    "low": 4.4647,
+    "close": 4.488
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "20/10/2025",
+    "open": 4.5367,
+    "high": 4.5421,
+    "low": 4.502,
+    "close": 4.5139
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "17/10/2025",
+    "open": 4.5015,
+    "high": 4.5538,
+    "low": 4.4587,
+    "close": 4.5367
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "16/10/2025",
+    "open": 4.5511,
+    "high": 4.5588,
+    "low": 4.4944,
+    "close": 4.5015
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "15/10/2025",
+    "open": 4.5887,
+    "high": 4.5887,
+    "low": 4.5254,
+    "close": 4.5511
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "14/10/2025",
+    "open": 4.6605,
+    "high": 4.6605,
+    "low": 4.5707,
+    "close": 4.5887
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "13/10/2025",
+    "open": 4.6737,
+    "high": 4.6975,
+    "low": 4.6431,
+    "close": 4.6605
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "10/10/2025",
+    "open": 4.7489,
+    "high": 4.7489,
+    "low": 4.6582,
+    "close": 4.6737
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "09/10/2025",
+    "open": 4.7207,
+    "high": 4.7587,
+    "low": 4.7066,
+    "close": 4.7489
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "08/10/2025",
+    "open": 4.7257,
+    "high": 4.7265,
+    "low": 4.6986,
+    "close": 4.7207
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "07/10/2025",
+    "open": 4.7414,
+    "high": 4.7665,
+    "low": 4.7191,
+    "close": 4.7257
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "06/10/2025",
+    "open": 4.6952,
+    "high": 4.7606,
+    "low": 4.6952,
+    "close": 4.7414
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "03/10/2025",
+    "open": 4.7138,
+    "high": 4.7138,
+    "low": 4.6808,
+    "close": 4.6952
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "02/10/2025",
+    "open": 4.6952,
+    "high": 4.7481,
+    "low": 4.6908,
+    "close": 4.7138
   },
   {
     "country": "United Kingdom",
@@ -2297,11 +767,380 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
+    "date": "30/09/2025",
+    "open": 4.7047,
+    "high": 4.7248,
+    "low": 4.6932,
+    "close": 4.7004
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "29/09/2025",
+    "open": 4.7573,
+    "high": 4.7573,
+    "low": 4.6951,
+    "close": 4.7047
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "26/09/2025",
+    "open": 4.7587,
+    "high": 4.7724,
+    "low": 4.7141,
+    "close": 4.7573
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "25/09/2025",
+    "open": 4.6755,
+    "high": 4.7755,
+    "low": 4.6714,
+    "close": 4.7587
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "24/09/2025",
+    "open": 4.6833,
+    "high": 4.697,
+    "low": 4.6548,
+    "close": 4.6755
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "23/09/2025",
+    "open": 4.7168,
+    "high": 4.7168,
+    "low": 4.6664,
+    "close": 4.6833
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "22/09/2025",
+    "open": 4.7167,
+    "high": 4.7298,
+    "low": 4.6921,
+    "close": 4.7168
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "19/09/2025",
+    "open": 4.6804,
+    "high": 4.7275,
+    "low": 4.6804,
+    "close": 4.7167
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "18/09/2025",
+    "open": 4.6287,
+    "high": 4.6897,
+    "low": 4.6096,
+    "close": 4.6804
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "17/09/2025",
+    "open": 4.6437,
+    "high": 4.6437,
+    "low": 4.6084,
+    "close": 4.6287
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "16/09/2025",
+    "open": 4.6352,
+    "high": 4.6737,
+    "low": 4.6266,
+    "close": 4.6437
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "15/09/2025",
+    "open": 4.676,
+    "high": 4.6798,
+    "low": 4.6284,
+    "close": 4.6352
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "12/09/2025",
+    "open": 4.6102,
+    "high": 4.6789,
+    "low": 4.5962,
+    "close": 4.676
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "11/09/2025",
+    "open": 4.6334,
+    "high": 4.6479,
+    "low": 4.5911,
+    "close": 4.6102
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "10/09/2025",
+    "open": 4.6247,
+    "high": 4.6518,
+    "low": 4.6064,
+    "close": 4.6334
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "09/09/2025",
+    "open": 4.6087,
+    "high": 4.6445,
+    "low": 4.5937,
+    "close": 4.6247
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "08/09/2025",
+    "open": 4.6539,
+    "high": 4.6698,
+    "low": 4.6031,
+    "close": 4.6087
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "05/09/2025",
+    "open": 4.7247,
+    "high": 4.7247,
+    "low": 4.6412,
+    "close": 4.6539
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "04/09/2025",
+    "open": 4.7491,
+    "high": 4.7553,
+    "low": 4.7092,
+    "close": 4.7247
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "03/09/2025",
+    "open": 4.8093,
+    "high": 4.8589,
+    "low": 4.7345,
+    "close": 4.7491
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "02/09/2025",
+    "open": 4.7539,
+    "high": 4.8333,
+    "low": 4.7539,
+    "close": 4.8093
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
     "date": "01/09/2025",
     "open": 4.7236,
     "high": 4.7691,
     "low": 4.7236,
     "close": 4.7539
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "29/08/2025",
+    "open": 4.702,
+    "high": 4.7428,
+    "low": 4.7011,
+    "close": 4.7236
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "28/08/2025",
+    "open": 4.7391,
+    "high": 4.7392,
+    "low": 4.6906,
+    "close": 4.702
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "27/08/2025",
+    "open": 4.7449,
+    "high": 4.7652,
+    "low": 4.7102,
+    "close": 4.7391
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "26/08/2025",
+    "open": 4.6965,
+    "high": 4.7746,
+    "low": 4.6965,
+    "close": 4.7449
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "25/08/2025",
+    "open": 4.696,
+    "high": 4.696,
+    "low": 4.696,
+    "close": 4.696
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "22/08/2025",
+    "open": 4.7324,
+    "high": 4.7729,
+    "low": 4.6836,
+    "close": 4.6965
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "21/08/2025",
+    "open": 4.6734,
+    "high": 4.7501,
+    "low": 4.6734,
+    "close": 4.7324
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "20/08/2025",
+    "open": 4.7456,
+    "high": 4.7538,
+    "low": 4.672,
+    "close": 4.6734
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "19/08/2025",
+    "open": 4.7423,
+    "high": 4.7657,
+    "low": 4.7156,
+    "close": 4.7456
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "18/08/2025",
+    "open": 4.6999,
+    "high": 4.7644,
+    "low": 4.6583,
+    "close": 4.7423
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "15/08/2025",
+    "open": 4.6472,
+    "high": 4.7078,
+    "low": 4.6353,
+    "close": 4.6999
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "14/08/2025",
+    "open": 4.5945,
+    "high": 4.6514,
+    "low": 4.5713,
+    "close": 4.6472
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "13/08/2025",
+    "open": 4.629,
+    "high": 4.629,
+    "low": 4.5806,
+    "close": 4.5945
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "12/08/2025",
+    "open": 4.5683,
+    "high": 4.6473,
+    "low": 4.5683,
+    "close": 4.629
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "11/08/2025",
+    "open": 4.604,
+    "high": 4.604,
+    "low": 4.5476,
+    "close": 4.5683
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "08/08/2025",
+    "open": 4.5495,
+    "high": 4.6122,
+    "low": 4.5495,
+    "close": 4.604
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "07/08/2025",
+    "open": 4.5329,
+    "high": 4.596,
+    "low": 4.5132,
+    "close": 4.5495
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "06/08/2025",
+    "open": 4.5219,
+    "high": 4.5793,
+    "low": 4.5021,
+    "close": 4.5329
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "05/08/2025",
+    "open": 4.5097,
+    "high": 4.5442,
+    "low": 4.4938,
+    "close": 4.5219
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "04/08/2025",
+    "open": 4.5302,
+    "high": 4.564,
+    "low": 4.4954,
+    "close": 4.5097
   },
   {
     "country": "United Kingdom",
@@ -2315,11 +1154,587 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
+    "date": "31/07/2025",
+    "open": 4.6079,
+    "high": 4.6079,
+    "low": 4.5547,
+    "close": 4.5729
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "30/07/2025",
+    "open": 4.6382,
+    "high": 4.6382,
+    "low": 4.5739,
+    "close": 4.6079
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "29/07/2025",
+    "open": 4.6552,
+    "high": 4.6924,
+    "low": 4.6059,
+    "close": 4.6382
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "28/07/2025",
+    "open": 4.6322,
+    "high": 4.664,
+    "low": 4.6014,
+    "close": 4.6552
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "25/07/2025",
+    "open": 4.625,
+    "high": 4.6706,
+    "low": 4.625,
+    "close": 4.6322
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "24/07/2025",
+    "open": 4.6478,
+    "high": 4.6787,
+    "low": 4.6124,
+    "close": 4.625
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "23/07/2025",
+    "open": 4.5753,
+    "high": 4.6492,
+    "low": 4.5753,
+    "close": 4.6478
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "22/07/2025",
+    "open": 4.6062,
+    "high": 4.6523,
+    "low": 4.5619,
+    "close": 4.5753
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "21/07/2025",
+    "open": 4.6789,
+    "high": 4.6789,
+    "low": 4.5982,
+    "close": 4.6062
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "18/07/2025",
+    "open": 4.6593,
+    "high": 4.6943,
+    "low": 4.6561,
+    "close": 4.6789
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "17/07/2025",
+    "open": 4.6409,
+    "high": 4.6877,
+    "low": 4.6394,
+    "close": 4.6593
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "16/07/2025",
+    "open": 4.6305,
+    "high": 4.6873,
+    "low": 4.615,
+    "close": 4.6409
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "15/07/2025",
+    "open": 4.6073,
+    "high": 4.6586,
+    "low": 4.5553,
+    "close": 4.6305
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "14/07/2025",
+    "open": 4.6285,
+    "high": 4.6453,
+    "low": 4.5925,
+    "close": 4.6073
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "11/07/2025",
+    "open": 4.6003,
+    "high": 4.644,
+    "low": 4.5831,
+    "close": 4.6285
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "10/07/2025",
+    "open": 4.606,
+    "high": 4.6201,
+    "low": 4.5697,
+    "close": 4.6003
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "09/07/2025",
+    "open": 4.6359,
+    "high": 4.6472,
+    "low": 4.6004,
+    "close": 4.606
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "08/07/2025",
+    "open": 4.5926,
+    "high": 4.6637,
+    "low": 4.5926,
+    "close": 4.6359
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "07/07/2025",
+    "open": 4.5625,
+    "high": 4.5996,
+    "low": 4.5212,
+    "close": 4.5926
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "04/07/2025",
+    "open": 4.5445,
+    "high": 4.5751,
+    "low": 4.5052,
+    "close": 4.5625
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "03/07/2025",
+    "open": 4.6172,
+    "high": 4.6172,
+    "low": 4.5079,
+    "close": 4.5445
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "02/07/2025",
+    "open": 4.4579,
+    "high": 4.6804,
+    "low": 4.4579,
+    "close": 4.6172
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
     "date": "01/07/2025",
     "open": 4.4884,
     "high": 4.4997,
     "low": 4.4112,
     "close": 4.4579
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "30/06/2025",
+    "open": 4.5062,
+    "high": 4.5243,
+    "low": 4.4664,
+    "close": 4.4884
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "27/06/2025",
+    "open": 4.4766,
+    "high": 4.5212,
+    "low": 4.4693,
+    "close": 4.5062
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "26/06/2025",
+    "open": 4.4838,
+    "high": 4.4939,
+    "low": 4.4542,
+    "close": 4.4766
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "25/06/2025",
+    "open": 4.479,
+    "high": 4.5041,
+    "low": 4.44,
+    "close": 4.4838
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "24/06/2025",
+    "open": 4.4956,
+    "high": 4.5557,
+    "low": 4.4417,
+    "close": 4.479
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "23/06/2025",
+    "open": 4.5434,
+    "high": 4.5737,
+    "low": 4.4901,
+    "close": 4.4956
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "20/06/2025",
+    "open": 4.5322,
+    "high": 4.5713,
+    "low": 4.4996,
+    "close": 4.5434
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "19/06/2025",
+    "open": 4.4976,
+    "high": 4.5556,
+    "low": 4.4976,
+    "close": 4.5322
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "18/06/2025",
+    "open": 4.5585,
+    "high": 4.5604,
+    "low": 4.4934,
+    "close": 4.4976
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "17/06/2025",
+    "open": 4.5339,
+    "high": 4.5825,
+    "low": 4.5056,
+    "close": 4.5585
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "16/06/2025",
+    "open": 4.5569,
+    "high": 4.5999,
+    "low": 4.5228,
+    "close": 4.5339
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "13/06/2025",
+    "open": 4.4824,
+    "high": 4.5694,
+    "low": 4.4807,
+    "close": 4.5569
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "12/06/2025",
+    "open": 4.551,
+    "high": 4.551,
+    "low": 4.4755,
+    "close": 4.4824
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "11/06/2025",
+    "open": 4.5442,
+    "high": 4.619,
+    "low": 4.5427,
+    "close": 4.551
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "10/06/2025",
+    "open": 4.637,
+    "high": 4.637,
+    "low": 4.5262,
+    "close": 4.5442
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "09/06/2025",
+    "open": 4.652,
+    "high": 4.6809,
+    "low": 4.5997,
+    "close": 4.637
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "06/06/2025",
+    "open": 4.6253,
+    "high": 4.6712,
+    "low": 4.59,
+    "close": 4.652
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "05/06/2025",
+    "open": 4.611,
+    "high": 4.6462,
+    "low": 4.5555,
+    "close": 4.6253
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "04/06/2025",
+    "open": 4.6469,
+    "high": 4.6772,
+    "low": 4.5996,
+    "close": 4.611
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "03/06/2025",
+    "open": 4.6698,
+    "high": 4.6698,
+    "low": 4.5981,
+    "close": 4.6469
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "02/06/2025",
+    "open": 4.649,
+    "high": 4.7105,
+    "low": 4.6447,
+    "close": 4.6698
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "30/05/2025",
+    "open": 4.6512,
+    "high": 4.6898,
+    "low": 4.6351,
+    "close": 4.649
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "29/05/2025",
+    "open": 4.7315,
+    "high": 4.7742,
+    "low": 4.6417,
+    "close": 4.6512
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "28/05/2025",
+    "open": 4.6707,
+    "high": 4.7451,
+    "low": 4.6685,
+    "close": 4.7315
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "27/05/2025",
+    "open": 4.6834,
+    "high": 4.7069,
+    "low": 4.6125,
+    "close": 4.6707
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "26/05/2025",
+    "open": 4.683,
+    "high": 4.683,
+    "low": 4.683,
+    "close": 4.683
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "23/05/2025",
+    "open": 4.7563,
+    "high": 4.7762,
+    "low": 4.6653,
+    "close": 4.6834
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "22/05/2025",
+    "open": 4.7614,
+    "high": 4.8201,
+    "low": 4.7418,
+    "close": 4.7563
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "21/05/2025",
+    "open": 4.7048,
+    "high": 4.7857,
+    "low": 4.7048,
+    "close": 4.7614
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "20/05/2025",
+    "open": 4.6654,
+    "high": 4.7276,
+    "low": 4.6025,
+    "close": 4.7048
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "19/05/2025",
+    "open": 4.6474,
+    "high": 4.7404,
+    "low": 4.6474,
+    "close": 4.6654
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "16/05/2025",
+    "open": 4.6611,
+    "high": 4.6611,
+    "low": 4.6063,
+    "close": 4.6474
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "15/05/2025",
+    "open": 4.716,
+    "high": 4.7245,
+    "low": 4.6534,
+    "close": 4.6611
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "14/05/2025",
+    "open": 4.6765,
+    "high": 4.7336,
+    "low": 4.6548,
+    "close": 4.716
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "13/05/2025",
+    "open": 4.65,
+    "high": 4.6885,
+    "low": 4.6398,
+    "close": 4.6765
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "12/05/2025",
+    "open": 4.5713,
+    "high": 4.665,
+    "low": 4.5713,
+    "close": 4.65
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "09/05/2025",
+    "open": 4.5522,
+    "high": 4.6164,
+    "low": 4.544,
+    "close": 4.5713
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "08/05/2025",
+    "open": 4.4636,
+    "high": 4.5701,
+    "low": 4.4294,
+    "close": 4.5522
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "07/05/2025",
+    "open": 4.5197,
+    "high": 4.5294,
+    "low": 4.4532,
+    "close": 4.4636
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "06/05/2025",
+    "open": 4.5241,
+    "high": 4.6,
+    "low": 4.4847,
+    "close": 4.5197
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "05/05/2025",
+    "open": 4.524,
+    "high": 4.524,
+    "low": 4.524,
+    "close": 4.524
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "02/05/2025",
+    "open": 4.496,
+    "high": 4.502,
+    "low": 4.41,
+    "close": 4.499
   },
   {
     "country": "United Kingdom",
@@ -2333,6 +1748,195 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
+    "date": "30/04/2025",
+    "open": 4.464,
+    "high": 4.483,
+    "low": 4.432,
+    "close": 4.441
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "29/04/2025",
+    "open": 4.5125,
+    "high": 4.5217,
+    "low": 4.4568,
+    "close": 4.4812
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "28/04/2025",
+    "open": 4.4822,
+    "high": 4.5395,
+    "low": 4.477,
+    "close": 4.5125
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "25/04/2025",
+    "open": 4.5032,
+    "high": 4.5238,
+    "low": 4.4774,
+    "close": 4.4822
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "24/04/2025",
+    "open": 4.5632,
+    "high": 4.571,
+    "low": 4.4891,
+    "close": 4.5032
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "23/04/2025",
+    "open": 4.5602,
+    "high": 4.5752,
+    "low": 4.471,
+    "close": 4.5632
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "22/04/2025",
+    "open": 4.5703,
+    "high": 4.6197,
+    "low": 4.5378,
+    "close": 4.5602
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "21/04/2025",
+    "open": 4.57,
+    "high": 4.57,
+    "low": 4.57,
+    "close": 4.57
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "18/04/2025",
+    "open": 4.58159,
+    "high": 4.58824,
+    "low": 4.56861,
+    "close": 4.57936
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "17/04/2025",
+    "open": 4.61,
+    "high": 4.639,
+    "low": 4.55,
+    "close": 4.574
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "16/04/2025",
+    "open": 4.596,
+    "high": 4.63,
+    "low": 4.574,
+    "close": 4.606
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "15/04/2025",
+    "open": 4.672,
+    "high": 4.673,
+    "low": 4.623,
+    "close": 4.649
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "14/04/2025",
+    "open": 4.7669,
+    "high": 4.7669,
+    "low": 4.649,
+    "close": 4.6656
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "11/04/2025",
+    "open": 4.6514,
+    "high": 4.7897,
+    "low": 4.6514,
+    "close": 4.7669
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "10/04/2025",
+    "open": 4.815,
+    "high": 4.815,
+    "low": 4.6138,
+    "close": 4.6514
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "09/04/2025",
+    "open": 4.6188,
+    "high": 4.8581,
+    "low": 4.6188,
+    "close": 4.815
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "08/04/2025",
+    "open": 4.6075,
+    "high": 4.6807,
+    "low": 4.5391,
+    "close": 4.6188
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "07/04/2025",
+    "open": 4.4533,
+    "high": 4.7386,
+    "low": 4.3758,
+    "close": 4.6075
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "04/04/2025",
+    "open": 4.5311,
+    "high": 4.5311,
+    "low": 4.374,
+    "close": 4.4533
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "03/04/2025",
+    "open": 4.6472,
+    "high": 4.6472,
+    "low": 4.5048,
+    "close": 4.5311
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "02/04/2025",
+    "open": 4.6519,
+    "high": 4.6776,
+    "low": 4.5924,
+    "close": 4.6472
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
     "date": "01/04/2025",
     "open": 4.6895,
     "high": 4.6895,
@@ -2342,10 +1946,2935 @@
   {
     "country": "United Kingdom",
     "symbol": "GUKG10:IND",
-    "date": "01/01/2026",
-    "open": 4.4784,
-    "high": 4.4784,
-    "low": 4.4784,
-    "close": 4.4784
+    "date": "31/03/2025",
+    "open": 4.7107,
+    "high": 4.7107,
+    "low": 4.6402,
+    "close": 4.6895
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "28/03/2025",
+    "open": 4.7905,
+    "high": 4.7905,
+    "low": 4.6917,
+    "close": 4.7107
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "27/03/2025",
+    "open": 4.731,
+    "high": 4.8306,
+    "low": 4.7146,
+    "close": 4.7905
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "26/03/2025",
+    "open": 4.7615,
+    "high": 4.8015,
+    "low": 4.6875,
+    "close": 4.731
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "25/03/2025",
+    "open": 4.7208,
+    "high": 4.7759,
+    "low": 4.7208,
+    "close": 4.7615
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "24/03/2025",
+    "open": 4.7216,
+    "high": 4.7473,
+    "low": 4.6566,
+    "close": 4.7208
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "21/03/2025",
+    "open": 4.6581,
+    "high": 4.7319,
+    "low": 4.6449,
+    "close": 4.7216
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "20/03/2025",
+    "open": 4.6418,
+    "high": 4.6961,
+    "low": 4.5602,
+    "close": 4.6581
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "19/03/2025",
+    "open": 4.6473,
+    "high": 4.6651,
+    "low": 4.6201,
+    "close": 4.6418
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "18/03/2025",
+    "open": 4.6493,
+    "high": 4.7,
+    "low": 4.6374,
+    "close": 4.6473
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "17/03/2025",
+    "open": 4.6744,
+    "high": 4.6997,
+    "low": 4.6247,
+    "close": 4.6493
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "14/03/2025",
+    "open": 4.633,
+    "high": 4.7306,
+    "low": 4.633,
+    "close": 4.6744
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "13/03/2025",
+    "open": 4.6807,
+    "high": 4.712,
+    "low": 4.6235,
+    "close": 4.633
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "12/03/2025",
+    "open": 4.6296,
+    "high": 4.6973,
+    "low": 4.6213,
+    "close": 4.6807
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "11/03/2025",
+    "open": 4.6014,
+    "high": 4.6475,
+    "low": 4.5799,
+    "close": 4.6296
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "10/03/2025",
+    "open": 4.6031,
+    "high": 4.611,
+    "low": 4.5549,
+    "close": 4.6014
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "07/03/2025",
+    "open": 4.6217,
+    "high": 4.6651,
+    "low": 4.5484,
+    "close": 4.6031
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "06/03/2025",
+    "open": 4.648,
+    "high": 4.7198,
+    "low": 4.6176,
+    "close": 4.6217
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "05/03/2025",
+    "open": 4.5008,
+    "high": 4.6753,
+    "low": 4.5008,
+    "close": 4.648
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "04/03/2025",
+    "open": 4.512,
+    "high": 4.512,
+    "low": 4.4307,
+    "close": 4.5008
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "03/03/2025",
+    "open": 4.4849,
+    "high": 4.5622,
+    "low": 4.4686,
+    "close": 4.512
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "28/02/2025",
+    "open": 4.5143,
+    "high": 4.5143,
+    "low": 4.4567,
+    "close": 4.4849
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "27/02/2025",
+    "open": 4.5058,
+    "high": 4.5441,
+    "low": 4.4899,
+    "close": 4.5143
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "26/02/2025",
+    "open": 4.5143,
+    "high": 4.5246,
+    "low": 4.4702,
+    "close": 4.5058
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "25/02/2025",
+    "open": 4.5726,
+    "high": 4.5726,
+    "low": 4.4814,
+    "close": 4.5143
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "24/02/2025",
+    "open": 4.5766,
+    "high": 4.6088,
+    "low": 4.5425,
+    "close": 4.5726
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "21/02/2025",
+    "open": 4.6149,
+    "high": 4.6269,
+    "low": 4.5677,
+    "close": 4.5766
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "20/02/2025",
+    "open": 4.6134,
+    "high": 4.6408,
+    "low": 4.5915,
+    "close": 4.6149
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "19/02/2025",
+    "open": 4.5594,
+    "high": 4.6333,
+    "low": 4.5594,
+    "close": 4.6134
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "18/02/2025",
+    "open": 4.5382,
+    "high": 4.5803,
+    "low": 4.5382,
+    "close": 4.5594
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "17/02/2025",
+    "open": 4.5092,
+    "high": 4.6116,
+    "low": 4.5049,
+    "close": 4.5382
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "14/02/2025",
+    "open": 4.5011,
+    "high": 4.5372,
+    "low": 4.4781,
+    "close": 4.5092
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "13/02/2025",
+    "open": 4.5378,
+    "high": 4.557,
+    "low": 4.4647,
+    "close": 4.5011
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "12/02/2025",
+    "open": 4.5122,
+    "high": 4.5957,
+    "low": 4.5037,
+    "close": 4.5378
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "11/02/2025",
+    "open": 4.4615,
+    "high": 4.5278,
+    "low": 4.4615,
+    "close": 4.5122
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "10/02/2025",
+    "open": 4.4808,
+    "high": 4.4941,
+    "low": 4.4295,
+    "close": 4.4615
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "07/02/2025",
+    "open": 4.4902,
+    "high": 4.5224,
+    "low": 4.4256,
+    "close": 4.4808
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "06/02/2025",
+    "open": 4.4413,
+    "high": 4.5048,
+    "low": 4.3947,
+    "close": 4.4902
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "05/02/2025",
+    "open": 4.5256,
+    "high": 4.5256,
+    "low": 4.4177,
+    "close": 4.4413
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "04/02/2025",
+    "open": 4.4882,
+    "high": 4.5648,
+    "low": 4.4882,
+    "close": 4.5256
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "03/02/2025",
+    "open": 4.5392,
+    "high": 4.5586,
+    "low": 4.4354,
+    "close": 4.4882
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "31/01/2025",
+    "open": 4.5687,
+    "high": 4.5798,
+    "low": 4.5173,
+    "close": 4.5392
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "30/01/2025",
+    "open": 4.6291,
+    "high": 4.6291,
+    "low": 4.536,
+    "close": 4.5687
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "29/01/2025",
+    "open": 4.6213,
+    "high": 4.6345,
+    "low": 4.5638,
+    "close": 4.6291
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "28/01/2025",
+    "open": 4.5909,
+    "high": 4.6299,
+    "low": 4.5741,
+    "close": 4.6213
+  },
+  {
+    "country": "United Kingdom",
+    "symbol": "GUKG10:IND",
+    "date": "27/01/2025",
+    "open": 4.6408,
+    "high": 4.6408,
+    "low": 4.5507,
+    "close": 4.5909
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "24/01/2025",
+    "open": 4.59623,
+    "high": 4.60142,
+    "low": 4.57237,
+    "close": 4.58519
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "23/01/2025",
+    "open": 4.61351,
+    "high": 4.61879,
+    "low": 4.61104,
+    "close": 4.61434
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "22/01/2025",
+    "open": 4.5841,
+    "high": 4.60089,
+    "low": 4.57565,
+    "close": 4.58779
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "21/01/2025",
+    "open": 4.5753,
+    "high": 4.58351,
+    "low": 4.56994,
+    "close": 4.57603
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "20/01/2025",
+    "open": 4.60346,
+    "high": 4.61497,
+    "low": 4.59309,
+    "close": 4.60068
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "17/01/2025",
+    "open": 4.59968,
+    "high": 4.61112,
+    "low": 4.58808,
+    "close": 4.59517
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "16/01/2025",
+    "open": 4.58939,
+    "high": 4.59393,
+    "low": 4.58862,
+    "close": 4.58959
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "15/01/2025",
+    "open": 4.58141,
+    "high": 4.5922,
+    "low": 4.57081,
+    "close": 4.57146
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "14/01/2025",
+    "open": 4.5574,
+    "high": 4.58542,
+    "low": 4.54852,
+    "close": 4.57499
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "13/01/2025",
+    "open": 4.57395,
+    "high": 4.58767,
+    "low": 4.53684,
+    "close": 4.54881
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "10/01/2025",
+    "open": 4.54859,
+    "high": 4.55143,
+    "low": 4.53907,
+    "close": 4.54741
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "09/01/2025",
+    "open": 4.5482,
+    "high": 4.54839,
+    "low": 4.53523,
+    "close": 4.5466
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "08/01/2025",
+    "open": 4.55911,
+    "high": 4.57232,
+    "low": 4.54664,
+    "close": 4.55463
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "07/01/2025",
+    "open": 4.53532,
+    "high": 4.5667,
+    "low": 4.52635,
+    "close": 4.56068
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "06/01/2025",
+    "open": 4.56952,
+    "high": 4.57193,
+    "low": 4.55111,
+    "close": 4.56222
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "03/01/2025",
+    "open": 4.58297,
+    "high": 4.59415,
+    "low": 4.56284,
+    "close": 4.57261
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "02/01/2025",
+    "open": 4.54516,
+    "high": 4.56632,
+    "low": 4.53792,
+    "close": 4.55423
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "01/01/2025",
+    "open": 4.55309,
+    "high": 4.56559,
+    "low": 4.54245,
+    "close": 4.55487
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "31/12/2024",
+    "open": 4.54461,
+    "high": 4.54554,
+    "low": 4.52692,
+    "close": 4.53257
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "30/12/2024",
+    "open": 4.544,
+    "high": 4.57179,
+    "low": 4.54269,
+    "close": 4.56688
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "27/12/2024",
+    "open": 4.59179,
+    "high": 4.59242,
+    "low": 4.57611,
+    "close": 4.58844
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "26/12/2024",
+    "open": 4.61513,
+    "high": 4.62827,
+    "low": 4.60107,
+    "close": 4.60199
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "25/12/2024",
+    "open": 4.6295,
+    "high": 4.64454,
+    "low": 4.61831,
+    "close": 4.63437
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "24/12/2024",
+    "open": 4.64827,
+    "high": 4.6715,
+    "low": 4.63696,
+    "close": 4.65714
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "23/12/2024",
+    "open": 4.63184,
+    "high": 4.64264,
+    "low": 4.62979,
+    "close": 4.63713
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "20/12/2024",
+    "open": 4.64846,
+    "high": 4.66089,
+    "low": 4.62695,
+    "close": 4.64138
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "19/12/2024",
+    "open": 4.64965,
+    "high": 4.66378,
+    "low": 4.63583,
+    "close": 4.65017
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "18/12/2024",
+    "open": 4.64756,
+    "high": 4.66185,
+    "low": 4.64078,
+    "close": 4.65609
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "17/12/2024",
+    "open": 4.70032,
+    "high": 4.70921,
+    "low": 4.67762,
+    "close": 4.68664
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "16/12/2024",
+    "open": 4.70432,
+    "high": 4.7258,
+    "low": 4.69124,
+    "close": 4.7193
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "13/12/2024",
+    "open": 4.70878,
+    "high": 4.71518,
+    "low": 4.70029,
+    "close": 4.70767
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "12/12/2024",
+    "open": 4.7351,
+    "high": 4.74987,
+    "low": 4.72725,
+    "close": 4.73054
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "11/12/2024",
+    "open": 4.72421,
+    "high": 4.74441,
+    "low": 4.7158,
+    "close": 4.7295
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "10/12/2024",
+    "open": 4.73614,
+    "high": 4.73863,
+    "low": 4.7235,
+    "close": 4.73636
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "09/12/2024",
+    "open": 4.74136,
+    "high": 4.74568,
+    "low": 4.73112,
+    "close": 4.74507
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "06/12/2024",
+    "open": 4.75358,
+    "high": 4.76484,
+    "low": 4.74774,
+    "close": 4.75171
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "05/12/2024",
+    "open": 4.78492,
+    "high": 4.79355,
+    "low": 4.75567,
+    "close": 4.76941
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "04/12/2024",
+    "open": 4.78981,
+    "high": 4.79513,
+    "low": 4.76071,
+    "close": 4.77311
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "03/12/2024",
+    "open": 4.74719,
+    "high": 4.75226,
+    "low": 4.73499,
+    "close": 4.74841
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "02/12/2024",
+    "open": 4.74587,
+    "high": 4.78114,
+    "low": 4.73113,
+    "close": 4.76944
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "29/11/2024",
+    "open": 4.73827,
+    "high": 4.75651,
+    "low": 4.72562,
+    "close": 4.75278
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "28/11/2024",
+    "open": 4.77385,
+    "high": 4.77854,
+    "low": 4.76445,
+    "close": 4.76733
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "27/11/2024",
+    "open": 4.80419,
+    "high": 4.82428,
+    "low": 4.79662,
+    "close": 4.81278
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "26/11/2024",
+    "open": 4.79769,
+    "high": 4.82315,
+    "low": 4.79735,
+    "close": 4.81112
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "25/11/2024",
+    "open": 4.80153,
+    "high": 4.80909,
+    "low": 4.79345,
+    "close": 4.80577
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "22/11/2024",
+    "open": 4.7711,
+    "high": 4.79056,
+    "low": 4.77025,
+    "close": 4.78888
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "21/11/2024",
+    "open": 4.77972,
+    "high": 4.79144,
+    "low": 4.76013,
+    "close": 4.76541
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "20/11/2024",
+    "open": 4.75725,
+    "high": 4.76692,
+    "low": 4.73746,
+    "close": 4.74481
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "19/11/2024",
+    "open": 4.758,
+    "high": 4.77052,
+    "low": 4.74846,
+    "close": 4.7609
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "18/11/2024",
+    "open": 4.75482,
+    "high": 4.76442,
+    "low": 4.74494,
+    "close": 4.75479
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "15/11/2024",
+    "open": 4.76301,
+    "high": 4.76808,
+    "low": 4.74724,
+    "close": 4.75485
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "14/11/2024",
+    "open": 4.77869,
+    "high": 4.78191,
+    "low": 4.76092,
+    "close": 4.7685
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "13/11/2024",
+    "open": 4.80088,
+    "high": 4.80172,
+    "low": 4.78583,
+    "close": 4.7923
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "12/11/2024",
+    "open": 4.78343,
+    "high": 4.79858,
+    "low": 4.77894,
+    "close": 4.79092
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "11/11/2024",
+    "open": 4.78407,
+    "high": 4.79073,
+    "low": 4.77795,
+    "close": 4.78796
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "08/11/2024",
+    "open": 4.76694,
+    "high": 4.77766,
+    "low": 4.75191,
+    "close": 4.75517
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "07/11/2024",
+    "open": 4.73041,
+    "high": 4.73135,
+    "low": 4.71547,
+    "close": 4.72555
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "06/11/2024",
+    "open": 4.74221,
+    "high": 4.77108,
+    "low": 4.7354,
+    "close": 4.75995
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "05/11/2024",
+    "open": 4.71764,
+    "high": 4.7486,
+    "low": 4.71535,
+    "close": 4.73785
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "04/11/2024",
+    "open": 4.75768,
+    "high": 4.76137,
+    "low": 4.74475,
+    "close": 4.75933
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "01/11/2024",
+    "open": 4.7168,
+    "high": 4.74654,
+    "low": 4.71636,
+    "close": 4.73215
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "31/10/2024",
+    "open": 4.70627,
+    "high": 4.72634,
+    "low": 4.70079,
+    "close": 4.71243
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "30/10/2024",
+    "open": 4.71582,
+    "high": 4.71843,
+    "low": 4.6979,
+    "close": 4.70999
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "29/10/2024",
+    "open": 4.6756,
+    "high": 4.69426,
+    "low": 4.67186,
+    "close": 4.68298
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "28/10/2024",
+    "open": 4.66103,
+    "high": 4.66819,
+    "low": 4.65673,
+    "close": 4.66535
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "25/10/2024",
+    "open": 4.70041,
+    "high": 4.70239,
+    "low": 4.6767,
+    "close": 4.69091
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "24/10/2024",
+    "open": 4.69922,
+    "high": 4.71218,
+    "low": 4.68443,
+    "close": 4.69259
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "23/10/2024",
+    "open": 4.6938,
+    "high": 4.70363,
+    "low": 4.69232,
+    "close": 4.69397
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "22/10/2024",
+    "open": 4.7055,
+    "high": 4.71592,
+    "low": 4.69101,
+    "close": 4.69399
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "21/10/2024",
+    "open": 4.71748,
+    "high": 4.72828,
+    "low": 4.70338,
+    "close": 4.71953
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "18/10/2024",
+    "open": 4.75581,
+    "high": 4.76885,
+    "low": 4.7373,
+    "close": 4.74319
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "17/10/2024",
+    "open": 4.74786,
+    "high": 4.75588,
+    "low": 4.73844,
+    "close": 4.75046
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "16/10/2024",
+    "open": 4.78138,
+    "high": 4.80108,
+    "low": 4.76686,
+    "close": 4.79403
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "15/10/2024",
+    "open": 4.77361,
+    "high": 4.77494,
+    "low": 4.76867,
+    "close": 4.7692
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "14/10/2024",
+    "open": 4.81216,
+    "high": 4.82712,
+    "low": 4.79357,
+    "close": 4.7982
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "11/10/2024",
+    "open": 4.81211,
+    "high": 4.8189,
+    "low": 4.77533,
+    "close": 4.78566
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "10/10/2024",
+    "open": 4.80958,
+    "high": 4.81963,
+    "low": 4.79323,
+    "close": 4.79393
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "09/10/2024",
+    "open": 4.76808,
+    "high": 4.77864,
+    "low": 4.75907,
+    "close": 4.77533
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "08/10/2024",
+    "open": 4.76739,
+    "high": 4.76975,
+    "low": 4.76277,
+    "close": 4.76796
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "07/10/2024",
+    "open": 4.73882,
+    "high": 4.75295,
+    "low": 4.70962,
+    "close": 4.7236
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "04/10/2024",
+    "open": 4.74332,
+    "high": 4.75699,
+    "low": 4.7335,
+    "close": 4.73924
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "03/10/2024",
+    "open": 4.77103,
+    "high": 4.77687,
+    "low": 4.75948,
+    "close": 4.76798
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "02/10/2024",
+    "open": 4.79014,
+    "high": 4.80007,
+    "low": 4.7814,
+    "close": 4.79528
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "01/10/2024",
+    "open": 4.77775,
+    "high": 4.79592,
+    "low": 4.77253,
+    "close": 4.7921
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "30/09/2024",
+    "open": 4.80484,
+    "high": 4.81517,
+    "low": 4.79191,
+    "close": 4.811
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "27/09/2024",
+    "open": 4.78659,
+    "high": 4.81623,
+    "low": 4.78421,
+    "close": 4.8127
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "26/09/2024",
+    "open": 4.78038,
+    "high": 4.7953,
+    "low": 4.7602,
+    "close": 4.77189
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "25/09/2024",
+    "open": 4.7712,
+    "high": 4.78827,
+    "low": 4.771,
+    "close": 4.78453
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "24/09/2024",
+    "open": 4.78045,
+    "high": 4.79212,
+    "low": 4.7758,
+    "close": 4.77949
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "23/09/2024",
+    "open": 4.81047,
+    "high": 4.81365,
+    "low": 4.79271,
+    "close": 4.80188
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "20/09/2024",
+    "open": 4.77699,
+    "high": 4.7874,
+    "low": 4.76189,
+    "close": 4.76721
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "19/09/2024",
+    "open": 4.74605,
+    "high": 4.76799,
+    "low": 4.74104,
+    "close": 4.75464
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "18/09/2024",
+    "open": 4.74604,
+    "high": 4.74883,
+    "low": 4.7274,
+    "close": 4.72915
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "17/09/2024",
+    "open": 4.77412,
+    "high": 4.77702,
+    "low": 4.74145,
+    "close": 4.75396
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "16/09/2024",
+    "open": 4.7757,
+    "high": 4.80687,
+    "low": 4.76538,
+    "close": 4.80271
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "13/09/2024",
+    "open": 4.78268,
+    "high": 4.79542,
+    "low": 4.75807,
+    "close": 4.76479
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "12/09/2024",
+    "open": 4.80774,
+    "high": 4.80934,
+    "low": 4.78812,
+    "close": 4.79881
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "11/09/2024",
+    "open": 4.80599,
+    "high": 4.80974,
+    "low": 4.80064,
+    "close": 4.8085
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "10/09/2024",
+    "open": 4.79897,
+    "high": 4.81625,
+    "low": 4.79761,
+    "close": 4.80439
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "09/09/2024",
+    "open": 4.81313,
+    "high": 4.82307,
+    "low": 4.80058,
+    "close": 4.8084
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "06/09/2024",
+    "open": 4.775,
+    "high": 4.7877,
+    "low": 4.74947,
+    "close": 4.76421
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "05/09/2024",
+    "open": 4.79469,
+    "high": 4.8125,
+    "low": 4.78211,
+    "close": 4.80948
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "04/09/2024",
+    "open": 4.79066,
+    "high": 4.80331,
+    "low": 4.78957,
+    "close": 4.78964
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "03/09/2024",
+    "open": 4.79534,
+    "high": 4.81187,
+    "low": 4.7842,
+    "close": 4.80666
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "02/09/2024",
+    "open": 4.77872,
+    "high": 4.7907,
+    "low": 4.77,
+    "close": 4.77163
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "30/08/2024",
+    "open": 4.75562,
+    "high": 4.76039,
+    "low": 4.75053,
+    "close": 4.75232
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "29/08/2024",
+    "open": 4.74513,
+    "high": 4.77569,
+    "low": 4.73715,
+    "close": 4.76639
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "28/08/2024",
+    "open": 4.75681,
+    "high": 4.75733,
+    "low": 4.72981,
+    "close": 4.74434
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "27/08/2024",
+    "open": 4.75039,
+    "high": 4.76018,
+    "low": 4.72132,
+    "close": 4.72663
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "26/08/2024",
+    "open": 4.7338,
+    "high": 4.753,
+    "low": 4.72722,
+    "close": 4.74511
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "23/08/2024",
+    "open": 4.71954,
+    "high": 4.72934,
+    "low": 4.70327,
+    "close": 4.70693
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "22/08/2024",
+    "open": 4.73405,
+    "high": 4.73693,
+    "low": 4.71256,
+    "close": 4.72646
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "21/08/2024",
+    "open": 4.70985,
+    "high": 4.72061,
+    "low": 4.706,
+    "close": 4.71072
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "20/08/2024",
+    "open": 4.7402,
+    "high": 4.76161,
+    "low": 4.73017,
+    "close": 4.75036
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "19/08/2024",
+    "open": 4.75857,
+    "high": 4.77293,
+    "low": 4.74829,
+    "close": 4.74968
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "16/08/2024",
+    "open": 4.76556,
+    "high": 4.76936,
+    "low": 4.74966,
+    "close": 4.75213
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "15/08/2024",
+    "open": 4.77116,
+    "high": 4.7722,
+    "low": 4.76216,
+    "close": 4.7638
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "14/08/2024",
+    "open": 4.76204,
+    "high": 4.79104,
+    "low": 4.74722,
+    "close": 4.77829
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "13/08/2024",
+    "open": 4.76465,
+    "high": 4.76863,
+    "low": 4.75021,
+    "close": 4.76455
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "12/08/2024",
+    "open": 4.76557,
+    "high": 4.76806,
+    "low": 4.74386,
+    "close": 4.74966
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "09/08/2024",
+    "open": 4.75197,
+    "high": 4.75691,
+    "low": 4.73767,
+    "close": 4.75122
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "08/08/2024",
+    "open": 4.76557,
+    "high": 4.77796,
+    "low": 4.75464,
+    "close": 4.77456
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "07/08/2024",
+    "open": 4.77397,
+    "high": 4.78722,
+    "low": 4.75983,
+    "close": 4.76965
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "06/08/2024",
+    "open": 4.79805,
+    "high": 4.80646,
+    "low": 4.78615,
+    "close": 4.79105
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "05/08/2024",
+    "open": 4.78954,
+    "high": 4.80937,
+    "low": 4.78306,
+    "close": 4.80156
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "02/08/2024",
+    "open": 4.75421,
+    "high": 4.77647,
+    "low": 4.73956,
+    "close": 4.77485
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "01/08/2024",
+    "open": 4.74631,
+    "high": 4.75347,
+    "low": 4.72838,
+    "close": 4.73912
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "31/07/2024",
+    "open": 4.75118,
+    "high": 4.75664,
+    "low": 4.74126,
+    "close": 4.7456
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "30/07/2024",
+    "open": 4.76538,
+    "high": 4.77124,
+    "low": 4.75189,
+    "close": 4.76939
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "29/07/2024",
+    "open": 4.74919,
+    "high": 4.76853,
+    "low": 4.74719,
+    "close": 4.76577
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "26/07/2024",
+    "open": 4.76434,
+    "high": 4.76486,
+    "low": 4.74209,
+    "close": 4.75569
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "25/07/2024",
+    "open": 4.79329,
+    "high": 4.80249,
+    "low": 4.76423,
+    "close": 4.77212
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "24/07/2024",
+    "open": 4.75926,
+    "high": 4.77117,
+    "low": 4.74878,
+    "close": 4.76427
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "23/07/2024",
+    "open": 4.79475,
+    "high": 4.80447,
+    "low": 4.76871,
+    "close": 4.77037
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "22/07/2024",
+    "open": 4.79867,
+    "high": 4.81713,
+    "low": 4.79156,
+    "close": 4.80271
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "19/07/2024",
+    "open": 4.80947,
+    "high": 4.81552,
+    "low": 4.78546,
+    "close": 4.79643
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "18/07/2024",
+    "open": 4.77034,
+    "high": 4.77657,
+    "low": 4.75831,
+    "close": 4.77048
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "17/07/2024",
+    "open": 4.79641,
+    "high": 4.79837,
+    "low": 4.78371,
+    "close": 4.78617
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "16/07/2024",
+    "open": 4.77695,
+    "high": 4.77908,
+    "low": 4.76396,
+    "close": 4.77634
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "15/07/2024",
+    "open": 4.74217,
+    "high": 4.76743,
+    "low": 4.72962,
+    "close": 4.76658
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "12/07/2024",
+    "open": 4.76147,
+    "high": 4.78365,
+    "low": 4.75966,
+    "close": 4.76888
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "11/07/2024",
+    "open": 4.76738,
+    "high": 4.77613,
+    "low": 4.74546,
+    "close": 4.76003
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "10/07/2024",
+    "open": 4.7584,
+    "high": 4.77876,
+    "low": 4.74744,
+    "close": 4.76574
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "09/07/2024",
+    "open": 4.74691,
+    "high": 4.7723,
+    "low": 4.73578,
+    "close": 4.75915
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "08/07/2024",
+    "open": 4.75394,
+    "high": 4.77918,
+    "low": 4.73996,
+    "close": 4.76873
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "05/07/2024",
+    "open": 4.76857,
+    "high": 4.76873,
+    "low": 4.75298,
+    "close": 4.75589
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "04/07/2024",
+    "open": 4.72829,
+    "high": 4.75028,
+    "low": 4.72462,
+    "close": 4.74308
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "03/07/2024",
+    "open": 4.72705,
+    "high": 4.74078,
+    "low": 4.70034,
+    "close": 4.71218
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "02/07/2024",
+    "open": 4.73562,
+    "high": 4.74375,
+    "low": 4.71015,
+    "close": 4.71018
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "01/07/2024",
+    "open": 4.72554,
+    "high": 4.73222,
+    "low": 4.71706,
+    "close": 4.73041
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "28/06/2024",
+    "open": 4.72917,
+    "high": 4.75068,
+    "low": 4.71437,
+    "close": 4.74652
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "27/06/2024",
+    "open": 4.70301,
+    "high": 4.71321,
+    "low": 4.69631,
+    "close": 4.69906
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "26/06/2024",
+    "open": 4.69522,
+    "high": 4.69599,
+    "low": 4.68023,
+    "close": 4.69238
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "25/06/2024",
+    "open": 4.68552,
+    "high": 4.69017,
+    "low": 4.67579,
+    "close": 4.68573
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "24/06/2024",
+    "open": 4.65699,
+    "high": 4.66641,
+    "low": 4.65176,
+    "close": 4.66452
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "21/06/2024",
+    "open": 4.65621,
+    "high": 4.67053,
+    "low": 4.64812,
+    "close": 4.65786
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "20/06/2024",
+    "open": 4.66295,
+    "high": 4.67821,
+    "low": 4.64895,
+    "close": 4.67584
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "19/06/2024",
+    "open": 4.70251,
+    "high": 4.71833,
+    "low": 4.69428,
+    "close": 4.71325
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "18/06/2024",
+    "open": 4.70109,
+    "high": 4.70158,
+    "low": 4.67354,
+    "close": 4.68253
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "17/06/2024",
+    "open": 4.67694,
+    "high": 4.67996,
+    "low": 4.66345,
+    "close": 4.67099
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "14/06/2024",
+    "open": 4.68946,
+    "high": 4.69434,
+    "low": 4.68192,
+    "close": 4.68617
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "13/06/2024",
+    "open": 4.65963,
+    "high": 4.66885,
+    "low": 4.64887,
+    "close": 4.65306
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "12/06/2024",
+    "open": 4.62085,
+    "high": 4.63821,
+    "low": 4.62043,
+    "close": 4.63336
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "11/06/2024",
+    "open": 4.60683,
+    "high": 4.61173,
+    "low": 4.60221,
+    "close": 4.60781
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "10/06/2024",
+    "open": 4.61834,
+    "high": 4.63278,
+    "low": 4.59222,
+    "close": 4.6058
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "07/06/2024",
+    "open": 4.6011,
+    "high": 4.61251,
+    "low": 4.60001,
+    "close": 4.60016
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "06/06/2024",
+    "open": 4.58275,
+    "high": 4.59365,
+    "low": 4.56032,
+    "close": 4.57242
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "05/06/2024",
+    "open": 4.58138,
+    "high": 4.59697,
+    "low": 4.56817,
+    "close": 4.58913
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "04/06/2024",
+    "open": 4.55343,
+    "high": 4.58561,
+    "low": 4.5401,
+    "close": 4.5731
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "03/06/2024",
+    "open": 4.5497,
+    "high": 4.57214,
+    "low": 4.54584,
+    "close": 4.56103
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "31/05/2024",
+    "open": 4.54233,
+    "high": 4.54927,
+    "low": 4.53685,
+    "close": 4.54287
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "30/05/2024",
+    "open": 4.58133,
+    "high": 4.58681,
+    "low": 4.5577,
+    "close": 4.56264
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "29/05/2024",
+    "open": 4.55721,
+    "high": 4.56818,
+    "low": 4.55283,
+    "close": 4.56459
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "28/05/2024",
+    "open": 4.56089,
+    "high": 4.57345,
+    "low": 4.55799,
+    "close": 4.56297
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "27/05/2024",
+    "open": 4.58744,
+    "high": 4.60101,
+    "low": 4.56678,
+    "close": 4.56871
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "24/05/2024",
+    "open": 4.60218,
+    "high": 4.61458,
+    "low": 4.60071,
+    "close": 4.61178
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "23/05/2024",
+    "open": 4.62868,
+    "high": 4.63154,
+    "low": 4.59839,
+    "close": 4.60644
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "22/05/2024",
+    "open": 4.60649,
+    "high": 4.6138,
+    "low": 4.58208,
+    "close": 4.58645
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "21/05/2024",
+    "open": 4.58582,
+    "high": 4.60114,
+    "low": 4.57694,
+    "close": 4.58742
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "20/05/2024",
+    "open": 4.60184,
+    "high": 4.63931,
+    "low": 4.59788,
+    "close": 4.62606
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "17/05/2024",
+    "open": 4.61687,
+    "high": 4.62553,
+    "low": 4.6052,
+    "close": 4.60857
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "16/05/2024",
+    "open": 4.6288,
+    "high": 4.63984,
+    "low": 4.60025,
+    "close": 4.6107
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "15/05/2024",
+    "open": 4.62611,
+    "high": 4.6276,
+    "low": 4.59536,
+    "close": 4.6057
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "14/05/2024",
+    "open": 4.62893,
+    "high": 4.65624,
+    "low": 4.61602,
+    "close": 4.65327
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "13/05/2024",
+    "open": 4.62345,
+    "high": 4.62708,
+    "low": 4.60045,
+    "close": 4.61227
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "10/05/2024",
+    "open": 4.60299,
+    "high": 4.61101,
+    "low": 4.59555,
+    "close": 4.59699
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "09/05/2024",
+    "open": 4.61435,
+    "high": 4.62919,
+    "low": 4.60946,
+    "close": 4.61324
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "08/05/2024",
+    "open": 4.63477,
+    "high": 4.64542,
+    "low": 4.60852,
+    "close": 4.61093
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "07/05/2024",
+    "open": 4.63596,
+    "high": 4.64975,
+    "low": 4.62544,
+    "close": 4.63972
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "06/05/2024",
+    "open": 4.65963,
+    "high": 4.67285,
+    "low": 4.63152,
+    "close": 4.63818
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "03/05/2024",
+    "open": 4.64625,
+    "high": 4.65016,
+    "low": 4.63385,
+    "close": 4.64406
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "02/05/2024",
+    "open": 4.63399,
+    "high": 4.66028,
+    "low": 4.62842,
+    "close": 4.65279
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "01/05/2024",
+    "open": 4.62952,
+    "high": 4.63959,
+    "low": 4.61731,
+    "close": 4.63798
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "30/04/2024",
+    "open": 4.6515,
+    "high": 4.65338,
+    "low": 4.62232,
+    "close": 4.62357
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "29/04/2024",
+    "open": 4.6184,
+    "high": 4.6303,
+    "low": 4.5932,
+    "close": 4.5977
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "26/04/2024",
+    "open": 4.62319,
+    "high": 4.62797,
+    "low": 4.61356,
+    "close": 4.61678
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "25/04/2024",
+    "open": 4.58826,
+    "high": 4.60805,
+    "low": 4.5799,
+    "close": 4.59597
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "24/04/2024",
+    "open": 4.59573,
+    "high": 4.60172,
+    "low": 4.56908,
+    "close": 4.57606
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "23/04/2024",
+    "open": 4.60544,
+    "high": 4.6188,
+    "low": 4.59752,
+    "close": 4.59889
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "22/04/2024",
+    "open": 4.59627,
+    "high": 4.59991,
+    "low": 4.59243,
+    "close": 4.59422
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "19/04/2024",
+    "open": 4.57707,
+    "high": 4.59019,
+    "low": 4.56818,
+    "close": 4.57499
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "18/04/2024",
+    "open": 4.57677,
+    "high": 4.57726,
+    "low": 4.56013,
+    "close": 4.56209
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "17/04/2024",
+    "open": 4.54372,
+    "high": 4.55319,
+    "low": 4.53376,
+    "close": 4.54528
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "16/04/2024",
+    "open": 4.54705,
+    "high": 4.54793,
+    "low": 4.52788,
+    "close": 4.54211
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "15/04/2024",
+    "open": 4.56265,
+    "high": 4.57381,
+    "low": 4.55592,
+    "close": 4.57021
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "12/04/2024",
+    "open": 4.57489,
+    "high": 4.5888,
+    "low": 4.56705,
+    "close": 4.57262
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "11/04/2024",
+    "open": 4.53363,
+    "high": 4.55273,
+    "low": 4.52755,
+    "close": 4.54256
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "10/04/2024",
+    "open": 4.52514,
+    "high": 4.53468,
+    "low": 4.50415,
+    "close": 4.51834
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "09/04/2024",
+    "open": 4.53272,
+    "high": 4.53925,
+    "low": 4.5309,
+    "close": 4.53146
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "08/04/2024",
+    "open": 4.50067,
+    "high": 4.5284,
+    "low": 4.49353,
+    "close": 4.52084
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "05/04/2024",
+    "open": 4.49957,
+    "high": 4.51065,
+    "low": 4.48504,
+    "close": 4.49879
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "04/04/2024",
+    "open": 4.53069,
+    "high": 4.54434,
+    "low": 4.52258,
+    "close": 4.53896
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "03/04/2024",
+    "open": 4.49614,
+    "high": 4.52386,
+    "low": 4.48323,
+    "close": 4.51682
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "02/04/2024",
+    "open": 4.49013,
+    "high": 4.50449,
+    "low": 4.48698,
+    "close": 4.50032
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "01/04/2024",
+    "open": 4.4893,
+    "high": 4.5017,
+    "low": 4.47318,
+    "close": 4.48369
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "29/03/2024",
+    "open": 4.50558,
+    "high": 4.51762,
+    "low": 4.48846,
+    "close": 4.50141
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "28/03/2024",
+    "open": 4.47819,
+    "high": 4.494,
+    "low": 4.47085,
+    "close": 4.48805
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "27/03/2024",
+    "open": 4.49277,
+    "high": 4.51286,
+    "low": 4.48328,
+    "close": 4.50298
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "26/03/2024",
+    "open": 4.51405,
+    "high": 4.54158,
+    "low": 4.5067,
+    "close": 4.53218
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "25/03/2024",
+    "open": 4.49749,
+    "high": 4.52195,
+    "low": 4.48547,
+    "close": 4.51574
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "22/03/2024",
+    "open": 4.52748,
+    "high": 4.52986,
+    "low": 4.51521,
+    "close": 4.52412
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "21/03/2024",
+    "open": 4.50178,
+    "high": 4.50349,
+    "low": 4.4821,
+    "close": 4.48936
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "20/03/2024",
+    "open": 4.50962,
+    "high": 4.53095,
+    "low": 4.50016,
+    "close": 4.52445
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "19/03/2024",
+    "open": 4.51833,
+    "high": 4.51851,
+    "low": 4.50694,
+    "close": 4.5176
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "18/03/2024",
+    "open": 4.53305,
+    "high": 4.54523,
+    "low": 4.52257,
+    "close": 4.53049
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "15/03/2024",
+    "open": 4.54613,
+    "high": 4.56084,
+    "low": 4.53998,
+    "close": 4.55916
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "14/03/2024",
+    "open": 4.57098,
+    "high": 4.58187,
+    "low": 4.55506,
+    "close": 4.56491
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "13/03/2024",
+    "open": 4.56985,
+    "high": 4.59719,
+    "low": 4.55927,
+    "close": 4.59122
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "12/03/2024",
+    "open": 4.59939,
+    "high": 4.60659,
+    "low": 4.56997,
+    "close": 4.58272
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "11/03/2024",
+    "open": 4.57932,
+    "high": 4.59209,
+    "low": 4.56054,
+    "close": 4.56499
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "08/03/2024",
+    "open": 4.53845,
+    "high": 4.54292,
+    "low": 4.53003,
+    "close": 4.53483
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "07/03/2024",
+    "open": 4.56033,
+    "high": 4.59061,
+    "low": 4.55545,
+    "close": 4.57573
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "06/03/2024",
+    "open": 4.53623,
+    "high": 4.55833,
+    "low": 4.53321,
+    "close": 4.54398
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "05/03/2024",
+    "open": 4.59008,
+    "high": 4.59123,
+    "low": 4.56756,
+    "close": 4.57594
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "04/03/2024",
+    "open": 4.6136,
+    "high": 4.62001,
+    "low": 4.59384,
+    "close": 4.59783
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "01/03/2024",
+    "open": 4.58135,
+    "high": 4.59208,
+    "low": 4.57151,
+    "close": 4.58538
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "29/02/2024",
+    "open": 4.60436,
+    "high": 4.62703,
+    "low": 4.59386,
+    "close": 4.62459
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "28/02/2024",
+    "open": 4.59155,
+    "high": 4.60366,
+    "low": 4.57721,
+    "close": 4.58488
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "27/02/2024",
+    "open": 4.62044,
+    "high": 4.63652,
+    "low": 4.60556,
+    "close": 4.62913
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "26/02/2024",
+    "open": 4.60934,
+    "high": 4.61974,
+    "low": 4.60292,
+    "close": 4.60891
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "23/02/2024",
+    "open": 4.61034,
+    "high": 4.62314,
+    "low": 4.59607,
+    "close": 4.60606
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "22/02/2024",
+    "open": 4.58139,
+    "high": 4.58982,
+    "low": 4.56776,
+    "close": 4.58099
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "21/02/2024",
+    "open": 4.56366,
+    "high": 4.59075,
+    "low": 4.55062,
+    "close": 4.58659
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "20/02/2024",
+    "open": 4.58034,
+    "high": 4.58184,
+    "low": 4.57175,
+    "close": 4.57576
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "19/02/2024",
+    "open": 4.58961,
+    "high": 4.59095,
+    "low": 4.58152,
+    "close": 4.58538
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "16/02/2024",
+    "open": 4.56815,
+    "high": 4.5812,
+    "low": 4.55681,
+    "close": 4.56375
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "15/02/2024",
+    "open": 4.53484,
+    "high": 4.55045,
+    "low": 4.52569,
+    "close": 4.54091
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "14/02/2024",
+    "open": 4.52005,
+    "high": 4.53645,
+    "low": 4.51267,
+    "close": 4.52294
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "13/02/2024",
+    "open": 4.48544,
+    "high": 4.51534,
+    "low": 4.47468,
+    "close": 4.5102
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "12/02/2024",
+    "open": 4.48459,
+    "high": 4.49942,
+    "low": 4.44911,
+    "close": 4.46332
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "09/02/2024",
+    "open": 4.48616,
+    "high": 4.49924,
+    "low": 4.479,
+    "close": 4.48969
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "08/02/2024",
+    "open": 4.477,
+    "high": 4.48262,
+    "low": 4.46897,
+    "close": 4.48096
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "07/02/2024",
+    "open": 4.47268,
+    "high": 4.4789,
+    "low": 4.45998,
+    "close": 4.46632
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "06/02/2024",
+    "open": 4.48103,
+    "high": 4.50667,
+    "low": 4.48024,
+    "close": 4.49725
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "05/02/2024",
+    "open": 4.45899,
+    "high": 4.49026,
+    "low": 4.45594,
+    "close": 4.4763
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "02/02/2024",
+    "open": 4.48993,
+    "high": 4.50992,
+    "low": 4.47748,
+    "close": 4.49864
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "01/02/2024",
+    "open": 4.4979,
+    "high": 4.50455,
+    "low": 4.48665,
+    "close": 4.49288
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "31/01/2024",
+    "open": 4.53304,
+    "high": 4.54249,
+    "low": 4.50944,
+    "close": 4.52118
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "30/01/2024",
+    "open": 4.55443,
+    "high": 4.55885,
+    "low": 4.52185,
+    "close": 4.53331
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "29/01/2024",
+    "open": 4.5097,
+    "high": 4.53712,
+    "low": 4.50421,
+    "close": 4.52518
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "26/01/2024",
+    "open": 4.5286,
+    "high": 4.53812,
+    "low": 4.52409,
+    "close": 4.52911
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "25/01/2024",
+    "open": 4.53897,
+    "high": 4.54902,
+    "low": 4.51039,
+    "close": 4.52244
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "24/01/2024",
+    "open": 4.51688,
+    "high": 4.53547,
+    "low": 4.51327,
+    "close": 4.52253
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "23/01/2024",
+    "open": 4.52663,
+    "high": 4.53687,
+    "low": 4.50202,
+    "close": 4.50552
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "22/01/2024",
+    "open": 4.54799,
+    "high": 4.56231,
+    "low": 4.54595,
+    "close": 4.55228
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "19/01/2024",
+    "open": 4.55862,
+    "high": 4.58083,
+    "low": 4.54462,
+    "close": 4.57591
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "18/01/2024",
+    "open": 4.53507,
+    "high": 4.54675,
+    "low": 4.53036,
+    "close": 4.53508
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "17/01/2024",
+    "open": 4.50525,
+    "high": 4.51477,
+    "low": 4.4948,
+    "close": 4.51376
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "16/01/2024",
+    "open": 4.52548,
+    "high": 4.52683,
+    "low": 4.51568,
+    "close": 4.5243
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "15/01/2024",
+    "open": 4.53655,
+    "high": 4.54351,
+    "low": 4.53545,
+    "close": 4.53816
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "12/01/2024",
+    "open": 4.5369,
+    "high": 4.54924,
+    "low": 4.53379,
+    "close": 4.54158
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "11/01/2024",
+    "open": 4.55599,
+    "high": 4.5671,
+    "low": 4.53541,
+    "close": 4.53991
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "10/01/2024",
+    "open": 4.55023,
+    "high": 4.55897,
+    "low": 4.53904,
+    "close": 4.54087
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "09/01/2024",
+    "open": 4.54605,
+    "high": 4.54938,
+    "low": 4.53611,
+    "close": 4.54362
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "08/01/2024",
+    "open": 4.53616,
+    "high": 4.54688,
+    "low": 4.52297,
+    "close": 4.52781
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "05/01/2024",
+    "open": 4.52165,
+    "high": 4.53361,
+    "low": 4.51074,
+    "close": 4.52179
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "04/01/2024",
+    "open": 4.50406,
+    "high": 4.52384,
+    "low": 4.49463,
+    "close": 4.51604
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "03/01/2024",
+    "open": 4.5339,
+    "high": 4.54454,
+    "low": 4.52631,
+    "close": 4.53999
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "02/01/2024",
+    "open": 4.4972,
+    "high": 4.53386,
+    "low": 4.4835,
+    "close": 4.52272
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "01/01/2024",
+    "open": 4.50907,
+    "high": 4.52759,
+    "low": 4.49994,
+    "close": 4.51944
   }
 ]

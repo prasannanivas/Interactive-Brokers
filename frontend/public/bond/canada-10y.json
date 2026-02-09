@@ -2,407 +2,11 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
-    "date": "31/12/2025",
-    "open": 3.411,
-    "high": 3.441,
-    "low": 3.402,
-    "close": 3.435
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "31/10/2025",
-    "open": 3.14,
-    "high": 3.157,
-    "low": 3.115,
-    "close": 3.121
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "31/07/2025",
-    "open": 3.473,
-    "high": 3.494,
-    "low": 3.441,
-    "close": 3.467
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "31/03/2025",
-    "open": 2.973,
-    "high": 3.01,
-    "low": 2.959,
-    "close": 2.9665
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "31/01/2025",
-    "open": 3.137,
-    "high": 3.144,
-    "low": 3.062,
-    "close": 3.063
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "30/12/2025",
-    "open": 3.401,
-    "high": 3.441,
-    "low": 3.397,
-    "close": 3.412
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "30/10/2025",
-    "open": 3.158,
-    "high": 3.181,
-    "low": 3.123,
-    "close": 3.132
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "30/07/2025",
-    "open": 3.472,
-    "high": 3.517,
-    "low": 3.461,
-    "close": 3.489
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "30/06/2025",
-    "open": 3.318,
-    "high": 3.333,
-    "low": 3.272,
-    "close": 3.272
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "30/05/2025",
-    "open": 3.226,
-    "high": 3.234,
-    "low": 3.193,
-    "close": 3.198
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "30/04/2025",
-    "open": 3.129,
-    "high": 3.149,
-    "low": 3.06,
-    "close": 3.0885
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "30/01/2025",
-    "open": 3.193,
-    "high": 3.193,
-    "low": 3.11,
-    "close": 3.12
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "29/12/2025",
-    "open": 3.395,
-    "high": 3.414,
-    "low": 3.385,
-    "close": 3.39
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "29/10/2025",
-    "open": 3.055,
-    "high": 3.165,
-    "low": 3.051,
-    "close": 3.158
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "29/09/2025",
-    "open": 3.2,
-    "high": 3.238,
-    "low": 3.169,
-    "close": 3.185
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "29/08/2025",
-    "open": 3.44,
-    "high": 3.457,
-    "low": 3.374,
-    "close": 3.375
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "29/07/2025",
-    "open": 3.54,
-    "high": 3.542,
-    "low": 3.47,
-    "close": 3.473
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "29/05/2025",
-    "open": 3.306,
-    "high": 3.306,
-    "low": 3.2,
-    "close": 3.2045
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "29/04/2025",
-    "open": 3.198,
-    "high": 3.205,
-    "low": 3.122,
-    "close": 3.1315
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "29/01/2025",
-    "open": 3.217,
-    "high": 3.219,
-    "low": 3.16,
-    "close": 3.171
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "28/11/2025",
-    "open": 3.139,
-    "high": 3.165,
-    "low": 3.135,
-    "close": 3.152
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "28/10/2025",
-    "open": 3.039,
-    "high": 3.063,
-    "low": 3.038,
-    "close": 3.043
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "28/08/2025",
-    "open": 3.445,
-    "high": 3.471,
-    "low": 3.425,
-    "close": 3.428
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "28/07/2025",
-    "open": 3.505,
-    "high": 3.549,
-    "low": 3.504,
-    "close": 3.529
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "28/05/2025",
-    "open": 3.289,
-    "high": 3.315,
-    "low": 3.237,
-    "close": 3.2435
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "28/04/2025",
-    "open": 3.188,
-    "high": 3.226,
-    "low": 3.151,
-    "close": 3.1565
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "28/03/2025",
-    "open": 3.058,
-    "high": 3.11,
-    "low": 3.002,
-    "close": 3.007
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "28/02/2025",
-    "open": 2.985,
-    "high": 2.988,
-    "low": 2.8975,
-    "close": 2.8975
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "28/01/2025",
-    "open": 3.212,
-    "high": 3.249,
-    "low": 3.196,
-    "close": 3.199
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "27/11/2025",
-    "open": 3.149,
-    "high": 3.162,
-    "low": 3.124,
-    "close": 3.129
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "27/10/2025",
-    "open": 3.107,
-    "high": 3.114,
-    "low": 3.049,
-    "close": 3.05
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "27/08/2025",
-    "open": 3.463,
-    "high": 3.502,
-    "low": 3.446,
-    "close": 3.452
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "27/06/2025",
-    "open": 3.36,
-    "high": 3.377,
-    "low": 3.276,
-    "close": 3.3055
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "27/05/2025",
-    "open": 3.285,
-    "high": 3.301,
-    "low": 3.249,
-    "close": 3.2545
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "27/03/2025",
-    "open": 3.142,
-    "high": 3.161,
-    "low": 3.084,
-    "close": 3.0945
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "27/02/2025",
-    "open": 2.997,
-    "high": 3.061,
-    "low": 2.958,
-    "close": 2.9645
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
     "date": "27/01/2026",
     "open": 3.374,
     "high": 3.416,
     "low": 3.368,
     "close": 3.41
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "27/01/2025",
-    "open": 3.194,
-    "high": 3.235,
-    "low": 3.194,
-    "close": 3.1965
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "26/11/2025",
-    "open": 3.157,
-    "high": 3.175,
-    "low": 3.131,
-    "close": 3.14
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "26/09/2025",
-    "open": 3.212,
-    "high": 3.25,
-    "low": 3.198,
-    "close": 3.228
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "26/08/2025",
-    "open": 3.487,
-    "high": 3.501,
-    "low": 3.455,
-    "close": 3.464
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "26/06/2025",
-    "open": 3.34,
-    "high": 3.368,
-    "low": 3.318,
-    "close": 3.3375
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "26/05/2025",
-    "open": 3.356,
-    "high": 3.361,
-    "low": 3.292,
-    "close": 3.3265
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "26/03/2025",
-    "open": 3.09,
-    "high": 3.142,
-    "low": 3.087,
-    "close": 3.1305
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "26/02/2025",
-    "open": 3.011,
-    "high": 3.028,
-    "low": 2.973,
-    "close": 2.9795
   },
   {
     "country": "Canada",
@@ -416,290 +20,11 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
-    "date": "25/11/2025",
-    "open": 3.173,
-    "high": 3.184,
-    "low": 3.13,
-    "close": 3.15
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "25/09/2025",
-    "open": 3.207,
-    "high": 3.245,
-    "low": 3.201,
-    "close": 3.231
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "25/08/2025",
-    "open": 3.457,
-    "high": 3.49,
-    "low": 3.45,
-    "close": 3.473
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "25/07/2025",
-    "open": 3.573,
-    "high": 3.586,
-    "low": 3.508,
-    "close": 3.525
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "25/06/2025",
-    "open": 3.282,
-    "high": 3.339,
-    "low": 3.275,
-    "close": 3.3215
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "25/04/2025",
-    "open": 3.186,
-    "high": 3.206,
-    "low": 3.148,
-    "close": 3.1715
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "25/03/2025",
-    "open": 3.078,
-    "high": 3.095,
-    "low": 3.022,
-    "close": 3.0775
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "25/02/2025",
-    "open": 3.089,
-    "high": 3.089,
-    "low": 2.979,
-    "close": 2.992
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "24/12/2025",
-    "open": 3.411,
-    "high": 3.429,
-    "low": 3.399,
-    "close": 3.401
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "24/11/2025",
-    "open": 3.188,
-    "high": 3.207,
-    "low": 3.17,
-    "close": 3.174
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "24/10/2025",
-    "open": 3.094,
-    "high": 3.099,
-    "low": 3.047,
-    "close": 3.087
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "24/09/2025",
-    "open": 3.182,
-    "high": 3.226,
-    "low": 3.181,
-    "close": 3.206
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "24/07/2025",
-    "open": 3.574,
-    "high": 3.614,
-    "low": 3.541,
-    "close": 3.556
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "24/06/2025",
-    "open": 3.287,
-    "high": 3.326,
-    "low": 3.247,
-    "close": 3.2715
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "24/04/2025",
-    "open": 3.213,
-    "high": 3.262,
-    "low": 3.169,
-    "close": 3.1915
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "24/03/2025",
-    "open": 3.027,
-    "high": 3.075,
-    "low": 3.01,
-    "close": 3.0615
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "24/02/2025",
-    "open": 3.132,
-    "high": 3.154,
-    "low": 3.07,
-    "close": 3.071
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "23/12/2025",
-    "open": 3.441,
-    "high": 3.473,
-    "low": 3.418,
-    "close": 3.418
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "23/10/2025",
-    "open": 3.102,
-    "high": 3.114,
-    "low": 3.071,
-    "close": 3.103
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "23/09/2025",
-    "open": 3.169,
-    "high": 3.208,
-    "low": 3.168,
-    "close": 3.186
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "23/07/2025",
-    "open": 3.528,
-    "high": 3.571,
-    "low": 3.509,
-    "close": 3.563
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "23/06/2025",
-    "open": 3.31,
-    "high": 3.333,
-    "low": 3.216,
-    "close": 3.2765
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "23/05/2025",
-    "open": 3.358,
-    "high": 3.364,
-    "low": 3.301,
-    "close": 3.3485
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "23/04/2025",
-    "open": 3.155,
-    "high": 3.255,
-    "low": 3.119,
-    "close": 3.2405
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
     "date": "23/01/2026",
     "open": 3.402,
     "high": 3.449,
     "low": 3.39,
     "close": 3.415
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "22/12/2025",
-    "open": 3.486,
-    "high": 3.496,
-    "low": 3.46,
-    "close": 3.473
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "22/10/2025",
-    "open": 3.085,
-    "high": 3.096,
-    "low": 3.062,
-    "close": 3.07
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "22/09/2025",
-    "open": 3.191,
-    "high": 3.209,
-    "low": 3.17,
-    "close": 3.2
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "22/08/2025",
-    "open": 3.484,
-    "high": 3.494,
-    "low": 3.399,
-    "close": 3.431
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "22/07/2025",
-    "open": 3.528,
-    "high": 3.551,
-    "low": 3.483,
-    "close": 3.503
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "22/05/2025",
-    "open": 3.363,
-    "high": 3.39,
-    "low": 3.36,
-    "close": 3.3725
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "22/04/2025",
-    "open": 3.199,
-    "high": 3.253,
-    "low": 3.184,
-    "close": 3.192
   },
   {
     "country": "Canada",
@@ -713,146 +38,11 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
-    "date": "21/11/2025",
-    "open": 3.201,
-    "high": 3.235,
-    "low": 3.193,
-    "close": 3.203
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "21/10/2025",
-    "open": 3.046,
-    "high": 3.091,
-    "low": 3.042,
-    "close": 3.081
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "21/08/2025",
-    "open": 3.458,
-    "high": 3.493,
-    "low": 3.437,
-    "close": 3.487
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "21/07/2025",
-    "open": 3.544,
-    "high": 3.551,
-    "low": 3.497,
-    "close": 3.519
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "21/05/2025",
-    "open": 3.344,
-    "high": 3.39,
-    "low": 3.334,
-    "close": 3.3855
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "21/04/2025",
-    "open": 3.152,
-    "high": 3.249,
-    "low": 3.149,
-    "close": 3.2345
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "21/03/2025",
-    "open": 3.001,
-    "high": 3.037,
-    "low": 2.961,
-    "close": 2.9945
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "21/02/2025",
-    "open": 3.225,
-    "high": 3.225,
-    "low": 3.087,
-    "close": 3.105
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
     "date": "21/01/2026",
     "open": 3.423,
     "high": 3.453,
     "low": 3.412,
     "close": 3.416
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "20/11/2025",
-    "open": 3.263,
-    "high": 3.276,
-    "low": 3.217,
-    "close": 3.228
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "20/10/2025",
-    "open": 3.092,
-    "high": 3.104,
-    "low": 3.047,
-    "close": 3.058
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "20/08/2025",
-    "open": 3.432,
-    "high": 3.472,
-    "low": 3.427,
-    "close": 3.456
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "20/06/2025",
-    "open": 3.356,
-    "high": 3.377,
-    "low": 3.295,
-    "close": 3.3005
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "20/05/2025",
-    "open": 3.177,
-    "high": 3.319,
-    "low": 3.169,
-    "close": 3.2955
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "20/03/2025",
-    "open": 3.019,
-    "high": 3.023,
-    "low": 2.932,
-    "close": 3.006
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "20/02/2025",
-    "open": 3.19,
-    "high": 3.229,
-    "low": 3.178,
-    "close": 3.2085
   },
   {
     "country": "Canada",
@@ -866,281 +56,11 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
-    "date": "19/12/2025",
-    "open": 3.444,
-    "high": 3.491,
-    "low": 3.444,
-    "close": 3.469
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "19/11/2025",
-    "open": 3.266,
-    "high": 3.267,
-    "low": 3.218,
-    "close": 3.262
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "19/09/2025",
-    "open": 3.195,
-    "high": 3.222,
-    "low": 3.183,
-    "close": 3.202
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "19/08/2025",
-    "open": 3.483,
-    "high": 3.511,
-    "low": 3.434,
-    "close": 3.455
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "19/06/2025",
-    "open": 3.344,
-    "high": 3.359,
-    "low": 3.309,
-    "close": 3.3325
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "19/03/2025",
-    "open": 3.038,
-    "high": 3.078,
-    "low": 2.985,
-    "close": 3.0
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "19/02/2025",
-    "open": 3.207,
-    "high": 3.241,
-    "low": 3.175,
-    "close": 3.175
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
     "date": "19/01/2026",
     "open": 3.395,
     "high": 3.403,
     "low": 3.378,
     "close": 3.385
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "18/12/2025",
-    "open": 3.412,
-    "high": 3.436,
-    "low": 3.395,
-    "close": 3.412
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "18/11/2025",
-    "open": 3.223,
-    "high": 3.269,
-    "low": 3.209,
-    "close": 3.257
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "18/09/2025",
-    "open": 3.159,
-    "high": 3.231,
-    "low": 3.159,
-    "close": 3.186
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "18/08/2025",
-    "open": 3.433,
-    "high": 3.506,
-    "low": 3.431,
-    "close": 3.49
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "18/07/2025",
-    "open": 3.565,
-    "high": 3.589,
-    "low": 3.548,
-    "close": 3.581
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "18/06/2025",
-    "open": 3.336,
-    "high": 3.369,
-    "low": 3.301,
-    "close": 3.3335
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "18/03/2025",
-    "open": 3.027,
-    "high": 3.11,
-    "low": 3.011,
-    "close": 3.0215
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "18/02/2025",
-    "open": 3.12,
-    "high": 3.214,
-    "low": 3.12,
-    "close": 3.1895
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "17/12/2025",
-    "open": 3.423,
-    "high": 3.441,
-    "low": 3.407,
-    "close": 3.436
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "17/11/2025",
-    "open": 3.215,
-    "high": 3.239,
-    "low": 3.207,
-    "close": 3.239
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "17/10/2025",
-    "open": 3.066,
-    "high": 3.105,
-    "low": 3.062,
-    "close": 3.101
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "17/09/2025",
-    "open": 3.14,
-    "high": 3.204,
-    "low": 3.127,
-    "close": 3.191
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "17/07/2025",
-    "open": 3.584,
-    "high": 3.615,
-    "low": 3.553,
-    "close": 3.574
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "17/06/2025",
-    "open": 3.384,
-    "high": 3.401,
-    "low": 3.354,
-    "close": 3.367
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "17/04/2025",
-    "open": 3.114,
-    "high": 3.145,
-    "low": 3.074,
-    "close": 3.1345
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "17/03/2025",
-    "open": 3.003,
-    "high": 3.038,
-    "low": 2.964,
-    "close": 3.011
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "16/12/2025",
-    "open": 3.408,
-    "high": 3.453,
-    "low": 3.397,
-    "close": 3.406
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "16/10/2025",
-    "open": 3.107,
-    "high": 3.133,
-    "low": 3.074,
-    "close": 3.085
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "16/09/2025",
-    "open": 3.164,
-    "high": 3.199,
-    "low": 3.15,
-    "close": 3.158
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "16/07/2025",
-    "open": 3.587,
-    "high": 3.619,
-    "low": 3.551,
-    "close": 3.59
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "16/06/2025",
-    "open": 3.385,
-    "high": 3.408,
-    "low": 3.354,
-    "close": 3.3985
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "16/05/2025",
-    "open": 3.141,
-    "high": 3.188,
-    "low": 3.13,
-    "close": 3.1715
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "16/04/2025",
-    "open": 3.129,
-    "high": 3.156,
-    "low": 3.073,
-    "close": 3.0765
   },
   {
     "country": "Canada",
@@ -1154,146 +74,11 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
-    "date": "15/12/2025",
-    "open": 3.431,
-    "high": 3.436,
-    "low": 3.394,
-    "close": 3.421
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "15/10/2025",
-    "open": 3.13,
-    "high": 3.155,
-    "low": 3.102,
-    "close": 3.124
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "15/09/2025",
-    "open": 3.187,
-    "high": 3.204,
-    "low": 3.156,
-    "close": 3.175
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "15/08/2025",
-    "open": 3.439,
-    "high": 3.471,
-    "low": 3.427,
-    "close": 3.462
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "15/07/2025",
-    "open": 3.502,
-    "high": 3.629,
-    "low": 3.497,
-    "close": 3.611
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "15/05/2025",
-    "open": 3.227,
-    "high": 3.245,
-    "low": 3.144,
-    "close": 3.1455
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "15/04/2025",
-    "open": 3.122,
-    "high": 3.154,
-    "low": 3.087,
-    "close": 3.1095
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
     "date": "15/01/2026",
     "open": 3.352,
     "high": 3.381,
     "low": 3.342,
     "close": 3.354
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "14/11/2025",
-    "open": 3.203,
-    "high": 3.234,
-    "low": 3.158,
-    "close": 3.234
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "14/10/2025",
-    "open": 3.178,
-    "high": 3.178,
-    "low": 3.124,
-    "close": 3.155
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "14/08/2025",
-    "open": 3.393,
-    "high": 3.444,
-    "low": 3.366,
-    "close": 3.412
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "14/07/2025",
-    "open": 3.503,
-    "high": 3.542,
-    "low": 3.494,
-    "close": 3.519
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "14/05/2025",
-    "open": 3.205,
-    "high": 3.266,
-    "low": 3.199,
-    "close": 3.2595
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "14/04/2025",
-    "open": 3.192,
-    "high": 3.217,
-    "low": 3.116,
-    "close": 3.1175
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "14/03/2025",
-    "open": 3.066,
-    "high": 3.106,
-    "low": 3.031,
-    "close": 3.064
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "14/02/2025",
-    "open": 3.148,
-    "high": 3.156,
-    "low": 3.074,
-    "close": 3.1035
   },
   {
     "country": "Canada",
@@ -1307,137 +92,11 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
-    "date": "13/11/2025",
-    "open": 3.156,
-    "high": 3.194,
-    "low": 3.15,
-    "close": 3.186
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "13/08/2025",
-    "open": 3.405,
-    "high": 3.449,
-    "low": 3.381,
-    "close": 3.405
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "13/06/2025",
-    "open": 3.372,
-    "high": 3.389,
-    "low": 3.314,
-    "close": 3.3735
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "13/05/2025",
-    "open": 3.205,
-    "high": 3.246,
-    "low": 3.182,
-    "close": 3.2075
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "13/03/2025",
-    "open": 3.087,
-    "high": 3.136,
-    "low": 3.024,
-    "close": 3.049
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "13/02/2025",
-    "open": 3.198,
-    "high": 3.198,
-    "low": 3.076,
-    "close": 3.115
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
     "date": "13/01/2026",
     "open": 3.41,
     "high": 3.43,
     "low": 3.395,
     "close": 3.409
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "12/12/2025",
-    "open": 3.449,
-    "high": 3.461,
-    "low": 3.432,
-    "close": 3.443
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "12/11/2025",
-    "open": 3.158,
-    "high": 3.177,
-    "low": 3.13,
-    "close": 3.154
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "12/09/2025",
-    "open": 3.179,
-    "high": 3.213,
-    "low": 3.165,
-    "close": 3.189
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "12/08/2025",
-    "open": 3.4,
-    "high": 3.466,
-    "low": 3.385,
-    "close": 3.435
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "12/06/2025",
-    "open": 3.306,
-    "high": 3.348,
-    "low": 3.279,
-    "close": 3.3275
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "12/05/2025",
-    "open": 3.235,
-    "high": 3.259,
-    "low": 3.193,
-    "close": 3.2065
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "12/03/2025",
-    "open": 3.025,
-    "high": 3.096,
-    "low": 2.984,
-    "close": 3.0705
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "12/02/2025",
-    "open": 3.116,
-    "high": 3.195,
-    "low": 3.109,
-    "close": 3.177
   },
   {
     "country": "Canada",
@@ -1451,290 +110,11 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
-    "date": "11/12/2025",
-    "open": 3.425,
-    "high": 3.437,
-    "low": 3.4,
-    "close": 3.437
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "11/09/2025",
-    "open": 3.166,
-    "high": 3.185,
-    "low": 3.133,
-    "close": 3.17
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "11/08/2025",
-    "open": 3.353,
-    "high": 3.403,
-    "low": 3.353,
-    "close": 3.396
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "11/07/2025",
-    "open": 3.427,
-    "high": 3.519,
-    "low": 3.412,
-    "close": 3.502
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "11/06/2025",
-    "open": 3.368,
-    "high": 3.381,
-    "low": 3.317,
-    "close": 3.3495
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "11/04/2025",
-    "open": 3.204,
-    "high": 3.309,
-    "low": 3.17,
-    "close": 3.2645
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "11/03/2025",
-    "open": 3.005,
-    "high": 3.035,
-    "low": 2.927,
-    "close": 3.006
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "11/02/2025",
-    "open": 3.079,
-    "high": 3.116,
-    "low": 3.078,
-    "close": 3.096
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "10/12/2025",
-    "open": 3.484,
-    "high": 3.495,
-    "low": 3.421,
-    "close": 3.423
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "10/11/2025",
-    "open": 3.201,
-    "high": 3.21,
-    "low": 3.169,
-    "close": 3.174
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "10/10/2025",
-    "open": 3.172,
-    "high": 3.227,
-    "low": 3.154,
-    "close": 3.169
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "10/09/2025",
-    "open": 3.217,
-    "high": 3.243,
-    "low": 3.157,
-    "close": 3.176
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "10/07/2025",
-    "open": 3.388,
-    "high": 3.435,
-    "low": 3.383,
-    "close": 3.409
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "10/06/2025",
-    "open": 3.323,
-    "high": 3.356,
-    "low": 3.309,
-    "close": 3.3425
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "10/04/2025",
-    "open": 3.21,
-    "high": 3.242,
-    "low": 3.123,
-    "close": 3.2315
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "10/03/2025",
-    "open": 2.963,
-    "high": 3.004,
-    "low": 2.943,
-    "close": 2.984
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "10/02/2025",
-    "open": 3.065,
-    "high": 3.079,
-    "low": 3.016,
-    "close": 3.062
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "09/12/2025",
-    "open": 3.421,
-    "high": 3.475,
-    "low": 3.41,
-    "close": 3.472
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "09/10/2025",
-    "open": 3.193,
-    "high": 3.214,
-    "low": 3.175,
-    "close": 3.212
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "09/09/2025",
-    "open": 3.22,
-    "high": 3.255,
-    "low": 3.209,
-    "close": 3.237
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "09/07/2025",
-    "open": 3.434,
-    "high": 3.462,
-    "low": 3.371,
-    "close": 3.381
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "09/06/2025",
-    "open": 3.326,
-    "high": 3.394,
-    "low": 3.32,
-    "close": 3.3535
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "09/05/2025",
-    "open": 3.202,
-    "high": 3.231,
-    "low": 3.147,
-    "close": 3.1565
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "09/04/2025",
-    "open": 3.156,
-    "high": 3.289,
-    "low": 3.121,
-    "close": 3.202
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
     "date": "09/01/2026",
     "open": 3.418,
     "high": 3.43,
     "low": 3.372,
     "close": 3.393
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "08/12/2025",
-    "open": 3.458,
-    "high": 3.5,
-    "low": 3.417,
-    "close": 3.424
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "08/10/2025",
-    "open": 3.17,
-    "high": 3.203,
-    "low": 3.16,
-    "close": 3.191
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "08/09/2025",
-    "open": 3.261,
-    "high": 3.269,
-    "low": 3.208,
-    "close": 3.209
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "08/08/2025",
-    "open": 3.399,
-    "high": 3.424,
-    "low": 3.36,
-    "close": 3.384
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "08/07/2025",
-    "open": 3.445,
-    "high": 3.452,
-    "low": 3.417,
-    "close": 3.439
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "08/05/2025",
-    "open": 3.138,
-    "high": 3.216,
-    "low": 3.118,
-    "close": 3.2015
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "08/04/2025",
-    "open": 3.054,
-    "high": 3.147,
-    "low": 3.019,
-    "close": 3.135
   },
   {
     "country": "Canada",
@@ -1748,146 +128,11 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
-    "date": "07/11/2025",
-    "open": 3.131,
-    "high": 3.185,
-    "low": 3.11,
-    "close": 3.185
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "07/10/2025",
-    "open": 3.226,
-    "high": 3.245,
-    "low": 3.176,
-    "close": 3.185
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "07/08/2025",
-    "open": 3.4,
-    "high": 3.425,
-    "low": 3.366,
-    "close": 3.402
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "07/07/2025",
-    "open": 3.357,
-    "high": 3.422,
-    "low": 3.355,
-    "close": 3.3995
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "07/05/2025",
-    "open": 3.154,
-    "high": 3.172,
-    "low": 3.082,
-    "close": 3.0975
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "07/04/2025",
-    "open": 2.862,
-    "high": 3.08,
-    "low": 2.834,
-    "close": 3.0565
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "07/03/2025",
-    "open": 3.072,
-    "high": 3.072,
-    "low": 2.993,
-    "close": 3.031
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "07/02/2025",
-    "open": 2.976,
-    "high": 3.092,
-    "low": 2.944,
-    "close": 3.076
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
     "date": "07/01/2026",
     "open": 3.401,
     "high": 3.44,
     "low": 3.378,
     "close": 3.398
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "06/11/2025",
-    "open": 3.156,
-    "high": 3.173,
-    "low": 3.1,
-    "close": 3.106
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "06/10/2025",
-    "open": 3.24,
-    "high": 3.241,
-    "low": 3.197,
-    "close": 3.222
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "06/08/2025",
-    "open": 3.41,
-    "high": 3.429,
-    "low": 3.383,
-    "close": 3.408
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "06/06/2025",
-    "open": 3.25,
-    "high": 3.357,
-    "low": 3.248,
-    "close": 3.3385
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "06/05/2025",
-    "open": 3.208,
-    "high": 3.219,
-    "low": 3.143,
-    "close": 3.1455
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "06/03/2025",
-    "open": 2.986,
-    "high": 3.089,
-    "low": 2.966,
-    "close": 3.067
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "06/02/2025",
-    "open": 2.967,
-    "high": 3.017,
-    "low": 2.956,
-    "close": 2.9595
   },
   {
     "country": "Canada",
@@ -1901,299 +146,11 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
-    "date": "05/12/2025",
-    "open": 3.275,
-    "high": 3.443,
-    "low": 3.27,
-    "close": 3.419
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "05/11/2025",
-    "open": 3.133,
-    "high": 3.173,
-    "low": 3.122,
-    "close": 3.168
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "05/09/2025",
-    "open": 3.34,
-    "high": 3.363,
-    "low": 3.253,
-    "close": 3.267
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "05/08/2025",
-    "open": 3.361,
-    "high": 3.404,
-    "low": 3.36,
-    "close": 3.381
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "05/06/2025",
-    "open": 3.235,
-    "high": 3.279,
-    "low": 3.22,
-    "close": 3.2525
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "05/05/2025",
-    "open": 3.2,
-    "high": 3.211,
-    "low": 3.171,
-    "close": 3.1865
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "05/03/2025",
-    "open": 2.963,
-    "high": 2.988,
-    "low": 2.877,
-    "close": 2.969
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "05/02/2025",
-    "open": 3.03,
-    "high": 3.03,
-    "low": 2.939,
-    "close": 2.949
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
     "date": "05/01/2026",
     "open": 3.446,
     "high": 3.48,
     "low": 3.407,
     "close": 3.421
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "04/12/2025",
-    "open": 3.228,
-    "high": 3.271,
-    "low": 3.219,
-    "close": 3.262
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "04/11/2025",
-    "open": 3.154,
-    "high": 3.168,
-    "low": 3.125,
-    "close": 3.134
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "04/09/2025",
-    "open": 3.359,
-    "high": 3.399,
-    "low": 3.34,
-    "close": 3.347
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "04/07/2025",
-    "open": 3.354,
-    "high": 3.402,
-    "low": 3.324,
-    "close": 3.3515
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "04/06/2025",
-    "open": 3.278,
-    "high": 3.301,
-    "low": 3.226,
-    "close": 3.2335
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "04/04/2025",
-    "open": 2.94,
-    "high": 2.94,
-    "low": 2.783,
-    "close": 2.8815
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "04/03/2025",
-    "open": 2.846,
-    "high": 2.956,
-    "low": 2.796,
-    "close": 2.938
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "04/02/2025",
-    "open": 3.086,
-    "high": 3.136,
-    "low": 2.997,
-    "close": 3.012
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "03/12/2025",
-    "open": 3.229,
-    "high": 3.253,
-    "low": 3.213,
-    "close": 3.228
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "03/11/2025",
-    "open": 3.127,
-    "high": 3.156,
-    "low": 3.121,
-    "close": 3.154
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "03/10/2025",
-    "open": 3.166,
-    "high": 3.205,
-    "low": 3.155,
-    "close": 3.187
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "03/09/2025",
-    "open": 3.457,
-    "high": 3.477,
-    "low": 3.377,
-    "close": 3.394
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "03/07/2025",
-    "open": 3.324,
-    "high": 3.399,
-    "low": 3.312,
-    "close": 3.383
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "03/06/2025",
-    "open": 3.199,
-    "high": 3.277,
-    "low": 3.195,
-    "close": 3.2735
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "03/04/2025",
-    "open": 2.911,
-    "high": 2.971,
-    "low": 2.869,
-    "close": 2.927
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "03/03/2025",
-    "open": 2.959,
-    "high": 2.978,
-    "low": 2.813,
-    "close": 2.8315
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "03/02/2025",
-    "open": 2.949,
-    "high": 3.016,
-    "low": 2.879,
-    "close": 3.0135
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "02/12/2025",
-    "open": 3.249,
-    "high": 3.277,
-    "low": 3.239,
-    "close": 3.251
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "02/10/2025",
-    "open": 3.175,
-    "high": 3.214,
-    "low": 3.163,
-    "close": 3.176
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "02/09/2025",
-    "open": 3.391,
-    "high": 3.474,
-    "low": 3.391,
-    "close": 3.442
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "02/07/2025",
-    "open": 3.321,
-    "high": 3.388,
-    "low": 3.29,
-    "close": 3.3565
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "02/06/2025",
-    "open": 3.26,
-    "high": 3.26,
-    "low": 3.212,
-    "close": 3.2235
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "02/05/2025",
-    "open": 3.104,
-    "high": 3.218,
-    "low": 3.093,
-    "close": 3.1735
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "02/04/2025",
-    "open": 2.924,
-    "high": 2.993,
-    "low": 2.88,
-    "close": 2.9215
   },
   {
     "country": "Canada",
@@ -2207,11 +164,560 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
+    "date": "31/12/2025",
+    "open": 3.411,
+    "high": 3.441,
+    "low": 3.402,
+    "close": 3.435
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/12/2025",
+    "open": 3.401,
+    "high": 3.441,
+    "low": 3.397,
+    "close": 3.412
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/12/2025",
+    "open": 3.395,
+    "high": 3.414,
+    "low": 3.385,
+    "close": 3.39
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/12/2025",
+    "open": 3.411,
+    "high": 3.429,
+    "low": 3.399,
+    "close": 3.401
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/12/2025",
+    "open": 3.441,
+    "high": 3.473,
+    "low": 3.418,
+    "close": 3.418
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/12/2025",
+    "open": 3.486,
+    "high": 3.496,
+    "low": 3.46,
+    "close": 3.473
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/12/2025",
+    "open": 3.444,
+    "high": 3.491,
+    "low": 3.444,
+    "close": 3.469
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/12/2025",
+    "open": 3.412,
+    "high": 3.436,
+    "low": 3.395,
+    "close": 3.412
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/12/2025",
+    "open": 3.423,
+    "high": 3.441,
+    "low": 3.407,
+    "close": 3.436
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/12/2025",
+    "open": 3.408,
+    "high": 3.453,
+    "low": 3.397,
+    "close": 3.406
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/12/2025",
+    "open": 3.431,
+    "high": 3.436,
+    "low": 3.394,
+    "close": 3.421
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/12/2025",
+    "open": 3.449,
+    "high": 3.461,
+    "low": 3.432,
+    "close": 3.443
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/12/2025",
+    "open": 3.425,
+    "high": 3.437,
+    "low": 3.4,
+    "close": 3.437
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/12/2025",
+    "open": 3.484,
+    "high": 3.495,
+    "low": 3.421,
+    "close": 3.423
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/12/2025",
+    "open": 3.421,
+    "high": 3.475,
+    "low": 3.41,
+    "close": 3.472
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/12/2025",
+    "open": 3.458,
+    "high": 3.5,
+    "low": 3.417,
+    "close": 3.424
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/12/2025",
+    "open": 3.275,
+    "high": 3.443,
+    "low": 3.27,
+    "close": 3.419
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/12/2025",
+    "open": 3.228,
+    "high": 3.271,
+    "low": 3.219,
+    "close": 3.262
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/12/2025",
+    "open": 3.229,
+    "high": 3.253,
+    "low": 3.213,
+    "close": 3.228
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/12/2025",
+    "open": 3.249,
+    "high": 3.277,
+    "low": 3.239,
+    "close": 3.251
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
     "date": "01/12/2025",
     "open": 3.183,
     "high": 3.255,
     "low": 3.157,
     "close": 3.254
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/11/2025",
+    "open": 3.139,
+    "high": 3.165,
+    "low": 3.135,
+    "close": 3.152
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/11/2025",
+    "open": 3.149,
+    "high": 3.162,
+    "low": 3.124,
+    "close": 3.129
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/11/2025",
+    "open": 3.157,
+    "high": 3.175,
+    "low": 3.131,
+    "close": 3.14
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/11/2025",
+    "open": 3.173,
+    "high": 3.184,
+    "low": 3.13,
+    "close": 3.15
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/11/2025",
+    "open": 3.188,
+    "high": 3.207,
+    "low": 3.17,
+    "close": 3.174
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/11/2025",
+    "open": 3.201,
+    "high": 3.235,
+    "low": 3.193,
+    "close": 3.203
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/11/2025",
+    "open": 3.263,
+    "high": 3.276,
+    "low": 3.217,
+    "close": 3.228
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/11/2025",
+    "open": 3.266,
+    "high": 3.267,
+    "low": 3.218,
+    "close": 3.262
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/11/2025",
+    "open": 3.223,
+    "high": 3.269,
+    "low": 3.209,
+    "close": 3.257
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/11/2025",
+    "open": 3.215,
+    "high": 3.239,
+    "low": 3.207,
+    "close": 3.239
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/11/2025",
+    "open": 3.203,
+    "high": 3.234,
+    "low": 3.158,
+    "close": 3.234
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/11/2025",
+    "open": 3.156,
+    "high": 3.194,
+    "low": 3.15,
+    "close": 3.186
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/11/2025",
+    "open": 3.158,
+    "high": 3.177,
+    "low": 3.13,
+    "close": 3.154
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/11/2025",
+    "open": 3.201,
+    "high": 3.21,
+    "low": 3.169,
+    "close": 3.174
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/11/2025",
+    "open": 3.131,
+    "high": 3.185,
+    "low": 3.11,
+    "close": 3.185
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/11/2025",
+    "open": 3.156,
+    "high": 3.173,
+    "low": 3.1,
+    "close": 3.106
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/11/2025",
+    "open": 3.133,
+    "high": 3.173,
+    "low": 3.122,
+    "close": 3.168
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/11/2025",
+    "open": 3.154,
+    "high": 3.168,
+    "low": 3.125,
+    "close": 3.134
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/11/2025",
+    "open": 3.127,
+    "high": 3.156,
+    "low": 3.121,
+    "close": 3.154
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "31/10/2025",
+    "open": 3.14,
+    "high": 3.157,
+    "low": 3.115,
+    "close": 3.121
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/10/2025",
+    "open": 3.158,
+    "high": 3.181,
+    "low": 3.123,
+    "close": 3.132
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/10/2025",
+    "open": 3.055,
+    "high": 3.165,
+    "low": 3.051,
+    "close": 3.158
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/10/2025",
+    "open": 3.039,
+    "high": 3.063,
+    "low": 3.038,
+    "close": 3.043
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/10/2025",
+    "open": 3.107,
+    "high": 3.114,
+    "low": 3.049,
+    "close": 3.05
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/10/2025",
+    "open": 3.094,
+    "high": 3.099,
+    "low": 3.047,
+    "close": 3.087
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/10/2025",
+    "open": 3.102,
+    "high": 3.114,
+    "low": 3.071,
+    "close": 3.103
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/10/2025",
+    "open": 3.085,
+    "high": 3.096,
+    "low": 3.062,
+    "close": 3.07
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/10/2025",
+    "open": 3.046,
+    "high": 3.091,
+    "low": 3.042,
+    "close": 3.081
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/10/2025",
+    "open": 3.092,
+    "high": 3.104,
+    "low": 3.047,
+    "close": 3.058
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/10/2025",
+    "open": 3.066,
+    "high": 3.105,
+    "low": 3.062,
+    "close": 3.101
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/10/2025",
+    "open": 3.107,
+    "high": 3.133,
+    "low": 3.074,
+    "close": 3.085
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/10/2025",
+    "open": 3.13,
+    "high": 3.155,
+    "low": 3.102,
+    "close": 3.124
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/10/2025",
+    "open": 3.178,
+    "high": 3.178,
+    "low": 3.124,
+    "close": 3.155
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/10/2025",
+    "open": 3.05447,
+    "high": 3.08166,
+    "low": 3.04245,
+    "close": 3.07053
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/10/2025",
+    "open": 3.172,
+    "high": 3.227,
+    "low": 3.154,
+    "close": 3.169
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/10/2025",
+    "open": 3.193,
+    "high": 3.214,
+    "low": 3.175,
+    "close": 3.212
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/10/2025",
+    "open": 3.17,
+    "high": 3.203,
+    "low": 3.16,
+    "close": 3.191
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/10/2025",
+    "open": 3.226,
+    "high": 3.245,
+    "low": 3.176,
+    "close": 3.185
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/10/2025",
+    "open": 3.24,
+    "high": 3.241,
+    "low": 3.197,
+    "close": 3.222
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/10/2025",
+    "open": 3.166,
+    "high": 3.205,
+    "low": 3.155,
+    "close": 3.187
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/10/2025",
+    "open": 3.175,
+    "high": 3.214,
+    "low": 3.163,
+    "close": 3.176
   },
   {
     "country": "Canada",
@@ -2225,11 +731,974 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
+    "date": "30/09/2025",
+    "open": 3.02219,
+    "high": 3.03678,
+    "low": 3.00821,
+    "close": 3.02858
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/09/2025",
+    "open": 3.2,
+    "high": 3.238,
+    "low": 3.169,
+    "close": 3.185
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/09/2025",
+    "open": 3.212,
+    "high": 3.25,
+    "low": 3.198,
+    "close": 3.228
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/09/2025",
+    "open": 3.207,
+    "high": 3.245,
+    "low": 3.201,
+    "close": 3.231
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/09/2025",
+    "open": 3.182,
+    "high": 3.226,
+    "low": 3.181,
+    "close": 3.206
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/09/2025",
+    "open": 3.169,
+    "high": 3.208,
+    "low": 3.168,
+    "close": 3.186
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/09/2025",
+    "open": 3.191,
+    "high": 3.209,
+    "low": 3.17,
+    "close": 3.2
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/09/2025",
+    "open": 3.195,
+    "high": 3.222,
+    "low": 3.183,
+    "close": 3.202
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/09/2025",
+    "open": 3.159,
+    "high": 3.231,
+    "low": 3.159,
+    "close": 3.186
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/09/2025",
+    "open": 3.14,
+    "high": 3.204,
+    "low": 3.127,
+    "close": 3.191
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/09/2025",
+    "open": 3.164,
+    "high": 3.199,
+    "low": 3.15,
+    "close": 3.158
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/09/2025",
+    "open": 3.187,
+    "high": 3.204,
+    "low": 3.156,
+    "close": 3.175
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/09/2025",
+    "open": 3.179,
+    "high": 3.213,
+    "low": 3.165,
+    "close": 3.189
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/09/2025",
+    "open": 3.166,
+    "high": 3.185,
+    "low": 3.133,
+    "close": 3.17
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/09/2025",
+    "open": 3.217,
+    "high": 3.243,
+    "low": 3.157,
+    "close": 3.176
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/09/2025",
+    "open": 3.22,
+    "high": 3.255,
+    "low": 3.209,
+    "close": 3.237
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/09/2025",
+    "open": 3.261,
+    "high": 3.269,
+    "low": 3.208,
+    "close": 3.209
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/09/2025",
+    "open": 3.34,
+    "high": 3.363,
+    "low": 3.253,
+    "close": 3.267
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/09/2025",
+    "open": 3.359,
+    "high": 3.399,
+    "low": 3.34,
+    "close": 3.347
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/09/2025",
+    "open": 3.457,
+    "high": 3.477,
+    "low": 3.377,
+    "close": 3.394
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/09/2025",
+    "open": 3.391,
+    "high": 3.474,
+    "low": 3.391,
+    "close": 3.442
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/09/2025",
+    "open": 2.89872,
+    "high": 2.91233,
+    "low": 2.89197,
+    "close": 2.89808
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/08/2025",
+    "open": 3.44,
+    "high": 3.457,
+    "low": 3.374,
+    "close": 3.375
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/08/2025",
+    "open": 3.445,
+    "high": 3.471,
+    "low": 3.425,
+    "close": 3.428
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/08/2025",
+    "open": 3.463,
+    "high": 3.502,
+    "low": 3.446,
+    "close": 3.452
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/08/2025",
+    "open": 3.487,
+    "high": 3.501,
+    "low": 3.455,
+    "close": 3.464
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/08/2025",
+    "open": 3.457,
+    "high": 3.49,
+    "low": 3.45,
+    "close": 3.473
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/08/2025",
+    "open": 3.484,
+    "high": 3.494,
+    "low": 3.399,
+    "close": 3.431
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/08/2025",
+    "open": 3.458,
+    "high": 3.493,
+    "low": 3.437,
+    "close": 3.487
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/08/2025",
+    "open": 3.432,
+    "high": 3.472,
+    "low": 3.427,
+    "close": 3.456
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/08/2025",
+    "open": 3.483,
+    "high": 3.511,
+    "low": 3.434,
+    "close": 3.455
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/08/2025",
+    "open": 3.433,
+    "high": 3.506,
+    "low": 3.431,
+    "close": 3.49
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/08/2025",
+    "open": 3.439,
+    "high": 3.471,
+    "low": 3.427,
+    "close": 3.462
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/08/2025",
+    "open": 3.393,
+    "high": 3.444,
+    "low": 3.366,
+    "close": 3.412
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/08/2025",
+    "open": 3.405,
+    "high": 3.449,
+    "low": 3.381,
+    "close": 3.405
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/08/2025",
+    "open": 3.4,
+    "high": 3.466,
+    "low": 3.385,
+    "close": 3.435
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/08/2025",
+    "open": 3.353,
+    "high": 3.403,
+    "low": 3.353,
+    "close": 3.396
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/08/2025",
+    "open": 3.399,
+    "high": 3.424,
+    "low": 3.36,
+    "close": 3.384
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/08/2025",
+    "open": 3.4,
+    "high": 3.425,
+    "low": 3.366,
+    "close": 3.402
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/08/2025",
+    "open": 3.41,
+    "high": 3.429,
+    "low": 3.383,
+    "close": 3.408
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/08/2025",
+    "open": 3.361,
+    "high": 3.404,
+    "low": 3.36,
+    "close": 3.381
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/08/2025",
+    "open": 2.89292,
+    "high": 2.93652,
+    "low": 2.8793,
+    "close": 2.92152
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
     "date": "01/08/2025",
     "open": 3.481,
     "high": 3.495,
     "low": 3.372,
     "close": 3.385
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "31/07/2025",
+    "open": 3.473,
+    "high": 3.494,
+    "low": 3.441,
+    "close": 3.467
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/07/2025",
+    "open": 3.472,
+    "high": 3.517,
+    "low": 3.461,
+    "close": 3.489
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/07/2025",
+    "open": 3.54,
+    "high": 3.542,
+    "low": 3.47,
+    "close": 3.473
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/07/2025",
+    "open": 3.505,
+    "high": 3.549,
+    "low": 3.504,
+    "close": 3.529
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/07/2025",
+    "open": 3.573,
+    "high": 3.586,
+    "low": 3.508,
+    "close": 3.525
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/07/2025",
+    "open": 3.574,
+    "high": 3.614,
+    "low": 3.541,
+    "close": 3.556
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/07/2025",
+    "open": 3.528,
+    "high": 3.571,
+    "low": 3.509,
+    "close": 3.563
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/07/2025",
+    "open": 3.528,
+    "high": 3.551,
+    "low": 3.483,
+    "close": 3.503
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/07/2025",
+    "open": 3.544,
+    "high": 3.551,
+    "low": 3.497,
+    "close": 3.519
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/07/2025",
+    "open": 3.565,
+    "high": 3.589,
+    "low": 3.548,
+    "close": 3.581
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/07/2025",
+    "open": 3.584,
+    "high": 3.615,
+    "low": 3.553,
+    "close": 3.574
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/07/2025",
+    "open": 3.587,
+    "high": 3.619,
+    "low": 3.551,
+    "close": 3.59
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/07/2025",
+    "open": 3.502,
+    "high": 3.629,
+    "low": 3.497,
+    "close": 3.611
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/07/2025",
+    "open": 3.503,
+    "high": 3.542,
+    "low": 3.494,
+    "close": 3.519
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/07/2025",
+    "open": 3.427,
+    "high": 3.519,
+    "low": 3.412,
+    "close": 3.502
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/07/2025",
+    "open": 3.388,
+    "high": 3.435,
+    "low": 3.383,
+    "close": 3.409
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/07/2025",
+    "open": 3.434,
+    "high": 3.462,
+    "low": 3.371,
+    "close": 3.381
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/07/2025",
+    "open": 3.445,
+    "high": 3.452,
+    "low": 3.417,
+    "close": 3.439
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/07/2025",
+    "open": 3.357,
+    "high": 3.422,
+    "low": 3.355,
+    "close": 3.3995
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/07/2025",
+    "open": 3.354,
+    "high": 3.402,
+    "low": 3.324,
+    "close": 3.3515
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/07/2025",
+    "open": 3.324,
+    "high": 3.399,
+    "low": 3.312,
+    "close": 3.383
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/07/2025",
+    "open": 3.321,
+    "high": 3.388,
+    "low": 3.29,
+    "close": 3.3565
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/07/2025",
+    "open": 3.0041,
+    "high": 3.00486,
+    "low": 2.98522,
+    "close": 2.99343
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/06/2025",
+    "open": 3.318,
+    "high": 3.333,
+    "low": 3.272,
+    "close": 3.272
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/06/2025",
+    "open": 3.36,
+    "high": 3.377,
+    "low": 3.276,
+    "close": 3.3055
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/06/2025",
+    "open": 3.34,
+    "high": 3.368,
+    "low": 3.318,
+    "close": 3.3375
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/06/2025",
+    "open": 3.282,
+    "high": 3.339,
+    "low": 3.275,
+    "close": 3.3215
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/06/2025",
+    "open": 3.287,
+    "high": 3.326,
+    "low": 3.247,
+    "close": 3.2715
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/06/2025",
+    "open": 3.31,
+    "high": 3.333,
+    "low": 3.216,
+    "close": 3.2765
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/06/2025",
+    "open": 3.356,
+    "high": 3.377,
+    "low": 3.295,
+    "close": 3.3005
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/06/2025",
+    "open": 3.344,
+    "high": 3.359,
+    "low": 3.309,
+    "close": 3.3325
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/06/2025",
+    "open": 3.336,
+    "high": 3.369,
+    "low": 3.301,
+    "close": 3.3335
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/06/2025",
+    "open": 3.384,
+    "high": 3.401,
+    "low": 3.354,
+    "close": 3.367
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/06/2025",
+    "open": 3.385,
+    "high": 3.408,
+    "low": 3.354,
+    "close": 3.3985
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/06/2025",
+    "open": 3.372,
+    "high": 3.389,
+    "low": 3.314,
+    "close": 3.3735
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/06/2025",
+    "open": 3.306,
+    "high": 3.348,
+    "low": 3.279,
+    "close": 3.3275
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/06/2025",
+    "open": 3.368,
+    "high": 3.381,
+    "low": 3.317,
+    "close": 3.3495
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/06/2025",
+    "open": 3.323,
+    "high": 3.356,
+    "low": 3.309,
+    "close": 3.3425
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/06/2025",
+    "open": 3.326,
+    "high": 3.394,
+    "low": 3.32,
+    "close": 3.3535
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/06/2025",
+    "open": 3.25,
+    "high": 3.357,
+    "low": 3.248,
+    "close": 3.3385
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/06/2025",
+    "open": 3.235,
+    "high": 3.279,
+    "low": 3.22,
+    "close": 3.2525
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/06/2025",
+    "open": 3.278,
+    "high": 3.301,
+    "low": 3.226,
+    "close": 3.2335
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/06/2025",
+    "open": 3.199,
+    "high": 3.277,
+    "low": 3.195,
+    "close": 3.2735
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/06/2025",
+    "open": 3.26,
+    "high": 3.26,
+    "low": 3.212,
+    "close": 3.2235
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/05/2025",
+    "open": 3.226,
+    "high": 3.234,
+    "low": 3.193,
+    "close": 3.198
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/05/2025",
+    "open": 3.306,
+    "high": 3.306,
+    "low": 3.2,
+    "close": 3.2045
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/05/2025",
+    "open": 3.289,
+    "high": 3.315,
+    "low": 3.237,
+    "close": 3.2435
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/05/2025",
+    "open": 3.285,
+    "high": 3.301,
+    "low": 3.249,
+    "close": 3.2545
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/05/2025",
+    "open": 3.356,
+    "high": 3.361,
+    "low": 3.292,
+    "close": 3.3265
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/05/2025",
+    "open": 3.358,
+    "high": 3.364,
+    "low": 3.301,
+    "close": 3.3485
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/05/2025",
+    "open": 3.363,
+    "high": 3.39,
+    "low": 3.36,
+    "close": 3.3725
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/05/2025",
+    "open": 3.344,
+    "high": 3.39,
+    "low": 3.334,
+    "close": 3.3855
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/05/2025",
+    "open": 3.177,
+    "high": 3.319,
+    "low": 3.169,
+    "close": 3.2955
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/05/2025",
+    "open": 2.78036,
+    "high": 2.79478,
+    "low": 2.75261,
+    "close": 2.75511
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/05/2025",
+    "open": 3.141,
+    "high": 3.188,
+    "low": 3.13,
+    "close": 3.1715
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/05/2025",
+    "open": 3.227,
+    "high": 3.245,
+    "low": 3.144,
+    "close": 3.1455
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/05/2025",
+    "open": 3.205,
+    "high": 3.266,
+    "low": 3.199,
+    "close": 3.2595
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/05/2025",
+    "open": 3.205,
+    "high": 3.246,
+    "low": 3.182,
+    "close": 3.2075
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/05/2025",
+    "open": 3.235,
+    "high": 3.259,
+    "low": 3.193,
+    "close": 3.2065
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/05/2025",
+    "open": 3.202,
+    "high": 3.231,
+    "low": 3.147,
+    "close": 3.1565
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/05/2025",
+    "open": 3.138,
+    "high": 3.216,
+    "low": 3.118,
+    "close": 3.2015
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/05/2025",
+    "open": 3.154,
+    "high": 3.172,
+    "low": 3.082,
+    "close": 3.0975
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/05/2025",
+    "open": 3.208,
+    "high": 3.219,
+    "low": 3.143,
+    "close": 3.1455
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/05/2025",
+    "open": 3.2,
+    "high": 3.211,
+    "low": 3.171,
+    "close": 3.1865
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/05/2025",
+    "open": 3.104,
+    "high": 3.218,
+    "low": 3.093,
+    "close": 3.1735
   },
   {
     "country": "Canada",
@@ -2243,10 +1712,3133 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
+    "date": "30/04/2025",
+    "open": 3.129,
+    "high": 3.149,
+    "low": 3.06,
+    "close": 3.0885
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/04/2025",
+    "open": 3.198,
+    "high": 3.205,
+    "low": 3.122,
+    "close": 3.1315
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/04/2025",
+    "open": 3.188,
+    "high": 3.226,
+    "low": 3.151,
+    "close": 3.1565
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/04/2025",
+    "open": 3.186,
+    "high": 3.206,
+    "low": 3.148,
+    "close": 3.1715
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/04/2025",
+    "open": 3.213,
+    "high": 3.262,
+    "low": 3.169,
+    "close": 3.1915
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/04/2025",
+    "open": 3.155,
+    "high": 3.255,
+    "low": 3.119,
+    "close": 3.2405
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/04/2025",
+    "open": 3.199,
+    "high": 3.253,
+    "low": 3.184,
+    "close": 3.192
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/04/2025",
+    "open": 3.152,
+    "high": 3.249,
+    "low": 3.149,
+    "close": 3.2345
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/04/2025",
+    "open": 2.76142,
+    "high": 2.79651,
+    "low": 2.75875,
+    "close": 2.78357
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/04/2025",
+    "open": 3.114,
+    "high": 3.145,
+    "low": 3.074,
+    "close": 3.1345
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/04/2025",
+    "open": 3.129,
+    "high": 3.156,
+    "low": 3.073,
+    "close": 3.0765
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/04/2025",
+    "open": 3.122,
+    "high": 3.154,
+    "low": 3.087,
+    "close": 3.1095
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/04/2025",
+    "open": 3.192,
+    "high": 3.217,
+    "low": 3.116,
+    "close": 3.1175
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/04/2025",
+    "open": 3.204,
+    "high": 3.309,
+    "low": 3.17,
+    "close": 3.2645
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/04/2025",
+    "open": 3.21,
+    "high": 3.242,
+    "low": 3.123,
+    "close": 3.2315
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/04/2025",
+    "open": 3.156,
+    "high": 3.289,
+    "low": 3.121,
+    "close": 3.202
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/04/2025",
+    "open": 3.054,
+    "high": 3.147,
+    "low": 3.019,
+    "close": 3.135
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/04/2025",
+    "open": 2.862,
+    "high": 3.08,
+    "low": 2.834,
+    "close": 3.0565
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/04/2025",
+    "open": 2.94,
+    "high": 2.94,
+    "low": 2.783,
+    "close": 2.8815
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/04/2025",
+    "open": 2.911,
+    "high": 2.971,
+    "low": 2.869,
+    "close": 2.927
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/04/2025",
+    "open": 2.924,
+    "high": 2.993,
+    "low": 2.88,
+    "close": 2.9215
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
     "date": "01/04/2025",
     "open": 2.984,
     "high": 2.984,
     "low": 2.901,
     "close": 2.9275
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "31/03/2025",
+    "open": 2.973,
+    "high": 3.01,
+    "low": 2.959,
+    "close": 2.9665
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/03/2025",
+    "open": 3.058,
+    "high": 3.11,
+    "low": 3.002,
+    "close": 3.007
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/03/2025",
+    "open": 3.142,
+    "high": 3.161,
+    "low": 3.084,
+    "close": 3.0945
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/03/2025",
+    "open": 3.09,
+    "high": 3.142,
+    "low": 3.087,
+    "close": 3.1305
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/03/2025",
+    "open": 3.078,
+    "high": 3.095,
+    "low": 3.022,
+    "close": 3.0775
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/03/2025",
+    "open": 3.027,
+    "high": 3.075,
+    "low": 3.01,
+    "close": 3.0615
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/03/2025",
+    "open": 3.001,
+    "high": 3.037,
+    "low": 2.961,
+    "close": 2.9945
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/03/2025",
+    "open": 3.019,
+    "high": 3.023,
+    "low": 2.932,
+    "close": 3.006
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/03/2025",
+    "open": 3.038,
+    "high": 3.078,
+    "low": 2.985,
+    "close": 3.0
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/03/2025",
+    "open": 3.027,
+    "high": 3.11,
+    "low": 3.011,
+    "close": 3.0215
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/03/2025",
+    "open": 3.003,
+    "high": 3.038,
+    "low": 2.964,
+    "close": 3.011
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/03/2025",
+    "open": 3.066,
+    "high": 3.106,
+    "low": 3.031,
+    "close": 3.064
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/03/2025",
+    "open": 3.087,
+    "high": 3.136,
+    "low": 3.024,
+    "close": 3.049
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/03/2025",
+    "open": 3.025,
+    "high": 3.096,
+    "low": 2.984,
+    "close": 3.0705
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/03/2025",
+    "open": 3.005,
+    "high": 3.035,
+    "low": 2.927,
+    "close": 3.006
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/03/2025",
+    "open": 2.963,
+    "high": 3.004,
+    "low": 2.943,
+    "close": 2.984
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/03/2025",
+    "open": 3.072,
+    "high": 3.072,
+    "low": 2.993,
+    "close": 3.031
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/03/2025",
+    "open": 2.986,
+    "high": 3.089,
+    "low": 2.966,
+    "close": 3.067
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/03/2025",
+    "open": 2.963,
+    "high": 2.988,
+    "low": 2.877,
+    "close": 2.969
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/03/2025",
+    "open": 2.846,
+    "high": 2.956,
+    "low": 2.796,
+    "close": 2.938
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/03/2025",
+    "open": 2.959,
+    "high": 2.978,
+    "low": 2.813,
+    "close": 2.8315
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/02/2025",
+    "open": 2.985,
+    "high": 2.988,
+    "low": 2.8975,
+    "close": 2.8975
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/02/2025",
+    "open": 2.997,
+    "high": 3.061,
+    "low": 2.958,
+    "close": 2.9645
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/02/2025",
+    "open": 3.011,
+    "high": 3.028,
+    "low": 2.973,
+    "close": 2.9795
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/02/2025",
+    "open": 3.089,
+    "high": 3.089,
+    "low": 2.979,
+    "close": 2.992
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/02/2025",
+    "open": 3.132,
+    "high": 3.154,
+    "low": 3.07,
+    "close": 3.071
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/02/2025",
+    "open": 3.225,
+    "high": 3.225,
+    "low": 3.087,
+    "close": 3.105
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/02/2025",
+    "open": 3.19,
+    "high": 3.229,
+    "low": 3.178,
+    "close": 3.2085
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/02/2025",
+    "open": 3.207,
+    "high": 3.241,
+    "low": 3.175,
+    "close": 3.175
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/02/2025",
+    "open": 3.12,
+    "high": 3.214,
+    "low": 3.12,
+    "close": 3.1895
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/02/2025",
+    "open": 2.69187,
+    "high": 2.70527,
+    "low": 2.69041,
+    "close": 2.69806
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/02/2025",
+    "open": 3.148,
+    "high": 3.156,
+    "low": 3.074,
+    "close": 3.1035
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/02/2025",
+    "open": 3.198,
+    "high": 3.198,
+    "low": 3.076,
+    "close": 3.115
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/02/2025",
+    "open": 3.116,
+    "high": 3.195,
+    "low": 3.109,
+    "close": 3.177
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/02/2025",
+    "open": 3.079,
+    "high": 3.116,
+    "low": 3.078,
+    "close": 3.096
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/02/2025",
+    "open": 3.065,
+    "high": 3.079,
+    "low": 3.016,
+    "close": 3.062
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/02/2025",
+    "open": 2.976,
+    "high": 3.092,
+    "low": 2.944,
+    "close": 3.076
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/02/2025",
+    "open": 2.967,
+    "high": 3.017,
+    "low": 2.956,
+    "close": 2.9595
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/02/2025",
+    "open": 3.03,
+    "high": 3.03,
+    "low": 2.939,
+    "close": 2.949
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/02/2025",
+    "open": 3.086,
+    "high": 3.136,
+    "low": 2.997,
+    "close": 3.012
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/02/2025",
+    "open": 2.949,
+    "high": 3.016,
+    "low": 2.879,
+    "close": 3.0135
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "31/01/2025",
+    "open": 3.137,
+    "high": 3.144,
+    "low": 3.062,
+    "close": 3.063
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/01/2025",
+    "open": 3.193,
+    "high": 3.193,
+    "low": 3.11,
+    "close": 3.12
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/01/2025",
+    "open": 3.217,
+    "high": 3.219,
+    "low": 3.16,
+    "close": 3.171
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/01/2025",
+    "open": 3.212,
+    "high": 3.249,
+    "low": 3.196,
+    "close": 3.199
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/01/2025",
+    "open": 3.194,
+    "high": 3.235,
+    "low": 3.194,
+    "close": 3.1965
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/01/2025",
+    "open": 2.79769,
+    "high": 2.79944,
+    "low": 2.77244,
+    "close": 2.77694
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/01/2025",
+    "open": 2.80177,
+    "high": 2.80792,
+    "low": 2.78303,
+    "close": 2.79767
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/01/2025",
+    "open": 2.76984,
+    "high": 2.77381,
+    "low": 2.75718,
+    "close": 2.76419
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/01/2025",
+    "open": 2.77273,
+    "high": 2.78657,
+    "low": 2.75933,
+    "close": 2.78546
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/01/2025",
+    "open": 2.78123,
+    "high": 2.78151,
+    "low": 2.75218,
+    "close": 2.76356
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/01/2025",
+    "open": 2.79746,
+    "high": 2.81849,
+    "low": 2.78411,
+    "close": 2.80523
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/01/2025",
+    "open": 2.79689,
+    "high": 2.8086,
+    "low": 2.75498,
+    "close": 2.76981
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/01/2025",
+    "open": 2.77761,
+    "high": 2.78169,
+    "low": 2.76822,
+    "close": 2.78147
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/01/2025",
+    "open": 2.76301,
+    "high": 2.76623,
+    "low": 2.75096,
+    "close": 2.75852
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/01/2025",
+    "open": 2.7643,
+    "high": 2.77114,
+    "low": 2.73654,
+    "close": 2.74557
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/01/2025",
+    "open": 2.79116,
+    "high": 2.7997,
+    "low": 2.78715,
+    "close": 2.79614
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/01/2025",
+    "open": 2.7754,
+    "high": 2.79637,
+    "low": 2.76047,
+    "close": 2.7818
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/01/2025",
+    "open": 2.78651,
+    "high": 2.80143,
+    "low": 2.77652,
+    "close": 2.78616
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/01/2025",
+    "open": 2.81225,
+    "high": 2.82545,
+    "low": 2.80819,
+    "close": 2.82526
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/01/2025",
+    "open": 2.8357,
+    "high": 2.85063,
+    "low": 2.8223,
+    "close": 2.82535
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/01/2025",
+    "open": 2.84461,
+    "high": 2.84535,
+    "low": 2.83102,
+    "close": 2.83863
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/01/2025",
+    "open": 2.85565,
+    "high": 2.86377,
+    "low": 2.85513,
+    "close": 2.85651
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/01/2025",
+    "open": 2.88833,
+    "high": 2.89148,
+    "low": 2.88265,
+    "close": 2.88405
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "31/12/2024",
+    "open": 2.8895,
+    "high": 2.91652,
+    "low": 2.88239,
+    "close": 2.90442
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/12/2024",
+    "open": 2.91274,
+    "high": 2.91433,
+    "low": 2.90239,
+    "close": 2.90345
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/12/2024",
+    "open": 2.9158,
+    "high": 2.94335,
+    "low": 2.90364,
+    "close": 2.93221
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/12/2024",
+    "open": 2.93142,
+    "high": 2.93981,
+    "low": 2.91421,
+    "close": 2.91738
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/12/2024",
+    "open": 2.90889,
+    "high": 2.92376,
+    "low": 2.89838,
+    "close": 2.90999
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/12/2024",
+    "open": 2.9206,
+    "high": 2.92885,
+    "low": 2.90766,
+    "close": 2.91939
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/12/2024",
+    "open": 2.91804,
+    "high": 2.9385,
+    "low": 2.9069,
+    "close": 2.93777
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/12/2024",
+    "open": 2.92489,
+    "high": 2.93093,
+    "low": 2.92475,
+    "close": 2.92859
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/12/2024",
+    "open": 2.93847,
+    "high": 2.95011,
+    "low": 2.93718,
+    "close": 2.93793
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/12/2024",
+    "open": 2.97857,
+    "high": 2.97905,
+    "low": 2.94368,
+    "close": 2.95456
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/12/2024",
+    "open": 2.94381,
+    "high": 2.94845,
+    "low": 2.93906,
+    "close": 2.94303
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/12/2024",
+    "open": 2.94477,
+    "high": 2.95261,
+    "low": 2.9416,
+    "close": 2.94288
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/12/2024",
+    "open": 2.89231,
+    "high": 2.89705,
+    "low": 2.87816,
+    "close": 2.89703
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/12/2024",
+    "open": 2.88406,
+    "high": 2.89453,
+    "low": 2.87837,
+    "close": 2.8881
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/12/2024",
+    "open": 2.92592,
+    "high": 2.93563,
+    "low": 2.91909,
+    "close": 2.92491
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/12/2024",
+    "open": 2.92179,
+    "high": 2.92874,
+    "low": 2.89947,
+    "close": 2.91198
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/12/2024",
+    "open": 2.9115,
+    "high": 2.91496,
+    "low": 2.89863,
+    "close": 2.91303
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/12/2024",
+    "open": 2.92287,
+    "high": 2.93643,
+    "low": 2.91982,
+    "close": 2.9212
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/12/2024",
+    "open": 2.91675,
+    "high": 2.92751,
+    "low": 2.90145,
+    "close": 2.91511
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/12/2024",
+    "open": 2.93069,
+    "high": 2.96312,
+    "low": 2.91887,
+    "close": 2.95213
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/12/2024",
+    "open": 2.962,
+    "high": 2.96572,
+    "low": 2.94899,
+    "close": 2.95488
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/12/2024",
+    "open": 2.93565,
+    "high": 2.95921,
+    "low": 2.93044,
+    "close": 2.94602
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/11/2024",
+    "open": 2.96863,
+    "high": 2.97561,
+    "low": 2.95778,
+    "close": 2.95987
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/11/2024",
+    "open": 2.947,
+    "high": 2.95944,
+    "low": 2.93208,
+    "close": 2.95517
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/11/2024",
+    "open": 2.95543,
+    "high": 2.97888,
+    "low": 2.94242,
+    "close": 2.97661
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/11/2024",
+    "open": 2.99353,
+    "high": 2.99773,
+    "low": 2.9866,
+    "close": 2.9953
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/11/2024",
+    "open": 2.98701,
+    "high": 3.00371,
+    "low": 2.97542,
+    "close": 3.00039
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/11/2024",
+    "open": 3.0048,
+    "high": 3.022,
+    "low": 3.00174,
+    "close": 3.01789
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/11/2024",
+    "open": 2.9908,
+    "high": 2.99767,
+    "low": 2.98717,
+    "close": 2.9875
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/11/2024",
+    "open": 2.99568,
+    "high": 3.01573,
+    "low": 2.98912,
+    "close": 3.00319
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/11/2024",
+    "open": 3.02456,
+    "high": 3.03157,
+    "low": 3.01148,
+    "close": 3.02449
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/11/2024",
+    "open": 3.04325,
+    "high": 3.06389,
+    "low": 3.02926,
+    "close": 3.04956
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/11/2024",
+    "open": 3.03384,
+    "high": 3.04061,
+    "low": 2.99768,
+    "close": 3.00865
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/11/2024",
+    "open": 3.00949,
+    "high": 3.0194,
+    "low": 3.0089,
+    "close": 3.00974
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/11/2024",
+    "open": 3.00592,
+    "high": 3.03114,
+    "low": 3.00408,
+    "close": 3.02161
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/11/2024",
+    "open": 3.02385,
+    "high": 3.03349,
+    "low": 3.00598,
+    "close": 3.00812
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/11/2024",
+    "open": 2.99335,
+    "high": 3.00939,
+    "low": 2.99333,
+    "close": 2.99581
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/11/2024",
+    "open": 3.01678,
+    "high": 3.02034,
+    "low": 3.01337,
+    "close": 3.01457
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/11/2024",
+    "open": 2.98086,
+    "high": 3.0074,
+    "low": 2.97125,
+    "close": 3.0065
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/11/2024",
+    "open": 3.01708,
+    "high": 3.04228,
+    "low": 3.01557,
+    "close": 3.03115
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/11/2024",
+    "open": 3.01781,
+    "high": 3.03059,
+    "low": 2.98681,
+    "close": 2.99109
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/11/2024",
+    "open": 3.00411,
+    "high": 3.01342,
+    "low": 2.98096,
+    "close": 2.9822
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/11/2024",
+    "open": 3.02498,
+    "high": 3.03617,
+    "low": 3.01503,
+    "close": 3.01568
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "31/10/2024",
+    "open": 3.01615,
+    "high": 3.02967,
+    "low": 2.99365,
+    "close": 3.00237
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/10/2024",
+    "open": 2.994,
+    "high": 3.00689,
+    "low": 2.99276,
+    "close": 2.99551
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/10/2024",
+    "open": 3.00673,
+    "high": 3.00969,
+    "low": 2.98018,
+    "close": 2.98277
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/10/2024",
+    "open": 2.99967,
+    "high": 3.01452,
+    "low": 2.9903,
+    "close": 2.99461
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/10/2024",
+    "open": 3.02688,
+    "high": 3.03026,
+    "low": 3.01395,
+    "close": 3.025
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/10/2024",
+    "open": 3.06092,
+    "high": 3.06901,
+    "low": 3.03075,
+    "close": 3.04342
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/10/2024",
+    "open": 3.04762,
+    "high": 3.06247,
+    "low": 3.0329,
+    "close": 3.05099
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/10/2024",
+    "open": 3.06566,
+    "high": 3.09774,
+    "low": 3.06394,
+    "close": 3.0871
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/10/2024",
+    "open": 3.08261,
+    "high": 3.08693,
+    "low": 3.05603,
+    "close": 3.06513
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/10/2024",
+    "open": 3.07074,
+    "high": 3.07535,
+    "low": 3.05764,
+    "close": 3.07424
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/10/2024",
+    "open": 3.09176,
+    "high": 3.10203,
+    "low": 3.07744,
+    "close": 3.08836
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/10/2024",
+    "open": 3.08217,
+    "high": 3.08408,
+    "low": 3.0682,
+    "close": 3.08035
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/10/2024",
+    "open": 3.10204,
+    "high": 3.104,
+    "low": 3.07452,
+    "close": 3.07608
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/10/2024",
+    "open": 3.09513,
+    "high": 3.10097,
+    "low": 3.08909,
+    "close": 3.09559
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/10/2024",
+    "open": 3.07794,
+    "high": 3.09178,
+    "low": 3.05531,
+    "close": 3.06474
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/10/2024",
+    "open": 3.08767,
+    "high": 3.08893,
+    "low": 3.06542,
+    "close": 3.07303
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/10/2024",
+    "open": 3.10852,
+    "high": 3.11505,
+    "low": 3.10577,
+    "close": 3.10652
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/10/2024",
+    "open": 3.12042,
+    "high": 3.12919,
+    "low": 3.10622,
+    "close": 3.12366
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/10/2024",
+    "open": 3.13038,
+    "high": 3.13174,
+    "low": 3.12939,
+    "close": 3.13137
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/10/2024",
+    "open": 3.1634,
+    "high": 3.1727,
+    "low": 3.14443,
+    "close": 3.15671
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/10/2024",
+    "open": 3.12866,
+    "high": 3.13787,
+    "low": 3.12826,
+    "close": 3.13052
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/10/2024",
+    "open": 3.11151,
+    "high": 3.12673,
+    "low": 3.09934,
+    "close": 3.11779
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/10/2024",
+    "open": 3.12411,
+    "high": 3.12876,
+    "low": 3.10384,
+    "close": 3.10792
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/09/2024",
+    "open": 3.09999,
+    "high": 3.11612,
+    "low": 3.0901,
+    "close": 3.10634
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/09/2024",
+    "open": 3.08977,
+    "high": 3.11508,
+    "low": 3.07536,
+    "close": 3.10119
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/09/2024",
+    "open": 3.12602,
+    "high": 3.13286,
+    "low": 3.11664,
+    "close": 3.1229
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/09/2024",
+    "open": 3.14644,
+    "high": 3.15876,
+    "low": 3.1239,
+    "close": 3.13264
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/09/2024",
+    "open": 3.16205,
+    "high": 3.17567,
+    "low": 3.14975,
+    "close": 3.14987
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/09/2024",
+    "open": 3.17478,
+    "high": 3.18654,
+    "low": 3.14597,
+    "close": 3.15149
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/09/2024",
+    "open": 3.16678,
+    "high": 3.19312,
+    "low": 3.16457,
+    "close": 3.18263
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/09/2024",
+    "open": 3.21343,
+    "high": 3.21724,
+    "low": 3.20942,
+    "close": 3.21511
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/09/2024",
+    "open": 3.22278,
+    "high": 3.24872,
+    "low": 3.20852,
+    "close": 3.2406
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/09/2024",
+    "open": 3.22543,
+    "high": 3.24184,
+    "low": 3.2135,
+    "close": 3.23457
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/09/2024",
+    "open": 3.21625,
+    "high": 3.22653,
+    "low": 3.20621,
+    "close": 3.2073
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/09/2024",
+    "open": 3.20262,
+    "high": 3.21118,
+    "low": 3.18708,
+    "close": 3.20148
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/09/2024",
+    "open": 3.22371,
+    "high": 3.2239,
+    "low": 3.21274,
+    "close": 3.21922
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/09/2024",
+    "open": 3.20244,
+    "high": 3.21007,
+    "low": 3.19089,
+    "close": 3.20724
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/09/2024",
+    "open": 3.17783,
+    "high": 3.20734,
+    "low": 3.17236,
+    "close": 3.19309
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/09/2024",
+    "open": 3.19124,
+    "high": 3.19519,
+    "low": 3.17216,
+    "close": 3.17645
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/09/2024",
+    "open": 3.22006,
+    "high": 3.22732,
+    "low": 3.20401,
+    "close": 3.20405
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/09/2024",
+    "open": 3.19084,
+    "high": 3.19286,
+    "low": 3.17832,
+    "close": 3.19115
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/09/2024",
+    "open": 3.14845,
+    "high": 3.17752,
+    "low": 3.14191,
+    "close": 3.16845
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/09/2024",
+    "open": 3.17182,
+    "high": 3.1786,
+    "low": 3.16332,
+    "close": 3.17438
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/09/2024",
+    "open": 3.19163,
+    "high": 3.20474,
+    "low": 3.18966,
+    "close": 3.19364
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/08/2024",
+    "open": 3.17822,
+    "high": 3.18405,
+    "low": 3.17168,
+    "close": 3.17409
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/08/2024",
+    "open": 3.16261,
+    "high": 3.17762,
+    "low": 3.15152,
+    "close": 3.17001
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/08/2024",
+    "open": 3.18057,
+    "high": 3.18442,
+    "low": 3.16203,
+    "close": 3.16752
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/08/2024",
+    "open": 3.13982,
+    "high": 3.16813,
+    "low": 3.13857,
+    "close": 3.15511
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/08/2024",
+    "open": 3.15816,
+    "high": 3.17662,
+    "low": 3.14328,
+    "close": 3.17331
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/08/2024",
+    "open": 3.182,
+    "high": 3.19748,
+    "low": 3.17126,
+    "close": 3.18713
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/08/2024",
+    "open": 3.21215,
+    "high": 3.21945,
+    "low": 3.20214,
+    "close": 3.20395
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/08/2024",
+    "open": 3.2103,
+    "high": 3.21988,
+    "low": 3.1993,
+    "close": 3.19941
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/08/2024",
+    "open": 3.20832,
+    "high": 3.22369,
+    "low": 3.20718,
+    "close": 3.21151
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/08/2024",
+    "open": 3.20149,
+    "high": 3.21015,
+    "low": 3.17738,
+    "close": 3.1859
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/08/2024",
+    "open": 3.19847,
+    "high": 3.20017,
+    "low": 3.17067,
+    "close": 3.18113
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/08/2024",
+    "open": 3.19138,
+    "high": 3.21223,
+    "low": 3.18719,
+    "close": 3.20154
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/08/2024",
+    "open": 3.2256,
+    "high": 3.25153,
+    "low": 3.22058,
+    "close": 3.24086
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/08/2024",
+    "open": 3.23786,
+    "high": 3.25248,
+    "low": 3.23293,
+    "close": 3.23374
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/08/2024",
+    "open": 3.19547,
+    "high": 3.20404,
+    "low": 3.18574,
+    "close": 3.19638
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/08/2024",
+    "open": 3.18657,
+    "high": 3.19519,
+    "low": 3.18041,
+    "close": 3.1892
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/08/2024",
+    "open": 3.18713,
+    "high": 3.1968,
+    "low": 3.16784,
+    "close": 3.17346
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/08/2024",
+    "open": 3.1387,
+    "high": 3.14956,
+    "low": 3.12475,
+    "close": 3.13823
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/08/2024",
+    "open": 3.18377,
+    "high": 3.18778,
+    "low": 3.16858,
+    "close": 3.1754
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/08/2024",
+    "open": 3.18543,
+    "high": 3.19176,
+    "low": 3.1532,
+    "close": 3.16755
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/08/2024",
+    "open": 3.17902,
+    "high": 3.19677,
+    "low": 3.16775,
+    "close": 3.18536
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/08/2024",
+    "open": 3.18262,
+    "high": 3.18463,
+    "low": 3.16149,
+    "close": 3.17256
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "31/07/2024",
+    "open": 3.16382,
+    "high": 3.16388,
+    "low": 3.13486,
+    "close": 3.1379
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/07/2024",
+    "open": 3.17137,
+    "high": 3.17664,
+    "low": 3.1684,
+    "close": 3.1692
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/07/2024",
+    "open": 3.17598,
+    "high": 3.18461,
+    "low": 3.16836,
+    "close": 3.17253
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/07/2024",
+    "open": 3.18003,
+    "high": 3.18911,
+    "low": 3.17503,
+    "close": 3.1796
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/07/2024",
+    "open": 3.19845,
+    "high": 3.21829,
+    "low": 3.18981,
+    "close": 3.20772
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/07/2024",
+    "open": 3.23616,
+    "high": 3.2511,
+    "low": 3.22223,
+    "close": 3.22799
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/07/2024",
+    "open": 3.27818,
+    "high": 3.29147,
+    "low": 3.26387,
+    "close": 3.27852
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/07/2024",
+    "open": 3.25019,
+    "high": 3.25973,
+    "low": 3.23659,
+    "close": 3.2444
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/07/2024",
+    "open": 3.25536,
+    "high": 3.26484,
+    "low": 3.24133,
+    "close": 3.25038
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/07/2024",
+    "open": 3.21254,
+    "high": 3.2205,
+    "low": 3.20121,
+    "close": 3.20794
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/07/2024",
+    "open": 3.25933,
+    "high": 3.27068,
+    "low": 3.23814,
+    "close": 3.25016
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/07/2024",
+    "open": 3.27753,
+    "high": 3.29711,
+    "low": 3.27451,
+    "close": 3.29025
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/07/2024",
+    "open": 3.3096,
+    "high": 3.32538,
+    "low": 3.30946,
+    "close": 3.31434
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/07/2024",
+    "open": 3.28725,
+    "high": 3.29317,
+    "low": 3.27866,
+    "close": 3.28436
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/07/2024",
+    "open": 3.24062,
+    "high": 3.24919,
+    "low": 3.23975,
+    "close": 3.24012
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/07/2024",
+    "open": 3.29139,
+    "high": 3.29173,
+    "low": 3.27601,
+    "close": 3.2836
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/07/2024",
+    "open": 3.2454,
+    "high": 3.25857,
+    "low": 3.23572,
+    "close": 3.25813
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/07/2024",
+    "open": 3.26984,
+    "high": 3.28477,
+    "low": 3.25739,
+    "close": 3.25808
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/07/2024",
+    "open": 3.28305,
+    "high": 3.29259,
+    "low": 3.26491,
+    "close": 3.26929
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/07/2024",
+    "open": 3.24386,
+    "high": 3.25187,
+    "low": 3.23571,
+    "close": 3.25137
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/07/2024",
+    "open": 3.236,
+    "high": 3.25487,
+    "low": 3.23483,
+    "close": 3.24209
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/07/2024",
+    "open": 3.2417,
+    "high": 3.26415,
+    "low": 3.24015,
+    "close": 3.24968
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/07/2024",
+    "open": 3.22901,
+    "high": 3.25679,
+    "low": 3.22218,
+    "close": 3.24359
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/06/2024",
+    "open": 3.23526,
+    "high": 3.23937,
+    "low": 3.21589,
+    "close": 3.2218
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/06/2024",
+    "open": 3.20117,
+    "high": 3.22551,
+    "low": 3.19332,
+    "close": 3.21573
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/06/2024",
+    "open": 3.19899,
+    "high": 3.21221,
+    "low": 3.19652,
+    "close": 3.20702
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/06/2024",
+    "open": 3.17436,
+    "high": 3.17658,
+    "low": 3.16518,
+    "close": 3.16915
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/06/2024",
+    "open": 3.21608,
+    "high": 3.22352,
+    "low": 3.21532,
+    "close": 3.2218
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/06/2024",
+    "open": 3.22447,
+    "high": 3.22648,
+    "low": 3.19861,
+    "close": 3.20484
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/06/2024",
+    "open": 3.21486,
+    "high": 3.22077,
+    "low": 3.19176,
+    "close": 3.20128
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/06/2024",
+    "open": 3.21412,
+    "high": 3.22899,
+    "low": 3.20723,
+    "close": 3.22731
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/06/2024",
+    "open": 3.22924,
+    "high": 3.23455,
+    "low": 3.20694,
+    "close": 3.20902
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/06/2024",
+    "open": 3.18895,
+    "high": 3.21866,
+    "low": 3.18246,
+    "close": 3.21273
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/06/2024",
+    "open": 3.22296,
+    "high": 3.2236,
+    "low": 3.18564,
+    "close": 3.19771
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/06/2024",
+    "open": 3.25553,
+    "high": 3.26424,
+    "low": 3.21904,
+    "close": 3.22755
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/06/2024",
+    "open": 3.26399,
+    "high": 3.2747,
+    "low": 3.25522,
+    "close": 3.2571
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/06/2024",
+    "open": 3.29534,
+    "high": 3.30253,
+    "low": 3.28306,
+    "close": 3.29618
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/06/2024",
+    "open": 3.2737,
+    "high": 3.28086,
+    "low": 3.25078,
+    "close": 3.25171
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/06/2024",
+    "open": 3.24521,
+    "high": 3.2556,
+    "low": 3.23462,
+    "close": 3.25466
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/06/2024",
+    "open": 3.24941,
+    "high": 3.25526,
+    "low": 3.21427,
+    "close": 3.22652
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/06/2024",
+    "open": 3.19837,
+    "high": 3.22066,
+    "low": 3.18378,
+    "close": 3.20826
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/06/2024",
+    "open": 3.2139,
+    "high": 3.21885,
+    "low": 3.19288,
+    "close": 3.20303
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/06/2024",
+    "open": 3.21478,
+    "high": 3.22673,
+    "low": 3.17613,
+    "close": 3.19086
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "31/05/2024",
+    "open": 3.18853,
+    "high": 3.21422,
+    "low": 3.17941,
+    "close": 3.20704
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/05/2024",
+    "open": 3.22455,
+    "high": 3.23717,
+    "low": 3.21443,
+    "close": 3.22251
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/05/2024",
+    "open": 3.2039,
+    "high": 3.22212,
+    "low": 3.18901,
+    "close": 3.22013
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/05/2024",
+    "open": 3.22597,
+    "high": 3.25274,
+    "low": 3.21394,
+    "close": 3.24214
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/05/2024",
+    "open": 3.24912,
+    "high": 3.28458,
+    "low": 3.2475,
+    "close": 3.27355
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/05/2024",
+    "open": 3.26728,
+    "high": 3.28835,
+    "low": 3.26178,
+    "close": 3.27786
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/05/2024",
+    "open": 3.30637,
+    "high": 3.31385,
+    "low": 3.29628,
+    "close": 3.31036
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/05/2024",
+    "open": 3.2728,
+    "high": 3.3022,
+    "low": 3.26866,
+    "close": 3.29441
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/05/2024",
+    "open": 3.2524,
+    "high": 3.27642,
+    "low": 3.23888,
+    "close": 3.2749
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/05/2024",
+    "open": 3.25898,
+    "high": 3.26615,
+    "low": 3.22118,
+    "close": 3.23575
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/05/2024",
+    "open": 3.22701,
+    "high": 3.23025,
+    "low": 3.21095,
+    "close": 3.22561
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/05/2024",
+    "open": 3.25006,
+    "high": 3.2622,
+    "low": 3.22663,
+    "close": 3.23686
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/05/2024",
+    "open": 3.24092,
+    "high": 3.26516,
+    "low": 3.22828,
+    "close": 3.26248
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/05/2024",
+    "open": 3.21348,
+    "high": 3.24319,
+    "low": 3.2016,
+    "close": 3.23281
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/05/2024",
+    "open": 3.22871,
+    "high": 3.2308,
+    "low": 3.19987,
+    "close": 3.21049
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/05/2024",
+    "open": 3.23519,
+    "high": 3.24591,
+    "low": 3.2298,
+    "close": 3.23029
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/05/2024",
+    "open": 3.2592,
+    "high": 3.26626,
+    "low": 3.24613,
+    "close": 3.25286
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/05/2024",
+    "open": 3.28654,
+    "high": 3.29717,
+    "low": 3.26418,
+    "close": 3.27851
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/05/2024",
+    "open": 3.29833,
+    "high": 3.29942,
+    "low": 3.29287,
+    "close": 3.29845
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/05/2024",
+    "open": 3.33562,
+    "high": 3.33928,
+    "low": 3.31605,
+    "close": 3.3296
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/05/2024",
+    "open": 3.35126,
+    "high": 3.36972,
+    "low": 3.34549,
+    "close": 3.36203
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/05/2024",
+    "open": 3.34226,
+    "high": 3.35143,
+    "low": 3.30732,
+    "close": 3.31561
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/05/2024",
+    "open": 3.34353,
+    "high": 3.37635,
+    "low": 3.34333,
+    "close": 3.36912
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/04/2024",
+    "open": 3.36717,
+    "high": 3.36912,
+    "low": 3.35141,
+    "close": 3.35559
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/04/2024",
+    "open": 3.35062,
+    "high": 3.36249,
+    "low": 3.33626,
+    "close": 3.33779
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/04/2024",
+    "open": 3.33704,
+    "high": 3.33838,
+    "low": 3.33196,
+    "close": 3.33528
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/04/2024",
+    "open": 3.298,
+    "high": 3.31787,
+    "low": 3.29542,
+    "close": 3.30995
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/04/2024",
+    "open": 3.28585,
+    "high": 3.29169,
+    "low": 3.28138,
+    "close": 3.29107
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/04/2024",
+    "open": 3.29219,
+    "high": 3.32229,
+    "low": 3.29191,
+    "close": 3.30906
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/04/2024",
+    "open": 3.31049,
+    "high": 3.32034,
+    "low": 3.29809,
+    "close": 3.30523
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/04/2024",
+    "open": 3.33826,
+    "high": 3.35272,
+    "low": 3.3316,
+    "close": 3.34074
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/04/2024",
+    "open": 3.31784,
+    "high": 3.31923,
+    "low": 3.28599,
+    "close": 3.2942
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/04/2024",
+    "open": 3.30971,
+    "high": 3.31534,
+    "low": 3.29159,
+    "close": 3.30508
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/04/2024",
+    "open": 3.32789,
+    "high": 3.34673,
+    "low": 3.3258,
+    "close": 3.3337
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/04/2024",
+    "open": 3.29966,
+    "high": 3.3253,
+    "low": 3.28934,
+    "close": 3.3139
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/04/2024",
+    "open": 3.32453,
+    "high": 3.32813,
+    "low": 3.29872,
+    "close": 3.306
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/04/2024",
+    "open": 3.32649,
+    "high": 3.34721,
+    "low": 3.31987,
+    "close": 3.3363
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/04/2024",
+    "open": 3.33657,
+    "high": 3.34853,
+    "low": 3.33191,
+    "close": 3.33202
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/04/2024",
+    "open": 3.32552,
+    "high": 3.32563,
+    "low": 3.30181,
+    "close": 3.3151
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/04/2024",
+    "open": 3.333,
+    "high": 3.35338,
+    "low": 3.31977,
+    "close": 3.3387
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/04/2024",
+    "open": 3.34433,
+    "high": 3.3499,
+    "low": 3.31585,
+    "close": 3.32832
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/04/2024",
+    "open": 3.30601,
+    "high": 3.31603,
+    "low": 3.29236,
+    "close": 3.30447
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/04/2024",
+    "open": 3.33827,
+    "high": 3.35873,
+    "low": 3.33635,
+    "close": 3.34376
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/04/2024",
+    "open": 3.31562,
+    "high": 3.3256,
+    "low": 3.30079,
+    "close": 3.31409
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/04/2024",
+    "open": 3.33184,
+    "high": 3.33565,
+    "low": 3.31414,
+    "close": 3.32913
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/03/2024",
+    "open": 3.36007,
+    "high": 3.36179,
+    "low": 3.33224,
+    "close": 3.33712
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/03/2024",
+    "open": 3.38116,
+    "high": 3.3912,
+    "low": 3.37599,
+    "close": 3.38133
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/03/2024",
+    "open": 3.38445,
+    "high": 3.3876,
+    "low": 3.37062,
+    "close": 3.38736
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/03/2024",
+    "open": 3.37184,
+    "high": 3.3933,
+    "low": 3.37125,
+    "close": 3.37833
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/03/2024",
+    "open": 3.38669,
+    "high": 3.40503,
+    "low": 3.38248,
+    "close": 3.39113
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/03/2024",
+    "open": 3.37458,
+    "high": 3.38744,
+    "low": 3.36545,
+    "close": 3.36918
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/03/2024",
+    "open": 3.33496,
+    "high": 3.35644,
+    "low": 3.33107,
+    "close": 3.35056
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/03/2024",
+    "open": 3.36021,
+    "high": 3.37564,
+    "low": 3.35668,
+    "close": 3.36722
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/03/2024",
+    "open": 3.35183,
+    "high": 3.36388,
+    "low": 3.33205,
+    "close": 3.33897
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/03/2024",
+    "open": 3.3293,
+    "high": 3.34983,
+    "low": 3.32488,
+    "close": 3.34004
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/03/2024",
+    "open": 3.37871,
+    "high": 3.39284,
+    "low": 3.36097,
+    "close": 3.37464
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/03/2024",
+    "open": 3.35651,
+    "high": 3.36518,
+    "low": 3.35455,
+    "close": 3.35524
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/03/2024",
+    "open": 3.38095,
+    "high": 3.38779,
+    "low": 3.35937,
+    "close": 3.36841
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/03/2024",
+    "open": 3.37748,
+    "high": 3.38202,
+    "low": 3.3464,
+    "close": 3.35739
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/03/2024",
+    "open": 3.38932,
+    "high": 3.405,
+    "low": 3.38751,
+    "close": 3.39992
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/03/2024",
+    "open": 3.34993,
+    "high": 3.36609,
+    "low": 3.34527,
+    "close": 3.36243
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/03/2024",
+    "open": 3.37917,
+    "high": 3.38207,
+    "low": 3.3672,
+    "close": 3.37642
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/03/2024",
+    "open": 3.37266,
+    "high": 3.37944,
+    "low": 3.37152,
+    "close": 3.37525
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/03/2024",
+    "open": 3.39488,
+    "high": 3.4111,
+    "low": 3.38349,
+    "close": 3.40381
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/03/2024",
+    "open": 3.39238,
+    "high": 3.40698,
+    "low": 3.37741,
+    "close": 3.39996
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/03/2024",
+    "open": 3.40659,
+    "high": 3.43361,
+    "low": 3.39422,
+    "close": 3.42853
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/02/2024",
+    "open": 3.43069,
+    "high": 3.43123,
+    "low": 3.40657,
+    "close": 3.41941
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "28/02/2024",
+    "open": 3.42635,
+    "high": 3.43041,
+    "low": 3.40821,
+    "close": 3.42001
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "27/02/2024",
+    "open": 3.40686,
+    "high": 3.41334,
+    "low": 3.38719,
+    "close": 3.40138
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/02/2024",
+    "open": 3.3794,
+    "high": 3.40905,
+    "low": 3.37841,
+    "close": 3.40375
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/02/2024",
+    "open": 3.39646,
+    "high": 3.40637,
+    "low": 3.38142,
+    "close": 3.38881
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/02/2024",
+    "open": 3.41267,
+    "high": 3.42781,
+    "low": 3.41192,
+    "close": 3.41876
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "21/02/2024",
+    "open": 3.39052,
+    "high": 3.41094,
+    "low": 3.38633,
+    "close": 3.39928
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "20/02/2024",
+    "open": 3.41838,
+    "high": 3.43705,
+    "low": 3.41272,
+    "close": 3.42505
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/02/2024",
+    "open": 3.38568,
+    "high": 3.39203,
+    "low": 3.37449,
+    "close": 3.38219
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/02/2024",
+    "open": 3.37875,
+    "high": 3.38389,
+    "low": 3.35996,
+    "close": 3.36735
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/02/2024",
+    "open": 3.36173,
+    "high": 3.39144,
+    "low": 3.34695,
+    "close": 3.37809
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "14/02/2024",
+    "open": 3.35446,
+    "high": 3.37352,
+    "low": 3.35178,
+    "close": 3.3697
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "13/02/2024",
+    "open": 3.34793,
+    "high": 3.36054,
+    "low": 3.3349,
+    "close": 3.33775
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/02/2024",
+    "open": 3.37065,
+    "high": 3.38936,
+    "low": 3.36852,
+    "close": 3.37602
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/02/2024",
+    "open": 3.37542,
+    "high": 3.38335,
+    "low": 3.35585,
+    "close": 3.36987
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/02/2024",
+    "open": 3.36877,
+    "high": 3.39037,
+    "low": 3.35606,
+    "close": 3.38412
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "07/02/2024",
+    "open": 3.38437,
+    "high": 3.3923,
+    "low": 3.36876,
+    "close": 3.37729
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/02/2024",
+    "open": 3.35503,
+    "high": 3.35937,
+    "low": 3.33282,
+    "close": 3.34617
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/02/2024",
+    "open": 3.3461,
+    "high": 3.35346,
+    "low": 3.33524,
+    "close": 3.33745
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/02/2024",
+    "open": 3.36453,
+    "high": 3.37083,
+    "low": 3.33419,
+    "close": 3.34171
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/02/2024",
+    "open": 3.3728,
+    "high": 3.37924,
+    "low": 3.36081,
+    "close": 3.37282
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "31/01/2024",
+    "open": 3.35668,
+    "high": 3.36157,
+    "low": 3.32725,
+    "close": 3.34046
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "30/01/2024",
+    "open": 3.34549,
+    "high": 3.35297,
+    "low": 3.33116,
+    "close": 3.33718
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "29/01/2024",
+    "open": 3.36333,
+    "high": 3.36946,
+    "low": 3.35332,
+    "close": 3.36461
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "26/01/2024",
+    "open": 3.3535,
+    "high": 3.37428,
+    "low": 3.34402,
+    "close": 3.36786
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "25/01/2024",
+    "open": 3.39214,
+    "high": 3.39568,
+    "low": 3.37951,
+    "close": 3.39116
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "24/01/2024",
+    "open": 3.39948,
+    "high": 3.40732,
+    "low": 3.38521,
+    "close": 3.40134
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "23/01/2024",
+    "open": 3.35873,
+    "high": 3.36781,
+    "low": 3.34603,
+    "close": 3.35138
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "22/01/2024",
+    "open": 3.36042,
+    "high": 3.36879,
+    "low": 3.34761,
+    "close": 3.36206
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/01/2024",
+    "open": 3.31708,
+    "high": 3.33589,
+    "low": 3.3069,
+    "close": 3.33552
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/01/2024",
+    "open": 3.31644,
+    "high": 3.33118,
+    "low": 3.3134,
+    "close": 3.31504
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/01/2024",
+    "open": 3.32047,
+    "high": 3.34325,
+    "low": 3.31135,
+    "close": 3.34267
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/01/2024",
+    "open": 3.2989,
+    "high": 3.31395,
+    "low": 3.28727,
+    "close": 3.31234
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "15/01/2024",
+    "open": 3.31095,
+    "high": 3.32283,
+    "low": 3.29903,
+    "close": 3.30983
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/01/2024",
+    "open": 3.3189,
+    "high": 3.32026,
+    "low": 3.31838,
+    "close": 3.31913
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/01/2024",
+    "open": 3.33838,
+    "high": 3.34772,
+    "low": 3.3258,
+    "close": 3.33373
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/01/2024",
+    "open": 3.30984,
+    "high": 3.32341,
+    "low": 3.30903,
+    "close": 3.31577
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/01/2024",
+    "open": 3.34405,
+    "high": 3.3552,
+    "low": 3.31438,
+    "close": 3.31974
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "08/01/2024",
+    "open": 3.31602,
+    "high": 3.33439,
+    "low": 3.31535,
+    "close": 3.32052
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/01/2024",
+    "open": 3.34125,
+    "high": 3.35539,
+    "low": 3.32957,
+    "close": 3.33801
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "04/01/2024",
+    "open": 3.36687,
+    "high": 3.38197,
+    "low": 3.35533,
+    "close": 3.37095
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "03/01/2024",
+    "open": 3.36896,
+    "high": 3.39892,
+    "low": 3.35528,
+    "close": 3.38537
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "02/01/2024",
+    "open": 3.4029,
+    "high": 3.41909,
+    "low": 3.40087,
+    "close": 3.40992
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "01/01/2024",
+    "open": 3.42013,
+    "high": 3.43404,
+    "low": 3.40644,
+    "close": 3.43155
   }
 ]
