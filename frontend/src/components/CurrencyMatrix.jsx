@@ -123,11 +123,55 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
       })
     })
 
+    // Filter out empty rows and columns
+    // A currency is "empty" if all its row AND column cells are 0 or null in ALL matrices
+    const hasSignals = (index) => {
+      // Check row
+      for (let col = 0; col < currencies.length; col++) {
+        if (bullishMatrix[index][col] > 0 || bearishMatrix[index][col] > 0 || neutralMatrix[index][col] > 0) {
+          return true
+        }
+      }
+      // Check column
+      for (let row = 0; row < currencies.length; row++) {
+        if (bullishMatrix[row][index] > 0 || bearishMatrix[row][index] > 0 || neutralMatrix[row][index] > 0) {
+          return true
+        }
+      }
+      return false
+    }
+
+    // Get indices of currencies with signals
+    const activeCurrencyIndices = currencies
+      .map((_, index) => index)
+      .filter(hasSignals)
+    
+    // Filter currencies and matrices
+    const activeCurrencies = activeCurrencyIndices.map(i => currencies[i])
+    
+    const filteredBullishMatrix = activeCurrencyIndices.map(rowIdx =>
+      activeCurrencyIndices.map(colIdx => bullishMatrix[rowIdx][colIdx])
+    )
+    
+    const filteredBearishMatrix = activeCurrencyIndices.map(rowIdx =>
+      activeCurrencyIndices.map(colIdx => bearishMatrix[rowIdx][colIdx])
+    )
+    
+    const filteredNeutralMatrix = activeCurrencyIndices.map(rowIdx =>
+      activeCurrencyIndices.map(colIdx => neutralMatrix[rowIdx][colIdx])
+    )
+
+    console.log('🔍 After filtering empty rows/columns:', {
+      originalCurrencies: currencies.length,
+      activeCurrencies: activeCurrencies.length,
+      removed: currencies.filter((c, i) => !activeCurrencyIndices.includes(i))
+    })
+
     return {
-      currencies,
-      bullishMatrix,
-      bearishMatrix,
-      neutralMatrix,
+      currencies: activeCurrencies,
+      bullishMatrix: filteredBullishMatrix,
+      bearishMatrix: filteredBearishMatrix,
+      neutralMatrix: filteredNeutralMatrix,
       pairData
     }
   }, [watchlist])
