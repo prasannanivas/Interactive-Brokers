@@ -60,8 +60,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     try {
       const mapping = currencyPairMappings[selectedCurrencyPair] || currencyPairMappings['USDCAD']
       
-      // Generate common date range first (last 100 days)
-      const dates = generateDateRange(100)
+      // Generate common date range first (last 5 years, monthly)
+      const dates = generateMonthlyDateRange(60)  // 5 years = 60 months
       setCommonDateRange(dates)
       
       // Load all data with common date range
@@ -77,11 +77,12 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     }
   }
 
-  const generateDateRange = (days) => {
+  const generateMonthlyDateRange = (months) => {
     const dates = []
-    for (let i = days; i >= 0; i--) {
+    for (let i = months; i >= 0; i--) {
       const date = new Date()
-      date.setDate(date.getDate() - i)
+      date.setMonth(date.getMonth() - i)
+      date.setDate(1)  // First day of each month
       dates.push(date.toISOString().split('T')[0])
     }
     return dates
@@ -112,18 +113,30 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   }
 
   const processInterestRateData = (baseData, quoteData, mapping, dates) => {
-    // Create maps by date
-    const baseMap = {}
-    baseData.forEach(item => {
-      const date = new Date(item.DateTime).toISOString().split('T')[0]
-      baseMap[date] = item.Value
-    })
+    // Aggregate interest rate data by month
+    const aggregateRatesByMonth = (data) => {
+      const monthlyData = {}
+      data.forEach(item => {
+        const date = new Date(item.DateTime)
+        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-01`
+        
+        if (!monthlyData[monthKey]) {
+          monthlyData[monthKey] = []
+        }
+        monthlyData[monthKey].push(item.Value)
+      })
+      
+      // Calculate monthly averages
+      const averages = {}
+      Object.keys(monthlyData).forEach(month => {
+        const values = monthlyData[month]
+        averages[month] = values.reduce((a, b) => a + b, 0) / values.length
+      })
+      return averages
+    }
 
-    const quoteMap = {}
-    quoteData.forEach(item => {
-      const date = new Date(item.DateTime).toISOString().split('T')[0]
-      quoteMap[date] = item.Value
-    })
+    const baseMap = aggregateRatesByMonth(baseData)
+    const quoteMap = aggregateRatesByMonth(quoteData)
 
     // Use common date range and fill with latest available values
     let lastBaseRate = null
@@ -167,24 +180,36 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   }
 
   const processBondSpreadData = (base10Y, base2Y, quote10Y, quote2Y, mapping, dates) => {
-    // Create maps by date
-    const createDateMap = (data) => {
-      const map = {}
+    // Aggregate bond data by month
+    const aggregateByMonth = (data) => {
+      const monthlyData = {}
       data.forEach(item => {
         // Convert DD/MM/YYYY to YYYY-MM-DD
         const parts = item.date.split('/')
         if (parts.length === 3) {
-          const date = `${parts[2]}-${parts[1]}-${parts[0]}`
-          map[date] = item.close
+          const date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
+          const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-01`
+          
+          if (!monthlyData[monthKey]) {
+            monthlyData[monthKey] = []
+          }
+          monthlyData[monthKey].push(item.close)
         }
       })
-      return map
+      
+      // Calculate monthly averages
+      const averages = {}
+      Object.keys(monthlyData).forEach(month => {
+        const values = monthlyData[month]
+        averages[month] = values.reduce((a, b) => a + b, 0) / values.length
+      })
+      return averages
     }
 
-    const base10YMap = createDateMap(base10Y)
-    const base2YMap = createDateMap(base2Y)
-    const quote10YMap = createDateMap(quote10Y)
-    const quote2YMap = createDateMap(quote2Y)
+    const base10YMap = aggregateByMonth(base10Y)
+    const base2YMap = aggregateByMonth(base2Y)
+    const quote10YMap = aggregateByMonth(quote10Y)
+    const quote2YMap = aggregateByMonth(quote2Y)
 
     // Use common date range and fill with latest available values
     let lastBase10 = null

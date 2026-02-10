@@ -12,6 +12,41 @@ bond_configs = {
         ],
         'format': 'Symbol'  # Capital S
     },
+    'aus-10and2y.json': {
+        'bonds': [
+            {'symbol': 'GACGB10:IND', 'country': 'Australia', 'base_yield': 4.3, 'variation': 0.3},
+            {'symbol': 'GACGB2YR:IND', 'country': 'Australia', 'base_yield': 3.9, 'variation': 0.25}
+        ],
+        'format': 'symbol'
+    },
+    'canada-10and2y.json': {
+        'bonds': [
+            {'symbol': 'GCAN10YR:IND', 'country': 'Canada', 'base_yield': 3.4, 'variation': 0.3},
+            {'symbol': 'GCAN2YR:IND', 'country': 'Canada', 'base_yield': 3.2, 'variation': 0.25}
+        ],
+        'format': 'symbol'
+    },
+    'germany-10and2y.json': {
+        'bonds': [
+            {'symbol': 'GTDEM10Y:GOV', 'country': 'Germany', 'base_yield': 2.4, 'variation': 0.3},
+            {'symbol': 'GTDEM2Y:GOV', 'country': 'Germany', 'base_yield': 2.6, 'variation': 0.25}
+        ],
+        'format': 'symbol'
+    },
+    'japan-10and2y.json': {
+        'bonds': [
+            {'symbol': 'GJGB10:IND', 'country': 'Japan', 'base_yield': 0.8, 'variation': 0.2},
+            {'symbol': 'GJGB2:IND', 'country': 'Japan', 'base_yield': 0.3, 'variation': 0.15}
+        ],
+        'format': 'symbol'
+    },
+    'uk-10and2y.json': {
+        'bonds': [
+            {'symbol': 'GUKG10:IND', 'country': 'UK', 'base_yield': 4.5, 'variation': 0.3},
+            {'symbol': 'GUKG2:IND', 'country': 'UK', 'base_yield': 4.3, 'variation': 0.25}
+        ],
+        'format': 'symbol'
+    },
     'australia-10y.json': {
         'bonds': [
             {'symbol': 'GACGB10:IND', 'country': 'Australia', 'base_yield': 4.3, 'variation': 0.3}
@@ -167,13 +202,14 @@ def merge_and_sort_data(existing_data, new_data, config):
     return existing_data
 
 def main():
-    # Define date range for test data generation
-    start_date = datetime(2024, 1, 1)
-    end_date = datetime(2025, 10, 30)
+    # Define date range for test data generation - Past 5 years
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=365*5)  # 5 years back
     
     base_path = r'e:\Interactive Brokers\frontend\public\bond'
     
-    print("Generating test bond data from Jan 2024 to Oct 2025...")
+    print(f"Generating bond yield data for past 5 years...")
+    print(f"Date range: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
     print("=" * 60)
     
     for filename, config in bond_configs.items():
@@ -181,32 +217,57 @@ def main():
         
         print(f"\nProcessing: {filename}")
         
-        # Load existing data
-        existing_data = load_existing_data(file_path)
-        print(f"  Existing records: {len(existing_data)}")
+        # Generate fresh data (clear existing to avoid date format issues)
+        fresh_data = []
         
         # Generate new data for each bond
         for bond_config in config['bonds']:
-            print(f"  Generating data for {bond_config['symbol']}...")
+            print(f"  Generating 5 years of data for {bond_config['symbol']}...")
             new_data = generate_daily_data(
                 start_date, 
                 end_date, 
                 bond_config['base_yield'],
                 bond_config['variation']
             )
-            print(f"  Generated {len(new_data)} new data points")
+            print(f"  Generated {len(new_data)} data points")
             
-            # Merge and sort
-            existing_data = merge_and_sort_data(existing_data, new_data, config)
+            # Convert to proper format
+            format_type = config['format']
+            for item in new_data:
+                if format_type == 'Symbol':
+                    entry = {
+                        'Symbol': bond_config['symbol'],
+                        'Date': item['date'],
+                        'Open': item['open'],
+                        'High': item['high'],
+                        'Low': item['low'],
+                        'Close': item['close']
+                    }
+                else:
+                    entry = {
+                        'country': bond_config['country'],
+                        'symbol': bond_config['symbol'],
+                        'date': item['date'],
+                        'open': item['open'],
+                        'high': item['high'],
+                        'low': item['low'],
+                        'close': item['close']
+                    }
+                fresh_data.append(entry)
         
-        # Save updated data
+        # Sort by date (newest first)
+        date_key = 'Date' if config['format'] == 'Symbol' else 'date'
+        fresh_data.sort(key=lambda x: datetime.strptime(x[date_key], '%d/%m/%Y'), reverse=True)
+        
+        # Save fresh data
         with open(file_path, 'w') as f:
-            json.dump(existing_data, f, indent=2)
+            json.dump(fresh_data, f, indent=2)
         
-        print(f"  ✓ Saved {len(existing_data)} total records to {filename}")
+        print(f"  ✓ Saved {len(fresh_data)} records to {filename}")
     
     print("\n" + "=" * 60)
-    print("Test data generation complete!")
+    print("Bond yield data generation complete!")
+    print(f"Generated 5 years of historical data ({start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')})")
     print("=" * 60)
 
 if __name__ == "__main__":

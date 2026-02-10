@@ -87,6 +87,7 @@ def generate_calendar_events(start_date, end_date):
     """Generate economic calendar events for the date range"""
     events = []
     event_id = 1
+    today = datetime.now().date()
     
     for country, event_list in ECONOMIC_EVENTS.items():
         for event_config in event_list:
@@ -102,6 +103,9 @@ def generate_calendar_events(start_date, end_date):
                 if random.random() > 0.05:  # 95% chance to include event
                     event_time = generate_event_time()
                     
+                    # Check if event is in the future
+                    is_future_event = current_date.date() > today
+                    
                     # Generate realistic values based on event type
                     actual = None
                     forecast = None
@@ -113,45 +117,75 @@ def generate_calendar_events(start_date, end_date):
                             'United States': 5.25, 'Euro Area': 4.0, 'United Kingdom': 5.0,
                             'Japan': 0.25, 'Canada': 4.75, 'Australia': 4.35
                         }.get(country, 4.0)
-                        actual = round(base_rate + random.uniform(-0.25, 0.25), 2)
-                        forecast = round(actual + random.uniform(-0.25, 0.25), 2)
-                        previous = round(actual + random.uniform(-0.5, 0.1), 2)
+                        
+                        if is_future_event:
+                            # Future events only have forecast and previous
+                            forecast = round(base_rate + random.uniform(-0.25, 0.25), 2)
+                            previous = round(base_rate + random.uniform(-0.5, 0.1), 2)
+                        else:
+                            actual = round(base_rate + random.uniform(-0.25, 0.25), 2)
+                            forecast = round(actual + random.uniform(-0.25, 0.25), 2)
+                            previous = round(actual + random.uniform(-0.5, 0.1), 2)
                         
                     elif 'CPI' in event_config['name'] or 'Inflation' in event_config['name']:
                         # CPI as year-over-year percentage
-                        actual = round(random.uniform(1.5, 4.5), 1)
-                        forecast = round(actual + random.uniform(-0.5, 0.5), 1)
-                        previous = round(actual + random.uniform(-0.8, 0.3), 1)
+                        if is_future_event:
+                            forecast = round(random.uniform(1.5, 4.5), 1)
+                            previous = round(forecast + random.uniform(-0.8, 0.3), 1)
+                        else:
+                            actual = round(random.uniform(1.5, 4.5), 1)
+                            forecast = round(actual + random.uniform(-0.5, 0.5), 1)
+                            previous = round(actual + random.uniform(-0.8, 0.3), 1)
                         
                     elif 'GDP' in event_config['name']:
                         # GDP growth as percentage
-                        actual = round(random.uniform(1.0, 3.5), 1)
-                        forecast = round(actual + random.uniform(-0.5, 0.5), 1)
-                        previous = round(actual + random.uniform(-0.5, 0.5), 1)
+                        if is_future_event:
+                            forecast = round(random.uniform(1.0, 3.5), 1)
+                            previous = round(forecast + random.uniform(-0.5, 0.5), 1)
+                        else:
+                            actual = round(random.uniform(1.0, 3.5), 1)
+                            forecast = round(actual + random.uniform(-0.5, 0.5), 1)
+                            previous = round(actual + random.uniform(-0.5, 0.5), 1)
                         
                     elif 'Unemployment' in event_config['name']:
                         # Unemployment as percentage
-                        actual = round(random.uniform(3.5, 5.5), 1)
-                        forecast = round(actual + random.uniform(-0.2, 0.2), 1)
-                        previous = round(actual + random.uniform(-0.3, 0.3), 1)
+                        if is_future_event:
+                            forecast = round(random.uniform(3.5, 5.5), 1)
+                            previous = round(forecast + random.uniform(-0.3, 0.3), 1)
+                        else:
+                            actual = round(random.uniform(3.5, 5.5), 1)
+                            forecast = round(actual + random.uniform(-0.2, 0.2), 1)
+                            previous = round(actual + random.uniform(-0.3, 0.3), 1)
                         
                     elif 'Non-Farm' in event_config['name']:
                         # NFP in thousands
-                        actual = round(random.uniform(150, 350), 0)
-                        forecast = round(actual + random.uniform(-50, 50), 0)
-                        previous = round(actual + random.uniform(-80, 40), 0)
+                        if is_future_event:
+                            forecast = round(random.uniform(150, 350), 0)
+                            previous = round(forecast + random.uniform(-80, 40), 0)
+                        else:
+                            actual = round(random.uniform(150, 350), 0)
+                            forecast = round(actual + random.uniform(-50, 50), 0)
+                            previous = round(actual + random.uniform(-80, 40), 0)
                         
                     elif 'Retail Sales' in event_config['name']:
                         # Retail sales as percentage change
-                        actual = round(random.uniform(-0.5, 2.5), 1)
-                        forecast = round(actual + random.uniform(-0.5, 0.5), 1)
-                        previous = round(actual + random.uniform(-0.8, 0.8), 1)
+                        if is_future_event:
+                            forecast = round(random.uniform(-0.5, 2.5), 1)
+                            previous = round(forecast + random.uniform(-0.8, 0.8), 1)
+                        else:
+                            actual = round(random.uniform(-0.5, 2.5), 1)
+                            forecast = round(actual + random.uniform(-0.5, 0.5), 1)
+                            previous = round(actual + random.uniform(-0.8, 0.8), 1)
                         
                     elif 'PMI' in event_config['name']:
                         # PMI index (50 is expansion/contraction threshold)
-                        actual = round(random.uniform(48, 54), 1)
-                        forecast = round(actual + random.uniform(-1, 1), 1)
-                        previous = round(actual + random.uniform(-1.5, 1.5), 1)
+                        if is_future_event:
+                            forecast = round(random.uniform(48, 54), 1)
+                            previous = round(forecast + random.uniform(-1.5, 1.5), 1)
+                        else:
+                            actual = round(random.uniform(48, 54), 1)
+                            forecast = round(actual + random.uniform(-1, 1), 1)
+                            previous = round(actual + random.uniform(-1.5, 1.5), 1)
                     
                     event = {
                         'id': event_id,
@@ -185,18 +219,27 @@ def generate_calendar_events(start_date, end_date):
     return events
 
 def main():
-    # Generate data for last 2 years
-    end_date = datetime.now()
-    start_date = end_date - timedelta(days=730)  # 2 years
+    # Generate data for last 1 year and next 6 months
+    today = datetime.now()
+    start_date = today - timedelta(days=365)  # 1 year back
+    end_date = today + timedelta(days=180)    # 6 months forward
     
     print("Generating economic calendar data...")
     print(f"Date range: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
+    print(f"Today: {today.strftime('%Y-%m-%d')}")
     print("=" * 60)
     
     events = generate_calendar_events(start_date, end_date)
     
     print(f"\nGenerated {len(events)} economic events")
     print(f"Countries: {', '.join(ECONOMIC_EVENTS.keys())}")
+    
+    # Count past vs future events
+    today = datetime.now().date()
+    past_events = sum(1 for e in events if datetime.strptime(e['date'], '%Y-%m-%d').date() <= today)
+    future_events = sum(1 for e in events if datetime.strptime(e['date'], '%Y-%m-%d').date() > today)
+    print(f"Past/Current events: {past_events}")
+    print(f"Future events: {future_events}")
     
     # Save to public folder
     output_path = r'e:\Interactive Brokers\frontend\public\economic-calendar.json'
