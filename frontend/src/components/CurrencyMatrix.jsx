@@ -123,64 +123,105 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
       })
     })
 
-    // Filter out empty rows and columns
-    // A currency is "active" if it has at least one actual pair in watchlist with signals > 0
-    const hasActiveSignals = (currencyIndex) => {
-      const currency = currencies[currencyIndex]
-      
-      // Check all pairs involving this currency
-      for (let otherIndex = 0; otherIndex < currencies.length; otherIndex++) {
-        if (otherIndex === currencyIndex) continue
+    // Filter rows and columns independently
+    // Keep row if it has any signals, keep column if it has any signals
+    const hasRowSignals = (rowIndex) => {
+      for (let col = 0; col < currencies.length; col++) {
+        if (col === rowIndex) continue // Skip diagonal
         
-        const otherCurrency = currencies[otherIndex]
+        const bullish = bullishMatrix[rowIndex][col]
+        const bearish = bearishMatrix[rowIndex][col]
+        const neutral = neutralMatrix[rowIndex][col]
         
-        // Check if this pair exists in watchlist and has signals
-        const pairAsBase = `${currency}/${otherCurrency}`
-        const pairAsQuote = `${otherCurrency}/${currency}`
-        
-        if (pairData[pairAsBase]) {
-          const p = pairData[pairAsBase]
-          if (p.bullish > 0 || p.bearish > 0 || p.neutral > 0) return true
-        }
-        
-        if (pairData[pairAsQuote]) {
-          const p = pairData[pairAsQuote]
-          if (p.bullish > 0 || p.bearish > 0 || p.neutral > 0) return true
+        if ((typeof bullish === 'number' && bullish > 0) || 
+            (typeof bearish === 'number' && bearish > 0) || 
+            (typeof neutral === 'number' && neutral > 0)) {
+          return true
         }
       }
-      
+      return false
+    }
+    
+    const hasColSignals = (colIndex) => {
+      for (let row = 0; row < currencies.length; row++) {
+        if (row === colIndex) continue // Skip diagonal
+        
+        const bullish = bullishMatrix[row][colIndex]
+        const bearish = bearishMatrix[row][colIndex]
+        const neutral = neutralMatrix[row][colIndex]
+        
+        if ((typeof bullish === 'number' && bullish > 0) || 
+            (typeof bearish === 'number' && bearish > 0) || 
+            (typeof neutral === 'number' && neutral > 0)) {
+          return true
+        }
+      }
       return false
     }
 
-    // Get indices of currencies with active pairs
-    const activeCurrencyIndices = currencies
-      .map((_, index) => index)
-      .filter(hasActiveSignals)
+    // Get active rows and columns separately
+    console.log('🔍 Filtering rows and columns independently...')
+    const activeRowIndices = []
+    const activeColIndices = []
     
-    // Filter currencies and matrices
-    const activeCurrencies = activeCurrencyIndices.map(i => currencies[i])
+    for (let i = 0; i < currencies.length; i++) {
+      const hasRow = hasRowSignals(i)
+      const hasCol = hasColSignals(i)
+      
+      if (hasRow) activeRowIndices.push(i)
+      if (hasCol) activeColIndices.push(i)
+      
+      console.log(`${currencies[i]}: row=${hasRow ? '✅' : '❌'}, col=${hasCol ? '✅' : '❌'}`)
+    }
     
-    const filteredBullishMatrix = activeCurrencyIndices.map(rowIdx =>
-      activeCurrencyIndices.map(colIdx => bullishMatrix[rowIdx][colIdx])
+    console.log('🔍 Filtering complete:', {
+      activeRows: activeRowIndices.map(i => currencies[i]),
+      activeCols: activeColIndices.map(i => currencies[i])
+    })
+    
+    // Filter currencies for row and column headers
+    const rowCurrencies = activeRowIndices.map(i => currencies[i])
+    const colCurrencies = activeColIndices.map(i => currencies[i])
+    
+    // Build filtered matrices: rows x columns
+    const filteredBullishMatrix = activeRowIndices.map(rowIdx =>
+      activeColIndices.map(colIdx => bullishMatrix[rowIdx][colIdx])
     )
     
-    const filteredBearishMatrix = activeCurrencyIndices.map(rowIdx =>
-      activeCurrencyIndices.map(colIdx => bearishMatrix[rowIdx][colIdx])
+    const filteredBearishMatrix = activeRowIndices.map(rowIdx =>
+      activeColIndices.map(colIdx => bearishMatrix[rowIdx][colIdx])
     )
     
-    const filteredNeutralMatrix = activeCurrencyIndices.map(rowIdx =>
-      activeCurrencyIndices.map(colIdx => neutralMatrix[rowIdx][colIdx])
+    const filteredNeutralMatrix = activeRowIndices.map(rowIdx =>
+      activeColIndices.map(colIdx => neutralMatrix[rowIdx][colIdx])
     )
 
-    console.log('🔍 After filtering empty rows/columns:', {
-      originalCurrencies: currencies.length,
-      activeCurrencies: activeCurrencies.length,
-      removedCurrencies: currencies.filter((c, i) => !activeCurrencyIndices.includes(i)),
-      activeCurrenciesList: activeCurrencies
+    const removedRows = currencies.filter((c, i) => !activeRowIndices.includes(i))
+    const removedCols = currencies.filter((c, i) => !activeColIndices.includes(i))
+    
+    console.log('🔍 Matrix Filtering Summary:', {
+      originalCount: currencies.length,
+      rowsKept: rowCurrencies.length,
+      colsKept: colCurrencies.length,
+      rowsRemoved: removedRows,
+      colsRemoved: removedCols
     })
 
+    // If no active rows or columns, return empty
+    if (rowCurrencies.length === 0 || colCurrencies.length === 0) {
+      return {
+        rowCurrencies: [],
+        colCurrencies: [],
+        bullishMatrix: [],
+        bearishMatrix: [],
+        neutralMatrix: [],
+        pairData
+      }
+    }
+
     return {
-      currencies: activeCurrencies,
+      rowCurrencies,
+      colCurrencies,
       bullishMatrix: filteredBullishMatrix,
       bearishMatrix: filteredBearishMatrix,
       neutralMatrix: filteredNeutralMatrix,
@@ -219,7 +260,7 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
     )
   }
 
-  const { currencies, bullishMatrix, bearishMatrix, neutralMatrix } = matrixData
+  const { rowCurrencies, colCurrencies, bullishMatrix, bearishMatrix, neutralMatrix } = matrixData
 
   const renderMatrix = (matrix, type, title, emoji) => (
     <div className="matrix-panel">
@@ -231,7 +272,7 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
           <thead>
             <tr>
               <th className="matrix-corner">Quote →<br/>Base ↓</th>
-              {currencies.map(currency => (
+              {colCurrencies.map(currency => (
                 <th key={currency} className="matrix-header-cell">
                   {currency}
                 </th>
@@ -239,10 +280,10 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
             </tr>
           </thead>
           <tbody>
-            {currencies.map((baseCurrency, rowIndex) => (
+            {rowCurrencies.map((baseCurrency, rowIndex) => (
               <tr key={baseCurrency}>
                 <th className="matrix-row-header">{baseCurrency}</th>
-                {currencies.map((quoteCurrency, colIndex) => {
+                {colCurrencies.map((quoteCurrency, colIndex) => {
                   const value = matrix[rowIndex][colIndex]
                   const isNull = value === null
                   const pairSymbol = `${baseCurrency}/${quoteCurrency}`
