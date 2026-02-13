@@ -18,35 +18,53 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   const [commonDateRange, setCommonDateRange] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [dataAvailability, setDataAvailability] = useState({
+    interestRates: true,
+    bondYields: true
+  })
 
-  // Currency pair mappings
-  const currencyPairMappings = {
-    'USDCAD': { base: 'US', quote: 'Canada', baseName: 'United States', quoteName: 'Canada' },
-    'USDJPY': { base: 'US', quote: 'Japan', baseName: 'United States', quoteName: 'Japan' },
-    'EURUSD': { base: 'EUR', quote: 'US', baseName: 'Euro Area', quoteName: 'United States' },
-    'GBPUSD': { base: 'UK', quote: 'US', baseName: 'United Kingdom', quoteName: 'United States' },
-    'AUDUSD': { base: 'AUS', quote: 'US', baseName: 'Australia', quoteName: 'United States' },
-    'USDCHF': { base: 'US', quote: 'CHF', baseName: 'United States', quoteName: 'Switzerland' }
+  // Comprehensive currency to country mappings
+  const currencyToCountry = {
+    'USD': { code: 'US', name: 'United States', file: 'united_states', bond: 'us' },
+    'EUR': { code: 'EUR', name: 'Euro Area', file: 'euro_area', bond: 'germany' },
+    'GBP': { code: 'UK', name: 'United Kingdom', file: 'united_kingdom', bond: 'uk' },
+    'JPY': { code: 'JPY', name: 'Japan', file: 'japan', bond: 'japan' },
+    'CAD': { code: 'CAD', name: 'Canada', file: 'canada', bond: 'canada' },
+    'AUD': { code: 'AUD', name: 'Australia', file: 'australia', bond: 'australia' },
+    'CHF': { code: 'CHF', name: 'Switzerland', file: 'switzerland', bond: 'switzerland' },
+    'NOK': { code: 'NOK', name: 'Norway', file: 'norway', bond: 'norway' },
+    'SEK': { code: 'SEK', name: 'Sweden', file: 'sweden', bond: 'sweden' },
+    'DKK': { code: 'DKK', name: 'Denmark', file: 'denmark', bond: 'denmark' },
+    'CNH': { code: 'CNH', name: 'China', file: 'china', bond: 'china' },
+    'CZK': { code: 'CZK', name: 'Czech Republic', file: 'czech_republic', bond: 'czech' },
+    'HKD': { code: 'HKD', name: 'Hong Kong', file: 'hong_kong', bond: 'hong_kong' },
+    'HUF': { code: 'HUF', name: 'Hungary', file: 'hungary', bond: 'hungary' },
+    'ILS': { code: 'ILS', name: 'Israel', file: 'israel', bond: 'israel' },
+    'MXN': { code: 'MXN', name: 'Mexico', file: 'mexico', bond: 'mexico' },
+    'NZD': { code: 'NZD', name: 'New Zealand', file: 'new_zealand', bond: 'new_zealand' },
+    'RUB': { code: 'RUB', name: 'Russia', file: 'russia', bond: 'russia' },
+    'SGD': { code: 'SGD', name: 'Singapore', file: 'singapore', bond: 'singapore' }
   }
 
-  // File name mappings for interest rates
-  const interestRateFileMap = {
-    'US': 'united_states.json',
-    'Canada': 'canada.json',
-    'Japan': 'japan.json',
-    'EUR': 'euro_area.json',
-    'UK': 'united_kingdom.json',
-    'AUS': 'australia.json'
-  }
-
-  // File name mappings for bonds
-  const bondFileMap = {
-    'US': 'us',
-    'Canada': 'canada',
-    'Japan': 'japan',
-    'EUR': 'germany',
-    'UK': 'uk',
-    'AUS': 'australia'
+  // Parse currency pair to get base and quote currencies
+  const parseCurrencyPair = (pair) => {
+    // Extract the 6-character pair (USDCAD, EURJPY, etc.)
+    const cleanPair = pair.replace('C:', '')
+    
+    // Try to parse as 3+3 characters
+    if (cleanPair.length >= 6) {
+      const base = cleanPair.substring(0, 3)
+      const quote = cleanPair.substring(3, 6)
+      
+      return {
+        base: currencyToCountry[base],
+        quote: currencyToCountry[quote],
+        baseCurrency: base,
+        quoteCurrency: quote
+      }
+    }
+    
+    return null
   }
 
   useEffect(() => {
@@ -56,15 +74,28 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   const loadAllData = async () => {
     setLoading(true)
     setError(null)
+    
+    // Reset data availability
+    setDataAvailability({
+      interestRates: true,
+      bondYields: true
+    })
 
     try {
-      const mapping = currencyPairMappings[selectedCurrencyPair] || currencyPairMappings['USDCAD']
+      // Parse the currency pair
+      const mapping = parseCurrencyPair(selectedCurrencyPair)
+      
+      if (!mapping || !mapping.base || !mapping.quote) {
+        setError(`Currency pair not supported: ${selectedCurrencyPair}`)
+        setLoading(false)
+        return
+      }
       
       // Generate common date range first (last 5 years, monthly)
       const dates = generateMonthlyDateRange(60)  // 5 years = 60 months
       setCommonDateRange(dates)
       
-      // Load all data with common date range
+      // Load all data with common date range (continue even if some fail)
       await loadInterestRates(mapping, dates)
       await loadBondData(mapping, dates)
       loadEMA9Data(selectedCurrencyPair, dates)
@@ -79,36 +110,53 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
   const generateMonthlyDateRange = (months) => {
     const dates = []
+    const now = new Date()
+    const currentYear = now.getFullYear()
+    const currentMonth = now.getMonth() // 0-indexed
+    
     for (let i = months; i >= 0; i--) {
-      const date = new Date()
-      date.setMonth(date.getMonth() - i)
-      date.setDate(1)  // First day of each month
-      dates.push(date.toISOString().split('T')[0])
+      // Calculate the target month
+      const targetMonthIndex = currentMonth - i
+      const yearsBack = Math.floor(-targetMonthIndex / 12)
+      const adjustedMonth = ((targetMonthIndex % 12) + 12) % 12
+      const year = currentYear + Math.floor(targetMonthIndex / 12)
+      
+      // Create date for first day of month in local timezone
+      const dateStr = `${year}-${String(adjustedMonth + 1).padStart(2, '0')}-01`
+      dates.push(dateStr)
     }
+    
+    console.log('Generated date range:', dates.slice(0, 5), '...', dates.slice(-5))
+    
     return dates
   }
 
   const loadInterestRates = async (mapping, dates) => {
     try {
-      const baseFile = interestRateFileMap[mapping.base]
-      const quoteFile = interestRateFileMap[mapping.quote]
+      const baseFile = `${mapping.base.file}.json`
+      const quoteFile = `${mapping.quote.file}.json`
 
-      // Load both countries' interest rate data
-      const [baseResponse, quoteResponse] = await Promise.all([
-        fetch(`/Interest rate/${baseFile}`),
-        fetch(`/Interest rate/${quoteFile}`)
-      ])
+      // Try to load both countries' interest rate data
+      const baseResponse = await fetch(`/Interest rate/${baseFile}`).catch(() => null)
+      const quoteResponse = await fetch(`/Interest rate/${quoteFile}`).catch(() => null)
 
-      const baseData = await baseResponse.json()
-      const quoteData = await quoteResponse.json()
+      const baseData = baseResponse && baseResponse.ok ? await baseResponse.json() : []
+      const quoteData = quoteResponse && quoteResponse.ok ? await quoteResponse.json() : []
+
+      if (baseData.length === 0 && quoteData.length === 0) {
+        console.warn('No interest rate data available for this pair')
+        setDataAvailability(prev => ({ ...prev, interestRates: false }))
+        setInterestRateData([])
+        return
+      }
 
       // Process and merge data by date
       const mergedData = processInterestRateData(baseData, quoteData, mapping, dates)
       setInterestRateData(mergedData)
     } catch (error) {
       console.error('Error loading interest rates:', error)
-      // Use stub data on error
-      setInterestRateData(generateStubInterestRateData(mapping, dates))
+      setDataAvailability(prev => ({ ...prev, interestRates: false }))
+      setInterestRateData([])
     }
   }
 
@@ -142,7 +190,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     let lastBaseRate = null
     let lastQuoteRate = null
     
-    return dates.map(date => {
+    const result = dates.map(date => {
       if (baseMap[date] !== undefined) lastBaseRate = baseMap[date]
       if (quoteMap[date] !== undefined) lastQuoteRate = quoteMap[date]
       
@@ -150,32 +198,48 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         date: date,
         baseRate: lastBaseRate || 0,
         quoteRate: lastQuoteRate || 0,
-        baseName: mapping.baseName,
-        quoteName: mapping.quoteName
+        baseName: mapping.base.name,
+        quoteName: mapping.quote.name
       }
     })
+    
+    console.log('Interest rates loaded:', {
+      baseDataPoints: baseData.length,
+      quoteDataPoints: quoteData.length,
+      resultPoints: result.length,
+      sampleResult: result.slice(-3)
+    })
+    
+    return result
   }
 
   const loadBondData = async (mapping, dates) => {
     try {
-      const baseCode = bondFileMap[mapping.base]
-      const quoteCode = bondFileMap[mapping.quote]
+      const baseCode = mapping.base.bond
+      const quoteCode = mapping.quote.bond
 
       // Load bond data for both countries
       const [base10Y, base2Y, quote10Y, quote2Y] = await Promise.all([
-        fetch(`/bond/${baseCode}-10y.json`).then(r => r.json()).catch(() => []),
-        fetch(`/bond/${baseCode}-2y.json`).then(r => r.json()).catch(() => []),
-        fetch(`/bond/${quoteCode}-10y.json`).then(r => r.json()).catch(() => []),
-        fetch(`/bond/${quoteCode}-2y.json`).then(r => r.json()).catch(() => [])
+        fetch(`/bond/${baseCode}-10y.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+        fetch(`/bond/${baseCode}-2y.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+        fetch(`/bond/${quoteCode}-10y.json`).then(r => r.ok ? r.json() : []).catch(() => []),
+        fetch(`/bond/${quoteCode}-2y.json`).then(r => r.ok ? r.json() : []).catch(() => [])
       ])
+
+      if (base10Y.length === 0 && base2Y.length === 0 && quote10Y.length === 0 && quote2Y.length === 0) {
+        console.warn('No bond yield data available for this pair')
+        setDataAvailability(prev => ({ ...prev, bondYields: false }))
+        setBondSpreadData([])
+        return
+      }
 
       // Process bond spread data
       const spreadData = processBondSpreadData(base10Y, base2Y, quote10Y, quote2Y, mapping, dates)
       setBondSpreadData(spreadData)
     } catch (error) {
       console.error('Error loading bond data:', error)
-      // Use stub data on error
-      setBondSpreadData(generateStubBondSpreadData(mapping, dates))
+      setDataAvailability(prev => ({ ...prev, bondYields: false }))
+      setBondSpreadData([])
     }
   }
 
@@ -217,7 +281,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     let lastQuote10 = null
     let lastQuote2 = null
 
-    return dates.map(date => {
+    const result = dates.map(date => {
       if (base10YMap[date] !== undefined) lastBase10 = base10YMap[date]
       if (base2YMap[date] !== undefined) lastBase2 = base2YMap[date]
       if (quote10YMap[date] !== undefined) lastQuote10 = quote10YMap[date]
@@ -238,6 +302,15 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         quote2Y: quote2
       }
     })
+    
+    console.log('Bond yields loaded:', {
+      base10YPoints: base10Y.length,
+      quote10YPoints: quote10Y.length,
+      resultPoints: result.length,
+      sampleResult: result.slice(-3)
+    })
+    
+    return result
   }
 
   const loadEMA9Data = async (pair, dates) => {
@@ -348,7 +421,12 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     return null
   }
 
-  const mapping = currencyPairMappings[selectedCurrencyPair] || currencyPairMappings['USDCAD']
+  const mapping = parseCurrencyPair(selectedCurrencyPair) || { 
+    base: { name: 'United States' }, 
+    quote: { name: 'Canada' }, 
+    baseCurrency: 'USD', 
+    quoteCurrency: 'CAD' 
+  }
 
   if (loading) {
     return (
@@ -384,11 +462,14 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             onChange={(e) => onPairChange(e.target.value)}
             className="pair-select"
           >
-            <option value="USDCAD">USD/CAD</option>
-            <option value="USDJPY">USD/JPY</option>
-            <option value="EURUSD">EUR/USD</option>
-            <option value="GBPUSD">GBP/USD</option>
-            <option value="AUDUSD">AUD/USD</option>
+            {watchlist && watchlist.map(item => {
+              const symbol = item.symbol.replace('C:', '')
+              return (
+                <option key={symbol} value={symbol}>
+                  {symbol.substring(0, 3)}/{symbol.substring(3, 6)}
+                </option>
+              )
+            })}
           </select>
         </div>
       </div>
@@ -397,8 +478,14 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       <div className="chart-section">
         <div className="chart-title">
           <h3>🏦 Interest Rate Comparison</h3>
-          <p className="chart-subtitle">{mapping.baseName} vs {mapping.quoteName}</p>
+          <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
         </div>
+        {!dataAvailability.interestRates ? (
+          <div className="data-not-available">
+            <p>📊 DATA NOT AVAILABLE</p>
+            <p className="unavailable-subtitle">Interest rate data not available for this currency pair</p>
+          </div>
+        ) : (
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={interestRateData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -418,7 +505,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             <Line 
               type="monotone" 
               dataKey="baseRate" 
-              name={mapping.baseName}
+              name={mapping.base.name}
               stroke="#3b82f6" 
               strokeWidth={2}
               dot={false}
@@ -426,21 +513,28 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             <Line 
               type="monotone" 
               dataKey="quoteRate" 
-              name={mapping.quoteName}
+              name={mapping.quote.name}
               stroke="#10b981" 
               strokeWidth={2}
               dot={false}
             />
           </LineChart>
         </ResponsiveContainer>
+        )}
       </div>
 
       {/* 2. Bond Yield Spread Chart */}
       <div className="chart-section">
         <div className="chart-title">
           <h3>📈 Bond Yield Spread</h3>
-          <p className="chart-subtitle">Difference between {mapping.baseName} and {mapping.quoteName}</p>
+          <p className="chart-subtitle">Difference between {mapping.base.name} and {mapping.quote.name}</p>
         </div>
+        {!dataAvailability.bondYields ? (
+          <div className="data-not-available">
+            <p>📊 DATA NOT AVAILABLE</p>
+            <p className="unavailable-subtitle">Bond yield data not available for this currency pair</p>
+          </div>
+        ) : (
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={bondSpreadData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -475,6 +569,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             />
           </LineChart>
         </ResponsiveContainer>
+        )}
       </div>
 
       {/* 3. EMA9 & Price Chart */}
@@ -545,11 +640,11 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             {interestRateData.length > 0 && (
               <>
                 <div className="summary-item">
-                  <span className="label">{mapping.baseName} Rate:</span>
+                  <span className="label">{mapping.base.name} Rate:</span>
                   <span className="value">{interestRateData[interestRateData.length - 1].baseRate}%</span>
                 </div>
                 <div className="summary-item">
-                  <span className="label">{mapping.quoteName} Rate:</span>
+                  <span className="label">{mapping.quote.name} Rate:</span>
                   <span className="value">{interestRateData[interestRateData.length - 1].quoteRate}%</span>
                 </div>
               </>

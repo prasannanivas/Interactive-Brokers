@@ -217,6 +217,34 @@
   transform: translateY(0);
 }
 
+/* Data Not Available Message */
+.data-not-available {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border-radius: 8px;
+  border: 2px dashed #d1d5db;
+  min-height: 250px;
+}
+
+.data-not-available p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #6b7280;
+  text-align: center;
+}
+
+.unavailable-subtitle {
+  margin-top: 8px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #9ca3af !important;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .comprehensive-chart-container {
