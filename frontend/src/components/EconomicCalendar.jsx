@@ -11,6 +11,11 @@ const EconomicCalendar = () => {
   const [selectedImportance, setSelectedImportance] = useState('All');
   const [dateRange, setDateRange] = useState('upcoming'); // upcoming, today, week, month, all
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Category filters
+  const [filterInterestRate, setFilterInterestRate] = useState(false);
+  const [filterUnemployment, setFilterUnemployment] = useState(false);
+  const [filterInflation, setFilterInflation] = useState(false);
 
   useEffect(() => {
     loadCalendarData();
@@ -38,11 +43,36 @@ const EconomicCalendar = () => {
     return ['All', ...uniqueCountries.sort()];
   }, [calendarData]);
 
+  // Helper function to check if event matches category filters
+  const matchesCategoryFilter = (event) => {
+    const eventName = event.event.toLowerCase();
+    
+    const isInterestRate = eventName.includes('interest rate decision');
+    const isUnemployment = eventName.includes('unemployment rate');
+    const isInflation = eventName.includes('inflation') || eventName.includes('cpi');
+    
+    return { isInterestRate, isUnemployment, isInflation };
+  };
+
   // Filter events
   const filteredEvents = useMemo(() => {
     let filtered = [...calendarData];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
+    // Category filters (Interest Rate, Unemployment, Inflation)
+    const anyCategoryFilterActive = filterInterestRate || filterUnemployment || filterInflation;
+    if (anyCategoryFilterActive) {
+      filtered = filtered.filter(event => {
+        const { isInterestRate, isUnemployment, isInflation } = matchesCategoryFilter(event);
+        
+        return (
+          (filterInterestRate && isInterestRate) ||
+          (filterUnemployment && isUnemployment) ||
+          (filterInflation && isInflation)
+        );
+      });
+    }
 
     // Date range filter
     if (dateRange !== 'all') {
@@ -86,7 +116,7 @@ const EconomicCalendar = () => {
     }
 
     return filtered;
-  }, [calendarData, selectedCountry, selectedImportance, dateRange, searchTerm]);
+  }, [calendarData, selectedCountry, selectedImportance, dateRange, searchTerm, filterInterestRate, filterUnemployment, filterInflation]);
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
@@ -197,6 +227,37 @@ const EconomicCalendar = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+        </div>
+      </div>
+
+      {/* Category filters for key economic indicators */}
+      <div className="category-filters">
+        <label className="category-filter-label">Key Indicators:</label>
+        <div className="checkbox-group">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={filterInterestRate}
+              onChange={(e) => setFilterInterestRate(e.target.checked)}
+            />
+            <span>Interest Rate Decisions</span>
+          </label>
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={filterUnemployment}
+              onChange={(e) => setFilterUnemployment(e.target.checked)}
+            />
+            <span>Unemployment Rate</span>
+          </label>
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={filterInflation}
+              onChange={(e) => setFilterInflation(e.target.checked)}
+            />
+            <span>Inflation (CPI)</span>
+          </label>
         </div>
       </div>
 
