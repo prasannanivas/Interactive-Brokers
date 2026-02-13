@@ -218,13 +218,57 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       const baseCode = mapping.base.bond
       const quoteCode = mapping.quote.bond
 
+      console.log('Loading bond data for:', {
+        baseCurrency: mapping.baseCurrency,
+        quoteCurrency: mapping.quoteCurrency,
+        baseCode,
+        quoteCode,
+        paths: [
+          `/bond/${baseCode}-10y.json`,
+          `/bond/${baseCode}-2y.json`,
+          `/bond/${quoteCode}-10y.json`,
+          `/bond/${quoteCode}-2y.json`
+        ]
+      })
+
       // Load bond data for both countries
       const [base10Y, base2Y, quote10Y, quote2Y] = await Promise.all([
-        fetch(`/bond/${baseCode}-10y.json`).then(r => r.ok ? r.json() : []).catch(() => []),
-        fetch(`/bond/${baseCode}-2y.json`).then(r => r.ok ? r.json() : []).catch(() => []),
-        fetch(`/bond/${quoteCode}-10y.json`).then(r => r.ok ? r.json() : []).catch(() => []),
-        fetch(`/bond/${quoteCode}-2y.json`).then(r => r.ok ? r.json() : []).catch(() => [])
+        fetch(`/bond/${baseCode}-10y.json`).then(r => {
+          console.log(`${baseCode}-10y.json response:`, r.ok, r.status)
+          return r.ok ? r.json() : []
+        }).catch(err => {
+          console.error(`Error loading ${baseCode}-10y.json:`, err)
+          return []
+        }),
+        fetch(`/bond/${baseCode}-2y.json`).then(r => {
+          console.log(`${baseCode}-2y.json response:`, r.ok, r.status)
+          return r.ok ? r.json() : []
+        }).catch(err => {
+          console.error(`Error loading ${baseCode}-2y.json:`, err)
+          return []
+        }),
+        fetch(`/bond/${quoteCode}-10y.json`).then(r => {
+          console.log(`${quoteCode}-10y.json response:`, r.ok, r.status)
+          return r.ok ? r.json() : []
+        }).catch(err => {
+          console.error(`Error loading ${quoteCode}-10y.json:`, err)
+          return []
+        }),
+        fetch(`/bond/${quoteCode}-2y.json`).then(r => {
+          console.log(`${quoteCode}-2y.json response:`, r.ok, r.status)
+          return r.ok ? r.json() : []
+        }).catch(err => {
+          console.error(`Error loading ${quoteCode}-2y.json:`, err)
+          return []
+        })
       ])
+
+      console.log('Bond data loaded:', {
+        base10YLength: base10Y.length,
+        base2YLength: base2Y.length,
+        quote10YLength: quote10Y.length,
+        quote2YLength: quote2Y.length
+      })
 
       if (base10Y.length === 0 && base2Y.length === 0 && quote10Y.length === 0 && quote2Y.length === 0) {
         console.warn('No bond yield data available for this pair')
@@ -248,8 +292,14 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     const aggregateByMonth = (data) => {
       const monthlyData = {}
       data.forEach(item => {
+        // Handle both uppercase and lowercase property names
+        const dateStr = item.date || item.Date
+        const closeValue = item.close || item.Close
+        
+        if (!dateStr || closeValue === undefined) return
+        
         // Convert DD/MM/YYYY to YYYY-MM-DD
-        const parts = item.date.split('/')
+        const parts = dateStr.split('/')
         if (parts.length === 3) {
           const date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
           const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-01`
@@ -257,7 +307,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           if (!monthlyData[monthKey]) {
             monthlyData[monthKey] = []
           }
-          monthlyData[monthKey].push(item.close)
+          monthlyData[monthKey].push(closeValue)
         }
       })
       
@@ -275,6 +325,15 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     const quote10YMap = aggregateByMonth(quote10Y)
     const quote2YMap = aggregateByMonth(quote2Y)
 
+    console.log('Aggregated bond data by month:', {
+      base10YMonths: Object.keys(base10YMap).length,
+      base2YMonths: Object.keys(base2YMap).length,
+      quote10YMonths: Object.keys(quote10YMap).length,
+      quote2YMonths: Object.keys(quote2YMap).length,
+      sampleBase2Y: Object.entries(base2YMap).slice(-3),
+      sampleQuote2Y: Object.entries(quote2YMap).slice(-3)
+    })
+
     // Use common date range and fill with latest available values
     let lastBase10 = null
     let lastBase2 = null
@@ -288,9 +347,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       if (quote2YMap[date] !== undefined) lastQuote2 = quote2YMap[date]
 
       const base10 = lastBase10 || 0
-      const base2 = lastBase2 || lastBase10 || 0
+      const base2 = lastBase2 || 0  // Don't fall back to 10Y
       const quote10 = lastQuote10 || 0
-      const quote2 = lastQuote2 || lastQuote10 || 0
+      const quote2 = lastQuote2 || 0  // Don't fall back to 10Y
 
       return {
         date: date,
@@ -305,9 +364,16 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     
     console.log('Bond yields loaded:', {
       base10YPoints: base10Y.length,
+      base2YPoints: base2Y.length,
       quote10YPoints: quote10Y.length,
+      quote2YPoints: quote2Y.length,
       resultPoints: result.length,
-      sampleResult: result.slice(-3)
+      sampleResult: result.slice(-3),
+      lastSpreads: {
+        spread10Y: result[result.length - 1]?.spread10Y,
+        spread2Y: result[result.length - 1]?.spread2Y,
+        areEqual: result[result.length - 1]?.spread10Y === result[result.length - 1]?.spread2Y
+      }
     })
     
     return result
