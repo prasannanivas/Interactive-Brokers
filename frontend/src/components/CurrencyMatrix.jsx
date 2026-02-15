@@ -312,7 +312,7 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
                         fontWeight: value > 0 ? 'bold' : 'normal',
                         cursor: isNull ? 'default' : 'pointer'
                       }}
-                      onClick={() => !isNull && onPairClick && onPairClick(`C:${baseCurrency}${quoteCurrency}`)}
+                      onClick={() => !isNull && onPairClick && onPairClick(`C:${baseCurrency}${quoteCurrency}`, type)}
                       title={isNull ? `${baseCurrency} (same currency)` : `${pairSymbol}: ${value} ${title.toLowerCase()} signal${value !== 1 ? 's' : ''}`}
                     >
                       {isNull ? '—' : value}

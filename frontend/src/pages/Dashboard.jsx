@@ -25,6 +25,7 @@ const Dashboard = () => {
   const [showHistoryModal, setShowHistoryModal] = useState(false)
   const [showChartModal, setShowChartModal] = useState(false)
   const [chartSymbol, setChartSymbol] = useState(null)
+  const [signalMarkers, setSignalMarkers] = useState([]) // For marking signals on chart
   const [loadingHistory, setLoadingHistory] = useState(false)
   const [showColumnFilter, setShowColumnFilter] = useState(false)
   const [bollingerBands, setBollingerBands] = useState({
@@ -322,12 +323,159 @@ const Dashboard = () => {
 
   const openChartModal = (symbol) => {
     setChartSymbol(symbol)
+    setSignalMarkers([]) // Clear markers for regular chart view
     setShowChartModal(true)
   }
 
   const closeChartModal = () => {
     setShowChartModal(false)
     setChartSymbol(null)
+    setSignalMarkers([])
+  }
+
+  // New function to handle matrix clicks - opens chart with signal markers
+  const openChartWithSignals = async (symbol, signalType) => {
+    console.log('🎯 Opening chart with signals:', { symbol, signalType })
+    
+    setChartSymbol(symbol)
+    setShowChartModal(true)
+    
+    try {
+      // First, get the watchlist item for this symbol to check current signals
+      const watchlistItem = watchlist.find(item => item.symbol === symbol)
+      console.log('📊 Watchlist item:', watchlistItem)
+      
+      if (watchlistItem) {
+        console.log('📊 Buy signals:', watchlistItem.buy_signals)
+        console.log('📊 Sell signals:', watchlistItem.sell_signals)
+      }
+      
+      // Fetch signal changes for this pair - get more history
+      const response = await historyAPI.getSignalChanges(symbol, 500)
+      const allChanges = response.data.changes || []
+      
+      console.log('📊 All signal changes count:', allChanges.length)
+      console.log('📊 First 3 changes:', allChanges.slice(0, 3))
+      
+      // Count signal types for debugging
+      const signalCounts = {
+        BUY: allChanges.filter(c => c.new_signal === 'BUY').length,
+        SELL: allChanges.filter(c => c.new_signal === 'SELL').length,
+        NEUTRAL: allChanges.filter(c => !c.new_signal || c.new_signal === 'NEUTRAL').length
+      }
+      console.log('📊 Signal type counts:', signalCounts)
+      console.log('📊 Full first change object:', JSON.stringify(allChanges[0], null, 2))
+      
+      // Get all unique 'to' values to see what we're working with
+      const uniqueToValues = [...new Set(allChanges.map(c => c.to))]
+      console.log('📊 Unique TO values:', uniqueToValues)
+      
+      // Check all available fields in the first change
+      if (allChanges[0]) {
+        console.log('📊 Available fields:', Object.keys(allChanges[0]))
+      }
+      
+      // Normalize indicator name to match between API and watchlist
+      // API: "MACD", "EMA 100", "RSI 9"
+      // Watchlist: "MACD_Daily", "EMA_100_Hourly", "RSI_9_Daily"
+      const normalizeIndicatorName = (apiIndicator, timeframe) => {
+        // Remove spaces and convert to format: "INDICATOR_TIMEFRAME"
+        const indicator = apiIndicator.replace(/\s+/g, '_').toUpperCase()
+        const tf = timeframe ? timeframe.toUpperCase() : ''
+        return `${indicator}_${tf.replace('LY', '')}` // "Daily" -> "DAILY" -> "DAIL" but we want exact match
+      }
+      
+      // Filter signals based on matrix type
+      const markers = []
+      
+      // Process all changes and filter based on signal type
+      allChanges.forEach((change, index) => {
+        const newSignal = (change.new_signal || '').toUpperCase().trim()
+        const oldSignal = (change.old_signal || '').toUpperCase().trim()
+        const timestamp = change.timestamp
+        
+        let unixTime
+        if (typeof timestamp === 'string') {
+          unixTime = new Date(timestamp).getTime() / 1000
+        } else if (typeof timestamp === 'number') {
+          unixTime = timestamp > 10000000000 ? timestamp / 1000 : timestamp
+        } else {
+          return
+        }
+        
+        if (index < 5) {
+          console.log(`⏰ Processing signal #${index}:`, {
+            indicator: change.indicator,
+            timeframe: change.timeframe,
+            oldSignal,
+            newSignal,
+            timestamp,
+            date: new Date(unixTime * 1000).toLocaleString()
+          })
+        }
+        
+        // For bullish matrix, show BUY signals (changed TO BUY)
+        if (signalType === 'bullish' && newSignal === 'BUY') {
+          console.log('✅ Adding BUY marker for:', change.indicator, change.timeframe)
+          markers.push({
+            time: unixTime,
+            position: 'belowBar',
+            color: '#10b981',
+            shape: 'arrowUp',
+            text: `📈 ${change.indicator}`,
+            indicator: change.indicator,
+            timeframe: change.timeframe,
+            oldSignal,
+            newSignal
+          })
+        }
+        // For bearish matrix, show SELL signals (changed TO SELL)
+        else if (signalType === 'bearish' && newSignal === 'SELL') {
+          console.log('✅ Adding SELL marker for:', change.indicator, change.timeframe)
+          markers.push({
+            time: unixTime,
+            position: 'aboveBar',
+            color: '#ef4444',
+            shape: 'arrowDown',
+            text: `📉 ${change.indicator}`,
+            indicator: change.indicator,
+            timeframe: change.timeframe,
+            oldSignal,
+            newSignal
+          })
+        }
+        // For neutral matrix, show all neutral signals (changed TO NEUTRAL or empty)
+        else if (signalType === 'neutral' && (newSignal === 'NEUTRAL' || newSignal === '' || !newSignal)) {
+          console.log('✅ Adding NEUTRAL marker for:', change.indicator, change.timeframe)
+          markers.push({
+            time: unixTime,
+            position: 'belowBar',
+            color: '#9ca3af',
+            shape: 'circle',
+            text: `⚪ ${change.indicator}`,
+            indicator: change.indicator,
+            timeframe: change.timeframe,
+            oldSignal,
+            newSignal
+          })
+        }
+      })
+      
+      // Sort markers by time in ascending order (required by lightweight-charts)
+      markers.sort((a, b) => a.time - b.time)
+      
+      console.log('🎯 Filtered markers:', markers)
+      console.log('🎯 Marker count:', markers.length)
+      console.log('🎯 Time range:', markers.length > 0 ? {
+        first: new Date(markers[0].time * 1000).toLocaleString(),
+        last: new Date(markers[markers.length - 1].time * 1000).toLocaleString()
+      } : 'N/A')
+      setSignalMarkers(markers)
+      
+    } catch (error) {
+      console.error('Failed to load signal changes:', error)
+      setSignalMarkers([])
+    }
   }
 
   const formatDateTime = (timestamp) => {
@@ -472,7 +620,7 @@ const Dashboard = () => {
       </div>
 
       {/* Currency Signal Matrix */}
-      <CurrencyMatrix watchlist={watchlist} onPairClick={viewSignalHistory} />
+      <CurrencyMatrix watchlist={watchlist} onPairClick={openChartWithSignals} />
 
       {/* Comprehensive Analysis Chart - New TradingView-style Layout */}
       <ErrorBoundary>
@@ -1373,6 +1521,7 @@ const Dashboard = () => {
       {showChartModal && (
         <ChartModal 
           symbol={chartSymbol} 
+          signalMarkers={signalMarkers}
           onClose={closeChartModal}
         />
       )}

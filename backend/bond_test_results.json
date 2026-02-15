@@ -1,0 +1,17 @@
+{
+  "UK 2Y": {
+    "status": "FAILED",
+    "endpoint": null,
+    "message": "No working endpoint found"
+  },
+  "Canada 2Y": {
+    "status": "FAILED",
+    "endpoint": null,
+    "message": "No working endpoint found"
+  },
+  "Germany 2Y": {
+    "status": "FAILED",
+    "endpoint": null,
+    "message": "No working endpoint found"
+  }
+}

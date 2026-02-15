@@ -3,7 +3,7 @@ import { createChart } from 'lightweight-charts'
 import { historyAPI } from '../api/api'
 import './ChartModal.css'
 
-const ChartModal = ({ symbol, onClose }) => {
+const ChartModal = ({ symbol, signalMarkers = [], onClose }) => {
   const chartContainerRef = useRef(null)
   const rsiChartContainerRef = useRef(null)
   const macdChartContainerRef = useRef(null)
@@ -71,7 +71,7 @@ const ChartModal = ({ symbol, onClose }) => {
     if (chartData && indicators && Object.keys(indicators).length > 0) {
       renderChart(chartData, indicators)
     }
-  }, [visibleIndicators, chartData, indicators])
+  }, [visibleIndicators, chartData, indicators, signalMarkers])
 
   // Handle window resize
   useEffect(() => {
@@ -472,6 +472,12 @@ const ChartModal = ({ symbol, onClose }) => {
     })
     candleSeries.setData(candles)
 
+    // Add signal markers if provided
+    if (signalMarkers && signalMarkers.length > 0) {
+      console.log('🎯 Adding signal markers to chart:', signalMarkers)
+      candleSeries.setMarkers(signalMarkers)
+    }
+
     // Add Bollinger Bands (support both daily and weekly data structures)
     if (visibleIndicators.bollingerBands) {
       // Daily uses indicators.bollinger.data, Weekly uses indicators.bollingerBands with direct arrays
@@ -860,6 +866,50 @@ const ChartModal = ({ symbol, onClose }) => {
                   <div className="chart-info-value">{chartData?.length || 0}</div>
                 </div>
               </div>
+
+              {/* Signal Markers Panel - Show when markers are provided */}
+              {signalMarkers && signalMarkers.length > 0 && (
+                <div className="signal-markers-panel" style={{
+                  background: '#1f2937',
+                  border: '1px solid #374151',
+                  borderRadius: '8px',
+                  padding: '12px',
+                  marginBottom: '16px'
+                }}>
+                  <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#d1d5db' }}>
+                    📍 {signalMarkers.length} Signal{signalMarkers.length !== 1 ? 's' : ''} Marked on Chart
+                  </div>
+                  <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
+                    {signalMarkers.map((marker, idx) => (
+                      <div key={idx} style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '6px 8px',
+                        marginBottom: '4px',
+                        background: '#374151',
+                        borderRadius: '4px',
+                        fontSize: '12px'
+                      }}>
+                        <span style={{ marginRight: '8px' }}>{marker.text}</span>
+                        <span style={{ 
+                          marginLeft: 'auto',
+                          marginRight: '8px',
+                          color: '#9ca3af',
+                          fontSize: '11px'
+                        }}>
+                          {marker.timeframe || ''}
+                        </span>
+                        <span style={{ 
+                          color: '#9ca3af',
+                          fontSize: '11px'
+                        }}>
+                          {new Date(marker.time * 1000).toLocaleDateString()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Indicator Toggle Checkboxes - Show only relevant indicators for timeframe */}
               <div className="indicator-toggles">
