@@ -26,6 +26,7 @@ const Dashboard = () => {
   const [showChartModal, setShowChartModal] = useState(false)
   const [chartSymbol, setChartSymbol] = useState(null)
   const [signalMarkers, setSignalMarkers] = useState([]) // For marking signals on chart
+  const [signalVolumeData, setSignalVolumeData] = useState([]) // For volume bars showing signal counts
   const [loadingHistory, setLoadingHistory] = useState(false)
   const [showColumnFilter, setShowColumnFilter] = useState(false)
   const [bollingerBands, setBollingerBands] = useState({
@@ -324,6 +325,7 @@ const Dashboard = () => {
   const openChartModal = (symbol) => {
     setChartSymbol(symbol)
     setSignalMarkers([]) // Clear markers for regular chart view
+    setSignalVolumeData([]) // Clear volume data
     setShowChartModal(true)
   }
 
@@ -331,6 +333,7 @@ const Dashboard = () => {
     setShowChartModal(false)
     setChartSymbol(null)
     setSignalMarkers([])
+    setSignalVolumeData([])
   }
 
   // New function to handle matrix clicks - opens chart with signal markers
@@ -385,8 +388,9 @@ const Dashboard = () => {
         return `${indicator}_${tf.replace('LY', '')}` // "Daily" -> "DAILY" -> "DAIL" but we want exact match
       }
       
-      // Filter signals based on matrix type
-      const markers = []
+      // Group signals by day and count them for volume bars
+      const dailySignalCounts = {}
+      const dailyIndicatorSignals = {} // Group by day + indicator for deduplication
       
       // Process all changes and filter based on signal type
       allChanges.forEach((change, index) => {
@@ -403,6 +407,11 @@ const Dashboard = () => {
           return
         }
         
+        // Get the start of the day (midnight) for grouping
+        const date = new Date(unixTime * 1000)
+        date.setHours(0, 0, 0, 0)
+        const dayStart = date.getTime() / 1000
+        
         if (index < 5) {
           console.log(`⏰ Processing signal #${index}:`, {
             indicator: change.indicator,
@@ -414,11 +423,15 @@ const Dashboard = () => {
           })
         }
         
-        // For bullish matrix, show BUY signals (changed TO BUY)
+        // Count signals based on matrix type
+        let shouldCount = false
+        let markerConfig = null
+        
+        // For bullish matrix, count BUY signals (changed TO BUY)
         if (signalType === 'bullish' && newSignal === 'BUY') {
-          console.log('✅ Adding BUY marker for:', change.indicator, change.timeframe)
-          markers.push({
-            time: unixTime,
+          shouldCount = true
+          markerConfig = {
+            time: dayStart, // Use day start for grouping
             position: 'belowBar',
             color: '#10b981',
             shape: 'arrowUp',
@@ -427,13 +440,14 @@ const Dashboard = () => {
             timeframe: change.timeframe,
             oldSignal,
             newSignal
-          })
+          }
+          if (index < 10) console.log('✅ Counting BUY signal:', change.indicator, change.timeframe)
         }
-        // For bearish matrix, show SELL signals (changed TO SELL)
+        // For bearish matrix, count SELL signals (changed TO SELL)
         else if (signalType === 'bearish' && newSignal === 'SELL') {
-          console.log('✅ Adding SELL marker for:', change.indicator, change.timeframe)
-          markers.push({
-            time: unixTime,
+          shouldCount = true
+          markerConfig = {
+            time: dayStart, // Use day start for grouping
             position: 'aboveBar',
             color: '#ef4444',
             shape: 'arrowDown',
@@ -442,13 +456,14 @@ const Dashboard = () => {
             timeframe: change.timeframe,
             oldSignal,
             newSignal
-          })
+          }
+          if (index < 10) console.log('✅ Counting SELL signal:', change.indicator, change.timeframe)
         }
-        // For neutral matrix, show all neutral signals (changed TO NEUTRAL or empty)
+        // For neutral matrix, count all neutral signals (changed TO NEUTRAL or empty)
         else if (signalType === 'neutral' && (newSignal === 'NEUTRAL' || newSignal === '' || !newSignal)) {
-          console.log('✅ Adding NEUTRAL marker for:', change.indicator, change.timeframe)
-          markers.push({
-            time: unixTime,
+          shouldCount = true
+          markerConfig = {
+            time: dayStart, // Use day start for grouping
             position: 'belowBar',
             color: '#9ca3af',
             shape: 'circle',
@@ -457,20 +472,45 @@ const Dashboard = () => {
             timeframe: change.timeframe,
             oldSignal,
             newSignal
-          })
+          }
+          if (index < 10) console.log('✅ Counting NEUTRAL signal:', change.indicator, change.timeframe)
+        }
+        
+        if (shouldCount && markerConfig) {
+          // Add to daily count for volume bars
+          if (!dailySignalCounts[dayStart]) {
+            dailySignalCounts[dayStart] = 0
+          }
+          dailySignalCounts[dayStart]++
+          
+          // Group by day + indicator to avoid duplicates
+          const key = `${dayStart}_${change.indicator}_${change.timeframe}`
+          if (!dailyIndicatorSignals[key]) {
+            dailyIndicatorSignals[key] = markerConfig
+          }
         }
       })
       
-      // Sort markers by time in ascending order (required by lightweight-charts)
-      markers.sort((a, b) => a.time - b.time)
+      // Convert grouped signals to markers array
+      const markers = Object.values(dailyIndicatorSignals).sort((a, b) => a.time - b.time)
       
-      console.log('🎯 Filtered markers:', markers)
-      console.log('🎯 Marker count:', markers.length)
-      console.log('🎯 Time range:', markers.length > 0 ? {
-        first: new Date(markers[0].time * 1000).toLocaleString(),
-        last: new Date(markers[markers.length - 1].time * 1000).toLocaleString()
-      } : 'N/A')
-      setSignalMarkers(markers)
+      // Convert to volume data format for chart
+      const volumeData = Object.entries(dailySignalCounts)
+        .map(([timestamp, count]) => ({
+          time: parseInt(timestamp),
+          value: count,
+          color: signalType === 'bullish' ? '#10b98180' : signalType === 'bearish' ? '#ef444480' : '#9ca3af80'
+        }))
+        .sort((a, b) => a.time - b.time)
+      
+      console.log('📊 Daily signal counts:', dailySignalCounts)
+      console.log('🎯 Volume data:', volumeData)
+      console.log('🎯 Volume bars count:', volumeData.length)
+      console.log('🎯 Individual markers (deduplicated):', markers.length)
+      console.log('🎯 Total signals:', volumeData.reduce((sum, d) => sum + d.value, 0))
+      
+      setSignalVolumeData(volumeData)
+      setSignalMarkers(markers) // Provide both for toggle option
       
     } catch (error) {
       console.error('Failed to load signal changes:', error)
@@ -1522,6 +1562,7 @@ const Dashboard = () => {
         <ChartModal 
           symbol={chartSymbol} 
           signalMarkers={signalMarkers}
+          signalVolumeData={signalVolumeData}
           onClose={closeChartModal}
         />
       )}

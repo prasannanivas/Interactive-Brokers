@@ -40,58 +40,93 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
     try {
       const selectedCountries = pairToCountries[selectedCurrencyPair] || []
       
-      // Generate dummy historical data for the past 90 days
+      // Map country names to their file prefixes
+      const countryFileMap = {
+        'United States': 'us',
+        'Canada': 'canada',
+        'Germany': 'germany',
+        'Japan': 'japan',
+        'United Kingdom': 'uk',
+        'Australia': 'australia'
+      }
+      
       const historicalData = []
-      const daysToGenerate = 90
-      const today = new Date()
       
-      selectedCountries.forEach(countryName => {
-        // Generate different base rates for different countries
-        let base2Y = 3.5
-        let base10Y = 4.2
+      // Load data for each selected country
+      for (const countryName of selectedCountries) {
+        const filePrefix = countryFileMap[countryName]
+        if (!filePrefix) continue
         
-        if (countryName === 'United States') {
-          base2Y = 4.5
-          base10Y = 4.8
-        } else if (countryName === 'Canada') {
-          base2Y = 3.8
-          base10Y = 4.1
-        } else if (countryName === 'Germany') {
-          base2Y = 2.5
-          base10Y = 2.8
-        } else if (countryName === 'Japan') {
-          base2Y = 0.2
-          base10Y = 0.8
-        } else if (countryName === 'United Kingdom') {
-          base2Y = 4.2
-          base10Y = 4.5
-        } else if (countryName === 'Australia') {
-          base2Y = 4.0
-          base10Y = 4.3
-        }
-        
-        for (let i = daysToGenerate; i >= 0; i--) {
-          const date = new Date(today)
-          date.setDate(date.getDate() - i)
+        try {
+          // Load combined 10Y and 2Y data
+          const response = await fetch(`/bond/${filePrefix}-10and2y.json`)
+          if (!response.ok) {
+            console.warn(`Failed to load ${filePrefix} bond data:`, response.status)
+            continue
+          }
           
-          // Add some random variation to make it look realistic
-          const variation2Y = (Math.random() - 0.5) * 0.4
-          const variation10Y = (Math.random() - 0.5) * 0.4
+          const data = await response.json()
+          console.log(`Loaded ${filePrefix} bond data:`, data.length, 'records')
           
-          historicalData.push({
-            date: date.toISOString().split('T')[0],
-            country: countryName,
-            yield2Y: base2Y + variation2Y + (Math.sin(i / 10) * 0.3),
-            yield10Y: base10Y + variation10Y + (Math.sin(i / 10) * 0.3),
-            spread: (base10Y + variation10Y) - (base2Y + variation2Y)
+          // Process and extract 2Y and 10Y data
+          // Group by date since file contains both 2Y and 10Y entries per date
+          const dateMap = {}
+          
+          data.forEach(item => {
+            const date = item.date || item.Date
+            const symbol = item.symbol || item.Symbol
+            const close = item.close || item.Close
+            
+            if (!date || !symbol || !close) return
+            
+            // Parse date from dd/mm/yyyy to yyyy-mm-dd
+            const [day, month, year] = date.split('/')
+            const isoDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+            
+            if (!dateMap[isoDate]) {
+              dateMap[isoDate] = {
+                date: isoDate,
+                country: countryName
+              }
+            }
+            
+            // Determine if this is 2Y or 10Y based on symbol
+            if (symbol.includes('2Y') || symbol.includes('2y')) {
+              dateMap[isoDate].yield2Y = close
+            } else if (symbol.includes('10Y') || symbol.includes('10y')) {
+              dateMap[isoDate].yield10Y = close
+            }
           })
+          
+          // Convert to array and calculate spreads
+          Object.values(dateMap).forEach(item => {
+            if (item.yield2Y !== undefined && item.yield10Y !== undefined) {
+              item.spread = item.yield10Y - item.yield2Y
+              historicalData.push(item)
+            }
+          })
+          
+        } catch (error) {
+          console.error(`Error loading ${countryName} bond data:`, error)
         }
-      })
+      }
       
-      console.log('Generated dummy historical bond data:', historicalData.length, 'records')
-      setBondData(historicalData)
+      // Sort by date (most recent last for charting)
+      historicalData.sort((a, b) => new Date(a.date) - new Date(b.date))
+      
+      // Only keep last 90 days for performance
+      const ninetyDaysAgo = new Date()
+      ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90)
+      const recentData = historicalData.filter(item => 
+        new Date(item.date) >= ninetyDaysAgo
+      )
+      
+      console.log('📊 Loaded real bond data:', recentData.length, 'records from', selectedCountries)
+      setBondData(recentData)
+      
     } catch (error) {
-      console.error('Error generating bond yield data:', error)
+      console.error('Error loading bond yield data:', error)
+      setBondData([])
     } finally {
       setLoading(false)
     }

@@ -3,7 +3,7 @@ import { createChart } from 'lightweight-charts'
 import { historyAPI } from '../api/api'
 import './ChartModal.css'
 
-const ChartModal = ({ symbol, signalMarkers = [], onClose }) => {
+const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose }) => {
   const chartContainerRef = useRef(null)
   const rsiChartContainerRef = useRef(null)
   const macdChartContainerRef = useRef(null)
@@ -35,6 +35,9 @@ const ChartModal = ({ symbol, signalMarkers = [], onClose }) => {
     macd: true,
     maCross: true
   })
+  
+  // Toggle between volume bars and individual signal markers
+  const [showVolumeMode, setShowVolumeMode] = useState(true) // true = volume bars, false = individual markers
 
   useEffect(() => {
     if (!symbol) return
@@ -71,7 +74,7 @@ const ChartModal = ({ symbol, signalMarkers = [], onClose }) => {
     if (chartData && indicators && Object.keys(indicators).length > 0) {
       renderChart(chartData, indicators)
     }
-  }, [visibleIndicators, chartData, indicators, signalMarkers])
+  }, [visibleIndicators, chartData, indicators, signalMarkers, signalVolumeData, showVolumeMode])
 
   // Handle window resize
   useEffect(() => {
@@ -472,9 +475,24 @@ const ChartModal = ({ symbol, signalMarkers = [], onClose }) => {
     })
     candleSeries.setData(candles)
 
-    // Add signal markers if provided
-    if (signalMarkers && signalMarkers.length > 0) {
-      console.log('🎯 Adding signal markers to chart:', signalMarkers)
+    // Conditionally add either volume bars OR individual markers based on toggle
+    if (showVolumeMode && signalVolumeData && signalVolumeData.length > 0) {
+      // Volume Bar Mode - Combined signal count per day
+      console.log('📊 Adding signal volume bars:', signalVolumeData)
+      const volumeSeries = chart.addHistogramSeries({
+        priceFormat: {
+          type: 'volume',
+        },
+        priceScaleId: 'volume',
+        scaleMargins: {
+          top: 0.8, // Position at bottom 20% of chart
+          bottom: 0,
+        },
+      })
+      volumeSeries.setData(signalVolumeData)
+    } else if (!showVolumeMode && signalMarkers && signalMarkers.length > 0) {
+      // Individual Marker Mode - Show each signal as an arrow
+      console.log('🎯 Adding individual signal markers:', signalMarkers)
       candleSeries.setMarkers(signalMarkers)
     }
 
@@ -867,8 +885,77 @@ const ChartModal = ({ symbol, signalMarkers = [], onClose }) => {
                 </div>
               </div>
 
-              {/* Signal Markers Panel - Show when markers are provided */}
-              {signalMarkers && signalMarkers.length > 0 && (
+              {/* Signal Display Toggle - Show when signal data is available */}
+              {(signalVolumeData?.length > 0 || signalMarkers?.length > 0) && (
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  gap: '12px',
+                  marginBottom: '16px',
+                  padding: '12px',
+                  background: '#1f2937',
+                  border: '1px solid #374151',
+                  borderRadius: '8px'
+                }}>
+                  <span style={{ color: '#d1d5db', fontSize: '14px', fontWeight: '500' }}>
+                    📊 Signal Display:
+                  </span>
+                  <button
+                    onClick={() => setShowVolumeMode(true)}
+                    style={{
+                      padding: '6px 16px',
+                      borderRadius: '4px',
+                      border: showVolumeMode ? '2px solid #3b82f6' : '1px solid #4b5563',
+                      background: showVolumeMode ? '#1e40af' : '#374151',
+                      color: '#f9fafb',
+                      cursor: 'pointer',
+                      fontSize: '13px',
+                      fontWeight: showVolumeMode ? '600' : '400',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    📊 Volume Bars
+                  </button>
+                  <button
+                    onClick={() => setShowVolumeMode(false)}
+                    style={{
+                      padding: '6px 16px',
+                      borderRadius: '4px',
+                      border: !showVolumeMode ? '2px solid #3b82f6' : '1px solid #4b5563',
+                      background: !showVolumeMode ? '#1e40af' : '#374151',
+                      color: '#f9fafb',
+                      cursor: 'pointer',
+                      fontSize: '13px',
+                      fontWeight: !showVolumeMode ? '600' : '400',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    📍 Individual Signals
+                  </button>
+                </div>
+              )}
+
+              {/* Signal Volume Panel - Show when in volume mode */}
+              {showVolumeMode && signalVolumeData && signalVolumeData.length > 0 && (
+                <div className="signal-markers-panel" style={{
+                  background: '#1f2937',
+                  border: '1px solid #374151',
+                  borderRadius: '8px',
+                  padding: '12px',
+                  marginBottom: '16px'
+                }}>
+                  <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#d1d5db' }}>
+                    📊 Signal Volume - {signalVolumeData.reduce((sum, d) => sum + d.value, 0)} Total Signals
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#9ca3af' }}>
+                    Volume bars at bottom show combined signal count per day. Hover over bars to see exact counts.
+                  </div>
+                </div>
+              )}
+
+              {/* Signal Markers Panel - Show when in marker mode */}
+              {!showVolumeMode && signalMarkers && signalMarkers.length > 0 && (
                 <div className="signal-markers-panel" style={{
                   background: '#1f2937',
                   border: '1px solid #374151',
