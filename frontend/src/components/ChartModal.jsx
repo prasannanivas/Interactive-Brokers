@@ -201,7 +201,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           label: 'EMA 100' 
         },
         price: currentPrice,
-        change: candles.length > 1 ? ((currentPrice - candles[0].close) / candles[0].close * 100).toFixed(2) : 0
+        change: candles.length > 1 ? ((currentPrice - candles[candles.length - 2].close) / candles[candles.length - 2].close * 100).toFixed(2) : 0
       }
     } else if (timeframe === 'weekly') {
       // WEEKLY: Bollinger Bands + EMA 20
@@ -234,7 +234,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           label: 'EMA 20' 
         },
         price: currentPrice,
-        change: candles.length > 1 ? ((currentPrice - candles[0].close) / candles[0].close * 100).toFixed(2) : 0
+        change: candles.length > 1 ? ((currentPrice - candles[candles.length - 2].close) / candles[candles.length - 2].close * 100).toFixed(2) : 0
       }
     }
     
@@ -296,7 +296,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       },
       maCross: { signal: maCrossSignal, data: maCross },
       price: currentPrice,
-      change: candles.length > 1 ? ((currentPrice - candles[0].close) / candles[0].close * 100).toFixed(2) : 0
+      change: candles.length > 1 ? ((currentPrice - candles[candles.length - 2].close) / candles[candles.length - 2].close * 100).toFixed(2) : 0
     }
   }
 
