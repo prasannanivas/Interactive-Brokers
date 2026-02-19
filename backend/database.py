@@ -85,6 +85,10 @@ class Database:
         await db.position_changes.create_index([("timestamp", -1)])
         await db.position_changes.create_index([("position", 1), ("timestamp", -1)])
         
+        # Daily signal snapshots indexes
+        await db.daily_signal_snapshots.create_index([("snapshot_date", -1)], unique=True)
+        await db.daily_signal_snapshots.create_index([("capture_timestamp", -1)])
+        
         print("✓ MongoDB indexes created")
 
 
@@ -132,3 +136,8 @@ def get_indicator_states_collection():
 def get_position_changes_collection():
     """Get position changes collection for backtesting"""
     return Database.get_db().position_changes
+
+
+def get_daily_signal_snapshots_collection():
+    """Get daily signal snapshots collection"""
+    return Database.get_db().daily_signal_snapshots

@@ -16,16 +16,19 @@ import asyncio
 import json
 import os
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from massive_monitor_v2 import MassiveMonitorV2
 from telegram_bot import TelegramBot
-from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection
-from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange
+from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection
+from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
 from state_tracker import track_and_detect_changes, INDICATOR_MAPPING
 from bis_data_fetcher import get_bis_fetcher
 import time
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
+import pytz
 
 # Load environment variables from .env file
 load_dotenv()
@@ -40,6 +43,8 @@ active_websockets: List[WebSocket] = []
 indicator_states: Dict[str, Dict[str, str]] = {}  # {symbol: {indicator_name: 'BUY'/'SELL'/'NEUTRAL'}}
 position_states: Dict[str, str] = {}  # {symbol: 'BUY'/'SELL'/'NEUTRAL'}
 
+# Scheduler for daily signal capture
+scheduler = AsyncIOScheduler()
 
 app = FastAPI(title="Trading Signal Monitor API")
 
@@ -121,6 +126,71 @@ async def load_previous_states():
         print(f"✗ Failed to load previous states: {e}")
 
 
+async def run_daily_signal_capture():
+    """
+    Run daily signal capture and store snapshot in MongoDB
+    This function is scheduled to run at 5pm EST daily
+    """
+    try:
+        print("\n" + "="*60)
+        print(f"🕰️  Running scheduled daily signal capture...")
+        print(f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        print("="*60)
+        
+        # Import here to avoid circular imports
+        from capture_daily_signals import DailySignalCapture
+        
+        # Create capturer instance and run
+        capturer = DailySignalCapture()
+        success = await capturer.run()
+        
+        if success:
+            print("✓ Daily signal capture completed successfully!")
+            
+            # Send Telegram notification if configured
+            if telegram_bot.is_configured():
+                try:
+                    # Get the latest snapshot for summary
+                    collection = get_daily_signal_snapshots_collection()
+                    latest = await collection.find_one({}, sort=[('snapshot_date', -1)])
+                    
+                    if latest:
+                        msg = (
+                            f"📊 <b>Daily Signal Snapshot Captured</b>\n\n"
+                            f"📅 Date: {latest['snapshot_date'].strftime('%Y-%m-%d')}\n"
+                            f"⏰ Time: 5:00 PM EST\n\n"
+                            f"📈 Summary:\n"
+                            f"  🟢 Bullish: {latest['bullish_count']} ({latest['bullish_count']/latest['total_symbols']*100:.1f}%)\n"
+                            f"  🔴 Bearish: {latest['bearish_count']} ({latest['bearish_count']/latest['total_symbols']*100:.1f}%)\n"
+                            f"  ⚪ Neutral: {latest['neutral_count']} ({latest['neutral_count']/latest['total_symbols']*100:.1f}%)\n"
+                            f"  📊 Total: {latest['total_symbols']} symbols"
+                        )
+                        await telegram_bot.send_message(msg)
+                        print("✓ Telegram notification sent")
+                except Exception as e:
+                    print(f"✗ Failed to send Telegram notification: {e}")
+        else:
+            print("✗ Daily signal capture failed!")
+            
+            # Send failure notification
+            if telegram_bot.is_configured():
+                try:
+                    await telegram_bot.send_message(
+                        f"⚠️ <b>Daily Signal Capture Failed</b>\n\n"
+                        f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}\n"
+                        f"Please check the logs for details."
+                    )
+                except:
+                    pass
+        
+        print("="*60 + "\n")
+        
+    except Exception as e:
+        print(f"✗ Error running daily signal capture: {e}")
+        import traceback
+        traceback.print_exc()
+
+
 @app.on_event("startup")
 async def startup_event():
     """Initialize on startup"""
@@ -162,11 +232,43 @@ async def startup_event():
     else:
         print("✗ Failed to connect to MASSIVE API")
         print("⚠ Make sure MASSIVE_API_KEY environment variable is set")
+    
+    # Setup daily signal capture scheduler
+    try:
+        est_tz = pytz.timezone('US/Eastern')
+        
+        # Schedule daily capture at 5:00 PM EST
+        scheduler.add_job(
+            run_daily_signal_capture,
+            trigger=CronTrigger(hour=17, minute=0, timezone=est_tz),
+            id='daily_signal_capture',
+            name='Daily Signal Capture at 5pm EST',
+            replace_existing=True
+        )
+        
+        # Start the scheduler
+        scheduler.start()
+        
+        next_run = scheduler.get_job('daily_signal_capture').next_run_time
+        print(f"\n✓ Daily signal capture scheduled")
+        print(f"  Schedule: Every day at 5:00 PM EST")
+        print(f"  Next run: {next_run.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        print()
+        
+    except Exception as e:
+        print(f"✗ Failed to setup daily signal capture scheduler: {e}")
+        import traceback
+        traceback.print_exc()
 
 
 @app.on_event("shutdown")
 async def shutdown_event():
     """Cleanup on shutdown"""
+    # Shutdown scheduler
+    if scheduler.running:
+        scheduler.shutdown(wait=False)
+        print("✓ Scheduler shutdown")
+    
     await monitor.disconnect()
     await Database.close_db()
     print("✓ MASSIVE API Monitor disconnected")
@@ -533,6 +635,327 @@ async def get_historical_interest_rates(ref_area: str, days: int = 365):
             status_code=500,
             detail=f"Failed to fetch historical data: {str(e)}"
         )
+
+
+# ============================================
+# DAILY SIGNAL SNAPSHOTS ENDPOINTS
+# ============================================
+
+@app.get("/api/signals/daily-snapshots")
+async def get_daily_snapshots(
+    days: int = 30,
+    skip: int = 0,
+    limit: int = 100,
+    current_user: UserResponse = Depends(get_optional_user)
+):
+    """
+    Get daily signal snapshots
+    
+    Query params:
+        days: Number of days to retrieve (default: 30)
+        skip: Number of records to skip for pagination (default: 0)
+        limit: Maximum number of records to return (default: 100, max: 365)
+    
+    Returns:
+        List of daily signal snapshots in reverse chronological order
+    """
+    try:
+        # Validate and limit parameters
+        limit = min(limit, 365)
+        
+        # Calculate date range
+        end_date = datetime.now(timezone.utc)
+        start_date = end_date - timedelta(days=days)
+        
+        # Fetch snapshots
+        collection = get_daily_signal_snapshots_collection()
+        cursor = collection.find({
+            'snapshot_date': {
+                '$gte': start_date,
+                '$lte': end_date
+            }
+        }).sort('snapshot_date', -1).skip(skip).limit(limit)
+        
+        snapshots = []
+        async for doc in cursor:
+            # Convert ObjectId to string
+            if '_id' in doc:
+                doc['_id'] = str(doc['_id'])
+            snapshots.append(doc)
+        
+        return {
+            'snapshots': snapshots,
+            'count': len(snapshots),
+            'skip': skip,
+            'limit': limit
+        }
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to fetch daily snapshots: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch daily snapshots: {str(e)}"
+        )
+
+
+@app.get("/api/signals/daily-snapshots/{date}")
+async def get_snapshot_by_date(
+    date: str,
+    current_user: UserResponse = Depends(get_optional_user)
+):
+    """
+    Get a specific daily snapshot by date
+    
+    Path params:
+        date: Date in YYYY-MM-DD format
+    
+    Returns:
+        Daily signal snapshot for the specified date
+    """
+    try:
+        # Parse date
+        try:
+            snapshot_date = datetime.strptime(date, '%Y-%m-%d')
+            # Convert to UTC and set to 5pm EST (which is 10pm UTC during EST, 9pm during EDT)
+            # For simplicity, we'll search for any snapshot on that date
+            start_of_day = snapshot_date.replace(hour=0, minute=0, second=0, microsecond=0)
+            end_of_day = snapshot_date.replace(hour=23, minute=59, second=59, microsecond=999999)
+        except ValueError:
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid date format. Use YYYY-MM-DD"
+            )
+        
+        # Fetch snapshot
+        collection = get_daily_signal_snapshots_collection()
+        doc = await collection.find_one({
+            'snapshot_date': {
+                '$gte': start_of_day,
+                '$lte': end_of_day
+            }
+        })
+        
+        if not doc:
+            raise HTTPException(
+                status_code=404,
+                detail=f"No snapshot found for date {date}"
+            )
+        
+        # Convert ObjectId to string
+        if '_id' in doc:
+            doc['_id'] = str(doc['_id'])
+        
+        return doc
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to fetch snapshot for date {date}: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch snapshot: {str(e)}"
+        )
+
+
+@app.get("/api/signals/daily-snapshots/latest")
+async def get_latest_snapshot(current_user: UserResponse = Depends(get_optional_user)):
+    """
+    Get the most recent daily signal snapshot
+    
+    Returns:
+        Latest daily signal snapshot
+    """
+    try:
+        collection = get_daily_signal_snapshots_collection()
+        doc = await collection.find_one({}, sort=[('snapshot_date', -1)])
+        
+        if not doc:
+            raise HTTPException(
+                status_code=404,
+                detail="No snapshots found"
+            )
+        
+        # Convert ObjectId to string
+        if '_id' in doc:
+            doc['_id'] = str(doc['_id'])
+        
+        return doc
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to fetch latest snapshot: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch latest snapshot: {str(e)}"
+        )
+
+
+@app.get("/api/signals/daily-snapshots/stats")
+async def get_snapshot_stats(
+    days: int = 30,
+    current_user: UserResponse = Depends(get_optional_user)
+):
+    """
+    Get statistics from daily snapshots over a period
+    
+    Query params:
+        days: Number of days to analyze (default: 30)
+    
+    Returns:
+        Statistics including average bullish/bearish counts, trends, etc.
+    """
+    try:
+        # Calculate date range
+        end_date = datetime.now(timezone.utc)
+        start_date = end_date - timedelta(days=days)
+        
+        # Fetch snapshots
+        collection = get_daily_signal_snapshots_collection()
+        cursor = collection.find({
+            'snapshot_date': {
+                '$gte': start_date,
+                '$lte': end_date
+            }
+        }).sort('snapshot_date', 1)
+        
+        snapshots = []
+        async for doc in cursor:
+            snapshots.append(doc)
+        
+        if not snapshots:
+            return {
+                'days': days,
+                'snapshots_count': 0,
+                'avg_bullish': 0,
+                'avg_bearish': 0,
+                'avg_neutral': 0,
+                'trend': 'NO_DATA'
+            }
+        
+        # Calculate statistics
+        total_bullish = sum(s.get('bullish_count', 0) for s in snapshots)
+        total_bearish = sum(s.get('bearish_count', 0) for s in snapshots)
+        total_neutral = sum(s.get('neutral_count', 0) for s in snapshots)
+        count = len(snapshots)
+        
+        avg_bullish = total_bullish / count
+        avg_bearish = total_bearish / count
+        avg_neutral = total_neutral / count
+        
+        # Calculate trend (comparing first and last quartile)
+        quartile_size = max(1, count // 4)
+        first_quartile = snapshots[:quartile_size]
+        last_quartile = snapshots[-quartile_size:]
+        
+        avg_bullish_first = sum(s.get('bullish_count', 0) for s in first_quartile) / len(first_quartile)
+        avg_bullish_last = sum(s.get('bullish_count', 0) for s in last_quartile) / len(last_quartile)
+        
+        if avg_bullish_last > avg_bullish_first * 1.1:
+            trend = "INCREASINGLY_BULLISH"
+        elif avg_bullish_last < avg_bullish_first * 0.9:
+            trend = "INCREASINGLY_BEARISH"
+        else:
+            trend = "STABLE"
+        
+        return {
+            'days': days,
+            'snapshots_count': count,
+            'avg_bullish': round(avg_bullish, 2),
+            'avg_bearish': round(avg_bearish, 2),
+            'avg_neutral': round(avg_neutral, 2),
+            'trend': trend,
+            'latest_snapshot_date': snapshots[-1].get('snapshot_date').isoformat() if snapshots else None
+        }
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to calculate snapshot stats: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to calculate statistics: {str(e)}"
+        )
+
+
+@app.get("/api/signals/capture/trigger")
+async def trigger_daily_capture(current_user: UserResponse = Depends(get_current_user)):
+    """
+    Manually trigger a daily signal capture (admin only)
+    
+    Requires authentication. Use this to test or manually capture signals
+    at any time without waiting for the scheduled 5pm run.
+    
+    Returns:
+        Success status and snapshot summary
+    """
+    try:
+        print(f"\n📋 Manual capture triggered by user: {current_user.username}")
+        
+        # Run the capture
+        await run_daily_signal_capture()
+        
+        # Get the latest snapshot
+        collection = get_daily_signal_snapshots_collection()
+        latest = await collection.find_one({}, sort=[('snapshot_date', -1)])
+        
+        if latest:
+            return {
+                'success': True,
+                'message': 'Daily signal capture completed successfully',
+                'snapshot': {
+                    'date': latest['snapshot_date'].isoformat(),
+                    'total_symbols': latest['total_symbols'],
+                    'bullish_count': latest['bullish_count'],
+                    'bearish_count': latest['bearish_count'],
+                    'neutral_count': latest['neutral_count']
+                }
+            }
+        else:
+            return {
+                'success': False,
+                'message': 'Capture may have failed - no snapshot found'
+            }
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Manual capture trigger failed: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to trigger capture: {str(e)}"
+        )
+
+
+@app.get("/api/signals/capture/schedule-info")
+async def get_capture_schedule_info():
+    """
+    Get information about the daily capture schedule
+    
+    Returns:
+        Schedule information including next run time
+    """
+    try:
+        job = scheduler.get_job('daily_signal_capture')
+        if job and job.next_run_time:
+            est_tz = pytz.timezone('US/Eastern')
+            next_run_est = job.next_run_time.astimezone(est_tz)
+            
+            return {
+                'scheduled': True,
+                'schedule': 'Daily at 5:00 PM EST',
+                'timezone': 'US/Eastern',
+                'next_run_utc': job.next_run_time.isoformat(),
+                'next_run_est': next_run_est.strftime('%Y-%m-%d %I:%M:%S %p %Z'),
+                'job_name': job.name,
+                'job_id': job.id
+            }
+        else:
+            return {
+                'scheduled': False,
+                'message': 'Daily capture is not scheduled'
+            }
+    except Exception as e:
+        return {
+            'scheduled': False,
+            'error': str(e)
+        }
 
 
 @app.websocket("/ws")

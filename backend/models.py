@@ -269,3 +269,31 @@ class SignalBatch(BaseModel):
     processing_time_ms: Optional[float] = None
     signals: List[Dict[str, Any]] = []  # List of signal details
     summary: Optional[Dict[str, Any]] = None
+
+
+# Daily Signal Snapshot Model
+class DailySignalSnapshot(BaseModel):
+    """Daily snapshot of all trading signals captured at 5pm EST"""
+    snapshot_date: datetime = Field(default_factory=datetime.utcnow)
+    capture_timestamp: datetime = Field(default_factory=datetime.utcnow)
+    total_symbols: int
+    bullish_count: int  # Number of symbols with net bullish signals
+    bearish_count: int  # Number of symbols with net bearish signals
+    neutral_count: int  # Number of symbols with neutral signals
+    signals: List[Dict[str, Any]] = []  # List of all symbol signal data
+    
+    class Config:
+        json_encoders = {datetime: lambda v: v.isoformat()}
+
+
+class DailySymbolSignal(BaseModel):
+    """Individual symbol signal data for daily snapshot"""
+    symbol: str
+    last_price: Optional[float] = None
+    signal_type: str  # "BULLISH", "BEARISH", or "NEUTRAL"
+    signal_strength: int  # Net count of buy signals - sell signals
+    buy_signals: List[str] = []  # List of indicator names that generated BUY
+    sell_signals: List[str] = []  # List of indicator names that generated SELL
+    daily_indicators: Optional[Dict[str, Any]] = None
+    hourly_indicators: Optional[Dict[str, Any]] = None
+    weekly_indicators: Optional[Dict[str, Any]] = None
