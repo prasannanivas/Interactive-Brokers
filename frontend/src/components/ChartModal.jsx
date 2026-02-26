@@ -41,7 +41,9 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
   
   // Toggle between volume bars and individual signal markers
   const [showVolumeMode, setShowVolumeMode] = useState(true) // true = volume bars, false = individual markers
+  const [volumeBarMode, setVolumeBarMode] = useState('stacked') // 'individual' or 'stacked'
   const [dailySnapshotVolume, setDailySnapshotVolume] = useState([]) // Daily snapshot volume data
+  const [stackedVolumeData, setStackedVolumeData] = useState(null) // Stacked volume data (bullish/neutral/bearish)
 
   useEffect(() => {
     if (!symbol) return
@@ -80,7 +82,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     if (chartData && indicators && Object.keys(indicators).length > 0) {
       renderChart(chartData, indicators)
     }
-  }, [visibleIndicators, chartData, indicators, signalMarkers, dailySnapshotVolume, showVolumeMode])
+  }, [visibleIndicators, chartData, indicators, signalMarkers, dailySnapshotVolume, stackedVolumeData, showVolumeMode, volumeBarMode])
 
   // Handle window resize
   useEffect(() => {
@@ -195,14 +197,105 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       const snapshots = response.data.snapshots || []
       console.log('📦 Total snapshots received:', snapshots.length)
       
+      // Log the first snapshot structure for debugging
+      if (snapshots.length > 0) {
+        console.log('🔍 FIRST SNAPSHOT FULL STRUCTURE:', JSON.stringify(snapshots[0], null, 2))
+      }
+      
       if (snapshots.length === 0) {
         console.log('⚠️ No snapshot data available')
         setDailySnapshotVolume([])
+        setStackedVolumeData(null)
         return
       }
 
-      // Transform snapshots into volume bar data for the specific symbol
-      const volumeData = snapshots.reverse().map(snapshot => {
+      // Process snapshots for STACKED mode (aggregate counts per day)
+      const stackedData = {
+        bullish: [],
+        neutral: [],
+        bearish: []
+      }
+
+      snapshots.reverse().forEach((snapshot, idx) => {
+        const date = new Date(snapshot.snapshot_date)
+        const timestamp = Math.floor(date.getTime() / 1000)
+        
+        // Find this symbol's data
+        const symbolData = snapshot.signals?.find(s => s.symbol === symbol)
+        
+        if (idx === 0) {
+          console.log('🔍 DEBUGGING FIRST SNAPSHOT:')
+          console.log('  - snapshot.signals array length:', snapshot.signals?.length)
+          console.log('  - Looking for symbol:', symbol)
+          console.log('  - Available symbols in snapshot:', snapshot.signals?.map(s => s.symbol).join(', '))
+          console.log('  - Found symbolData:', symbolData)
+          if (symbolData) {
+            console.log('  - symbolData keys:', Object.keys(symbolData))
+            console.log('  - daily_indicators:', symbolData.daily_indicators)
+            console.log('  - hourly_indicators:', symbolData.hourly_indicators)
+            console.log('  - weekly_indicators:', symbolData.weekly_indicators)
+          }
+        }
+        
+        if (!symbolData) {
+          // No data for this symbol on this day
+          stackedData.bullish.push({ time: timestamp, value: 0 })
+          stackedData.neutral.push({ time: timestamp, value: 0 })
+          stackedData.bearish.push({ time: timestamp, value: 0 })
+          return
+        }
+        
+        // Count individual indicator signals using buy_signals and sell_signals arrays
+        // buy_signals = bullish indicators, sell_signals = bearish indicators
+        const buySignals = symbolData.buy_signals || []
+        const sellSignals = symbolData.sell_signals || []
+        
+        let bullishCount = buySignals.length
+        let bearishCount = sellSignals.length
+        let neutralCount = 0 // We don't have neutral signals directly, so we'll leave it as 0
+        
+        if (idx === 0) {
+          console.log('🔍 DEBUGGING FIRST SNAPSHOT:')
+          console.log('  - Looking for symbol:', symbol)
+          console.log('  - Found symbolData:', !!symbolData)
+          console.log('  - buy_signals:', buySignals)
+          console.log('  - sell_signals:', sellSignals)
+          console.log('  - FINAL COUNTS:', { bullishCount, bearishCount, neutralCount })
+        }
+        
+        // For stacked bars: create cumulative values
+        // Bottom layer: bullish only
+        // Middle layer: bullish + neutral
+        // Top layer: bullish + neutral + bearish
+        stackedData.bullish.push({
+          time: timestamp,
+          value: bullishCount
+        })
+        stackedData.neutral.push({
+          time: timestamp,
+          value: bullishCount + neutralCount
+        })
+        stackedData.bearish.push({
+          time: timestamp,
+          value: bullishCount + neutralCount + bearishCount
+        })
+      })
+
+      console.log('📊 Stacked volume data prepared:', stackedData.bullish.length, 'days')
+      console.log('📊 Sample stacked data (first day):', {
+        bullish: stackedData.bullish[0],
+        neutral: stackedData.neutral[0],
+        bearish: stackedData.bearish[0]
+      })
+      console.log('📊 Total across all days:', {
+        bullish: stackedData.bullish.reduce((sum, d) => sum + d.value, 0),
+        neutral: stackedData.neutral.reduce((sum, d) => sum + d.value, 0) - stackedData.bullish.reduce((sum, d) => sum + d.value, 0),
+        bearish: stackedData.bearish.reduce((sum, d) => sum + d.value, 0) - stackedData.neutral.reduce((sum, d) => sum + d.value, 0)
+      })
+      setStackedVolumeData(stackedData)
+
+      // Process snapshots for INDIVIDUAL mode (one bar per day with color)
+      const volumeData = snapshots.map(snapshot => {
         const date = new Date(snapshot.snapshot_date)
         const timestamp = Math.floor(date.getTime() / 1000)
         
@@ -237,14 +330,15 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         }
       }).filter(d => d.value > 0) // Remove entries with no data
 
-      console.log('📊 Daily snapshot volume bars for', symbol, ':', volumeData.length, 'days')
+      console.log('📊 Individual volume bars for', symbol, ':', volumeData.length, 'days')
       console.log('📊 Sample volume data:', volumeData.slice(0, 3))
       setDailySnapshotVolume(volumeData)
-      console.log('✅ dailySnapshotVolume state updated')
+      console.log('✅ Volume data state updated')
       
     } catch (error) {
       console.error('Error fetching daily snapshot volume:', error)
       setDailySnapshotVolume([])
+      setStackedVolumeData(null)
     }
   }
 
@@ -545,23 +639,72 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     candleSeries.setData(candles)
 
     // Add volume bars from daily snapshots (Bullish/Neutral/Bearish)
-    console.log('🔍 Volume rendering check - showVolumeMode:', showVolumeMode, 'dailySnapshotVolume length:', dailySnapshotVolume?.length)
-    if (showVolumeMode && dailySnapshotVolume && dailySnapshotVolume.length > 0) {
-      // Volume Bar Mode - Show daily snapshot signal strength
-      console.log('📊 Adding daily snapshot volume bars:', dailySnapshotVolume.length, 'days')
-      console.log('📊 First 3 volume bars:', dailySnapshotVolume.slice(0, 3))
-      const volumeSeries = chart.addHistogramSeries({
-        priceFormat: {
-          type: 'custom',
-          formatter: (price) => `Signal: ${price.toFixed(1)}`
-        },
-        priceScaleId: 'volume',
-        scaleMargins: {
-          top: 0.8, // Position at bottom 20% of chart
-          bottom: 0,
-        },
-      })
-      volumeSeries.setData(dailySnapshotVolume)
+    console.log('🔍 Volume rendering check - showVolumeMode:', showVolumeMode, 'volumeBarMode:', volumeBarMode, 'dailySnapshotVolume length:', dailySnapshotVolume?.length)
+    if (showVolumeMode) {
+      if (volumeBarMode === 'stacked' && stackedVolumeData) {
+        // STACKED MODE - Show Bullish/Neutral/Bearish as stacked bars
+        console.log('📊 Adding STACKED volume bars')
+        
+        // Add three histogram series for stacked effect (render largest to smallest)
+        // Top layer (Red - Bearish) - Total height
+        const bearishSeries = chart.addHistogramSeries({
+          color: '#EF4444',
+          priceFormat: {
+            type: 'volume',
+          },
+          priceScaleId: 'volume',
+          scaleMargins: {
+            top: 0.8,
+            bottom: 0,
+          },
+        })
+        bearishSeries.setData(stackedVolumeData.bearish)
+        
+        // Middle layer (Gray - Neutral) - Bullish + Neutral height
+        const neutralSeries = chart.addHistogramSeries({
+          color: '#6B7280',
+          priceFormat: {
+            type: 'volume',
+          },
+          priceScaleId: 'volume',
+          scaleMargins: {
+            top: 0.8,
+            bottom: 0,
+          },
+        })
+        neutralSeries.setData(stackedVolumeData.neutral)
+        
+        // Bottom layer (Green - Bullish) - Bullish height only
+        const bullishSeries = chart.addHistogramSeries({
+          color: '#10B981',
+          priceFormat: {
+            type: 'volume',
+          },
+          priceScaleId: 'volume',
+          scaleMargins: {
+            top: 0.8,
+            bottom: 0,
+          },
+        })
+        bullishSeries.setData(stackedVolumeData.bullish)
+        
+      } else if (volumeBarMode === 'individual' && dailySnapshotVolume && dailySnapshotVolume.length > 0) {
+        // INDIVIDUAL MODE - Show signal strength with color based on signal type
+        console.log('📊 Adding INDIVIDUAL volume bars:', dailySnapshotVolume.length, 'days')
+        console.log('📊 First 3 volume bars:', dailySnapshotVolume.slice(0, 3))
+        const volumeSeries = chart.addHistogramSeries({
+          priceFormat: {
+            type: 'custom',
+            formatter: (price) => `Signal: ${price.toFixed(1)}`
+          },
+          priceScaleId: 'volume',
+          scaleMargins: {
+            top: 0.8, // Position at bottom 20% of chart
+            bottom: 0,
+          },
+        })
+        volumeSeries.setData(dailySnapshotVolume)
+      }
     } else if (!showVolumeMode && signalMarkers && signalMarkers.length > 0) {
       // Individual Marker Mode - Show each signal as an arrow
       console.log('🎯 Adding individual signal markers:', signalMarkers)
@@ -962,6 +1105,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                 console.log('🔍 Toggle visibility check - dailySnapshotVolume:', dailySnapshotVolume?.length, 'signalMarkers:', signalMarkers?.length)
                 return (dailySnapshotVolume?.length > 0 || signalMarkers?.length > 0)
               })() && (
+                <>
                 <div style={{ 
                   display: 'flex', 
                   alignItems: 'center', 
@@ -1009,12 +1153,64 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                     📍 Individual Signals
                   </button>
                 </div>
+
+                {/* Volume Bar Mode Toggle - Show when in volume mode */}
+                {showVolumeMode && (
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    gap: '12px',
+                    marginBottom: '16px',
+                    padding: '12px',
+                    background: '#1f2937',
+                    border: '1px solid #374151',
+                    borderRadius: '8px'
+                  }}>
+                    <span style={{ color: '#d1d5db', fontSize: '14px', fontWeight: '500' }}>
+                      📊 Volume Style:
+                    </span>
+                    <button
+                      onClick={() => setVolumeBarMode('stacked')}
+                      style={{
+                        padding: '6px 16px',
+                        borderRadius: '4px',
+                        border: volumeBarMode === 'stacked' ? '2px solid #10B981' : '1px solid #4b5563',
+                        background: volumeBarMode === 'stacked' ? '#065F46' : '#374151',
+                        color: '#f9fafb',
+                        cursor: 'pointer',
+                        fontSize: '13px',
+                        fontWeight: volumeBarMode === 'stacked' ? '600' : '400',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      📊 Stacked (🟢⚪🔴)
+                    </button>
+                    <button
+                      onClick={() => setVolumeBarMode('individual')}
+                      style={{
+                        padding: '6px 16px',
+                        borderRadius: '4px',
+                        border: volumeBarMode === 'individual' ? '2px solid #10B981' : '1px solid #4b5563',
+                        background: volumeBarMode === 'individual' ? '#065F46' : '#374151',
+                        color: '#f9fafb',
+                        cursor: 'pointer',
+                        fontSize: '13px',
+                        fontWeight: volumeBarMode === 'individual' ? '600' : '400',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      📊 Individual
+                    </button>
+                  </div>
+                )}
+                </>
               )}
 
               {/* Signal Volume Panel - Show when in volume mode */}
               {(() => {
                 console.log('🔍 Volume panel check - showVolumeMode:', showVolumeMode, 'dailySnapshotVolume:', dailySnapshotVolume?.length)
-                return showVolumeMode && dailySnapshotVolume && dailySnapshotVolume.length > 0
+                return showVolumeMode && (dailySnapshotVolume?.length > 0 || stackedVolumeData)
               })() && (
                 <div className="signal-markers-panel" style={{
                   background: '#1f2937',
@@ -1024,10 +1220,12 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   marginBottom: '16px'
                 }}>
                   <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#d1d5db' }}>
-                    📊 Daily Signal Volume - {dailySnapshotVolume.length} Days ({dailySnapshotVolume.reduce((sum, d) => sum + d.value, 0)} Total Signals)
+                    📊 Daily Signal Volume - {volumeBarMode === 'stacked' ? `${stackedVolumeData?.bullish?.length || 0} Days` : `${dailySnapshotVolume.length} Days`}
                   </div>
                   <div style={{ fontSize: '12px', color: '#9ca3af' }}>
-                    Volume bars show daily signal strength: 🟢 Bullish (bottom) | ⚪ Neutral (middle) | 🔴 Bearish (top)
+                    {volumeBarMode === 'stacked' 
+                      ? 'Stacked bars show signal counts: 🟢 Bullish (bottom) | ⚪ Neutral (middle) | 🔴 Bearish (top)'
+                      : 'Individual bars show signal strength by type: 🟢 Bullish | ⚪ Neutral | 🔴 Bearish'}
                   </div>
                 </div>
               )}
