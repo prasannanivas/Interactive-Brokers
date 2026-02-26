@@ -645,8 +645,7 @@ async def get_historical_interest_rates(ref_area: str, days: int = 365):
 async def get_daily_snapshots(
     days: int = 30,
     skip: int = 0,
-    limit: int = 100,
-    current_user: UserResponse = Depends(get_optional_user)
+    limit: int = 100
 ):
     """
     Get daily signal snapshots
@@ -700,8 +699,7 @@ async def get_daily_snapshots(
 
 @app.get("/api/signals/daily-snapshots/{date}")
 async def get_snapshot_by_date(
-    date: str,
-    current_user: UserResponse = Depends(get_optional_user)
+    date: str
 ):
     """
     Get a specific daily snapshot by date
@@ -758,7 +756,7 @@ async def get_snapshot_by_date(
 
 
 @app.get("/api/signals/daily-snapshots/latest")
-async def get_latest_snapshot(current_user: UserResponse = Depends(get_optional_user)):
+async def get_latest_snapshot():
     """
     Get the most recent daily signal snapshot
     
@@ -793,8 +791,7 @@ async def get_latest_snapshot(current_user: UserResponse = Depends(get_optional_
 
 @app.get("/api/signals/daily-snapshots/stats")
 async def get_snapshot_stats(
-    days: int = 30,
-    current_user: UserResponse = Depends(get_optional_user)
+    days: int = 30
 ):
     """
     Get statistics from daily snapshots over a period

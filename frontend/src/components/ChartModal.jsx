@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createChart } from 'lightweight-charts'
 import { historyAPI } from '../api/api'
+import axios from 'axios'
 import './ChartModal.css'
+
+const API_URL = import.meta.env.VITE_TRADING_API_URL || 'http://167.172.215.78:8000'
 
 const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose }) => {
   const chartContainerRef = useRef(null)
@@ -38,6 +41,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
   
   // Toggle between volume bars and individual signal markers
   const [showVolumeMode, setShowVolumeMode] = useState(true) // true = volume bars, false = individual markers
+  const [dailySnapshotVolume, setDailySnapshotVolume] = useState([]) // Daily snapshot volume data
 
   useEffect(() => {
     if (!symbol) return
@@ -50,7 +54,9 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     })
     setVisibleIndicators(newVisibleState)
 
+    console.log('🔄 ChartModal useEffect triggered for symbol:', symbol, 'timeframe:', timeframe)
     fetchChartData()
+    fetchDailySnapshotVolume() // Fetch daily snapshot data for volume bars
 
     // Cleanup on unmount
     return () => {
@@ -74,7 +80,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     if (chartData && indicators && Object.keys(indicators).length > 0) {
       renderChart(chartData, indicators)
     }
-  }, [visibleIndicators, chartData, indicators, signalMarkers, signalVolumeData, showVolumeMode])
+  }, [visibleIndicators, chartData, indicators, signalMarkers, dailySnapshotVolume, showVolumeMode])
 
   // Handle window resize
   useEffect(() => {
@@ -176,6 +182,69 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       console.error('Failed to fetch chart data:', err)
       setError(err.response?.data?.detail || 'Failed to load chart data')
       setLoading(false)
+    }
+  }
+
+  const fetchDailySnapshotVolume = async () => {
+    try {
+      console.log('📊 Fetching daily snapshot volume data for', symbol)
+      
+      // Fetch last 60 days of snapshots
+      const response = await axios.get(`${API_URL}/api/signals/daily-snapshots?days=60&limit=60`)
+      console.log('📥 API Response:', response.data)
+      const snapshots = response.data.snapshots || []
+      console.log('📦 Total snapshots received:', snapshots.length)
+      
+      if (snapshots.length === 0) {
+        console.log('⚠️ No snapshot data available')
+        setDailySnapshotVolume([])
+        return
+      }
+
+      // Transform snapshots into volume bar data for the specific symbol
+      const volumeData = snapshots.reverse().map(snapshot => {
+        const date = new Date(snapshot.snapshot_date)
+        const timestamp = Math.floor(date.getTime() / 1000)
+        
+        // Find this symbol's data in the snapshot
+        const symbolData = snapshot.signals?.find(s => s.symbol === symbol)
+        
+        if (!symbolData) {
+          return {
+            time: timestamp,
+            value: 0,
+            color: '#374151' // gray if no data
+          }
+        }
+
+        // Determine color based on signal type
+        let color
+        if (symbolData.signal_type === 'BULLISH') {
+          color = '#10B981' // green
+        } else if (symbolData.signal_type === 'BEARISH') {
+          color = '#EF4444' // red
+        } else {
+          color = '#6B7280' // gray for neutral
+        }
+
+        // Use signal strength as the value (higher = stronger signal)
+        const value = Math.abs(symbolData.signal_strength) || 0.5
+
+        return {
+          time: timestamp,
+          value: value,
+          color: color
+        }
+      }).filter(d => d.value > 0) // Remove entries with no data
+
+      console.log('📊 Daily snapshot volume bars for', symbol, ':', volumeData.length, 'days')
+      console.log('📊 Sample volume data:', volumeData.slice(0, 3))
+      setDailySnapshotVolume(volumeData)
+      console.log('✅ dailySnapshotVolume state updated')
+      
+    } catch (error) {
+      console.error('Error fetching daily snapshot volume:', error)
+      setDailySnapshotVolume([])
     }
   }
 
@@ -475,13 +544,16 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     })
     candleSeries.setData(candles)
 
-    // Conditionally add either volume bars OR individual markers based on toggle
-    if (showVolumeMode && signalVolumeData && signalVolumeData.length > 0) {
-      // Volume Bar Mode - Combined signal count per day
-      console.log('📊 Adding signal volume bars:', signalVolumeData)
+    // Add volume bars from daily snapshots (Bullish/Neutral/Bearish)
+    console.log('🔍 Volume rendering check - showVolumeMode:', showVolumeMode, 'dailySnapshotVolume length:', dailySnapshotVolume?.length)
+    if (showVolumeMode && dailySnapshotVolume && dailySnapshotVolume.length > 0) {
+      // Volume Bar Mode - Show daily snapshot signal strength
+      console.log('📊 Adding daily snapshot volume bars:', dailySnapshotVolume.length, 'days')
+      console.log('📊 First 3 volume bars:', dailySnapshotVolume.slice(0, 3))
       const volumeSeries = chart.addHistogramSeries({
         priceFormat: {
-          type: 'volume',
+          type: 'custom',
+          formatter: (price) => `Signal: ${price.toFixed(1)}`
         },
         priceScaleId: 'volume',
         scaleMargins: {
@@ -489,7 +561,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           bottom: 0,
         },
       })
-      volumeSeries.setData(signalVolumeData)
+      volumeSeries.setData(dailySnapshotVolume)
     } else if (!showVolumeMode && signalMarkers && signalMarkers.length > 0) {
       // Individual Marker Mode - Show each signal as an arrow
       console.log('🎯 Adding individual signal markers:', signalMarkers)
@@ -886,7 +958,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
               </div>
 
               {/* Signal Display Toggle - Show when signal data is available */}
-              {(signalVolumeData?.length > 0 || signalMarkers?.length > 0) && (
+              {(() => {
+                console.log('🔍 Toggle visibility check - dailySnapshotVolume:', dailySnapshotVolume?.length, 'signalMarkers:', signalMarkers?.length)
+                return (dailySnapshotVolume?.length > 0 || signalMarkers?.length > 0)
+              })() && (
                 <div style={{ 
                   display: 'flex', 
                   alignItems: 'center', 
@@ -937,7 +1012,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
               )}
 
               {/* Signal Volume Panel - Show when in volume mode */}
-              {showVolumeMode && signalVolumeData && signalVolumeData.length > 0 && (
+              {(() => {
+                console.log('🔍 Volume panel check - showVolumeMode:', showVolumeMode, 'dailySnapshotVolume:', dailySnapshotVolume?.length)
+                return showVolumeMode && dailySnapshotVolume && dailySnapshotVolume.length > 0
+              })() && (
                 <div className="signal-markers-panel" style={{
                   background: '#1f2937',
                   border: '1px solid #374151',
@@ -946,10 +1024,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   marginBottom: '16px'
                 }}>
                   <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#d1d5db' }}>
-                    📊 Signal Volume - {signalVolumeData.reduce((sum, d) => sum + d.value, 0)} Total Signals
+                    📊 Daily Signal Volume - {dailySnapshotVolume.length} Days ({dailySnapshotVolume.reduce((sum, d) => sum + d.value, 0)} Total Signals)
                   </div>
                   <div style={{ fontSize: '12px', color: '#9ca3af' }}>
-                    Volume bars at bottom show combined signal count per day. Hover over bars to see exact counts.
+                    Volume bars show daily signal strength: 🟢 Bullish (bottom) | ⚪ Neutral (middle) | 🔴 Bearish (top)
                   </div>
                 </div>
               )}

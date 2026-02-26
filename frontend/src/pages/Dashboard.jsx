@@ -8,6 +8,7 @@ import InterestRateChart from '../components/InterestRateChart'
 import CurrencyRateCorrelationChart from '../components/CurrencyRateCorrelationChart'
 import BondYieldsChart from '../components/BondYieldsChart'
 import ComprehensiveAnalysisChart from '../components/ComprehensiveAnalysisChart'
+import DailySignalVolumeChart from '../components/DailySignalVolumeChart'
 import ErrorBoundary from '../components/ErrorBoundary'
 import './Dashboard.css'
 
@@ -661,6 +662,13 @@ const Dashboard = () => {
 
       {/* Currency Signal Matrix */}
       <CurrencyMatrix watchlist={watchlist} onPairClick={openChartWithSignals} />
+
+      {/* Daily Signal Volume Chart - NEW! Shows Bullish/Neutral/Bearish from daily snapshots */}
+      <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+        <ErrorBoundary>
+          <DailySignalVolumeChart days={30} />
+        </ErrorBoundary>
+      </div>
 
       {/* Comprehensive Analysis Chart - New TradingView-style Layout */}
       <ErrorBoundary>
