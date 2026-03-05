@@ -9,6 +9,7 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts'
+import TimeframeSelector from './TimeframeSelector'
 import './ComprehensiveAnalysisChart.css'
 
 const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchlist }) => {
@@ -18,6 +19,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   const [commonDateRange, setCommonDateRange] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [timeframe, setTimeframe] = useState(30)
   const [dataAvailability, setDataAvailability] = useState({
     interestRates: true,
     bondYields: true
@@ -69,7 +71,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
   useEffect(() => {
     loadAllData()
-  }, [selectedCurrencyPair])
+  }, [selectedCurrencyPair, timeframe])
 
   const loadAllData = async () => {
     setLoading(true)
@@ -91,14 +93,10 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         return
       }
       
-      // Generate common date range first (last 5 years, monthly)
-      const dates = generateMonthlyDateRange(60)  // 5 years = 60 months
-      setCommonDateRange(dates)
-      
-      // Load all data with common date range (continue even if some fail)
-      await loadInterestRates(mapping, dates)
-      await loadBondData(mapping, dates)
-      loadEMA9Data(selectedCurrencyPair, dates)
+      // Load all data with timeframe filtering (continue even if some fail)
+      await loadInterestRates(mapping)
+      await loadBondData(mapping)
+      loadEMA9Data(selectedCurrencyPair)
       
     } catch (err) {
       console.error('Error loading data:', err)
@@ -108,30 +106,19 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     }
   }
 
-  const generateMonthlyDateRange = (months) => {
-    const dates = []
+  const filterDataByTimeframe = (data, dateField = 'date') => {
+    if (!data || data.length === 0) return data
+    
     const now = new Date()
-    const currentYear = now.getFullYear()
-    const currentMonth = now.getMonth() // 0-indexed
+    const cutoffDate = new Date(now.getTime() - (timeframe * 24 * 60 * 60 * 1000))
     
-    for (let i = months; i >= 0; i--) {
-      // Calculate the target month
-      const targetMonthIndex = currentMonth - i
-      const yearsBack = Math.floor(-targetMonthIndex / 12)
-      const adjustedMonth = ((targetMonthIndex % 12) + 12) % 12
-      const year = currentYear + Math.floor(targetMonthIndex / 12)
-      
-      // Create date for first day of month in local timezone
-      const dateStr = `${year}-${String(adjustedMonth + 1).padStart(2, '0')}-01`
-      dates.push(dateStr)
-    }
-    
-    console.log('Generated date range:', dates.slice(0, 5), '...', dates.slice(-5))
-    
-    return dates
+    return data.filter(item => {
+      const itemDate = new Date(item[dateField])
+      return itemDate >= cutoffDate
+    }).sort((a, b) => new Date(a[dateField]) - new Date(b[dateField]))
   }
 
-  const loadInterestRates = async (mapping, dates) => {
+  const loadInterestRates = async (mapping) => {
     try {
       const baseFile = `${mapping.base.file}.json`
       const quoteFile = `${mapping.quote.file}.json`
@@ -150,9 +137,10 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         return
       }
 
-      // Process and merge data by date
-      const mergedData = processInterestRateData(baseData, quoteData, mapping, dates)
-      setInterestRateData(mergedData)
+      // Process and merge data by date (daily, not monthly)
+      const mergedData = processInterestRateData(baseData, quoteData, mapping)
+      const filtered = filterDataByTimeframe(mergedData, 'date')
+      setInterestRateData(filtered)
     } catch (error) {
       console.error('Error loading interest rates:', error)
       setDataAvailability(prev => ({ ...prev, interestRates: false }))
@@ -160,37 +148,31 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     }
   }
 
-  const processInterestRateData = (baseData, quoteData, mapping, dates) => {
-    // Aggregate interest rate data by month
-    const aggregateRatesByMonth = (data) => {
-      const monthlyData = {}
-      data.forEach(item => {
-        const date = new Date(item.DateTime)
-        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-01`
-        
-        if (!monthlyData[monthKey]) {
-          monthlyData[monthKey] = []
-        }
-        monthlyData[monthKey].push(item.Value)
-      })
-      
-      // Calculate monthly averages
-      const averages = {}
-      Object.keys(monthlyData).forEach(month => {
-        const values = monthlyData[month]
-        averages[month] = values.reduce((a, b) => a + b, 0) / values.length
-      })
-      return averages
-    }
+  const processInterestRateData = (baseData, quoteData, mapping) => {
+    // Create a map of dates to rates for both countries (daily data)
+    const baseMap = {}
+    baseData.forEach(item => {
+      const date = new Date(item.DateTime)
+      const dateKey = date.toISOString().split('T')[0]
+      baseMap[dateKey] = item.Value
+    })
 
-    const baseMap = aggregateRatesByMonth(baseData)
-    const quoteMap = aggregateRatesByMonth(quoteData)
+    const quoteMap = {}
+    quoteData.forEach(item => {
+      const date = new Date(item.DateTime)
+      const dateKey = date.toISOString().split('T')[0]
+      quoteMap[dateKey] = item.Value
+    })
 
-    // Use common date range and fill with latest available values
+    // Get all unique dates from both datasets
+    const allDates = new Set([...Object.keys(baseMap), ...Object.keys(quoteMap)])
+    const sortedDates = Array.from(allDates).sort()
+
+    // Fill forward missing values
     let lastBaseRate = null
     let lastQuoteRate = null
     
-    const result = dates.map(date => {
+    const result = sortedDates.map(date => {
       if (baseMap[date] !== undefined) lastBaseRate = baseMap[date]
       if (quoteMap[date] !== undefined) lastQuoteRate = quoteMap[date]
       
@@ -203,9 +185,10 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       }
     })
     
-    console.log('Interest rates loaded:', {
+    console.log('Interest rates loaded (daily):', {
       baseDataPoints: baseData.length,
       quoteDataPoints: quoteData.length,
+      uniqueDates: sortedDates.length,
       resultPoints: result.length,
       sampleResult: result.slice(-3)
     })
@@ -213,7 +196,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     return result
   }
 
-  const loadBondData = async (mapping, dates) => {
+  const loadBondData = async (mapping) => {
     try {
       const baseCode = mapping.base.bond
       const quoteCode = mapping.quote.bond
@@ -277,9 +260,10 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         return
       }
 
-      // Process bond spread data
-      const spreadData = processBondSpreadData(base10Y, base2Y, quote10Y, quote2Y, mapping, dates)
-      setBondSpreadData(spreadData)
+      // Process bond spread data (daily, not monthly)
+      const spreadData = processBondSpreadData(base10Y, base2Y, quote10Y, quote2Y, mapping)
+      const filtered = filterDataByTimeframe(spreadData, 'date')
+      setBondSpreadData(filtered)
     } catch (error) {
       console.error('Error loading bond data:', error)
       setDataAvailability(prev => ({ ...prev, bondYields: false }))
@@ -287,12 +271,11 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     }
   }
 
-  const processBondSpreadData = (base10Y, base2Y, quote10Y, quote2Y, mapping, dates) => {
-    // Aggregate bond data by month
-    const aggregateByMonth = (data) => {
-      const monthlyData = {}
+  const processBondSpreadData = (base10Y, base2Y, quote10Y, quote2Y, mapping) => {
+    // Convert bond data to date-keyed maps (daily data)
+    const convertToMap = (data) => {
+      const map = {}
       data.forEach(item => {
-        // Handle both uppercase and lowercase property names
         const dateStr = item.date || item.Date
         const closeValue = item.close || item.Close
         
@@ -301,55 +284,50 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         // Convert DD/MM/YYYY to YYYY-MM-DD
         const parts = dateStr.split('/')
         if (parts.length === 3) {
-          const date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
-          const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-01`
-          
-          if (!monthlyData[monthKey]) {
-            monthlyData[monthKey] = []
-          }
-          monthlyData[monthKey].push(closeValue)
+          const dateKey = `${parts[2]}-${parts[1]}-${parts[0]}`
+          map[dateKey] = closeValue
         }
       })
-      
-      // Calculate monthly averages
-      const averages = {}
-      Object.keys(monthlyData).forEach(month => {
-        const values = monthlyData[month]
-        averages[month] = values.reduce((a, b) => a + b, 0) / values.length
-      })
-      return averages
+      return map
     }
 
-    const base10YMap = aggregateByMonth(base10Y)
-    const base2YMap = aggregateByMonth(base2Y)
-    const quote10YMap = aggregateByMonth(quote10Y)
-    const quote2YMap = aggregateByMonth(quote2Y)
+    const base10YMap = convertToMap(base10Y)
+    const base2YMap = convertToMap(base2Y)
+    const quote10YMap = convertToMap(quote10Y)
+    const quote2YMap = convertToMap(quote2Y)
 
-    console.log('Aggregated bond data by month:', {
-      base10YMonths: Object.keys(base10YMap).length,
-      base2YMonths: Object.keys(base2YMap).length,
-      quote10YMonths: Object.keys(quote10YMap).length,
-      quote2YMonths: Object.keys(quote2YMap).length,
-      sampleBase2Y: Object.entries(base2YMap).slice(-3),
-      sampleQuote2Y: Object.entries(quote2YMap).slice(-3)
+    console.log('Bond data loaded (daily):', {
+      base10YDays: Object.keys(base10YMap).length,
+      base2YDays: Object.keys(base2YMap).length,
+      quote10YDays: Object.keys(quote10YMap).length,
+      quote2YDays: Object.keys(quote2YMap).length
     })
 
-    // Use common date range and fill with latest available values
+    // Get all unique dates from all datasets
+    const allDates = new Set([
+      ...Object.keys(base10YMap),
+      ...Object.keys(base2YMap),
+      ...Object.keys(quote10YMap),
+      ...Object.keys(quote2YMap)
+    ])
+    const sortedDates = Array.from(allDates).sort()
+
+    // Fill forward missing values
     let lastBase10 = null
     let lastBase2 = null
     let lastQuote10 = null
     let lastQuote2 = null
 
-    const result = dates.map(date => {
+    const result = sortedDates.map(date => {
       if (base10YMap[date] !== undefined) lastBase10 = base10YMap[date]
       if (base2YMap[date] !== undefined) lastBase2 = base2YMap[date]
       if (quote10YMap[date] !== undefined) lastQuote10 = quote10YMap[date]
       if (quote2YMap[date] !== undefined) lastQuote2 = quote2YMap[date]
 
       const base10 = lastBase10 || 0
-      const base2 = lastBase2 || 0  // Don't fall back to 10Y
+      const base2 = lastBase2 || 0
       const quote10 = lastQuote10 || 0
-      const quote2 = lastQuote2 || 0  // Don't fall back to 10Y
+      const quote2 = lastQuote2 || 0
 
       return {
         date: date,
@@ -362,24 +340,16 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       }
     })
     
-    console.log('Bond yields loaded:', {
-      base10YPoints: base10Y.length,
-      base2YPoints: base2Y.length,
-      quote10YPoints: quote10Y.length,
-      quote2YPoints: quote2Y.length,
+    console.log('Bond yields processed (daily):', {
+      uniqueDates: sortedDates.length,
       resultPoints: result.length,
-      sampleResult: result.slice(-3),
-      lastSpreads: {
-        spread10Y: result[result.length - 1]?.spread10Y,
-        spread2Y: result[result.length - 1]?.spread2Y,
-        areEqual: result[result.length - 1]?.spread10Y === result[result.length - 1]?.spread2Y
-      }
+      sampleResult: result.slice(-3)
     })
     
     return result
   }
 
-  const loadEMA9Data = async (pair, dates) => {
+  const loadEMA9Data = async (pair) => {
     try {
       // Find the symbol in watchlist (format: "C:USDCAD" or "USDCAD")
       const symbol = pair.replace('C:', '')
@@ -392,29 +362,32 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         const currentPrice = watchlistItem.price || 0
         const ema9Value = watchlistItem.daily_indicators.ema_9.ema_value || currentPrice
 
-        // Generate historical-like data based on current values using common dates
+        // Generate historical-like data for the timeframe (daily)
+        const data = []
+        const now = new Date()
         const priceChange = currentPrice - ema9Value
         
-        const data = dates.map((date, index) => {
-          const i = dates.length - 1 - index
+        for (let i = timeframe; i >= 0; i--) {
+          const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000))
+          const dateKey = date.toISOString().split('T')[0]
           
           // Simulate price movement with some randomness
-          const factor = (dates.length - 1 - i) / (dates.length - 1)
+          const factor = (timeframe - i) / timeframe
           const noise = (Math.random() - 0.5) * 0.002 * currentPrice
           const price = ema9Value + (priceChange * factor) + noise
           const ema = ema9Value + (priceChange * factor * 0.8) + noise * 0.5
 
-          return {
-            date: date,
+          data.push({
+            date: dateKey,
             price: parseFloat(price.toFixed(5)),
             ema9: parseFloat(ema.toFixed(5))
-          }
-        })
+          })
+        }
 
         setEma9Data(data)
       } else {
         // Fallback stub data if watchlist item not found
-        generateStubEMA9Data(pair, dates)
+        generateStubEMA9Data(pair)
       }
     } catch (error) {
       console.error('Error loading EMA9 data:', error)
@@ -422,7 +395,13 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     }
   }
 
-  const generateStubEMA9Data = (pair, dates) => {
+  const generateStubEMA9Data = (pair) => {
+    const now = new Date()
+    const dates = []
+    for (let i = timeframe; i >= 0; i--) {
+      const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000))
+      dates.push(date.toISOString().split('T')[0])
+    }
     const baseValue = pair === 'USDCAD' ? 1.35 : 
                      pair === 'USDJPY' ? 148.5 : 
                      pair === 'EURUSD' ? 1.08 :
@@ -468,14 +447,23 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr)
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+  }
+  
+  const formatFullDate = (dateStr) => {
+    try {
+      const date = new Date(dateStr)
+      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', weekday: 'short' })
+    } catch {
+      return dateStr
+    }
   }
 
   const CustomTooltip = ({ active, payload, label, title }) => {
     if (active && payload && payload.length) {
       return (
         <div className="custom-tooltip">
-          <p className="label">{`${formatDate(label)}`}</p>
+          <p className="label">{`${formatFullDate(label)}`}</p>
           {payload.map((entry, index) => (
             <p key={index} style={{ color: entry.color }}>
               {`${entry.name}: ${entry.value}${title.includes('Rate') ? '%' : ''}`}
@@ -540,6 +528,12 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         </div>
       </div>
 
+      {/* Timeframe Selector */}
+      <TimeframeSelector
+        selectedTimeframe={timeframe}
+        onTimeframeChange={setTimeframe}
+      />
+
       {/* 1. Interest Rate Comparison Chart */}
       <div className="chart-section">
         <div className="chart-title">
@@ -560,6 +554,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               tickFormatter={formatDate}
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
+              interval={timeframe <= 30 ? Math.floor(interestRateData.length / 15) : Math.floor(interestRateData.length / 10)}
             />
             <YAxis 
               stroke="#6b7280"
@@ -609,6 +604,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               tickFormatter={formatDate}
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
+              interval={timeframe <= 30 ? Math.floor(bondSpreadData.length / 15) : Math.floor(bondSpreadData.length / 10)}
             />
             <YAxis 
               stroke="#6b7280"
@@ -652,6 +648,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               tickFormatter={formatDate}
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
+              interval={timeframe <= 30 ? Math.floor(ema9Data.length / 15) : Math.floor(ema9Data.length / 10)}
             />
             <YAxis 
               stroke="#6b7280"

@@ -2,11 +2,164 @@
   {
     "country": "UK",
     "symbol": "GUKG10:IND",
+    "date": "05/03/2026",
+    "open": 4.405,
+    "high": 4.405,
+    "low": 4.405,
+    "close": 4.405
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "04/03/2026",
+    "open": 4.376,
+    "high": 4.376,
+    "low": 4.376,
+    "close": 4.376
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "03/03/2026",
+    "open": 4.4075,
+    "high": 4.4075,
+    "low": 4.4075,
+    "close": 4.4075
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "02/03/2026",
+    "open": 4.3106,
+    "high": 4.3106,
+    "low": 4.3106,
+    "close": 4.3106
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "27/02/2026",
+    "open": 4.2336,
+    "high": 4.2336,
+    "low": 4.2336,
+    "close": 4.2336
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "26/02/2026",
+    "open": 4.2762,
+    "high": 4.2762,
+    "low": 4.2762,
+    "close": 4.2762
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "25/02/2026",
+    "open": 4.3232,
+    "high": 4.3232,
+    "low": 4.3232,
+    "close": 4.3232
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "24/02/2026",
+    "open": 4.3037,
+    "high": 4.3037,
+    "low": 4.3037,
+    "close": 4.3037
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "23/02/2026",
+    "open": 4.3109,
+    "high": 4.3109,
+    "low": 4.3109,
+    "close": 4.3109
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "20/02/2026",
+    "open": 4.3555,
+    "high": 4.3555,
+    "low": 4.3555,
+    "close": 4.3555
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "19/02/2026",
+    "open": 4.3704,
+    "high": 4.3704,
+    "low": 4.3704,
+    "close": 4.3704
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "18/02/2026",
+    "open": 4.3752,
+    "high": 4.3752,
+    "low": 4.3752,
+    "close": 4.3752
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "17/02/2026",
+    "open": 4.3827,
+    "high": 4.3827,
+    "low": 4.3827,
+    "close": 4.3827
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "16/02/2026",
+    "open": 4.4022,
+    "high": 4.4022,
+    "low": 4.4022,
+    "close": 4.4022
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "13/02/2026",
+    "open": 4.4199,
+    "high": 4.4199,
+    "low": 4.4199,
+    "close": 4.4199
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "12/02/2026",
+    "open": 4.4547,
+    "high": 4.4547,
+    "low": 4.4547,
+    "close": 4.4547
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
+    "date": "11/02/2026",
+    "open": 4.4814,
+    "high": 4.4814,
+    "low": 4.4814,
+    "close": 4.4814
+  },
+  {
+    "country": "UK",
+    "symbol": "GUKG10:IND",
     "date": "10/02/2026",
-    "open": 4.523,
-    "high": 4.523,
-    "low": 4.523,
-    "close": 4.523
+    "open": 4.5185,
+    "high": 4.5185,
+    "low": 4.5185,
+    "close": 4.5185
   },
   {
     "country": "UK",
@@ -89845,158 +89998,5 @@
     "high": 9.742,
     "low": 9.742,
     "close": 9.742
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "15/02/1988",
-    "open": 9.773,
-    "high": 9.773,
-    "low": 9.773,
-    "close": 9.773
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "12/02/1988",
-    "open": 9.746,
-    "high": 9.746,
-    "low": 9.746,
-    "close": 9.746
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "11/02/1988",
-    "open": 9.79,
-    "high": 9.79,
-    "low": 9.79,
-    "close": 9.79
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "10/02/1988",
-    "open": 9.712,
-    "high": 9.712,
-    "low": 9.712,
-    "close": 9.712
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "09/02/1988",
-    "open": 9.777,
-    "high": 9.777,
-    "low": 9.777,
-    "close": 9.777
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "08/02/1988",
-    "open": 9.793,
-    "high": 9.793,
-    "low": 9.793,
-    "close": 9.793
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "05/02/1988",
-    "open": 9.654,
-    "high": 9.654,
-    "low": 9.654,
-    "close": 9.654
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "04/02/1988",
-    "open": 9.579,
-    "high": 9.579,
-    "low": 9.579,
-    "close": 9.579
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "03/02/1988",
-    "open": 9.5,
-    "high": 9.5,
-    "low": 9.5,
-    "close": 9.5
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "02/02/1988",
-    "open": 9.525,
-    "high": 9.525,
-    "low": 9.525,
-    "close": 9.525
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "01/02/1988",
-    "open": 9.575,
-    "high": 9.575,
-    "low": 9.575,
-    "close": 9.575
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "29/01/1988",
-    "open": 9.456,
-    "high": 9.456,
-    "low": 9.456,
-    "close": 9.456
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "28/01/1988",
-    "open": 9.471,
-    "high": 9.471,
-    "low": 9.471,
-    "close": 9.471
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "27/01/1988",
-    "open": 9.592,
-    "high": 9.592,
-    "low": 9.592,
-    "close": 9.592
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "26/01/1988",
-    "open": 9.66,
-    "high": 9.66,
-    "low": 9.66,
-    "close": 9.66
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "25/01/1988",
-    "open": 9.545,
-    "high": 9.545,
-    "low": 9.545,
-    "close": 9.545
-  },
-  {
-    "country": "UK",
-    "symbol": "GUKG10:IND",
-    "date": "22/01/1988",
-    "open": 9.675,
-    "high": 9.675,
-    "low": 9.675,
-    "close": 9.675
   }
 ]

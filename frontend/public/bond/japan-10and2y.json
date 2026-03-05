@@ -2,7 +2,295 @@
   {
     "country": "Japan",
     "symbol": "GJGB10:IND",
-    "date": "10/02/2026",
+    "date": "05/03/2026",
+    "open": 2.158,
+    "high": 2.158,
+    "low": 2.158,
+    "close": 2.158
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "05/03/2026",
+    "open": 2.058,
+    "high": 2.078,
+    "low": 2.038,
+    "close": 2.058
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "04/03/2026",
+    "open": 2.1185,
+    "high": 2.1185,
+    "low": 2.1185,
+    "close": 2.1185
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "04/03/2026",
+    "open": 2.0185,
+    "high": 2.0385,
+    "low": 1.9985,
+    "close": 2.0185
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "03/03/2026",
+    "open": 2.1329,
+    "high": 2.1329,
+    "low": 2.1329,
+    "close": 2.1329
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "03/03/2026",
+    "open": 2.0329,
+    "high": 2.0529,
+    "low": 2.0129,
+    "close": 2.0329
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "02/03/2026",
+    "open": 2.0648,
+    "high": 2.0648,
+    "low": 2.0648,
+    "close": 2.0648
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "02/03/2026",
+    "open": 1.9648,
+    "high": 1.9848,
+    "low": 1.9448,
+    "close": 1.9648
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "27/02/2026",
+    "open": 2.1123,
+    "high": 2.1123,
+    "low": 2.1123,
+    "close": 2.1123
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "27/02/2026",
+    "open": 2.0123,
+    "high": 2.0323,
+    "low": 1.9923,
+    "close": 2.0123
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "26/02/2026",
+    "open": 2.1568,
+    "high": 2.1568,
+    "low": 2.1568,
+    "close": 2.1568
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "26/02/2026",
+    "open": 2.0568,
+    "high": 2.0768,
+    "low": 2.0368,
+    "close": 2.0568
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "25/02/2026",
+    "open": 2.1468,
+    "high": 2.1468,
+    "low": 2.1468,
+    "close": 2.1468
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "25/02/2026",
+    "open": 2.0468,
+    "high": 2.0668,
+    "low": 2.0268,
+    "close": 2.0468
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "24/02/2026",
+    "open": 2.1128,
+    "high": 2.1128,
+    "low": 2.1128,
+    "close": 2.1128
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "24/02/2026",
+    "open": 2.0128,
+    "high": 2.0328,
+    "low": 1.9928,
+    "close": 2.0128
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "23/02/2026",
+    "open": 2.109,
+    "high": 2.109,
+    "low": 2.109,
+    "close": 2.109
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "23/02/2026",
+    "open": 2.009,
+    "high": 2.029,
+    "low": 1.989,
+    "close": 2.009
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "20/02/2026",
+    "open": 2.1093,
+    "high": 2.1093,
+    "low": 2.1093,
+    "close": 2.1093
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "20/02/2026",
+    "open": 2.0093,
+    "high": 2.0293,
+    "low": 1.9893,
+    "close": 2.0093
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "19/02/2026",
+    "open": 2.1414,
+    "high": 2.1414,
+    "low": 2.1414,
+    "close": 2.1414
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "19/02/2026",
+    "open": 2.0414,
+    "high": 2.0614,
+    "low": 2.0214,
+    "close": 2.0414
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "18/02/2026",
+    "open": 2.14,
+    "high": 2.14,
+    "low": 2.14,
+    "close": 2.14
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "18/02/2026",
+    "open": 2.04,
+    "high": 2.06,
+    "low": 2.02,
+    "close": 2.04
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "17/02/2026",
+    "open": 2.1264,
+    "high": 2.1264,
+    "low": 2.1264,
+    "close": 2.1264
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "17/02/2026",
+    "open": 2.0264,
+    "high": 2.0464,
+    "low": 2.0064,
+    "close": 2.0264
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "16/02/2026",
+    "open": 2.2147,
+    "high": 2.2147,
+    "low": 2.2147,
+    "close": 2.2147
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "16/02/2026",
+    "open": 2.1147,
+    "high": 2.1347,
+    "low": 2.0947,
+    "close": 2.1147
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "13/02/2026",
+    "open": 2.2131,
+    "high": 2.2131,
+    "low": 2.2131,
+    "close": 2.2131
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "13/02/2026",
+    "open": 2.1131,
+    "high": 2.1331,
+    "low": 2.0931,
+    "close": 2.1131
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "12/02/2026",
+    "open": 2.2348,
+    "high": 2.2348,
+    "low": 2.2348,
+    "close": 2.2348
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "12/02/2026",
+    "open": 2.1348,
+    "high": 2.1548,
+    "low": 2.1148,
+    "close": 2.1348
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "11/02/2026",
     "open": 2.237,
     "high": 2.237,
     "low": 2.237,
@@ -11,11 +299,29 @@
   {
     "country": "Japan",
     "symbol": "GJGB2:IND",
-    "date": "10/02/2026",
+    "date": "11/02/2026",
     "open": 2.137,
     "high": 2.157,
     "low": 2.117,
     "close": 2.137
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB10:IND",
+    "date": "10/02/2026",
+    "open": 2.2371,
+    "high": 2.2371,
+    "low": 2.2371,
+    "close": 2.2371
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "10/02/2026",
+    "open": 2.1371,
+    "high": 2.1571,
+    "low": 2.1171,
+    "close": 2.1371
   },
   {
     "country": "Japan",
@@ -179692,311 +179998,5 @@
     "high": 4.475,
     "low": 4.435,
     "close": 4.455
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "20/08/1986",
-    "open": 4.575,
-    "high": 4.575,
-    "low": 4.575,
-    "close": 4.575
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "20/08/1986",
-    "open": 4.475,
-    "high": 4.495,
-    "low": 4.455,
-    "close": 4.475
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "19/08/1986",
-    "open": 4.565,
-    "high": 4.565,
-    "low": 4.565,
-    "close": 4.565
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "19/08/1986",
-    "open": 4.465,
-    "high": 4.485,
-    "low": 4.445,
-    "close": 4.465
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "18/08/1986",
-    "open": 4.585,
-    "high": 4.585,
-    "low": 4.585,
-    "close": 4.585
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "18/08/1986",
-    "open": 4.485,
-    "high": 4.505,
-    "low": 4.465,
-    "close": 4.485
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "15/08/1986",
-    "open": 4.585,
-    "high": 4.585,
-    "low": 4.585,
-    "close": 4.585
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "15/08/1986",
-    "open": 4.485,
-    "high": 4.505,
-    "low": 4.465,
-    "close": 4.485
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "14/08/1986",
-    "open": 4.64,
-    "high": 4.64,
-    "low": 4.64,
-    "close": 4.64
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "14/08/1986",
-    "open": 4.54,
-    "high": 4.56,
-    "low": 4.52,
-    "close": 4.54
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "13/08/1986",
-    "open": 4.635,
-    "high": 4.635,
-    "low": 4.635,
-    "close": 4.635
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "13/08/1986",
-    "open": 4.535,
-    "high": 4.555,
-    "low": 4.515,
-    "close": 4.535
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "12/08/1986",
-    "open": 4.645,
-    "high": 4.645,
-    "low": 4.645,
-    "close": 4.645
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "12/08/1986",
-    "open": 4.545,
-    "high": 4.565,
-    "low": 4.525,
-    "close": 4.545
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "11/08/1986",
-    "open": 4.675,
-    "high": 4.675,
-    "low": 4.675,
-    "close": 4.675
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "11/08/1986",
-    "open": 4.575,
-    "high": 4.595,
-    "low": 4.555,
-    "close": 4.575
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "08/08/1986",
-    "open": 4.68,
-    "high": 4.68,
-    "low": 4.68,
-    "close": 4.68
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "08/08/1986",
-    "open": 4.58,
-    "high": 4.6,
-    "low": 4.56,
-    "close": 4.58
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "07/08/1986",
-    "open": 4.66,
-    "high": 4.66,
-    "low": 4.66,
-    "close": 4.66
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "07/08/1986",
-    "open": 4.56,
-    "high": 4.58,
-    "low": 4.54,
-    "close": 4.56
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "06/08/1986",
-    "open": 4.695,
-    "high": 4.695,
-    "low": 4.695,
-    "close": 4.695
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "06/08/1986",
-    "open": 4.595,
-    "high": 4.615,
-    "low": 4.575,
-    "close": 4.595
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "05/08/1986",
-    "open": 4.685,
-    "high": 4.685,
-    "low": 4.685,
-    "close": 4.685
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "05/08/1986",
-    "open": 4.585,
-    "high": 4.605,
-    "low": 4.565,
-    "close": 4.585
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "04/08/1986",
-    "open": 4.69,
-    "high": 4.69,
-    "low": 4.69,
-    "close": 4.69
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "04/08/1986",
-    "open": 4.59,
-    "high": 4.61,
-    "low": 4.57,
-    "close": 4.59
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "02/08/1986",
-    "open": 4.655,
-    "high": 4.655,
-    "low": 4.655,
-    "close": 4.655
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "02/08/1986",
-    "open": 4.555,
-    "high": 4.575,
-    "low": 4.535,
-    "close": 4.555
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "01/08/1986",
-    "open": 4.65,
-    "high": 4.65,
-    "low": 4.65,
-    "close": 4.65
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "01/08/1986",
-    "open": 4.55,
-    "high": 4.57,
-    "low": 4.53,
-    "close": 4.55
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "31/07/1986",
-    "open": 4.65,
-    "high": 4.65,
-    "low": 4.65,
-    "close": 4.65
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "31/07/1986",
-    "open": 4.55,
-    "high": 4.57,
-    "low": 4.53,
-    "close": 4.55
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB10:IND",
-    "date": "30/07/1986",
-    "open": 4.68,
-    "high": 4.68,
-    "low": 4.68,
-    "close": 4.68
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "30/07/1986",
-    "open": 4.58,
-    "high": 4.6,
-    "low": 4.56,
-    "close": 4.58
   }
 ]

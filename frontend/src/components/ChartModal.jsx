@@ -10,9 +10,11 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
   const chartContainerRef = useRef(null)
   const rsiChartContainerRef = useRef(null)
   const macdChartContainerRef = useRef(null)
+  const volumeChartContainerRef = useRef(null)
   const chartRef = useRef(null)
   const rsiChartRef = useRef(null)
   const macdChartRef = useRef(null)
+  const volumeChartRef = useRef(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [chartData, setChartData] = useState(null)
@@ -161,8 +163,17 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       // Sort candles by time
       const sortedCandles = [...candles].sort((a, b) => a.time - b.time)
       
-      // Use all candles for proper indicator calculation
-      const candlesToUse = sortedCandles
+      // Filter out weekend candles (Saturday=6, Sunday=0) for forex markets
+      const filteredCandles = sortedCandles.filter(candle => {
+        const date = new Date(candle.time * 1000)
+        const dayOfWeek = date.getUTCDay()
+        return dayOfWeek !== 0 && dayOfWeek !== 6  // Exclude Sunday (0) and Saturday (6)
+      })
+      
+      // Use filtered candles for proper indicator calculation
+      const candlesToUse = filteredCandles
+      
+      console.log(`📊 Filtered ${sortedCandles.length - filteredCandles.length} weekend candles (${sortedCandles.length} → ${filteredCandles.length})`)
 
       // Calculate technical indicators on full dataset
       const calculatedIndicators = calculateIndicators(candlesToUse)
@@ -189,13 +200,29 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
 
   const fetchDailySnapshotVolume = async () => {
     try {
-      console.log('📊 Fetching daily snapshot volume data for', symbol)
+      console.log('📊 Fetching daily snapshot volume data for', symbol, 'timeframe:', timeframe)
       
-      // Fetch last 60 days of snapshots
-      const response = await axios.get(`${API_URL}/api/signals/daily-snapshots?days=60&limit=60`)
+      // Match the snapshot period to the chart timeframe
+      let snapshotDays
+      switch(timeframe) {
+        case 'hourly':
+          snapshotDays = 42  // Match hourly chart period
+          break
+        case 'daily':
+          snapshotDays = 365  // Match daily chart period (1 year)
+          break
+        case 'weekly':
+          snapshotDays = 1825  // Match weekly chart period (5 years)
+          break
+        default:
+          snapshotDays = 365
+      }
+      
+      // Fetch snapshots matching the chart timeframe
+      const response = await axios.get(`${API_URL}/api/signals/daily-snapshots?days=${snapshotDays}&limit=${snapshotDays}`)
       console.log('📥 API Response:', response.data)
       const snapshots = response.data.snapshots || []
-      console.log('📦 Total snapshots received:', snapshots.length)
+      console.log('📦 Total snapshots received:', snapshots.length, 'for', snapshotDays, 'days period')
       
       // Log the first snapshot structure for debugging
       if (snapshots.length > 0) {
@@ -218,6 +245,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
 
       snapshots.reverse().forEach((snapshot, idx) => {
         const date = new Date(snapshot.snapshot_date)
+        // Normalize to midnight UTC to match candle timestamps
+        date.setUTCHours(0, 0, 0, 0)
         const timestamp = Math.floor(date.getTime() / 1000)
         
         // Find this symbol's data
@@ -297,6 +326,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       // Process snapshots for INDIVIDUAL mode (one bar per day with color)
       const volumeData = snapshots.map(snapshot => {
         const date = new Date(snapshot.snapshot_date)
+        // Normalize to midnight UTC to match candle timestamps
+        date.setUTCHours(0, 0, 0, 0)
         const timestamp = Math.floor(date.getTime() / 1000)
         
         // Find this symbol's data in the snapshot
@@ -320,7 +351,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           color = '#6B7280' // gray for neutral
         }
 
-        // Use signal strength as the value (higher = stronger signal)
+        // Use signal strength as the value
         const value = Math.abs(symbolData.signal_strength) || 0.5
 
         return {
@@ -616,11 +647,32 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       },
       rightPriceScale: {
         borderColor: '#4b5563',
+        scaleMargins: {
+          top: 0.05,
+          bottom: showVolumeMode ? 0.4 : 0.05,  // Reserve 40% at bottom for volume section when active
+        },
+      },
+      leftPriceScale: {
+        visible: showVolumeMode,  // Only show when volume bars are active
+        borderColor: '#4b5563',
+        scaleMargins: {
+          top: 0.75,  // Volume section in bottom 25% with top padding
+          bottom: 0.05,
+        },
       },
       timeScale: {
         borderColor: '#4b5563',
         timeVisible: true,
         secondsVisible: false,
+        rightOffset: 5,
+        barSpacing: 6,
+        fixLeftEdge: false,
+        fixRightEdge: false,
+        lockVisibleTimeRangeOnResize: true,
+        rightBarStaysOnScroll: true,
+        borderVisible: true,
+        visible: true,
+        timeVisible: true,
       },
       width: chartContainerRef.current.clientWidth,
       height: 400,
@@ -636,79 +688,131 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       wickUpColor: '#10b981',
       wickDownColor: '#ef4444',
     })
+    
+    // Debug: Log first few candle timestamps
     candleSeries.setData(candles)
 
-    // Add volume bars from daily snapshots (Bullish/Neutral/Bearish)
-    console.log('🔍 Volume rendering check - showVolumeMode:', showVolumeMode, 'volumeBarMode:', volumeBarMode, 'dailySnapshotVolume length:', dailySnapshotVolume?.length)
-    if (showVolumeMode) {
-      if (volumeBarMode === 'stacked' && stackedVolumeData) {
-        // STACKED MODE - Show Bullish/Neutral/Bearish as stacked bars
-        console.log('📊 Adding STACKED volume bars')
-        
-        // Add three histogram series for stacked effect (render largest to smallest)
-        // Top layer (Red - Bearish) - Total height
-        const bearishSeries = chart.addHistogramSeries({
-          color: '#EF4444',
-          priceFormat: {
-            type: 'volume',
-          },
-          priceScaleId: 'volume',
-          scaleMargins: {
-            top: 0.8,
-            bottom: 0,
-          },
-        })
-        bearishSeries.setData(stackedVolumeData.bearish)
-        
-        // Middle layer (Gray - Neutral) - Bullish + Neutral height
-        const neutralSeries = chart.addHistogramSeries({
-          color: '#6B7280',
-          priceFormat: {
-            type: 'volume',
-          },
-          priceScaleId: 'volume',
-          scaleMargins: {
-            top: 0.8,
-            bottom: 0,
-          },
-        })
-        neutralSeries.setData(stackedVolumeData.neutral)
-        
-        // Bottom layer (Green - Bullish) - Bullish height only
-        const bullishSeries = chart.addHistogramSeries({
-          color: '#10B981',
-          priceFormat: {
-            type: 'volume',
-          },
-          priceScaleId: 'volume',
-          scaleMargins: {
-            top: 0.8,
-            bottom: 0,
-          },
-        })
-        bullishSeries.setData(stackedVolumeData.bullish)
-        
-      } else if (volumeBarMode === 'individual' && dailySnapshotVolume && dailySnapshotVolume.length > 0) {
-        // INDIVIDUAL MODE - Show signal strength with color based on signal type
-        console.log('📊 Adding INDIVIDUAL volume bars:', dailySnapshotVolume.length, 'days')
-        console.log('📊 First 3 volume bars:', dailySnapshotVolume.slice(0, 3))
-        const volumeSeries = chart.addHistogramSeries({
-          priceFormat: {
-            type: 'custom',
-            formatter: (price) => `Signal: ${price.toFixed(1)}`
-          },
-          priceScaleId: 'volume',
-          scaleMargins: {
-            top: 0.8, // Position at bottom 20% of chart
-            bottom: 0,
-          },
-        })
-        volumeSeries.setData(dailySnapshotVolume)
-      }
-    } else if (!showVolumeMode && signalMarkers && signalMarkers.length > 0) {
+    // Add signal markers if not in volume mode
+    if (!showVolumeMode && signalMarkers && signalMarkers.length > 0) {
       // Individual Marker Mode - Show each signal as an arrow
       console.log('🎯 Adding individual signal markers:', signalMarkers)
       candleSeries.setMarkers(signalMarkers)
+    }
+
+    // Add volume histogram bars if in volume mode
+    if (showVolumeMode) {
+      console.log('🔍 Adding volume bars to main chart - volumeBarMode:', volumeBarMode)
+      
+      if (volumeBarMode === 'stacked' && stackedVolumeData) {
+        // STACKED MODE - Show Bullish UP (green) and Bearish DOWN (red) from zero line
+        console.log('📊 Adding STACKED volume bars:', stackedVolumeData)
+        
+        // Create two separate histograms: one for bullish (up) and one for bearish (down)
+        const bullishHistogramData = []
+        const bearishHistogramData = []
+        
+        stackedVolumeData.bullish.forEach((bullishItem, idx) => {
+          const bearishItem = stackedVolumeData.bearish[idx]
+          const neutralItem = stackedVolumeData.neutral[idx]
+          
+          // Extract individual counts from cumulative values
+          const bullishCount = bullishItem.value
+          const bearishCount = bearishItem ? (bearishItem.value - (neutralItem ? neutralItem.value : 0)) : 0
+          
+          // Use small actual values - will be tiny compared to price scale
+          
+          // Only add if there's actual data (skip holidays/empty days)
+          if (bullishCount > 0 || bearishCount > 0) {
+            // Bullish bars go UP (positive)
+            bullishHistogramData.push({
+              time: bullishItem.time,
+              value: bullishCount,  // Use actual count
+              color: '#10B981'
+            })
+            
+            // Bearish bars go DOWN (negative)
+            bearishHistogramData.push({
+              time: bullishItem.time,
+              value: -bearishCount,  // Negative value
+              color: '#EF4444'
+            })
+          }
+        })
+        
+        // Add bullish histogram (green bars going up)
+        const bullishSeries = chart.addHistogramSeries({
+          priceFormat: {
+            type: 'volume',
+          },
+          priceScaleId: 'left',  // Use left scale for volume
+        })
+        bullishSeries.setData(bullishHistogramData)
+        
+        // Add bearish histogram (red bars going down)
+        const bearishSeries = chart.addHistogramSeries({
+          priceFormat: {
+            type: 'volume',
+          },
+          priceScaleId: 'left',  // Use left scale for volume
+        })
+        bearishSeries.setData(bearishHistogramData)
+        
+        // Set fixed visible range for volume scale to prevent auto-scale compression
+        const maxVolume = Math.max(
+          ...bullishHistogramData.map(d => Math.abs(d.value)),
+          ...bearishHistogramData.map(d => Math.abs(d.value))
+        )
+        chart.priceScale('left').applyOptions({
+          scaleMargins: {
+            top: 0.75,
+            bottom: 0.05,
+          },
+          autoScale: false,
+        })
+        // Force the min/max range
+        setTimeout(() => {
+          chart.priceScale('left').applyOptions({
+            autoScale: true,  // Let it scale within the margin
+          })
+        }, 100)
+        
+      } else if (volumeBarMode === 'individual' && dailySnapshotVolume && dailySnapshotVolume.length > 0) {
+        // INDIVIDUAL MODE - Show signal strength: positive if bullish, negative if bearish
+        console.log('📊 Adding INDIVIDUAL volume bars:', dailySnapshotVolume.length, 'days')
+        
+        const scaleFactor = 1  // Use actual values
+        
+        // Convert to histogram format based on signal type, filter out empty days
+        const volumeHistogramData = dailySnapshotVolume
+          .filter(item => item.value > 0)  // Skip days with no signals
+          .map(item => {
+            // If color is green/bullish, make positive; if red/bearish, make negative
+            const isPositive = item.color === '#10B981' || item.color === '#10b981'
+            return {
+              time: item.time,
+              value: (isPositive ? item.value : -item.value) * scaleFactor,
+              color: item.color
+            }
+          })
+        
+        const volumeSeries = chart.addHistogramSeries({
+          priceFormat: {
+            type: 'custom',
+            formatter: (price) => `Signal: ${Math.abs(price).toFixed(1)}`
+          },
+          priceScaleId: 'left',  // Use left scale for volume
+        })
+        volumeSeries.setData(volumeHistogramData)
+        
+        // Set fixed visible range for volume scale
+        chart.priceScale('left').applyOptions({
+          scaleMargins: {
+            top: 0.75,
+            bottom: 0.05,
+          },
+          autoScale: true,
+        })
+      }
     }
 
     // Add Bollinger Bands (support both daily and weekly data structures)
@@ -992,6 +1096,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         }
       })
     }
+
   }
 
   const handleOverlayClick = (e) => {

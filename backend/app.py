@@ -697,64 +697,6 @@ async def get_daily_snapshots(
         )
 
 
-@app.get("/api/signals/daily-snapshots/{date}")
-async def get_snapshot_by_date(
-    date: str
-):
-    """
-    Get a specific daily snapshot by date
-    
-    Path params:
-        date: Date in YYYY-MM-DD format
-    
-    Returns:
-        Daily signal snapshot for the specified date
-    """
-    try:
-        # Parse date
-        try:
-            snapshot_date = datetime.strptime(date, '%Y-%m-%d')
-            # Convert to UTC and set to 5pm EST (which is 10pm UTC during EST, 9pm during EDT)
-            # For simplicity, we'll search for any snapshot on that date
-            start_of_day = snapshot_date.replace(hour=0, minute=0, second=0, microsecond=0)
-            end_of_day = snapshot_date.replace(hour=23, minute=59, second=59, microsecond=999999)
-        except ValueError:
-            raise HTTPException(
-                status_code=400,
-                detail="Invalid date format. Use YYYY-MM-DD"
-            )
-        
-        # Fetch snapshot
-        collection = get_daily_signal_snapshots_collection()
-        doc = await collection.find_one({
-            'snapshot_date': {
-                '$gte': start_of_day,
-                '$lte': end_of_day
-            }
-        })
-        
-        if not doc:
-            raise HTTPException(
-                status_code=404,
-                detail=f"No snapshot found for date {date}"
-            )
-        
-        # Convert ObjectId to string
-        if '_id' in doc:
-            doc['_id'] = str(doc['_id'])
-        
-        return doc
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger = logging.getLogger(__name__)
-        logger.error(f"Failed to fetch snapshot for date {date}: {e}")
-        raise HTTPException(
-            status_code=500,
-            detail=f"Failed to fetch snapshot: {str(e)}"
-        )
-
-
 @app.get("/api/signals/daily-snapshots/latest")
 async def get_latest_snapshot():
     """
@@ -870,6 +812,64 @@ async def get_snapshot_stats(
         raise HTTPException(
             status_code=500,
             detail=f"Failed to calculate statistics: {str(e)}"
+        )
+
+
+@app.get("/api/signals/daily-snapshots/{date}")
+async def get_snapshot_by_date(
+    date: str
+):
+    """
+    Get a specific daily snapshot by date
+    
+    Path params:
+        date: Date in YYYY-MM-DD format
+    
+    Returns:
+        Daily signal snapshot for the specified date
+    """
+    try:
+        # Parse date
+        try:
+            snapshot_date = datetime.strptime(date, '%Y-%m-%d')
+            # Convert to UTC and set to 5pm EST (which is 10pm UTC during EST, 9pm during EDT)
+            # For simplicity, we'll search for any snapshot on that date
+            start_of_day = snapshot_date.replace(hour=0, minute=0, second=0, microsecond=0)
+            end_of_day = snapshot_date.replace(hour=23, minute=59, second=59, microsecond=999999)
+        except ValueError:
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid date format. Use YYYY-MM-DD"
+            )
+        
+        # Fetch snapshot
+        collection = get_daily_signal_snapshots_collection()
+        doc = await collection.find_one({
+            'snapshot_date': {
+                '$gte': start_of_day,
+                '$lte': end_of_day
+            }
+        })
+        
+        if not doc:
+            raise HTTPException(
+                status_code=404,
+                detail=f"No snapshot found for date {date}"
+            )
+        
+        # Convert ObjectId to string
+        if '_id' in doc:
+            doc['_id'] = str(doc['_id'])
+        
+        return doc
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to fetch snapshot for date {date}: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch snapshot: {str(e)}"
         )
 
 

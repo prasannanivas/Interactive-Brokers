@@ -17,12 +17,13 @@ import {
   ReferenceDot
 } from 'recharts'
 import { historyAPI } from '../api/api'
+import TimeframeSelector from './TimeframeSelector'
 import './CurrencyRateCorrelationChart.css'
 
 const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, onPairChange }) => {
   const [priceHistory, setPriceHistory] = useState([])
   const [loading, setLoading] = useState(false)
-  const [timeframe, setTimeframe] = useState(90) // days
+  const [timeframe, setTimeframe] = useState(30) // days - default to 1 month
 
   // Available currency pairs with their corresponding countries
   const currencyPairs = {
@@ -472,9 +473,13 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
   const customTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload
+      // Format timestamp to full date
+      const formattedDate = typeof label === 'number' 
+        ? new Date(label * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', weekday: 'short' })
+        : label
       return (
         <div className="custom-tooltip">
-          <p className="tooltip-label">{`Date: ${label}`}</p>
+          <p className="tooltip-label">{`${formattedDate}`}</p>
           <p className="tooltip-price">{`Price: ${data.price.toFixed(5)}`}</p>
           <p className="tooltip-change">{`Change: ${data.priceChange.toFixed(2)}%`}</p>
           <p className="tooltip-rate">{`Rate Diff: ${data.rateDifferential.toFixed(2)}%`}</p>
@@ -565,7 +570,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
   return (
     <div className="correlation-chart">
       <div className="chart-header">
-        <h2>Currency vs Interest Rate Correlation</h2>
+        <h2>Currency vs Interest Rate Correlation - Price & EMA</h2>
         <div className="chart-controls">
           <select 
             value={selectedCurrencyPair} 
@@ -578,22 +583,18 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
               </option>
             ))}
           </select>
-          <select 
-            value={timeframe} 
-            onChange={(e) => setTimeframe(parseInt(e.target.value))}
-            className="timeframe-selector"
-          >
-            <option value={30}>30 Days</option>
-            <option value={90}>90 Days</option>
-            <option value={180}>180 Days</option>
-            <option value={365}>1 Year</option>
-          </select>
           <button onClick={loadPriceHistory} className="refresh-button">
             <span className="refresh-icon">⟳</span>
             Refresh
           </button>
         </div>
       </div>
+      
+      {/* Timeframe Selector */}
+      <TimeframeSelector
+        selectedTimeframe={timeframe}
+        onTimeframeChange={setTimeframe}
+      />
 
       {stats && (
         <div className="chart-stats">

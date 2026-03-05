@@ -2,6 +2,15 @@
   {
     "Country": "Japan",
     "Category": "Interest Rate",
+    "DateTime": "2026-02-28T00:00:00",
+    "Value": 0.75,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2026-03-05T07:13:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
     "DateTime": "2026-01-23T00:00:00",
     "Value": 0.75,
     "Frequency": "Daily",

@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts'
+import TimeframeSelector from './TimeframeSelector'
 import './BondYieldsChart.css'
 
 const BondYieldsChart = ({ selectedCurrencyPair }) => {
   const [bondData, setBondData] = useState([])
   const [loading, setLoading] = useState(false)
+  const [timeframe, setTimeframe] = useState(30) // days - default to 1 month
 
   // Map currency pairs to their countries
   const pairToCountries = {
@@ -114,11 +116,11 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
       // Sort by date (most recent last for charting)
       historicalData.sort((a, b) => new Date(a.date) - new Date(b.date))
       
-      // Only keep last 90 days for performance
-      const ninetyDaysAgo = new Date()
-      ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90)
+      // Filter by selected timeframe
+      const cutoffDate = new Date()
+      cutoffDate.setDate(cutoffDate.getDate() - timeframe)
       const recentData = historicalData.filter(item => 
-        new Date(item.date) >= ninetyDaysAgo
+        new Date(item.date) >= cutoffDate
       )
       
       console.log('📊 Loaded real bond data:', recentData.length, 'records from', selectedCountries)
@@ -132,10 +134,10 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
     }
   }
 
-  // Load data when currency pair changes
+  // Load data when currency pair or timeframe changes
   useEffect(() => {
     loadBondData()
-  }, [selectedCurrencyPair])
+  }, [selectedCurrencyPair, timeframe])
 
   // Prepare chart data - group all dates and organize by country
   const chartData = useMemo(() => {
@@ -176,14 +178,54 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
       return dateStr
     }
   }
+  
+  const formatFullDate = (dateStr) => {
+    try {
+      const date = new Date(dateStr)
+      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+    } catch {
+      return dateStr
+    }
+  }
+  
+  // Custom Tooltip to show full date and day granularity
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div style={{
+          backgroundColor: '#1f2937',
+          border: '1px solid #374151',
+          borderRadius: '8px',
+          padding: '12px',
+          color: '#f9fafb'
+        }}>
+          <p style={{ marginBottom: '8px', fontWeight: 'bold', color: '#60a5fa' }}>
+            {formatFullDate(label)}
+          </p>
+          {payload.map((entry, index) => (
+            <p key={index} style={{ margin: '4px 0', color: entry.color }}>
+              {entry.name}: {formatYield(entry.value)}
+            </p>
+          ))}
+        </div>
+      )
+    }
+    return null
+  }
 
   return (
     <div className="bond-yields-chart">
       <div className="bond-yields-header">
         <div className="chart-title-section">
-          <h3>Government Bond Yields (2Y vs 10Y) - {selectedCurrencyPair}</h3>
+          <h3>Government Bond Yields (2Y vs 10Y) Spread - {selectedCurrencyPair}</h3>
         </div>
       </div>
+      
+      {/* Timeframe Selector */}
+      <TimeframeSelector
+        selectedTimeframe={timeframe}
+        onTimeframeChange={setTimeframe}
+      />
 
       {loading && (
         <div className="loading-indicator">
@@ -213,7 +255,7 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
                     angle={-45}
                     textAnchor="end"
                     height={80}
-                    interval={Math.floor(chartData.length / 10)}
+                    interval={timeframe <= 30 ? Math.floor(chartData.length / 15) : Math.floor(chartData.length / 10)}
                     tickFormatter={formatDate}
                   />
                   <YAxis 
@@ -221,11 +263,7 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
                     domain={['auto', 'auto']}
                     tick={{ fill: '#9ca3af' }}
                   />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151' }}
-                    labelStyle={{ color: '#f9fafb' }}
-                    formatter={(value) => formatYield(value)}
-                  />
+                  <Tooltip content={<CustomTooltip />} />
                   <Legend 
                     verticalAlign="top" 
                     align="left"
@@ -259,7 +297,7 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
                     angle={-45}
                     textAnchor="end"
                     height={80}
-                    interval={Math.floor(chartData.length / 10)}
+                    interval={timeframe <= 30 ? Math.floor(chartData.length / 15) : Math.floor(chartData.length / 10)}
                     tickFormatter={formatDate}
                   />
                   <YAxis 
@@ -267,11 +305,7 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
                     domain={['auto', 'auto']}
                     tick={{ fill: '#9ca3af' }}
                   />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151' }}
-                    labelStyle={{ color: '#f9fafb' }}
-                    formatter={(value) => formatYield(value)}
-                  />
+                  <Tooltip content={<CustomTooltip />} />
                   <Legend 
                     verticalAlign="top" 
                     align="left"
