@@ -19,7 +19,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   const [commonDateRange, setCommonDateRange] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [timeframe, setTimeframe] = useState(30)
+  const [timeframe, setTimeframe] = useState(1095)
   const [dataAvailability, setDataAvailability] = useState({
     interestRates: true,
     bondYields: true

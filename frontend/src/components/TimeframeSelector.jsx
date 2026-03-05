@@ -3,8 +3,8 @@ import './TimeframeSelector.css'
 
 const TimeframeSelector = ({ selectedTimeframe, onTimeframeChange }) => {
   const timeframes = [
-    { label: '1W', value: 7, days: 7 },
-    { label: '1M', value: 30, days: 30 },
+    // { label: '1W', value: 7, days: 7 },
+    // { label: '1M', value: 30, days: 30 },
     { label: '1Y', value: 365, days: 365 },
     { label: '3Y', value: 1095, days: 1095 },
     { label: '5Y', value: 1825, days: 1825 }

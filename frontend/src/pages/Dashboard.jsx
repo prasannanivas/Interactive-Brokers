@@ -664,11 +664,11 @@ const Dashboard = () => {
       <CurrencyMatrix watchlist={watchlist} onPairClick={openChartWithSignals} />
 
       {/* Daily Signal Volume Chart - NEW! Shows Bullish/Neutral/Bearish from daily snapshots */}
-      <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+      {/* <div style={{ marginTop: '20px', marginBottom: '20px' }}>
         <ErrorBoundary>
           <DailySignalVolumeChart days={30} />
         </ErrorBoundary>
-      </div>
+      </div> */}
 
       {/* Comprehensive Analysis Chart - New TradingView-style Layout */}
       <ErrorBoundary>
