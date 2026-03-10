@@ -96,7 +96,10 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       // Load all data with timeframe filtering (continue even if some fail)
       await loadInterestRates(mapping)
       await loadBondData(mapping)
-      loadEMA9Data(selectedCurrencyPair)
+      await loadEMA9Data(selectedCurrencyPair)
+      
+      // After all data is loaded, synchronize the date ranges
+      synchronizeDataRanges()
       
     } catch (err) {
       console.error('Error loading data:', err)
@@ -104,6 +107,99 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     } finally {
       setLoading(false)
     }
+  }
+
+  const synchronizeDataRanges = () => {
+    // Get all dates from each dataset
+    const interestDates = new Set(interestRateData.map(d => d.date))
+    const bondDates = new Set(bondSpreadData.map(d => d.date))
+    const ema9Dates = new Set(ema9Data.map(d => d.date))
+    
+    // Find common date range (dates that exist in at least one dataset)
+    const allDates = new Set([...interestDates, ...bondDates, ...ema9Dates])
+    const sortedDates = Array.from(allDates).sort()
+    
+    if (sortedDates.length === 0) return
+    
+    // Find the overlapping date range
+    const startDate = sortedDates[0]
+    const endDate = sortedDates[sortedDates.length - 1]
+    
+    console.log('Synchronizing date ranges:', {
+      startDate,
+      endDate,
+      totalDays: sortedDates.length,
+      interestRateDays: interestDates.size,
+      bondDays: bondDates.size,
+      ema9Days: ema9Dates.size
+    })
+    
+    // Align all datasets to use the common date range with forward fill
+    alignDataToDateRange(sortedDates)
+    
+    // Store the common date range
+    setCommonDateRange(sortedDates)
+  }
+
+  const alignDataToDateRange = (dateRange) => {
+    // Create maps for quick lookup
+    const interestMap = new Map(interestRateData.map(d => [d.date, d]))
+    const bondMap = new Map(bondSpreadData.map(d => [d.date, d]))
+    const ema9Map = new Map(ema9Data.map(d => [d.date, d]))
+    
+    // Forward fill missing dates for interest rate data
+    let lastInterestData = null
+    const alignedInterestData = dateRange.map(date => {
+      if (interestMap.has(date)) {
+        lastInterestData = interestMap.get(date)
+        return lastInterestData
+      } else if (lastInterestData) {
+        return { ...lastInterestData, date }
+      }
+      return null
+    }).filter(d => d !== null)
+    
+    // Forward fill missing dates for bond data
+    let lastBondData = null
+    const alignedBondData = dateRange.map(date => {
+      if (bondMap.has(date)) {
+        lastBondData = bondMap.get(date)
+        return lastBondData
+      } else if (lastBondData) {
+        return { ...lastBondData, date }
+      }
+      return null
+    }).filter(d => d !== null)
+    
+    // Forward fill missing dates for EMA9 data
+    let lastEma9Data = null
+    const alignedEma9Data = dateRange.map(date => {
+      if (ema9Map.has(date)) {
+        lastEma9Data = ema9Map.get(date)
+        return lastEma9Data
+      } else if (lastEma9Data) {
+        return { ...lastEma9Data, date }
+      }
+      return null
+    }).filter(d => d !== null)
+    
+    // Update state with aligned data
+    if (alignedInterestData.length > 0) {
+      setInterestRateData(alignedInterestData)
+    }
+    if (alignedBondData.length > 0) {
+      setBondSpreadData(alignedBondData)
+    }
+    if (alignedEma9Data.length > 0) {
+      setEma9Data(alignedEma9Data)
+    }
+    
+    console.log('Data aligned to common date range:', {
+      dateRange: dateRange.length,
+      interestRateAligned: alignedInterestData.length,
+      bondDataAligned: alignedBondData.length,
+      ema9DataAligned: alignedEma9Data.length
+    })
   }
 
   const filterDataByTimeframe = (data, dateField = 'date') => {
@@ -391,7 +487,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       }
     } catch (error) {
       console.error('Error loading EMA9 data:', error)
-      generateStubEMA9Data(pair, dates)
+      generateStubEMA9Data(pair)
     }
   }
 
@@ -443,6 +539,20 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       spread10Y: parseFloat((0.5 + Math.random() * 0.3 - 0.15).toFixed(3)),
       spread2Y: parseFloat((0.3 + Math.random() * 0.2 - 0.1).toFixed(3))
     }))
+  }
+
+  // Calculate optimal tick interval based on data length
+  const getTickInterval = (dataLength) => {
+    if (dataLength === 0) return 0
+    
+    // For daily data, show ~10-15 ticks across the chart
+    if (timeframe <= 365) { // 1Y or less
+      return Math.max(1, Math.floor(dataLength / 12))
+    } else if (timeframe <= 1095) { // 3Y
+      return Math.max(1, Math.floor(dataLength / 10))
+    } else { // 5Y
+      return Math.max(1, Math.floor(dataLength / 8))
+    }
   }
 
   const formatDate = (dateStr) => {
@@ -554,7 +664,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               tickFormatter={formatDate}
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
-              interval={timeframe <= 30 ? Math.floor(interestRateData.length / 15) : Math.floor(interestRateData.length / 10)}
+              interval={getTickInterval(interestRateData.length)}
+              domain={['dataMin', 'dataMax']}
             />
             <YAxis 
               stroke="#6b7280"
@@ -604,7 +715,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               tickFormatter={formatDate}
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
-              interval={timeframe <= 30 ? Math.floor(bondSpreadData.length / 15) : Math.floor(bondSpreadData.length / 10)}
+              interval={getTickInterval(bondSpreadData.length)}
+              domain={['dataMin', 'dataMax']}
             />
             <YAxis 
               stroke="#6b7280"
@@ -648,7 +760,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               tickFormatter={formatDate}
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
-              interval={timeframe <= 30 ? Math.floor(ema9Data.length / 15) : Math.floor(ema9Data.length / 10)}
+              interval={getTickInterval(ema9Data.length)}
+              domain={['dataMin', 'dataMax']}
             />
             <YAxis 
               stroke="#6b7280"
