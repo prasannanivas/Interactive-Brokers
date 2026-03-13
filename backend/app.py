@@ -407,6 +407,55 @@ async def get_me(current_user: UserResponse = Depends(get_current_user)):
     return current_user
 
 
+# Simple hardcoded authentication endpoint
+@app.post("/api/auth/simple-login")
+async def simple_login(user_credentials: UserLogin):
+    """Simple login with hardcoded credentials"""
+    # Hardcoded users
+    HARDCODED_USERS = {
+        "Anatoli@gmail.com": {
+            "id": "user-anatoli",
+            "username": "Anatoli",
+            "full_name": "Anatoli",
+            "password": "secret"
+        },
+        "Nivas@gmail.com": {
+            "id": "user-nivas",
+            "username": "Nivas",
+            "full_name": "Nivas",
+            "password": "secret"
+        }
+    }
+    
+    # Check if user exists and password matches
+    user = HARDCODED_USERS.get(user_credentials.email)
+    if not user or user["password"] != user_credentials.password:
+        raise HTTPException(
+            status_code=401,
+            detail="Incorrect email or password"
+        )
+    
+    # Create access token
+    access_token = create_access_token(data={"sub": user_credentials.email})
+    
+    # Return minimal user info
+    user_response = {
+        "id": user["id"],
+        "username": user["username"],
+        "email": user_credentials.email,
+        "full_name": user["full_name"],
+        "is_active": True,
+        "created_at": datetime.utcnow().isoformat(),
+        "last_login": datetime.utcnow().isoformat()
+    }
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": user_response
+    }
+
+
 @app.get("/api/auth/login-history")
 async def get_login_history(
     current_user: UserResponse = Depends(get_current_user),

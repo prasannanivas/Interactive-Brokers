@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import './Auth.css'
 
@@ -40,6 +40,19 @@ const Login = () => {
           <h1>📊 Trading Monitor</h1>
           <h2>Welcome Back</h2>
           <p>Sign in to your account</p>
+        </div>
+
+        <div style={{
+          padding: '10px',
+          backgroundColor: '#2c3e50',
+          borderRadius: '5px',
+          marginBottom: '15px',
+          fontSize: '13px',
+          color: '#ecf0f1'
+        }}>
+          <strong>Test Credentials:</strong><br />
+          Email: admin@trading.com<br />
+          Password: admin123
         </div>
 
         {error && (
@@ -86,13 +99,6 @@ const Login = () => {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
-
-        <div className="auth-footer">
-          <p>
-            Don't have an account?{' '}
-            <Link to="/register">Sign up</Link>
-          </p>
-        </div>
       </div>
     </div>
   )

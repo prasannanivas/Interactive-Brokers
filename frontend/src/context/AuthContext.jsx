@@ -28,10 +28,12 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     const token = localStorage.getItem('token')
-    if (token) {
+    const userStr = localStorage.getItem('user')
+    
+    if (token && userStr) {
       try {
-        const response = await authAPI.getMe()
-        setUser(response.data)
+        // Just restore from localStorage for simple auth
+        setUser(JSON.parse(userStr))
       } catch (error) {
         console.error('Auth check failed:', error)
         localStorage.removeItem('token')
@@ -43,7 +45,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await authAPI.login({ email, password })
+      // Use simple login with hardcoded credentials
+      const response = await authAPI.simpleLogin({ email, password })
       const { access_token, user: userData } = response.data
       
       // Store token and user
