@@ -424,6 +424,12 @@ async def simple_login(user_credentials: UserLogin):
             "username": "Nivas",
             "full_name": "Nivas",
             "password": "secret"
+        },
+        "leor@gmail.com": {
+            "id": "user-leor",
+            "username": "Leor",
+            "full_name": "Leor",
+            "password": "secret"
         }
     }
     
