@@ -42,19 +42,6 @@ const Login = () => {
           <p>Sign in to your account</p>
         </div>
 
-        <div style={{
-          padding: '10px',
-          backgroundColor: '#2c3e50',
-          borderRadius: '5px',
-          marginBottom: '15px',
-          fontSize: '13px',
-          color: '#ecf0f1'
-        }}>
-          <strong>Test Credentials:</strong><br />
-          Email: admin@trading.com<br />
-          Password: admin123
-        </div>
-
         {error && (
           <div className="error-message">
             {error}
