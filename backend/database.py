@@ -47,6 +47,13 @@ class Database:
         db = cls.get_db()
         
         # Users collection indexes
+        # Drop old unique username index if it exists
+        try:
+            await db.users.drop_index("username_1")
+            print("✓ Dropped old unique username index")
+        except Exception:
+            pass  # Index doesn't exist or already dropped
+        
         await db.users.create_index("email", unique=True)
         await db.users.create_index("username")  # Non-unique index for faster lookups
         
