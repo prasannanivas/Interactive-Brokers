@@ -45,8 +45,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      // Use simple login with hardcoded credentials
-      const response = await authAPI.simpleLogin({ email, password })
+      // Use proper auth service login endpoint
+      const response = await authAPI.login({ email, password })
       const { access_token, user: userData } = response.data
       
       // Store token and user

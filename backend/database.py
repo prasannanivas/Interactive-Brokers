@@ -48,7 +48,7 @@ class Database:
         
         # Users collection indexes
         await db.users.create_index("email", unique=True)
-        await db.users.create_index("username", unique=True)
+        await db.users.create_index("username")  # Non-unique index for faster lookups
         
         # Login history indexes
         await db.login_history.create_index([("user_id", 1), ("login_time", -1)])

@@ -34,11 +34,6 @@ const Register = () => {
       return
     }
 
-    if (formData.password.length < 8) {
-      setError('Password must be at least 8 characters')
-      return
-    }
-
     setLoading(true)
 
     const result = await register(
@@ -82,7 +77,6 @@ const Register = () => {
               placeholder="Choose a username"
               required
               disabled={loading}
-              minLength={3}
             />
           </div>
 
@@ -112,7 +106,7 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label>Password (min 8 characters)</label>
+            <label>Password</label>
             <div className="password-input-wrapper">
               <input
                 type={showPassword ? "text" : "password"}
@@ -122,7 +116,6 @@ const Register = () => {
                 placeholder="Create a password"
                 required
                 disabled={loading}
-                minLength={8}
               />
               <button
                 type="button"

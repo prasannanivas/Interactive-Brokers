@@ -307,17 +307,11 @@ async def register(user_data: UserCreate):
     """Register a new user"""
     users_collection = get_users_collection()
     
-    # Check if user already exists
-    existing_user = await users_collection.find_one({"$or": [
-        {"email": user_data.email},
-        {"username": user_data.username}
-    ]})
+    # Check if email already exists (username can be duplicate)
+    existing_user = await users_collection.find_one({"email": user_data.email})
     
     if existing_user:
-        if existing_user.get("email") == user_data.email:
-            raise HTTPException(status_code=400, detail="Email already registered")
-        else:
-            raise HTTPException(status_code=400, detail="Username already taken")
+        raise HTTPException(status_code=400, detail="Email already registered")
     
     # Create new user
     hashed_password = get_password_hash(user_data.password)

@@ -35,9 +35,9 @@ class PyObjectId(str):
 # User Models
 class UserCreate(BaseModel):
     """User registration model"""
-    username: str = Field(..., min_length=3, max_length=50)
+    username: str = Field(..., max_length=50)
     email: EmailStr
-    password: str = Field(..., min_length=8)
+    password: str
     full_name: Optional[str] = None
 
 
@@ -120,13 +120,13 @@ class PasswordResetToken(BaseModel):
 class PasswordReset(BaseModel):
     """Reset password with token"""
     token: str
-    new_password: str = Field(..., min_length=8)
+    new_password: str
 
 
 class PasswordChange(BaseModel):
     """Change password for authenticated user"""
     old_password: str
-    new_password: str = Field(..., min_length=8)
+    new_password: str
 
 
 # API Call History Model

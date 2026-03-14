@@ -212,25 +212,14 @@ async def register_user(user: UserCreate, request: Request):
     """Register a new user"""
     users_collection = get_users_collection()
     
-    # Check if user exists
-    existing_user = await users_collection.find_one({
-        "$or": [
-            {"email": user.email},
-            {"username": user.username}
-        ]
-    })
+    # Check if email already exists (username can be duplicate)
+    existing_user = await users_collection.find_one({"email": user.email})
     
     if existing_user:
-        if existing_user.get("email") == user.email:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Email already registered"
-            )
-        else:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Username already taken"
-            )
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already registered"
+        )
     
     # Create user
     user_dict = user.model_dump()
@@ -254,7 +243,10 @@ async def register_user(user: UserCreate, request: Request):
         id=str(result.inserted_id),
         username=user.username,
         email=user.email,
-        full_name=user.full_name
+        full_name=user.full_name,
+        is_active=True,
+        created_at=user_dict["created_at"],
+        last_login=None
     )
 
 
