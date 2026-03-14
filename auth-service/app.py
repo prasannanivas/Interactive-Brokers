@@ -207,9 +207,9 @@ async def health_check():
 # AUTHENTICATION ENDPOINTS
 # ============================================
 
-@app.post("/auth/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@app.post("/auth/register", response_model=Token, status_code=status.HTTP_201_CREATED)
 async def register_user(user: UserCreate, request: Request):
-    """Register a new user"""
+    """Register a new user and return access token"""
     users_collection = get_users_collection()
     
     # Check if email already exists (username can be duplicate)
@@ -239,14 +239,21 @@ async def register_user(user: UserCreate, request: Request):
         success=True
     )
     
-    return UserResponse(
-        id=str(result.inserted_id),
-        username=user.username,
-        email=user.email,
-        full_name=user.full_name,
-        is_active=True,
-        created_at=user_dict["created_at"],
-        last_login=None
+    # Create access token for auto-login
+    access_token = create_access_token(data={"sub": str(result.inserted_id)})
+    
+    return Token(
+        access_token=access_token,
+        token_type="bearer",
+        user=UserResponse(
+            id=str(result.inserted_id),
+            username=user.username,
+            email=user.email,
+            full_name=user.full_name,
+            is_active=True,
+            created_at=user_dict["created_at"],
+            last_login=None
+        )
     )
 
 

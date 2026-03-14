@@ -75,9 +75,19 @@ export const AuthProvider = ({ children }) => {
         full_name: fullName
       })
       
-      // Auto login after registration
-      return await login(email, password)
+      // Registration now returns token and user directly
+      const { access_token, user: userData } = response.data
+      
+      // Store token and user
+      localStorage.setItem('token', access_token)
+      localStorage.setItem('user', JSON.stringify(userData))
+      
+      // Update state
+      setUser(userData)
+      
+      return { success: true }
     } catch (error) {
+      console.error('Registration error:', error)
       return {
         success: false,
         error: error.response?.data?.detail || 'Registration failed'
