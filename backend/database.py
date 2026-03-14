@@ -54,6 +54,12 @@ class Database:
         await db.login_history.create_index([("user_id", 1), ("login_time", -1)])
         await db.login_history.create_index("login_time")
         
+        # Password reset tokens indexes
+        await db.password_reset_tokens.create_index("email")
+        await db.password_reset_tokens.create_index("token", unique=True)
+        await db.password_reset_tokens.create_index("expires_at")
+        await db.password_reset_tokens.create_index([("email", 1), ("used", 1), ("expires_at", -1)])
+        
         # API calls history indexes
         await db.api_calls.create_index([("timestamp", -1)])
         await db.api_calls.create_index([("endpoint", 1), ("timestamp", -1)])
@@ -101,6 +107,11 @@ def get_users_collection():
 def get_login_history_collection():
     """Get login history collection"""
     return Database.get_db().login_history
+
+
+def get_password_reset_tokens_collection():
+    """Get password reset tokens collection"""
+    return Database.get_db().password_reset_tokens
 
 
 def get_api_calls_collection():

@@ -4,6 +4,7 @@ import { useAuth } from './context/AuthContext'
 import Dashboard from './pages/Dashboard'
 import EconomicCalendarPage from './pages/EconomicCalendarPage'
 import Login from './pages/Login'
+import Register from './pages/Register'
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -36,6 +37,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route 
           path="/dashboard" 
           element={

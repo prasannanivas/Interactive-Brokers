@@ -21,7 +21,7 @@ from dotenv import load_dotenv
 from massive_monitor_v2 import MassiveMonitorV2
 from telegram_bot import TelegramBot
 from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection
-from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot
+from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot, PasswordResetRequest, PasswordReset, PasswordChange, LoginHistoryResponse
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
 from state_tracker import track_and_detect_changes, INDICATOR_MAPPING
 from bis_data_fetcher import get_bis_fetcher
@@ -407,7 +407,98 @@ async def get_me(current_user: UserResponse = Depends(get_current_user)):
     return current_user
 
 
-# Simple hardcoded authentication endpoint
+@app.post("/api/auth/request-password-reset")
+async def request_password_reset(reset_request: PasswordResetRequest):
+    """Request a password reset token"""
+    from auth import create_password_reset_token
+    
+    users_collection = get_users_collection()
+    
+    # Check if user exists
+    user = await users_collection.find_one({"email": reset_request.email})
+    
+    # Always return success to prevent email enumeration
+    # But only create token if user exists
+    if user:
+        token = await create_password_reset_token(reset_request.email)
+        
+        # TODO: Send email with reset link
+        # In production, you would send an email here with the reset token
+        # For now, we'll return the token in development (remove this in production)
+        print(f"Password reset token for {reset_request.email}: {token}")
+        print(f"Reset URL would be: http://localhost:5173/reset-password?token={token}")
+    
+    return {
+        "message": "If this email is registered, you will receive a password reset link",
+        "email": reset_request.email
+    }
+
+
+@app.post("/api/auth/reset-password")
+async def reset_password(reset_data: PasswordReset):
+    """Reset password using a valid token"""
+    from auth import verify_reset_token, mark_reset_token_used
+    
+    # Verify token
+    email = await verify_reset_token(reset_data.token)
+    
+    if not email:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid or expired reset token"
+        )
+    
+    # Update password
+    users_collection = get_users_collection()
+    hashed_password = get_password_hash(reset_data.new_password)
+    
+    result = await users_collection.update_one(
+        {"email": email},
+        {"$set": {"hashed_password": hashed_password}}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Mark token as used
+    await mark_reset_token_used(reset_data.token)
+    
+    return {"message": "Password successfully reset"}
+
+
+@app.post("/api/auth/change-password")
+async def change_password(
+    password_data: PasswordChange,
+    current_user: UserResponse = Depends(get_current_user)
+):
+    """Change password for authenticated user"""
+    users_collection = get_users_collection()
+    
+    # Get current user from database
+    user = await users_collection.find_one({"email": current_user.email})
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Verify old password
+    if not verify_password(password_data.old_password, user["hashed_password"]):
+        raise HTTPException(
+            status_code=400,
+            detail="Current password is incorrect"
+        )
+    
+    # Update to new password
+    hashed_password = get_password_hash(password_data.new_password)
+    
+    await users_collection.update_one(
+        {"email": current_user.email},
+        {"$set": {"hashed_password": hashed_password}}
+    )
+    
+    return {"message": "Password successfully changed"}
+
+
+# Simple hardcoded authentication endpoint (DEPRECATED - Use /api/auth/login instead)
 @app.post("/api/auth/simple-login")
 async def simple_login(user_credentials: UserLogin):
     """Simple login with hardcoded credentials"""

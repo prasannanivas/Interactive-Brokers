@@ -119,6 +119,23 @@
   transform: translateY(-2px);
 }
 
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 1;
+}
+
+.user-info {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
 /* Status Bar */
 .status-bar {
   background: #ffffff;

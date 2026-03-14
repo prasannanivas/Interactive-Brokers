@@ -92,6 +92,43 @@ class LoginHistory(BaseModel):
     success: bool = True
 
 
+class LoginHistoryResponse(BaseModel):
+    """Login history response for API"""
+    user_id: str
+    email: str
+    login_time: datetime
+    ip_address: Optional[str] = None
+    user_agent: Optional[str] = None
+    success: bool
+
+
+# Password Reset Models
+class PasswordResetRequest(BaseModel):
+    """Request password reset"""
+    email: EmailStr
+
+
+class PasswordResetToken(BaseModel):
+    """Password reset token stored in database"""
+    email: EmailStr
+    token: str
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    expires_at: datetime
+    used: bool = False
+
+
+class PasswordReset(BaseModel):
+    """Reset password with token"""
+    token: str
+    new_password: str = Field(..., min_length=8)
+
+
+class PasswordChange(BaseModel):
+    """Change password for authenticated user"""
+    old_password: str
+    new_password: str = Field(..., min_length=8)
+
+
 # API Call History Model
 class APICallLog(BaseModel):
     """API call logging model"""

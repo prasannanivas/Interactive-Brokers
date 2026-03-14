@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import { tradingAPI, dataAPI, historyAPI, bondAPI } from '../api/api'
 import TradingViewChart from '../components/TradingViewChart'
 import ChartModal from '../components/ChartModal'
@@ -14,6 +15,7 @@ import './Dashboard.css'
 
 const Dashboard = () => {
   const navigate = useNavigate()
+  const { logout, user } = useAuth()
   const [status, setStatus] = useState({})
   const [watchlist, setWatchlist] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
@@ -644,12 +646,23 @@ const Dashboard = () => {
     item.symbol.toLowerCase().includes(pairFilter.toLowerCase())
   )
 
+  const handleLogout = () => {
+    logout()
+    navigate('/login', { replace: true })
+  }
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
         <div>
           <h1>Trading Signal Monitor</h1>
           <p className="welcome-text">Real-time Forex Trading Signals</p>
+        </div>
+        <div className="user-actions">
+          <span className="user-info">👤 {user?.username || user?.email}</span>
+          <button className="logout-button" onClick={handleLogout}>
+            🚪 Logout
+          </button>
         </div>
       </div>
 

@@ -137,3 +137,71 @@ async def record_login_history(user_id: str, email: str, ip_address: Optional[st
     }
     
     await login_history_collection.insert_one(login_record)
+
+
+def generate_reset_token() -> str:
+    """Generate a secure random token for password reset"""
+    import secrets
+    return secrets.token_urlsafe(32)
+
+
+async def create_password_reset_token(email: str) -> str:
+    """Create a password reset token for user"""
+    from database import get_password_reset_tokens_collection
+    
+    # Generate token
+    token = generate_reset_token()
+    
+    # Token expires in 1 hour
+    expires_at = datetime.utcnow() + timedelta(hours=1)
+    
+    # Invalidate any existing unused tokens for this email
+    password_reset_collection = get_password_reset_tokens_collection()
+    await password_reset_collection.update_many(
+        {"email": email, "used": False},
+        {"$set": {"used": True}}
+    )
+    
+    # Store new token
+    reset_token_doc = {
+        "email": email,
+        "token": token,
+        "created_at": datetime.utcnow(),
+        "expires_at": expires_at,
+        "used": False
+    }
+    
+    await password_reset_collection.insert_one(reset_token_doc)
+    
+    return token
+
+
+async def verify_reset_token(token: str) -> Optional[str]:
+    """Verify password reset token and return email if valid"""
+    from database import get_password_reset_tokens_collection
+    
+    password_reset_collection = get_password_reset_tokens_collection()
+    
+    # Find token
+    token_doc = await password_reset_collection.find_one({
+        "token": token,
+        "used": False,
+        "expires_at": {"$gt": datetime.utcnow()}
+    })
+    
+    if not token_doc:
+        return None
+    
+    return token_doc["email"]
+
+
+async def mark_reset_token_used(token: str):
+    """Mark a reset token as used"""
+    from database import get_password_reset_tokens_collection
+    
+    password_reset_collection = get_password_reset_tokens_collection()
+    await password_reset_collection.update_one(
+        {"token": token},
+        {"$set": {"used": True}}
+    )
+
