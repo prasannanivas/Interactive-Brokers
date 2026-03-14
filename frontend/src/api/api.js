@@ -117,33 +117,12 @@ export const backtestingAPI = {
   getStatistics: (days = 30) => authApi.get(`/api/backtesting/statistics?days=${days}`),
 }
 
-// Bond/Interest Rate API - fetches data from backend BIS SDMX API
+// Bond/Interest Rate API - uses trading service (port 8000)
 export const bondAPI = {
-  getInterestRates: async () => {
-    try {
-      const response = await fetch('http://localhost:8000/api/bond/interest-rates')
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      return { data: await response.json() }
-    } catch (error) {
-      console.error('Failed to load interest rate data:', error)
-      return { data: [] }
-    }
-  },
+  getInterestRates: () => tradingApi.get('/api/bond/interest-rates'),
   
-  getHistoricalRates: async (refArea, days = 365) => {
-    try {
-      const response = await fetch(`http://localhost:8000/api/bond/interest-rates/${refArea}?days=${days}`)
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      return { data: await response.json() }
-    } catch (error) {
-      console.error(`Failed to load historical rates for ${refArea}:`, error)
-      return { data: [] }
-    }
-  }
+  getHistoricalRates: (refArea, days = 365) => 
+    tradingApi.get(`/api/bond/interest-rates/${refArea}?days=${days}`)
 }
 
 export default authApi
