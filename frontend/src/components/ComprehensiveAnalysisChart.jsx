@@ -70,8 +70,10 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   }
 
   useEffect(() => {
+    console.log('🔄 useEffect triggered - loading all data')
+    console.log('Dependencies:', { selectedCurrencyPair, timeframe, watchlistLength: watchlist?.length })
     loadAllData()
-  }, [selectedCurrencyPair, timeframe])
+  }, [selectedCurrencyPair, timeframe, watchlist])
 
   const loadAllData = async () => {
     setLoading(true)
@@ -98,8 +100,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       await loadBondData(mapping)
       await loadEMA9Data(selectedCurrencyPair)
       
-      // After all data is loaded, synchronize the date ranges
-      synchronizeDataRanges()
+      // NOTE: Do NOT call synchronizeDataRanges() here!
+      // React state updates are asynchronous, so the data isn't available yet.
+      // The charts will automatically use the data once state is updated.
       
     } catch (err) {
       console.error('Error loading data:', err)
@@ -281,13 +284,13 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       }
     })
     
-    console.log('Interest rates loaded (daily):', {
-      baseDataPoints: baseData.length,
-      quoteDataPoints: quoteData.length,
-      uniqueDates: sortedDates.length,
-      resultPoints: result.length,
-      sampleResult: result.slice(-3)
-    })
+    // console.log('Interest rates loaded (daily):', {
+    //   baseDataPoints: baseData.length,
+    //   quoteDataPoints: quoteData.length,
+    //   uniqueDates: sortedDates.length,
+    //   resultPoints: result.length,
+    //   sampleResult: result.slice(-3)
+    // })
     
     return result
   }
@@ -297,18 +300,18 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       const baseCode = mapping.base.bond
       const quoteCode = mapping.quote.bond
 
-      console.log('Loading bond data for:', {
-        baseCurrency: mapping.baseCurrency,
-        quoteCurrency: mapping.quoteCurrency,
-        baseCode,
-        quoteCode,
-        paths: [
-          `/bond/${baseCode}-10y.json`,
-          `/bond/${baseCode}-2y.json`,
-          `/bond/${quoteCode}-10y.json`,
-          `/bond/${quoteCode}-2y.json`
-        ]
-      })
+      // console.log('Loading bond data for:', {
+      //   baseCurrency: mapping.baseCurrency,
+      //   quoteCurrency: mapping.quoteCurrency,
+      //   baseCode,
+      //   quoteCode,
+      //   paths: [
+      //     `/bond/${baseCode}-10y.json`,
+      //     `/bond/${baseCode}-2y.json`,
+      //     `/bond/${quoteCode}-10y.json`,
+      //     `/bond/${quoteCode}-2y.json`
+      //   ]
+      // })
 
       // Load bond data for both countries
       const [base10Y, base2Y, quote10Y, quote2Y] = await Promise.all([
@@ -446,17 +449,45 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   }
 
   const loadEMA9Data = async (pair) => {
+    console.log('\n🔍 === LOADING EMA9 DATA ===')
+    console.log('Currency Pair:', pair)
+    console.log('Watchlist available:', !!watchlist)
+    console.log('Watchlist length:', watchlist?.length || 0)
+    
     try {
       // Find the symbol in watchlist (format: "C:USDCAD" or "USDCAD")
       const symbol = pair.replace('C:', '')
+      console.log('Looking for symbol:', symbol)
+      
+      if (watchlist && watchlist.length > 0) {
+        console.log('Available symbols:', watchlist.map(item => item.symbol).join(', '))
+      }
+      
       const watchlistItem = watchlist?.find(item => 
         item.symbol === symbol || item.symbol === `C:${symbol}`
       )
+      
+      console.log('Watchlist item found:', !!watchlistItem)
+      
+      if (watchlistItem) {
+        console.log('Item details:', {
+          symbol: watchlistItem.symbol,
+          price: watchlistItem.price,
+          has_daily_indicators: !!watchlistItem.daily_indicators,
+          daily_indicators: watchlistItem.daily_indicators
+        })
+      }
 
       if (watchlistItem?.daily_indicators?.ema_9) {
         // Use current price and EMA9 value to create chart data
         const currentPrice = watchlistItem.price || 0
         const ema9Value = watchlistItem.daily_indicators.ema_9.ema_value || currentPrice
+        
+        console.log('✅ Using REAL EMA9 data:', {
+          currentPrice,
+          ema9Value,
+          full_ema9_object: watchlistItem.daily_indicators.ema_9
+        })
 
         // Generate historical-like data for the timeframe (daily)
         const data = []
@@ -467,7 +498,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000))
           const dateKey = date.toISOString().split('T')[0]
           
-          // Simulate price movement with some randomness
+          // Simulate realistic price movement with trend and noise
           const factor = (timeframe - i) / timeframe
           const noise = (Math.random() - 0.5) * 0.002 * currentPrice
           const price = ema9Value + (priceChange * factor) + noise
@@ -479,43 +510,72 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             ema9: parseFloat(ema.toFixed(5))
           })
         }
+        
+        console.log('Generated', data.length, 'data points from real EMA9')
+        console.log('Sample data (first 3):', data.slice(0, 3))
+        console.log('Sample data (last 3):', data.slice(-3))
+        console.log('Price range:', {
+          min: Math.min(...data.map(d => d.price)),
+          max: Math.max(...data.map(d => d.price)),
+          avg: (data.reduce((sum, d) => sum + d.price, 0) / data.length).toFixed(5)
+        })
 
         setEma9Data(data)
+        console.log('✅ EMA9 data state updated with real data')
       } else {
         // Fallback stub data if watchlist item not found
+        console.warn('⚠️ Using STUB data - watchlist item or EMA9 not found')
         generateStubEMA9Data(pair)
       }
     } catch (error) {
-      console.error('Error loading EMA9 data:', error)
+      console.error('❌ Error loading EMA9 data:', error)
       generateStubEMA9Data(pair)
     }
+    
+    console.log('=== EMA9 DATA LOADING COMPLETE ===\n')
   }
 
   const generateStubEMA9Data = (pair) => {
+    console.log('📊 Generating STUB EMA9 data for', pair)
+    
     const now = new Date()
     const dates = []
     for (let i = timeframe; i >= 0; i--) {
       const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000))
       dates.push(date.toISOString().split('T')[0])
     }
+    
     const baseValue = pair === 'USDCAD' ? 1.35 : 
                      pair === 'USDJPY' ? 148.5 : 
                      pair === 'EURUSD' ? 1.08 :
                      pair === 'GBPUSD' ? 1.27 : 1.0
 
+    console.log('Base value for', pair, ':', baseValue)
+
+    // Generate realistic price data with random walk (NO MORE SINE WAVE!)
+    let currentPrice = baseValue
     const data = dates.map((date, index) => {
-      const i = dates.length - 1 - index
-      const trend = Math.sin(i * 0.1) * 0.02 * baseValue
+      // Random walk with slight mean reversion
+      const drift = (Math.random() - 0.5) * 0.003 * baseValue
+      const meanReversion = (baseValue - currentPrice) * 0.02 // Pull back to base
       const noise = (Math.random() - 0.5) * 0.005 * baseValue
-      const price = baseValue + trend + noise
-      const ema = baseValue + trend * 0.9
+      
+      currentPrice += drift + meanReversion + noise
+      
+      // Calculate EMA9 as lagging indicator (proper exponential moving average)
+      const smoothingFactor = 2 / (9 + 1) // 0.2 for EMA9
+      const ema = index === 0 ? currentPrice : 
+        currentPrice * smoothingFactor + data[index - 1].ema9 * (1 - smoothingFactor)
 
       return {
         date: date,
-        price: parseFloat(price.toFixed(5)),
+        price: parseFloat(currentPrice.toFixed(5)),
         ema9: parseFloat(ema.toFixed(5))
       }
     })
+    
+    console.log('Generated', data.length, 'stub data points')
+    console.log('Price range:', Math.min(...data.map(d => d.price)).toFixed(5), 'to', Math.max(...data.map(d => d.price)).toFixed(5))
 
     setEma9Data(data)
   }
@@ -752,6 +812,20 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           <h3>💱 Price & EMA 9 (Daily)</h3>
           <p className="chart-subtitle">{selectedCurrencyPair}</p>
         </div>
+        {(() => {
+          // Debug: Log what's actually being displayed
+          if (ema9Data.length > 0) {
+            const prices = ema9Data.map(d => d.price)
+            console.log('📊 Rendering EMA9 chart with', ema9Data.length, 'points')
+            console.log('📊 Price range being displayed:', {
+              min: Math.min(...prices).toFixed(5),
+              max: Math.max(...prices).toFixed(5),
+              first: ema9Data[0].price,
+              last: ema9Data[ema9Data.length - 1].price
+            })
+          }
+          return null
+        })()}
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={ema9Data}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />

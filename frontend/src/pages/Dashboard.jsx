@@ -156,11 +156,25 @@ const Dashboard = () => {
   }
 
   const loadWatchlist = async () => {
+    console.log('📊 Loading watchlist data...')
     try {
       const response = await dataAPI.getWatchlist()
-      setWatchlist(response.data || [])
+      console.log('Watchlist API response:', response)
+      console.log('Response data type:', typeof response.data)
+      console.log('Response data:', response.data)
+      
+      const watchlistData = response.data || []
+      console.log('Setting watchlist with', watchlistData.length, 'items')
+      
+      if (watchlistData.length > 0) {
+        console.log('First watchlist item:', watchlistData[0])
+        console.log('First item has daily_indicators?', !!watchlistData[0]?.daily_indicators)
+        console.log('First item has ema_9?', !!watchlistData[0]?.daily_indicators?.ema_9)
+      }
+      
+      setWatchlist(watchlistData)
     } catch (error) {
-      console.error('Failed to load watchlist:', error)
+      console.error('❌ Failed to load watchlist:', error)
     }
   }
 
