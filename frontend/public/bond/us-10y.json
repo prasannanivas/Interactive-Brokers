@@ -1,11 +1,59 @@
 [
   {
     "Symbol": "USGG10YR:IND",
+    "Date": "13/03/2026",
+    "Open": 4.282,
+    "High": 4.282,
+    "Low": 4.282,
+    "Close": 4.282
+  },
+  {
+    "Symbol": "USGG10YR:IND",
+    "Date": "12/03/2026",
+    "Open": 4.269,
+    "High": 4.269,
+    "Low": 4.269,
+    "Close": 4.269
+  },
+  {
+    "Symbol": "USGG10YR:IND",
+    "Date": "11/03/2026",
+    "Open": 4.231,
+    "High": 4.231,
+    "Low": 4.231,
+    "Close": 4.231
+  },
+  {
+    "Symbol": "USGG10YR:IND",
+    "Date": "10/03/2026",
+    "Open": 4.164,
+    "High": 4.164,
+    "Low": 4.164,
+    "Close": 4.164
+  },
+  {
+    "Symbol": "USGG10YR:IND",
+    "Date": "09/03/2026",
+    "Open": 4.1,
+    "High": 4.1,
+    "Low": 4.1,
+    "Close": 4.1
+  },
+  {
+    "Symbol": "USGG10YR:IND",
+    "Date": "06/03/2026",
+    "Open": 4.133,
+    "High": 4.133,
+    "Low": 4.133,
+    "Close": 4.133
+  },
+  {
+    "Symbol": "USGG10YR:IND",
     "Date": "05/03/2026",
-    "Open": 4.122,
-    "High": 4.122,
-    "Low": 4.122,
-    "Close": 4.122
+    "Open": 4.14,
+    "High": 4.14,
+    "Low": 4.14,
+    "Close": 4.14
   },
   {
     "Symbol": "USGG10YR:IND",
@@ -79950,53 +79998,5 @@
     "High": 10.1231,
     "Low": 10.1231,
     "Close": 10.1231
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "13/10/1987",
-    "Open": 9.8971,
-    "High": 9.8971,
-    "Low": 9.8971,
-    "Close": 9.8971
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "12/10/1987",
-    "Open": 10.0,
-    "High": 10.0,
-    "Low": 10.0,
-    "Close": 10.0
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "09/10/1987",
-    "Open": 9.9395,
-    "High": 9.9395,
-    "Low": 9.9395,
-    "Close": 9.9395
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "08/10/1987",
-    "Open": 9.8643,
-    "High": 9.8643,
-    "Low": 9.8643,
-    "Close": 9.8643
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "07/10/1987",
-    "Open": 9.7322,
-    "High": 9.7322,
-    "Low": 9.7322,
-    "Close": 9.7322
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "06/10/1987",
-    "Open": 9.732,
-    "High": 9.732,
-    "Low": 9.732,
-    "Close": 9.732
   }
 ]

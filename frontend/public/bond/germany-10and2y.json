@@ -2,20 +2,128 @@
   {
     "country": "Germany",
     "symbol": "GTDEM10Y:GOV",
+    "date": "13/03/2026",
+    "open": 2.9768,
+    "high": 2.9768,
+    "low": 2.9768,
+    "close": 2.9768
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM2Y:GOV",
+    "date": "13/03/2026",
+    "open": 2.5768,
+    "high": 2.5968,
+    "low": 2.5568,
+    "close": 2.5768
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/03/2026",
+    "open": 2.9378,
+    "high": 2.9378,
+    "low": 2.9378,
+    "close": 2.9378
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM2Y:GOV",
+    "date": "12/03/2026",
+    "open": 2.5378,
+    "high": 2.5578,
+    "low": 2.5178,
+    "close": 2.5378
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "11/03/2026",
+    "open": 2.9318,
+    "high": 2.9318,
+    "low": 2.9318,
+    "close": 2.9318
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM2Y:GOV",
+    "date": "11/03/2026",
+    "open": 2.5318,
+    "high": 2.5518,
+    "low": 2.5118,
+    "close": 2.5318
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "10/03/2026",
+    "open": 2.8533,
+    "high": 2.8533,
+    "low": 2.8533,
+    "close": 2.8533
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM2Y:GOV",
+    "date": "10/03/2026",
+    "open": 2.4533,
+    "high": 2.4733,
+    "low": 2.4333,
+    "close": 2.4533
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/03/2026",
+    "open": 2.8649,
+    "high": 2.8649,
+    "low": 2.8649,
+    "close": 2.8649
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM2Y:GOV",
+    "date": "09/03/2026",
+    "open": 2.4649,
+    "high": 2.4849,
+    "low": 2.4449,
+    "close": 2.4649
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "06/03/2026",
+    "open": 2.8643,
+    "high": 2.8643,
+    "low": 2.8643,
+    "close": 2.8643
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM2Y:GOV",
+    "date": "06/03/2026",
+    "open": 2.4643,
+    "high": 2.4843,
+    "low": 2.4443,
+    "close": 2.4643
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
     "date": "05/03/2026",
-    "open": 2.7842,
-    "high": 2.7842,
-    "low": 2.7842,
-    "close": 2.7842
+    "open": 2.8535,
+    "high": 2.8535,
+    "low": 2.8535,
+    "close": 2.8535
   },
   {
     "country": "Germany",
     "symbol": "GTDEM2Y:GOV",
     "date": "05/03/2026",
-    "open": 2.3842,
-    "high": 2.4042,
-    "low": 2.3642,
-    "close": 2.3842
+    "open": 2.4535,
+    "high": 2.4735,
+    "low": 2.4335,
+    "close": 2.4535
   },
   {
     "country": "Germany",
@@ -179890,113 +179998,5 @@
     "high": 5.414,
     "low": 5.374,
     "close": 5.394
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "09/06/1986",
-    "open": 5.811,
-    "high": 5.811,
-    "low": 5.811,
-    "close": 5.811
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM2Y:GOV",
-    "date": "09/06/1986",
-    "open": 5.411,
-    "high": 5.431,
-    "low": 5.391,
-    "close": 5.411
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "06/06/1986",
-    "open": 5.967,
-    "high": 5.967,
-    "low": 5.967,
-    "close": 5.967
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM2Y:GOV",
-    "date": "06/06/1986",
-    "open": 5.567,
-    "high": 5.587,
-    "low": 5.547,
-    "close": 5.567
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "05/06/1986",
-    "open": 6.046,
-    "high": 6.046,
-    "low": 6.046,
-    "close": 6.046
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM2Y:GOV",
-    "date": "05/06/1986",
-    "open": 5.646,
-    "high": 5.666,
-    "low": 5.626,
-    "close": 5.646
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "04/06/1986",
-    "open": 6.035,
-    "high": 6.035,
-    "low": 6.035,
-    "close": 6.035
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM2Y:GOV",
-    "date": "04/06/1986",
-    "open": 5.635,
-    "high": 5.655,
-    "low": 5.615,
-    "close": 5.635
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "03/06/1986",
-    "open": 6.116,
-    "high": 6.116,
-    "low": 6.116,
-    "close": 6.116
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM2Y:GOV",
-    "date": "03/06/1986",
-    "open": 5.716,
-    "high": 5.736,
-    "low": 5.696,
-    "close": 5.716
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "02/06/1986",
-    "open": 6.04,
-    "high": 6.04,
-    "low": 6.04,
-    "close": 6.04
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM2Y:GOV",
-    "date": "02/06/1986",
-    "open": 5.64,
-    "high": 5.66,
-    "low": 5.62,
-    "close": 5.64
   }
 ]

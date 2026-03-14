@@ -2,11 +2,65 @@
   {
     "country": "Japan",
     "symbol": "GJGB2:IND",
+    "date": "13/03/2026",
+    "open": 2.1452,
+    "high": 2.1652,
+    "low": 2.1252,
+    "close": 2.1452
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "12/03/2026",
+    "open": 2.0881,
+    "high": 2.1081,
+    "low": 2.0681,
+    "close": 2.0881
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "11/03/2026",
+    "open": 2.0658,
+    "high": 2.0858,
+    "low": 2.0458,
+    "close": 2.0658
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "10/03/2026",
+    "open": 2.0861,
+    "high": 2.1061,
+    "low": 2.0661,
+    "close": 2.0861
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "09/03/2026",
+    "open": 2.0863,
+    "high": 2.1063,
+    "low": 2.0663,
+    "close": 2.0863
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
+    "date": "06/03/2026",
+    "open": 2.0663,
+    "high": 2.0863,
+    "low": 2.0463,
+    "close": 2.0663
+  },
+  {
+    "country": "Japan",
+    "symbol": "GJGB2:IND",
     "date": "05/03/2026",
-    "open": 2.058,
-    "high": 2.078,
-    "low": 2.038,
-    "close": 2.058
+    "open": 2.0578,
+    "high": 2.0778,
+    "low": 2.0378,
+    "close": 2.0578
   },
   {
     "country": "Japan",
@@ -89944,59 +89998,5 @@
     "high": 4.48,
     "low": 4.44,
     "close": 4.46
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "27/08/1986",
-    "open": 4.475,
-    "high": 4.495,
-    "low": 4.455,
-    "close": 4.475
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "26/08/1986",
-    "open": 4.44,
-    "high": 4.46,
-    "low": 4.42,
-    "close": 4.44
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "25/08/1986",
-    "open": 4.49,
-    "high": 4.51,
-    "low": 4.47,
-    "close": 4.49
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "23/08/1986",
-    "open": 4.47,
-    "high": 4.49,
-    "low": 4.45,
-    "close": 4.47
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "22/08/1986",
-    "open": 4.47,
-    "high": 4.49,
-    "low": 4.45,
-    "close": 4.47
-  },
-  {
-    "country": "Japan",
-    "symbol": "GJGB2:IND",
-    "date": "21/08/1986",
-    "open": 4.455,
-    "high": 4.475,
-    "low": 4.435,
-    "close": 4.455
   }
 ]

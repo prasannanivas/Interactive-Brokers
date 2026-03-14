@@ -2,20 +2,74 @@
   {
     "country": "Australia",
     "symbol": "GACGB10:IND",
+    "date": "13/03/2026",
+    "open": 4.996,
+    "high": 4.996,
+    "low": 4.996,
+    "close": 4.996
+  },
+  {
+    "country": "Australia",
+    "symbol": "GACGB10:IND",
+    "date": "12/03/2026",
+    "open": 4.948,
+    "high": 4.948,
+    "low": 4.948,
+    "close": 4.948
+  },
+  {
+    "country": "Australia",
+    "symbol": "GACGB10:IND",
+    "date": "11/03/2026",
+    "open": 4.847,
+    "high": 4.847,
+    "low": 4.847,
+    "close": 4.847
+  },
+  {
+    "country": "Australia",
+    "symbol": "GACGB10:IND",
+    "date": "10/03/2026",
+    "open": 4.855,
+    "high": 4.855,
+    "low": 4.855,
+    "close": 4.855
+  },
+  {
+    "country": "Australia",
+    "symbol": "GACGB10:IND",
+    "date": "09/03/2026",
+    "open": 4.955,
+    "high": 4.955,
+    "low": 4.955,
+    "close": 4.955
+  },
+  {
+    "country": "Australia",
+    "symbol": "GACGB10:IND",
+    "date": "06/03/2026",
+    "open": 4.845,
+    "high": 4.845,
+    "low": 4.845,
+    "close": 4.845
+  },
+  {
+    "country": "Australia",
+    "symbol": "GACGB10:IND",
     "date": "05/03/2026",
-    "open": 4.81,
-    "high": 4.81,
-    "low": 4.81,
-    "close": 4.81
+    "open": 4.807,
+    "high": 4.807,
+    "low": 4.807,
+    "close": 4.807
   },
   {
     "country": "Australia",
     "symbol": "GACGB10:IND",
     "date": "04/03/2026",
-    "open": 4.789,
-    "high": 4.789,
-    "low": 4.789,
-    "close": 4.789
+    "open": 4.746,
+    "high": 4.746,
+    "low": 4.746,
+    "close": 4.746
   },
   {
     "country": "Australia",
@@ -89944,59 +89998,5 @@
     "high": 13.18,
     "low": 13.18,
     "close": 13.18
-  },
-  {
-    "country": "Australia",
-    "symbol": "GACGB10:IND",
-    "date": "17/07/1990",
-    "open": 13.13,
-    "high": 13.13,
-    "low": 13.13,
-    "close": 13.13
-  },
-  {
-    "country": "Australia",
-    "symbol": "GACGB10:IND",
-    "date": "16/07/1990",
-    "open": 13.2,
-    "high": 13.2,
-    "low": 13.2,
-    "close": 13.2
-  },
-  {
-    "country": "Australia",
-    "symbol": "GACGB10:IND",
-    "date": "13/07/1990",
-    "open": 13.26,
-    "high": 13.26,
-    "low": 13.26,
-    "close": 13.26
-  },
-  {
-    "country": "Australia",
-    "symbol": "GACGB10:IND",
-    "date": "12/07/1990",
-    "open": 13.24,
-    "high": 13.24,
-    "low": 13.24,
-    "close": 13.24
-  },
-  {
-    "country": "Australia",
-    "symbol": "GACGB10:IND",
-    "date": "11/07/1990",
-    "open": 13.27,
-    "high": 13.27,
-    "low": 13.27,
-    "close": 13.27
-  },
-  {
-    "country": "Australia",
-    "symbol": "GACGB10:IND",
-    "date": "10/07/1990",
-    "open": 13.28,
-    "high": 13.28,
-    "low": 13.28,
-    "close": 13.28
   }
 ]

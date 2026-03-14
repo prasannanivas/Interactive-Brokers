@@ -2,6 +2,69 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
+    "date": "13/03/2026",
+    "open": 3.508,
+    "high": 3.508,
+    "low": 3.508,
+    "close": 3.508
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "12/03/2026",
+    "open": 3.536,
+    "high": 3.536,
+    "low": 3.536,
+    "close": 3.536
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "11/03/2026",
+    "open": 3.487,
+    "high": 3.487,
+    "low": 3.487,
+    "close": 3.487
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "10/03/2026",
+    "open": 3.41,
+    "high": 3.41,
+    "low": 3.41,
+    "close": 3.41
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "09/03/2026",
+    "open": 3.365,
+    "high": 3.365,
+    "low": 3.365,
+    "close": 3.365
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "06/03/2026",
+    "open": 3.414,
+    "high": 3.414,
+    "low": 3.414,
+    "close": 3.414
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "05/03/2026",
+    "open": 3.359,
+    "high": 3.359,
+    "low": 3.359,
+    "close": 3.359
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
     "date": "04/03/2026",
     "open": 3.285,
     "high": 3.285,
@@ -89935,68 +89998,5 @@
     "high": 8.17,
     "low": 8.17,
     "close": 8.17
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "26/03/1987",
-    "open": 8.22,
-    "high": 8.22,
-    "low": 8.22,
-    "close": 8.22
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "25/03/1987",
-    "open": 8.32,
-    "high": 8.32,
-    "low": 8.32,
-    "close": 8.32
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "24/03/1987",
-    "open": 8.21,
-    "high": 8.21,
-    "low": 8.21,
-    "close": 8.21
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "23/03/1987",
-    "open": 8.17,
-    "high": 8.17,
-    "low": 8.17,
-    "close": 8.17
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "20/03/1987",
-    "open": 8.18,
-    "high": 8.18,
-    "low": 8.18,
-    "close": 8.18
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "19/03/1987",
-    "open": 8.21,
-    "high": 8.21,
-    "low": 8.21,
-    "close": 8.21
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "18/03/1987",
-    "open": 8.19,
-    "high": 8.19,
-    "low": 8.19,
-    "close": 8.19
   }
 ]

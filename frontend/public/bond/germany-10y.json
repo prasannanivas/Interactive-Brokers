@@ -2,11 +2,65 @@
   {
     "country": "Germany",
     "symbol": "GTDEM10Y:GOV",
+    "date": "13/03/2026",
+    "open": 2.9768,
+    "high": 2.9768,
+    "low": 2.9768,
+    "close": 2.9768
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "12/03/2026",
+    "open": 2.9378,
+    "high": 2.9378,
+    "low": 2.9378,
+    "close": 2.9378
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "11/03/2026",
+    "open": 2.9318,
+    "high": 2.9318,
+    "low": 2.9318,
+    "close": 2.9318
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "10/03/2026",
+    "open": 2.8533,
+    "high": 2.8533,
+    "low": 2.8533,
+    "close": 2.8533
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "09/03/2026",
+    "open": 2.8649,
+    "high": 2.8649,
+    "low": 2.8649,
+    "close": 2.8649
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
+    "date": "06/03/2026",
+    "open": 2.8643,
+    "high": 2.8643,
+    "low": 2.8643,
+    "close": 2.8643
+  },
+  {
+    "country": "Germany",
+    "symbol": "GTDEM10Y:GOV",
     "date": "05/03/2026",
-    "open": 2.7842,
-    "high": 2.7842,
-    "low": 2.7842,
-    "close": 2.7842
+    "open": 2.8535,
+    "high": 2.8535,
+    "low": 2.8535,
+    "close": 2.8535
   },
   {
     "country": "Germany",
@@ -89944,59 +89998,5 @@
     "high": 5.794,
     "low": 5.794,
     "close": 5.794
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "09/06/1986",
-    "open": 5.811,
-    "high": 5.811,
-    "low": 5.811,
-    "close": 5.811
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "06/06/1986",
-    "open": 5.967,
-    "high": 5.967,
-    "low": 5.967,
-    "close": 5.967
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "05/06/1986",
-    "open": 6.046,
-    "high": 6.046,
-    "low": 6.046,
-    "close": 6.046
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "04/06/1986",
-    "open": 6.035,
-    "high": 6.035,
-    "low": 6.035,
-    "close": 6.035
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "03/06/1986",
-    "open": 6.116,
-    "high": 6.116,
-    "low": 6.116,
-    "close": 6.116
-  },
-  {
-    "country": "Germany",
-    "symbol": "GTDEM10Y:GOV",
-    "date": "02/06/1986",
-    "open": 6.04,
-    "high": 6.04,
-    "low": 6.04,
-    "close": 6.04
   }
 ]

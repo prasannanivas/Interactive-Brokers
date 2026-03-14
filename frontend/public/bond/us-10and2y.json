@@ -1,19 +1,115 @@
 [
   {
     "Symbol": "USGG10YR:IND",
+    "Date": "13/03/2026",
+    "Open": 4.282,
+    "High": 4.282,
+    "Low": 4.282,
+    "Close": 4.282
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "13/03/2026",
+    "Open": 3.982,
+    "High": 4.002,
+    "Low": 3.962,
+    "Close": 3.982
+  },
+  {
+    "Symbol": "USGG10YR:IND",
+    "Date": "12/03/2026",
+    "Open": 4.269,
+    "High": 4.269,
+    "Low": 4.269,
+    "Close": 4.269
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "12/03/2026",
+    "Open": 3.969,
+    "High": 3.989,
+    "Low": 3.949,
+    "Close": 3.969
+  },
+  {
+    "Symbol": "USGG10YR:IND",
+    "Date": "11/03/2026",
+    "Open": 4.231,
+    "High": 4.231,
+    "Low": 4.231,
+    "Close": 4.231
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "11/03/2026",
+    "Open": 3.931,
+    "High": 3.951,
+    "Low": 3.911,
+    "Close": 3.931
+  },
+  {
+    "Symbol": "USGG10YR:IND",
+    "Date": "10/03/2026",
+    "Open": 4.164,
+    "High": 4.164,
+    "Low": 4.164,
+    "Close": 4.164
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "10/03/2026",
+    "Open": 3.864,
+    "High": 3.884,
+    "Low": 3.844,
+    "Close": 3.864
+  },
+  {
+    "Symbol": "USGG10YR:IND",
+    "Date": "09/03/2026",
+    "Open": 4.1,
+    "High": 4.1,
+    "Low": 4.1,
+    "Close": 4.1
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "09/03/2026",
+    "Open": 3.8,
+    "High": 3.82,
+    "Low": 3.78,
+    "Close": 3.8
+  },
+  {
+    "Symbol": "USGG10YR:IND",
+    "Date": "06/03/2026",
+    "Open": 4.133,
+    "High": 4.133,
+    "Low": 4.133,
+    "Close": 4.133
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "06/03/2026",
+    "Open": 3.833,
+    "High": 3.853,
+    "Low": 3.813,
+    "Close": 3.833
+  },
+  {
+    "Symbol": "USGG10YR:IND",
     "Date": "05/03/2026",
-    "Open": 4.122,
-    "High": 4.122,
-    "Low": 4.122,
-    "Close": 4.122
+    "Open": 4.14,
+    "High": 4.14,
+    "Low": 4.14,
+    "Close": 4.14
   },
   {
     "Symbol": "USGG2YR:IND",
     "Date": "05/03/2026",
-    "Open": 3.822,
-    "High": 3.842,
-    "Low": 3.802,
-    "Close": 3.822
+    "Open": 3.84,
+    "High": 3.86,
+    "Low": 3.82,
+    "Close": 3.84
   },
   {
     "Symbol": "USGG10YR:IND",
@@ -159902,101 +159998,5 @@
     "High": 9.8431,
     "Low": 9.8031,
     "Close": 9.8231
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "13/10/1987",
-    "Open": 9.8971,
-    "High": 9.8971,
-    "Low": 9.8971,
-    "Close": 9.8971
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "13/10/1987",
-    "Open": 9.5971,
-    "High": 9.6171,
-    "Low": 9.5771,
-    "Close": 9.5971
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "12/10/1987",
-    "Open": 10.0,
-    "High": 10.0,
-    "Low": 10.0,
-    "Close": 10.0
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "12/10/1987",
-    "Open": 9.7,
-    "High": 9.72,
-    "Low": 9.68,
-    "Close": 9.7
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "09/10/1987",
-    "Open": 9.9395,
-    "High": 9.9395,
-    "Low": 9.9395,
-    "Close": 9.9395
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "09/10/1987",
-    "Open": 9.6395,
-    "High": 9.6595,
-    "Low": 9.6195,
-    "Close": 9.6395
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "08/10/1987",
-    "Open": 9.8643,
-    "High": 9.8643,
-    "Low": 9.8643,
-    "Close": 9.8643
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "08/10/1987",
-    "Open": 9.5643,
-    "High": 9.5843,
-    "Low": 9.5443,
-    "Close": 9.5643
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "07/10/1987",
-    "Open": 9.7322,
-    "High": 9.7322,
-    "Low": 9.7322,
-    "Close": 9.7322
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "07/10/1987",
-    "Open": 9.4322,
-    "High": 9.4522,
-    "Low": 9.4122,
-    "Close": 9.4322
-  },
-  {
-    "Symbol": "USGG10YR:IND",
-    "Date": "06/10/1987",
-    "Open": 9.732,
-    "High": 9.732,
-    "Low": 9.732,
-    "Close": 9.732
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "06/10/1987",
-    "Open": 9.432,
-    "High": 9.452,
-    "Low": 9.412,
-    "Close": 9.432
   }
 ]

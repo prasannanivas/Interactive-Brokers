@@ -1,11 +1,59 @@
 [
   {
     "Symbol": "USGG2YR:IND",
+    "Date": "13/03/2026",
+    "Open": 3.982,
+    "High": 4.002,
+    "Low": 3.962,
+    "Close": 3.982
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "12/03/2026",
+    "Open": 3.969,
+    "High": 3.989,
+    "Low": 3.949,
+    "Close": 3.969
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "11/03/2026",
+    "Open": 3.931,
+    "High": 3.951,
+    "Low": 3.911,
+    "Close": 3.931
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "10/03/2026",
+    "Open": 3.864,
+    "High": 3.884,
+    "Low": 3.844,
+    "Close": 3.864
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "09/03/2026",
+    "Open": 3.8,
+    "High": 3.82,
+    "Low": 3.78,
+    "Close": 3.8
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "06/03/2026",
+    "Open": 3.833,
+    "High": 3.853,
+    "Low": 3.813,
+    "Close": 3.833
+  },
+  {
+    "Symbol": "USGG2YR:IND",
     "Date": "05/03/2026",
-    "Open": 3.822,
-    "High": 3.842,
-    "Low": 3.802,
-    "Close": 3.822
+    "Open": 3.84,
+    "High": 3.86,
+    "Low": 3.82,
+    "Close": 3.84
   },
   {
     "Symbol": "USGG2YR:IND",
@@ -79950,53 +79998,5 @@
     "High": 9.8431,
     "Low": 9.8031,
     "Close": 9.8231
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "13/10/1987",
-    "Open": 9.5971,
-    "High": 9.6171,
-    "Low": 9.5771,
-    "Close": 9.5971
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "12/10/1987",
-    "Open": 9.7,
-    "High": 9.72,
-    "Low": 9.68,
-    "Close": 9.7
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "09/10/1987",
-    "Open": 9.6395,
-    "High": 9.6595,
-    "Low": 9.6195,
-    "Close": 9.6395
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "08/10/1987",
-    "Open": 9.5643,
-    "High": 9.5843,
-    "Low": 9.5443,
-    "Close": 9.5643
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "07/10/1987",
-    "Open": 9.4322,
-    "High": 9.4522,
-    "Low": 9.4122,
-    "Close": 9.4322
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "06/10/1987",
-    "Open": 9.432,
-    "High": 9.452,
-    "Low": 9.412,
-    "Close": 9.432
   }
 ]
