@@ -8,7 +8,7 @@ const LoginHistory = ({ onClose }) => {
   const [error, setError] = useState('')
   const [sortBy, setSortBy] = useState('time') // 'time', 'success', 'ip'
   const [sortOrder, setSortOrder] = useState('desc') // 'asc', 'desc'
-  const [groupBy, setGroupBy] = useState('none') // 'none', 'date', 'success', 'ip'
+  const [groupBy, setGroupBy] = useState('user') // 'none', 'user', 'date', 'success', 'ip'
   const [limit, setLimit] = useState(50)
 
   useEffect(() => {
@@ -179,6 +179,7 @@ const LoginHistory = ({ onClose }) => {
             <label>Group By:</label>
             <select value={groupBy} onChange={(e) => setGroupBy(e.target.value)}>
               <option value="none">None</option>
+              <option value="user">User</option>
               <option value="date">Date</option>
               <option value="success">Status</option>
               <option value="ip">IP Address</option>
@@ -225,14 +226,14 @@ const LoginHistory = ({ onClose }) => {
                       className={`history-item ${record.success ? 'success' : 'failed'}`}
                     >
                       <div className="history-icon">
-                        {record.success ? '✅' : '❌'}
+                        {record.event_type === 'logout' ? '🚪' : (record.success ? '✅' : '❌')}
                       </div>
                       <div className="history-details">
                         <div className="history-time">
-                          {formatDate(getRecordTime(record))}{record.event_type === 'logout' && ' (Logout)'}
+                          {formatDate(getRecordTime(record))}{record.event_type === 'logout' && ' 🔴'}
                         </div>
                         <div className="history-info">
-                          <span className="history-email">{record.email}</span>
+                          <span className="history-email">👤 {record.email}</span>
                           {record.ip_address && (
                             <span className="history-ip">📍 {record.ip_address}</span>
                           )}
