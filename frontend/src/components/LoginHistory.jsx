@@ -19,7 +19,7 @@ const LoginHistory = ({ onClose }) => {
     try {
       setLoading(true)
       const response = await authAPI.getLoginHistory(limit)
-      setHistory(response.data || [])
+      setHistory(response.data.history || [])
       setError('')
     } catch (err) {
       console.error('Failed to load login history:', err)
@@ -27,6 +27,10 @@ const LoginHistory = ({ onClose }) => {
     } finally {
       setLoading(false)
     }
+  }
+
+  const getRecordTime = (record) => {
+    return record.timestamp || record.login_time
   }
 
   const formatDate = (dateString) => {
@@ -58,8 +62,8 @@ const LoginHistory = ({ onClose }) => {
       
       switch (sortBy) {
         case 'time':
-          compareA = new Date(a.login_time)
-          compareB = new Date(b.login_time)
+          compareA = new Date(getRecordTime(a))
+          compareB = new Date(getRecordTime(b))
           break
         case 'success':
           compareA = a.success ? 1 : 0
@@ -95,7 +99,7 @@ const LoginHistory = ({ onClose }) => {
       
       switch (groupBy) {
         case 'date':
-          key = getDateKey(record.login_time)
+          key = getDateKey(getRecordTime(record))
           break
         case 'success':
           key = record.success ? '✅ Successful' : '❌ Failed'
@@ -130,8 +134,8 @@ const LoginHistory = ({ onClose }) => {
       <div className="login-history-modal">
         <div className="login-history-header">
           <div>
-            <h2>🔐 Login History</h2>
-            <p>Track your account activity</p>
+            <h2>🔐 Login History - All Users</h2>
+            <p>Track all account activity across the system</p>
           </div>
           <button className="close-button" onClick={onClose}>✕</button>
         </div>
@@ -225,7 +229,7 @@ const LoginHistory = ({ onClose }) => {
                       </div>
                       <div className="history-details">
                         <div className="history-time">
-                          {formatDate(record.login_time)}
+                          {formatDate(getRecordTime(record))}{record.event_type === 'logout' && ' (Logout)'}
                         </div>
                         <div className="history-info">
                           <span className="history-email">{record.email}</span>

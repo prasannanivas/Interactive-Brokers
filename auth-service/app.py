@@ -367,18 +367,21 @@ async def get_current_user_info(current_user: dict = Depends(get_current_user)):
 @app.get("/auth/login-history")
 async def get_login_history(
     limit: int = 50,
-    current_user: dict = Depends(get_current_user)
+    skip: int = 0
 ):
-    """Get login history for current user"""
+    """Get login history for all users - no auth required"""
     login_history_collection = get_login_history_collection()
     
+    # Get all login history sorted by timestamp (newest first)
     history = await login_history_collection.find(
-        {"user_id": current_user.id}
-    ).sort("login_time", -1).limit(limit).to_list(length=limit)
+    ).sort("timestamp", -1).skip(skip).limit(limit).to_list(length=limit)
     
     # Convert ObjectId to string
     for record in history:
-        record["_id"] = str(record["_id"])
+        if "_id" in record:
+            record["_id"] = str(record["_id"])
+        if "user_id" in record and record["user_id"]:
+            record["user_id"] = str(record["user_id"])
     
     return {
         "count": len(history),
