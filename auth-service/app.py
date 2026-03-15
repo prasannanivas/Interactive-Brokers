@@ -327,15 +327,15 @@ async def login(credentials: UserLogin, request: Request):
 
 
 @app.post("/auth/logout")
-async def logout_user(request: Request, current_user: dict = Depends(get_current_user)):
-    """Record logout event in login history"""
+async def logout_user(request: Request, current_user: dict = Depends(get_optional_user)):
+    """Record logout event in login history - no auth required"""
     try:
         login_history_collection = get_login_history_collection()
         
-        # Record logout event
+        # Record logout event (with or without user info)
         logout_entry = {
-            "user_id": current_user.get("_id"),
-            "email": current_user.get("email"),
+            "user_id": current_user.get("_id") if current_user else None,
+            "email": current_user.get("email") if current_user else None,
             "timestamp": datetime.utcnow(),
             "ip_address": request.client.host if request.client else None,
             "user_agent": request.headers.get("user-agent"),
