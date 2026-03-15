@@ -326,6 +326,38 @@ async def login(credentials: UserLogin, request: Request):
     )
 
 
+@app.post("/auth/logout")
+async def logout_user(request: Request, current_user: dict = Depends(get_current_user)):
+    """Record logout event in login history"""
+    try:
+        login_history_collection = get_login_history_collection()
+        
+        # Record logout event
+        logout_entry = {
+            "user_id": current_user.get("_id"),
+            "email": current_user.get("email"),
+            "timestamp": datetime.utcnow(),
+            "ip_address": request.client.host if request.client else None,
+            "user_agent": request.headers.get("user-agent"),
+            "success": True,
+            "event_type": "logout"
+        }
+        
+        await login_history_collection.insert_one(logout_entry)
+        
+        return {
+            "message": "Logout recorded successfully",
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        print(f"Failed to record logout: {e}")
+        # Don't fail the logout if recording fails
+        return {
+            "message": "Logged out (recording failed)",
+            "error": str(e)
+        }
+
+
 @app.get("/auth/me", response_model=UserResponse)
 async def get_current_user_info(current_user: dict = Depends(get_current_user)):
     """Get current authenticated user"""

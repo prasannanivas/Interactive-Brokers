@@ -78,6 +78,7 @@ const tradingApi = axios.create({
 export const authAPI = {
   register: (data) => authApi.post('/auth/register', data),
   login: (data) => authApi.post('/auth/login', data),
+  logout: () => authApi.post('/auth/logout'),
   simpleLogin: (data) => tradingApi.post('/api/auth/simple-login', data),
   getMe: () => authApi.get('/auth/me'),
   getLoginHistory: (limit = 50) => authApi.get(`/auth/login-history?limit=${limit}`),

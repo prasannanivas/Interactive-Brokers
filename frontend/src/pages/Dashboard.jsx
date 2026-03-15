@@ -11,6 +11,7 @@ import BondYieldsChart from '../components/BondYieldsChart'
 import ComprehensiveAnalysisChart from '../components/ComprehensiveAnalysisChart'
 import DailySignalVolumeChart from '../components/DailySignalVolumeChart'
 import ErrorBoundary from '../components/ErrorBoundary'
+import LoginHistory from '../components/LoginHistory'
 import './Dashboard.css'
 
 const Dashboard = () => {
@@ -69,6 +70,7 @@ const Dashboard = () => {
   const [interestRateData, setInterestRateData] = useState([])
   const [loadingInterestRates, setLoadingInterestRates] = useState(false)
   const [selectedCurrencyPair, setSelectedCurrencyPair] = useState('USDCAD')
+  const [showLoginHistory, setShowLoginHistory] = useState(false)
   const wsRef = useRef(null)
 
   // Column configuration - all available columns
@@ -659,6 +661,9 @@ const Dashboard = () => {
           <p className="welcome-text">Real-time Forex Trading Signals</p>
         </div>
         <div className="user-actions">
+          <button className="history-button" onClick={() => setShowLoginHistory(true)} title="View Login History">
+            📋 History
+          </button>
           <span className="user-info">👤 {user?.username || user?.email}</span>
           <button className="logout-button" onClick={handleLogout}>
             🚪 Logout
@@ -1600,6 +1605,11 @@ const Dashboard = () => {
           signalVolumeData={signalVolumeData}
           onClose={closeChartModal}
         />
+      )}
+
+      {/* Login History Modal */}
+      {showLoginHistory && (
+        <LoginHistory onClose={() => setShowLoginHistory(false)} />
       )}
     </div>
   )

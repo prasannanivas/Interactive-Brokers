@@ -95,7 +95,14 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      // Track logout in backend
+      await authAPI.logout()
+    } catch (error) {
+      console.error('Logout tracking failed:', error)
+    }
+    
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     setUser(null)
