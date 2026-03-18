@@ -23,7 +23,7 @@ import './CurrencyRateCorrelationChart.css'
 const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, onPairChange }) => {
   const [priceHistory, setPriceHistory] = useState([])
   const [loading, setLoading] = useState(false)
-  const [timeframe, setTimeframe] = useState(30) // days - default to 1 month
+  const [timeframe, setTimeframe] = useState(365) // days - default to 1 year
 
   // Available currency pairs with their corresponding countries
   const currencyPairs = {

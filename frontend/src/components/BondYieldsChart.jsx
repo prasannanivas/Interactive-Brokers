@@ -6,7 +6,7 @@ import './BondYieldsChart.css'
 const BondYieldsChart = ({ selectedCurrencyPair }) => {
   const [bondData, setBondData] = useState([])
   const [loading, setLoading] = useState(false)
-  const [timeframe, setTimeframe] = useState(30) // days - default to 1 month
+  const [timeframe, setTimeframe] = useState(365) // days - default to 1 year
 
   // Map currency pairs to their countries
   const pairToCountries = {
