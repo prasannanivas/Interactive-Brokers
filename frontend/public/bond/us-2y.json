@@ -1,6 +1,46 @@
 [
   {
     "Symbol": "USGG2YR:IND",
+    "Date": "20/03/2026",
+    "Open": 4.093,
+    "High": 4.113,
+    "Low": 4.073,
+    "Close": 4.093
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "19/03/2026",
+    "Open": 3.953,
+    "High": 3.973,
+    "Low": 3.933,
+    "Close": 3.953
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "18/03/2026",
+    "Open": 3.965,
+    "High": 3.985,
+    "Low": 3.945,
+    "Close": 3.965
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "17/03/2026",
+    "Open": 3.903,
+    "High": 3.923,
+    "Low": 3.883,
+    "Close": 3.903
+  },
+  {
+    "Symbol": "USGG2YR:IND",
+    "Date": "16/03/2026",
+    "Open": 3.924,
+    "High": 3.944,
+    "Low": 3.904,
+    "Close": 3.924
+  },
+  {
+    "Symbol": "USGG2YR:IND",
     "Date": "13/03/2026",
     "Open": 3.982,
     "High": 4.002,
@@ -79958,45 +79998,5 @@
     "High": 9.0412,
     "Low": 9.0012,
     "Close": 9.0212
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "20/10/1987",
-    "Open": 9.11,
-    "High": 9.13,
-    "Low": 9.09,
-    "Close": 9.11
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "19/10/1987",
-    "Open": 9.9224,
-    "High": 9.9424,
-    "Low": 9.9024,
-    "Close": 9.9224
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "16/10/1987",
-    "Open": 9.9222,
-    "High": 9.9422,
-    "Low": 9.9022,
-    "Close": 9.9222
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "15/10/1987",
-    "Open": 9.8886,
-    "High": 9.9086,
-    "Low": 9.8686,
-    "Close": 9.8886
-  },
-  {
-    "Symbol": "USGG2YR:IND",
-    "Date": "14/10/1987",
-    "Open": 9.8231,
-    "High": 9.8431,
-    "Low": 9.8031,
-    "Close": 9.8231
   }
 ]

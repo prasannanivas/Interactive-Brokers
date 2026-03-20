@@ -2,11 +2,20 @@
   {
     "Country": "Euro Area",
     "Category": "Interest Rate",
+    "DateTime": "2026-03-19T00:00:00",
+    "Value": 2.15,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2026-03-19T13:15:00"
+  },
+  {
+    "Country": "Euro Area",
+    "Category": "Interest Rate",
     "DateTime": "2026-02-05T00:00:00",
     "Value": 2.15,
     "Frequency": "Daily",
     "HistoricalDataSymbol": "EURR002W",
-    "LastUpdate": "2026-02-05T13:15:00"
+    "LastUpdate": "2026-03-19T13:15:00"
   },
   {
     "Country": "Euro Area",

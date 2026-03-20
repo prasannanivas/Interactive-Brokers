@@ -75,6 +75,11 @@ FILE_MAPPING = {
     'Australia': {'prefix': 'australia', 'country_name': 'Australia'}
 }
 
+# API country name mapping (for countries where display name differs from API name)
+API_COUNTRY_MAPPING = {
+    'Euro Area': 'Germany'  # API uses 'Germany' not 'Euro Area'
+}
+
 def fetch_bond_data(country, maturity, start_date, end_date):
     """Fetch bond yield data from Trading Economics API"""
     
@@ -84,8 +89,11 @@ def fetch_bond_data(country, maturity, start_date, end_date):
     start_str = start_date.strftime('%Y-%m-%d')
     end_str = end_date.strftime('%Y-%m-%d')
     
+    # Use API country mapping if exists
+    api_country = API_COUNTRY_MAPPING.get(country, country)
+    
     # Construct URL - using historical data endpoint
-    url = f"{BASE_URL}/historical/country/{country.replace(' ', '%20')}/indicator/government%20bond%20{maturity}?c={API_KEY}&d1={start_str}&d2={end_str}"
+    url = f"{BASE_URL}/historical/country/{api_country.replace(' ', '%20')}/indicator/government%20bond%20{maturity}?c={API_KEY}&d1={start_str}&d2={end_str}"
     
     print(f"  Fetching {country} {maturity} from {start_str} to {end_str}...")
     print(f"  URL: {url[:100]}...")

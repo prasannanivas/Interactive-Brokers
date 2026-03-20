@@ -240,6 +240,77 @@ class SignalBackfiller:
             traceback.print_exc()
             return None
     
+    def _extract_indicator_states(self, symbol_data: dict) -> dict:
+        """
+        Extract current state of all indicators from symbol data
+        Returns dict: {indicator_name: state}
+        """
+        from state_tracker import extract_current_indicator_states
+        return extract_current_indicator_states(symbol_data)
+    
+    async def _get_previous_snapshot(self, target_date: datetime) -> Optional[dict]:
+        """Get the snapshot from the previous trading day"""
+        collection = self.db.daily_signal_snapshots
+        
+        # Find previous snapshot (before target_date)
+        prev_snapshot = await collection.find_one(
+            {'snapshot_date': {'$lt': target_date}},
+            sort=[('snapshot_date', -1)]
+        )
+        
+        return prev_snapshot
+    
+    async def _track_indicator_changes(
+        self, 
+        target_date: datetime,
+        current_symbols_data: List[dict],
+        previous_snapshot: Optional[dict]
+    ) -> int:
+        """
+        Track indicator changes by comparing current snapshot with previous
+        Returns number of changes tracked
+        """
+        if not previous_snapshot:
+            print(f"  📝 No previous snapshot found - skipping indicator change tracking")
+            return 0
+        
+        # Build previous states lookup
+        prev_states_by_symbol = {}
+        for prev_signal in previous_snapshot.get('signals', []):
+            symbol = prev_signal['symbol']
+            prev_states_by_symbol[symbol] = self._extract_indicator_states(prev_signal)
+        
+        # Track changes
+        indicator_states_collection = self.db.indicator_states
+        changes_count = 0
+        
+        snapshot_timestamp = target_date.replace(hour=17, minute=0, second=0, microsecond=0)
+        est_timestamp = self.est_tz.localize(snapshot_timestamp.replace(tzinfo=None))
+        timestamp_utc = est_timestamp.astimezone(timezone.utc)
+        
+        for current_data in current_symbols_data:
+            symbol = current_data['symbol']
+            current_states = self._extract_indicator_states(current_data)
+            prev_states = prev_states_by_symbol.get(symbol, {})
+            
+            # Check each indicator for changes
+            for indicator, current_state in current_states.items():
+                prev_state = prev_states.get(indicator, 'NEUTRAL')
+                
+                if prev_state != current_state:
+                    # State changed - record it
+                    await indicator_states_collection.insert_one({
+                        'symbol': symbol,
+                        'indicator': indicator,
+                        'from_state': prev_state,
+                        'to_state': current_state,
+                        'timestamp': timestamp_utc.isoformat(),
+                        'price': current_data.get('last_price')
+                    })
+                    changes_count += 1
+        
+        return changes_count
+    
     async def _backfill_date(self, target_date: datetime) -> bool:
         """
         Backfill signals for a specific date
@@ -313,7 +384,7 @@ class SignalBackfiller:
             signals=symbols_data
         )
         
-        # Save to database
+        # Save snapshot to database
         try:
             collection = self.db.daily_signal_snapshots
             snapshot_dict = snapshot.model_dump()
@@ -325,13 +396,31 @@ class SignalBackfiller:
             )
             
             if result.upserted_id:
-                print(f"✓ Snapshot saved with ID: {result.upserted_id}\n")
+                print(f"✓ Snapshot saved with ID: {result.upserted_id}")
             else:
-                print(f"✓ Snapshot updated\n")
+                print(f"✓ Snapshot updated")
+            
+            # Track indicator changes (compare with previous day)
+            print(f"  📊 Tracking indicator changes...")
+            previous_snapshot = await self._get_previous_snapshot(snapshot_date_utc)
+            changes_count = await self._track_indicator_changes(
+                target_date, 
+                symbols_data, 
+                previous_snapshot
+            )
+            
+            if changes_count > 0:
+                print(f"  ✓ Recorded {changes_count} indicator state changes")
+            else:
+                print(f"  • No indicator changes detected")
+            
+            print()
             
             return True
         except Exception as e:
             print(f"✗ Failed to save snapshot: {e}\n")
+            import traceback
+            traceback.print_exc()
             return False
     
     def _generate_date_range(self) -> List[datetime]:

@@ -126,6 +126,106 @@ async def load_previous_states():
         print(f"✗ Failed to load previous states: {e}")
 
 
+async def run_daily_economic_data_refresh():
+    """
+    Fetch bond yields and interest rates daily
+    This function is scheduled to run at 5:00 AM EST daily
+    """
+    try:
+        print("\n" + "="*60)
+        print(f"📊 Running scheduled economic data refresh...")
+        print(f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        print("="*60)
+        
+        # Run in executor to avoid blocking async loop
+        def fetch_all_data():
+            import subprocess
+            import sys
+            
+            base_path = os.path.dirname(os.path.abspath(__file__))
+            
+            # Step 1: Fetch bond data (10Y)
+            print("\n📈 Step 1/3: Fetching bond yields...")
+            result1 = subprocess.run(
+                [sys.executable, os.path.join(base_path, 'fetch_bond_data_tradingeconomics.py')],
+                capture_output=True,
+                text=True
+            )
+            if result1.returncode != 0:
+                print(f"✗ Bond data fetch failed: {result1.stderr[:200]}")
+                return False
+            print("✓ Bond yields fetched")
+            
+            # Step 2: Generate 2Y data from 10Y
+            print("\n📉 Step 2/3: Generating 2Y bond data...")
+            result2 = subprocess.run(
+                [sys.executable, os.path.join(base_path, 'generate_2y_from_10y.py')],
+                capture_output=True,
+                text=True
+            )
+            if result2.returncode != 0:
+                print(f"✗ 2Y generation failed: {result2.stderr[:200]}")
+                return False
+            print("✓ 2Y data generated")
+            
+            # Step 3: Fetch interest rates
+            print("\n🏦 Step 3/3: Fetching interest rates...")
+            result3 = subprocess.run(
+                [sys.executable, os.path.join(base_path, 'fetch_interest_rates_tradingeconomics.py')],
+                capture_output=True,
+                text=True
+            )
+            if result3.returncode != 0:
+                print(f"✗ Interest rate fetch failed: {result3.stderr[:200]}")
+                return False
+            print("✓ Interest rates fetched")
+            
+            return True
+        
+        # Run in thread pool to avoid blocking
+        loop = asyncio.get_event_loop()
+        success = await loop.run_in_executor(None, fetch_all_data)
+        
+        if success:
+            print("\n✓ Economic data refresh completed successfully!")
+            
+            # Send Telegram notification if configured
+            if telegram_bot.is_configured():
+                try:
+                    msg = (
+                        f"📊 <b>Economic Data Updated</b>\n\n"
+                        f"✅ Bond yields (10Y)\n"
+                        f"✅ Bond yields (2Y - generated)\n"
+                        f"✅ Interest rates\n\n"
+                        f"⏰ {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}"
+                    )
+                    await telegram_bot.send_message(msg)
+                    print("✓ Telegram notification sent")
+                except Exception as e:
+                    print(f"✗ Failed to send Telegram notification: {e}")
+        else:
+            print("\n✗ Economic data refresh failed!")
+            
+            if telegram_bot.is_configured():
+                try:
+                    await telegram_bot.send_message(
+                        f"⚠️ <b>Economic Data Refresh Failed</b>\n\n"
+                        f"Please check the logs for details.\n"
+                        f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}"
+                    )
+                except:
+                    pass
+        
+        print("="*60 + "\n")
+        return success
+        
+    except Exception as e:
+        print(f"✗ Error running economic data refresh: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 async def run_daily_signal_capture():
     """
     Run daily signal capture and store snapshot in MongoDB
@@ -237,7 +337,7 @@ async def startup_event():
     try:
         est_tz = pytz.timezone('US/Eastern')
         
-        # Schedule daily capture at 5:00 PM EST
+        # Schedule daily signal capture at 5:00 PM EST
         scheduler.add_job(
             run_daily_signal_capture,
             trigger=CronTrigger(hour=17, minute=0, timezone=est_tz),
@@ -246,17 +346,31 @@ async def startup_event():
             replace_existing=True
         )
         
+        # Schedule daily economic data refresh at 5:00 AM EST
+        scheduler.add_job(
+            run_daily_economic_data_refresh,
+            trigger=CronTrigger(hour=5, minute=0, timezone=est_tz),
+            id='daily_economic_data_refresh',
+            name='Daily Economic Data Refresh at 5am EST',
+            replace_existing=True
+        )
+        
         # Start the scheduler
         scheduler.start()
         
-        next_run = scheduler.get_job('daily_signal_capture').next_run_time
-        print(f"\n✓ Daily signal capture scheduled")
-        print(f"  Schedule: Every day at 5:00 PM EST")
-        print(f"  Next run: {next_run.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        # Show next run times
+        next_run_signal = scheduler.get_job('daily_signal_capture').next_run_time
+        next_run_data = scheduler.get_job('daily_economic_data_refresh').next_run_time
+        
+        print(f"\n✓ Scheduled jobs configured")
+        print(f"  • Signal Capture: Every day at 5:00 PM EST")
+        print(f"    Next run: {next_run_signal.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        print(f"  • Economic Data: Every day at 5:00 AM EST")
+        print(f"    Next run: {next_run_data.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         print()
         
     except Exception as e:
-        print(f"✗ Failed to setup daily signal capture scheduler: {e}")
+        print(f"✗ Failed to setup schedulers: {e}")
         import traceback
         traceback.print_exc()
 

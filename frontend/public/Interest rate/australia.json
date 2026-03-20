@@ -2,11 +2,20 @@
   {
     "Country": "Australia",
     "Category": "Interest Rate",
+    "DateTime": "2026-03-17T00:00:00",
+    "Value": 4.1,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2026-03-17T03:30:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
     "DateTime": "2026-02-03T00:00:00",
     "Value": 3.85,
     "Frequency": "Daily",
     "HistoricalDataSymbol": "RBATCTR",
-    "LastUpdate": "2026-02-03T03:30:00"
+    "LastUpdate": "2026-03-17T03:30:00"
   },
   {
     "Country": "Australia",

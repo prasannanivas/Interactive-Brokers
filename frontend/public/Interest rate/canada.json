@@ -2,11 +2,20 @@
   {
     "Country": "Canada",
     "Category": "Interest Rate",
+    "DateTime": "2026-03-18T00:00:00",
+    "Value": 2.25,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2026-03-18T13:45:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
     "DateTime": "2026-02-28T00:00:00",
     "Value": 2.25,
     "Frequency": "Daily",
     "HistoricalDataSymbol": "CCLR",
-    "LastUpdate": "2026-03-05T09:53:00"
+    "LastUpdate": "2026-03-18T13:45:00"
   },
   {
     "Country": "Canada",

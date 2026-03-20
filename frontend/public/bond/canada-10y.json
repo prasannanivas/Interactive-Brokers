@@ -2,6 +2,51 @@
   {
     "country": "Canada",
     "symbol": "GCAN10YR:IND",
+    "date": "20/03/2026",
+    "open": 3.561,
+    "high": 3.561,
+    "low": 3.561,
+    "close": 3.561
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "19/03/2026",
+    "open": 3.438,
+    "high": 3.438,
+    "low": 3.438,
+    "close": 3.438
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "18/03/2026",
+    "open": 3.453,
+    "high": 3.453,
+    "low": 3.453,
+    "close": 3.453
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "17/03/2026",
+    "open": 3.387,
+    "high": 3.387,
+    "low": 3.387,
+    "close": 3.387
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
+    "date": "16/03/2026",
+    "open": 3.435,
+    "high": 3.435,
+    "low": 3.435,
+    "close": 3.435
+  },
+  {
+    "country": "Canada",
+    "symbol": "GCAN10YR:IND",
     "date": "13/03/2026",
     "open": 3.508,
     "high": 3.508,
@@ -89953,50 +89998,5 @@
     "high": 8.38,
     "low": 8.38,
     "close": 8.38
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "02/04/1987",
-    "open": 8.28,
-    "high": 8.28,
-    "low": 8.28,
-    "close": 8.28
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "01/04/1987",
-    "open": 8.28,
-    "high": 8.28,
-    "low": 8.28,
-    "close": 8.28
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "31/03/1987",
-    "open": 8.28,
-    "high": 8.28,
-    "low": 8.28,
-    "close": 8.28
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "30/03/1987",
-    "open": 8.11,
-    "high": 8.11,
-    "low": 8.11,
-    "close": 8.11
-  },
-  {
-    "country": "Canada",
-    "symbol": "GCAN10YR:IND",
-    "date": "27/03/1987",
-    "open": 8.17,
-    "high": 8.17,
-    "low": 8.17,
-    "close": 8.17
   }
 ]

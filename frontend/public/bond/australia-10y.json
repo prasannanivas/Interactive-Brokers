@@ -2,11 +2,56 @@
   {
     "country": "Australia",
     "symbol": "GACGB10:IND",
+    "date": "20/03/2026",
+    "open": 5.068,
+    "high": 5.068,
+    "low": 5.068,
+    "close": 5.068
+  },
+  {
+    "country": "Australia",
+    "symbol": "GACGB10:IND",
+    "date": "19/03/2026",
+    "open": 4.983,
+    "high": 4.983,
+    "low": 4.983,
+    "close": 4.983
+  },
+  {
+    "country": "Australia",
+    "symbol": "GACGB10:IND",
+    "date": "18/03/2026",
+    "open": 4.9,
+    "high": 4.9,
+    "low": 4.9,
+    "close": 4.9
+  },
+  {
+    "country": "Australia",
+    "symbol": "GACGB10:IND",
+    "date": "17/03/2026",
+    "open": 4.938,
+    "high": 4.938,
+    "low": 4.938,
+    "close": 4.938
+  },
+  {
+    "country": "Australia",
+    "symbol": "GACGB10:IND",
+    "date": "16/03/2026",
+    "open": 4.991,
+    "high": 4.991,
+    "low": 4.991,
+    "close": 4.991
+  },
+  {
+    "country": "Australia",
+    "symbol": "GACGB10:IND",
     "date": "13/03/2026",
-    "open": 4.996,
-    "high": 4.996,
-    "low": 4.996,
-    "close": 4.996
+    "open": 4.951,
+    "high": 4.951,
+    "low": 4.951,
+    "close": 4.951
   },
   {
     "country": "Australia",
@@ -89953,50 +89998,5 @@
     "high": 13.19,
     "low": 13.19,
     "close": 13.19
-  },
-  {
-    "country": "Australia",
-    "symbol": "GACGB10:IND",
-    "date": "24/07/1990",
-    "open": 13.14,
-    "high": 13.14,
-    "low": 13.14,
-    "close": 13.14
-  },
-  {
-    "country": "Australia",
-    "symbol": "GACGB10:IND",
-    "date": "23/07/1990",
-    "open": 13.11,
-    "high": 13.11,
-    "low": 13.11,
-    "close": 13.11
-  },
-  {
-    "country": "Australia",
-    "symbol": "GACGB10:IND",
-    "date": "20/07/1990",
-    "open": 13.12,
-    "high": 13.12,
-    "low": 13.12,
-    "close": 13.12
-  },
-  {
-    "country": "Australia",
-    "symbol": "GACGB10:IND",
-    "date": "19/07/1990",
-    "open": 13.16,
-    "high": 13.16,
-    "low": 13.16,
-    "close": 13.16
-  },
-  {
-    "country": "Australia",
-    "symbol": "GACGB10:IND",
-    "date": "18/07/1990",
-    "open": 13.18,
-    "high": 13.18,
-    "low": 13.18,
-    "close": 13.18
   }
 ]
