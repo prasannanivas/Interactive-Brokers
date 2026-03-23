@@ -25,12 +25,13 @@ load_dotenv()
 class SignalBackfiller:
     """Backfills historical signal snapshots"""
     
-    def __init__(self, start_date: str = "2025-01-01"):
+    def __init__(self, start_date: str = "2025-01-01", end_date: Optional[str] = None):
         """
         Initialize backfiller
         
         Args:
             start_date: Start date for backfill in YYYY-MM-DD format
+            end_date: End date for backfill in YYYY-MM-DD format (defaults to today)
         """
         self.mongodb_url = os.getenv('MONGODB_URL', 'mongodb://localhost:27017')
         self.db_name = os.getenv('MONGODB_DB_NAME', 'trading_monitor')
@@ -45,6 +46,14 @@ class SignalBackfiller:
         self.start_date = datetime.strptime(start_date, '%Y-%m-%d').replace(
             hour=0, minute=0, second=0, microsecond=0, tzinfo=timezone.utc
         )
+        
+        # Parse end date
+        if end_date:
+            self.end_date = datetime.strptime(end_date, '%Y-%m-%d').replace(
+                hour=0, minute=0, second=0, microsecond=0, tzinfo=timezone.utc
+            )
+        else:
+            self.end_date = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
         
     async def connect(self):
         """Connect to MongoDB and Polygon API"""
@@ -432,9 +441,8 @@ class SignalBackfiller:
         """
         dates = []
         current = self.start_date
-        end = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
         
-        while current <= end:
+        while current <= self.end_date:
             # Skip weekends (Saturday=5, Sunday=6)
             if current.weekday() < 5:  # Monday=0, Friday=4
                 dates.append(current)
@@ -467,7 +475,7 @@ class SignalBackfiller:
             print(f"\n{'='*70}")
             print(f"🚀 Historical Signal Backfill (REVERSE ORDER)")
             print(f"{'='*70}")
-            print(f"Start Date (processing from): {datetime.now(timezone.utc).strftime('%Y-%m-%d')}")
+            print(f"Start Date (processing from): {self.end_date.strftime('%Y-%m-%d')}")
             print(f"End Date (processing to): {self.start_date.strftime('%Y-%m-%d')}")
             print(f"Total Dates: {len(dates)} (excluding weekends)")
             if max_days:
@@ -523,12 +531,13 @@ async def main():
     
     parser = argparse.ArgumentParser(description='Backfill historical daily signal snapshots')
     parser.add_argument('--start-date', default='2025-01-01', help='Start date (YYYY-MM-DD)')
+    parser.add_argument('--end-date', help='End date (YYYY-MM-DD, defaults to today)')
     parser.add_argument('--max-days', type=int, help='Maximum number of days to backfill')
     parser.add_argument('--no-skip', action='store_true', help='Re-process existing snapshots')
     
     args = parser.parse_args()
     
-    backfiller = SignalBackfiller(start_date=args.start_date)
+    backfiller = SignalBackfiller(start_date=args.start_date, end_date=args.end_date)
     success = await backfiller.run(
         max_days=args.max_days,
         skip_existing=not args.no_skip

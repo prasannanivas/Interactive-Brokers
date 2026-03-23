@@ -11,6 +11,7 @@ import {
   Cell
 } from 'recharts'
 import axios from 'axios'
+import FullscreenChartModal from './FullscreenChartModal'
 
 // Use environment variable or default to production URL
 const API_URL = import.meta.env.VITE_TRADING_API_URL || 'http://167.172.215.78:8000'
@@ -20,10 +21,22 @@ const DailySignalVolumeChart = ({ days = 30 }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [stats, setStats] = useState(null)
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   useEffect(() => {
     fetchSnapshotData()
   }, [days])
+
+  // Handle ESC key to close fullscreen
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [isFullscreen])
 
   const fetchSnapshotData = async () => {
     try {
@@ -175,30 +188,8 @@ const DailySignalVolumeChart = ({ days = 30 }) => {
     )
   }
 
-  return (
-    <div className="bg-gray-800 rounded-lg p-6 shadow-lg">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-xl font-bold text-white mb-1">
-            Daily Signal Volume
-          </h2>
-          <p className="text-sm text-gray-400">
-            Captured daily at 5:00 PM EST
-          </p>
-        </div>
-        {stats && (
-          <div className="text-right">
-            <div className={`text-2xl font-bold ${getTrendColor(stats.trend)}`}>
-              {getTrendEmoji(stats.trend)} {stats.trend.replace(/_/g, ' ')}
-            </div>
-            <div className="text-xs text-gray-400 mt-1">
-              {stats.days}-day trend
-            </div>
-          </div>
-        )}
-      </div>
-
+  const renderChartContent = () => (
+    <>
       {/* Stats Summary */}
       {stats && (
         <div className="grid grid-cols-3 gap-4 mb-6">
@@ -299,6 +290,54 @@ const DailySignalVolumeChart = ({ days = 30 }) => {
           </span>
         </div>
       </div>
+    </>
+  )
+
+  return (
+    <div className="bg-gray-800 rounded-lg p-6 shadow-lg">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <div className="flex items-center gap-3">
+            <h2 className="text-xl font-bold text-white mb-1">
+              Daily Signal Volume
+            </h2>
+            <button 
+              className="zoom-chart-btn-volume"
+              onClick={() => setIsFullscreen(true)}
+              title="View Fullscreen"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+              </svg>
+            </button>
+          </div>
+          <p className="text-sm text-gray-400">
+            Captured daily at 5:00 PM EST
+          </p>
+        </div>
+        {stats && (
+          <div className="text-right">
+            <div className={`text-2xl font-bold ${getTrendColor(stats.trend)}`}>
+              {getTrendEmoji(stats.trend)} {stats.trend.replace(/_/g, ' ')}
+            </div>
+            <div className="text-xs text-gray-400 mt-1">
+              {stats.days}-day trend
+            </div>
+          </div>
+        )}
+      </div>
+
+      {renderChartContent()}
+
+      {/* Fullscreen Modal */}
+      <FullscreenChartModal
+        isOpen={isFullscreen}
+        onClose={() => setIsFullscreen(false)}
+        title="Daily Signal Volume"
+      >
+        {renderChartContent()}
+      </FullscreenChartModal>
     </div>
   )
 }

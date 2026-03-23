@@ -1,0 +1,168 @@
+.fullscreen-chart-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fullscreen-chart-container {
+  width: 95vw;
+  height: 95vh;
+  background: #1a1d29;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.fullscreen-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(to bottom, #1f2330, #1a1d29);
+}
+
+.fullscreen-chart-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.fullscreen-close-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.fullscreen-close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.fullscreen-close-btn:active {
+  transform: scale(0.95);
+}
+
+.fullscreen-chart-content {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Make charts fill the fullscreen space */
+.fullscreen-chart-content .recharts-responsive-container,
+.fullscreen-chart-content .bond-yields-chart,
+.fullscreen-chart-content .interest-rate-chart,
+.fullscreen-chart-content .signal-chart,
+.fullscreen-chart-content .correlation-chart,
+.fullscreen-chart-content .comprehensive-analysis-chart {
+  height: 100% !important;
+  min-height: auto !important;
+}
+
+/* Adjust chart containers in fullscreen */
+.fullscreen-chart-content .chart-container,
+.fullscreen-chart-content .bond-yields-charts {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.fullscreen-chart-content .chart-container > div {
+  flex: 1;
+}
+
+/* Specific styling for ChartModal charts */
+.fullscreen-chart-content .chart-container-wrapper {
+  background: #1f2937;
+  border-radius: 8px;
+  padding: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.fullscreen-chart-content .chart-container {
+  background: #111827;
+  border-radius: 6px;
+  flex: 1;
+}
+
+/* ESC key hint */
+.fullscreen-chart-header::after {
+  content: 'Press ESC to exit';
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -30px;
+  animation: fadeInDelay 0.5s ease-in-out;
+}
+
+@keyframes fadeInDelay {
+  0%, 50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .fullscreen-chart-container {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+  
+  .fullscreen-chart-title {
+    font-size: 16px;
+  }
+  
+  .fullscreen-chart-content {
+    padding: 12px;
+  }
+}

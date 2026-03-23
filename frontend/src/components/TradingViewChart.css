@@ -48,6 +48,8 @@
   background: #1f2937;
   border-radius: 6px;
   border: 1px solid #374151;
+  align-items: center;
+  position: relative;
 }
 
 .stat-group {
@@ -224,4 +226,38 @@
 /* Dark mode compatibility for lightweight-charts */
 .tv-lightweight-charts {
   background: #1f2937 !important;
+}
+
+/* Zoom Button */
+.chart-zoom-btn {
+  margin-left: auto;
+  padding: 8px 12px;
+  background: #3b82f6;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  min-width: 44px;
+  justify-content: center;
+}
+
+.chart-zoom-btn:hover {
+  background: #2563eb;
+  border-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.chart-zoom-btn:active {
+  transform: translateY(0);
+}
+
+.chart-zoom-btn svg {
+  stroke-width: 2;
+  flex-shrink: 0;
 }

@@ -6,6 +6,44 @@
   border-radius: 8px;
 }
 
+.signal-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.signal-chart-title {
+  color: #f9fafb;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.zoom-chart-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.zoom-chart-btn:hover {
+  background: #2563eb;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+}
+
+.zoom-chart-btn:active {
+  transform: scale(0.95);
+}
+
 /* Chart Statistics */
 .chart-stats {
   display: flex;

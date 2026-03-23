@@ -18,12 +18,14 @@ import {
 } from 'recharts'
 import { historyAPI } from '../api/api'
 import TimeframeSelector from './TimeframeSelector'
+import FullscreenChartModal from './FullscreenChartModal'
 import './CurrencyRateCorrelationChart.css'
 
 const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, onPairChange }) => {
   const [priceHistory, setPriceHistory] = useState([])
   const [loading, setLoading] = useState(false)
   const [timeframe, setTimeframe] = useState(365) // days - default to 1 year
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   // Available currency pairs with their corresponding countries
   const currencyPairs = {
@@ -501,6 +503,17 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
     return null
   }
 
+  // Handle ESC key to close fullscreen
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [isFullscreen])
+
   if (loading) {
     return (
       <div className="correlation-chart">
@@ -567,35 +580,8 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
 
   const pairInfo = currencyPairs[selectedCurrencyPair]
 
-  return (
-    <div className="correlation-chart">
-      <div className="chart-header">
-        <h2>Currency vs Interest Rate Correlation - Price & EMA</h2>
-        <div className="chart-controls">
-          <select 
-            value={selectedCurrencyPair} 
-            onChange={(e) => onPairChange(e.target.value)}
-            className="pair-selector"
-          >
-            {Object.entries(currencyPairs).map(([pair, info]) => (
-              <option key={pair} value={pair}>
-                {pair} ({info.base} / {info.quote})
-              </option>
-            ))}
-          </select>
-          <button onClick={loadPriceHistory} className="refresh-button">
-            <span className="refresh-icon">⟳</span>
-            Refresh
-          </button>
-        </div>
-      </div>
-      
-      {/* Timeframe Selector */}
-      <TimeframeSelector
-        selectedTimeframe={timeframe}
-        onTimeframeChange={setTimeframe}
-      />
-
+  const renderChartContent = () => (
+    <>
       {stats && (
         <div className="chart-stats">
           <div className="stat-item">
@@ -778,6 +764,61 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
           </ComposedChart>
         </ResponsiveContainer>
       </div>
+    </>
+  )
+
+  return (
+    <div className="correlation-chart">
+      <div className="chart-header">
+        <h2>Currency vs Interest Rate Correlation - Price & EMA</h2>
+        <div className="chart-controls">
+          <button 
+            className="zoom-chart-btn"
+            onClick={() => setIsFullscreen(true)}
+            title="View Fullscreen"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+            </svg>
+          </button>
+          <select 
+            value={selectedCurrencyPair} 
+            onChange={(e) => onPairChange(e.target.value)}
+            className="pair-selector"
+          >
+            {Object.entries(currencyPairs).map(([pair, info]) => (
+              <option key={pair} value={pair}>
+                {pair} ({info.base} / {info.quote})
+              </option>
+            ))}
+          </select>
+          <button onClick={loadPriceHistory} className="refresh-button">
+            <span className="refresh-icon">⟳</span>
+            Refresh
+          </button>
+        </div>
+      </div>
+      
+      {/* Timeframe Selector */}
+      <TimeframeSelector
+        selectedTimeframe={timeframe}
+        onTimeframeChange={setTimeframe}
+      />
+
+      {renderChartContent()}
+
+      {/* Fullscreen Modal */}
+      <FullscreenChartModal
+        isOpen={isFullscreen}
+        onClose={() => setIsFullscreen(false)}
+        title={`Currency vs Interest Rate Correlation - ${selectedCurrencyPair}`}
+      >
+        <TimeframeSelector
+          selectedTimeframe={timeframe}
+          onTimeframeChange={setTimeframe}
+        />
+        {renderChartContent()}
+      </FullscreenChartModal>
     </div>
   )
 }

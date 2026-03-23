@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import {
   BarChart,
   Bar,
@@ -10,9 +10,11 @@ import {
   ResponsiveContainer,
   Cell
 } from 'recharts'
+import FullscreenChartModal from './FullscreenChartModal'
 import './InterestRateChart.css'
 
 const InterestRateChart = ({ interestRateData, loading, onRefresh, selectedCurrencyPair }) => {
+  const [isFullscreen, setIsFullscreen] = useState(false)
   // Map currency pairs to their countries
   const pairToCountries = {
     'USDCAD': ['United States', 'Canada'],
@@ -96,68 +98,19 @@ const InterestRateChart = ({ interestRateData, loading, onRefresh, selectedCurre
     return null
   }
 
-  if (loading) {
-    return (
-      <div className="interest-rate-chart">
-        <div className="chart-header">
-          <h2>Central Bank Interest Rates</h2>
-          <div className="chart-header-actions">
-            <p className="chart-subtitle">Loading interest rate data...</p>
-            {onRefresh && (
-              <button 
-                className="refresh-button"
-                onClick={onRefresh}
-                disabled={true}
-                title="Refresh interest rate data"
-              >
-                <span className="refresh-icon spinning">⟳</span>
-                Refreshing...
-              </button>
-            )}
-          </div>
-        </div>
-        <div className="loading-container">
-          <div className="loading-spinner"></div>
-          <p>Loading interest rates...</p>
-        </div>
-      </div>
-    )
-  }
+  // Handle ESC key to close fullscreen
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [isFullscreen])
 
-  if (chartData.length === 0) {
-    return (
-      <div className="interest-rate-chart">
-        <div className="chart-header">
-          <h2>Central Bank Interest Rates</h2>
-          <p className="chart-subtitle">Current interest rates by country</p>
-        </div>
-        <div className="no-data">
-          <p>No interest rate data available</p>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="interest-rate-chart">
-      <div className="chart-header">
-        <h2>Central Bank Interest Rates</h2>
-        <div className="chart-header-actions">
-          <p className="chart-subtitle">Current interest rates by country</p>
-          {onRefresh && (
-            <button 
-              className="refresh-button"
-              onClick={onRefresh}
-              disabled={loading}
-              title="Refresh interest rate data"
-            >
-              <span className={`refresh-icon ${loading ? 'spinning' : ''}`}>⟳</span>
-              Refresh
-            </button>
-          )}
-        </div>
-      </div>
-      
+  const renderChartContent = () => (
+    <>
       <div className="chart-stats">
         <div className="stat-item">
           <span className="stat-label">Countries:</span>
@@ -229,6 +182,90 @@ const InterestRateChart = ({ interestRateData, loading, onRefresh, selectedCurre
           <span>Very Low (&lt;1.0%)</span>
         </div>
       </div>
+    </>
+  )
+
+  if (loading) {
+    return (
+      <div className="interest-rate-chart">
+        <div className="chart-header">
+          <h2>Central Bank Interest Rates</h2>
+          <div className="chart-header-actions">
+            <p className="chart-subtitle">Loading interest rate data...</p>
+            {onRefresh && (
+              <button 
+                className="refresh-button"
+                onClick={onRefresh}
+                disabled={true}
+                title="Refresh interest rate data"
+              >
+                <span className="refresh-icon spinning">⟳</span>
+                Refreshing...
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading interest rates...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (chartData.length === 0) {
+    return (
+      <div className="interest-rate-chart">
+        <div className="chart-header">
+          <h2>Central Bank Interest Rates</h2>
+          <p className="chart-subtitle">Current interest rates by country</p>
+        </div>
+        <div className="no-data">
+          <p>No interest rate data available</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="interest-rate-chart">
+      <div className="chart-header">
+        <h2>Central Bank Interest Rates</h2>
+        <div className="chart-header-actions">
+          <p className="chart-subtitle">Current interest rates by country</p>
+          <button 
+            className="zoom-chart-btn"
+            onClick={() => setIsFullscreen(true)}
+            title="View Fullscreen"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+            </svg>
+          </button>
+          {onRefresh && (
+            <button 
+              className="refresh-button"
+              onClick={onRefresh}
+              disabled={loading}
+              title="Refresh interest rate data"
+            >
+              <span className={`refresh-icon ${loading ? 'spinning' : ''}`}>⟳</span>
+              Refresh
+            </button>
+          )}
+        </div>
+      </div>
+      
+      {renderChartContent()}
+
+      {/* Fullscreen Modal */}
+      <FullscreenChartModal
+        isOpen={isFullscreen}
+        onClose={() => setIsFullscreen(false)}
+        title="Central Bank Interest Rates"
+      >
+        {renderChartContent()}
+      </FullscreenChartModal>
     </div>
   )
 }

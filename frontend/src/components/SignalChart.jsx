@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import {
   LineChart,
   Line,
@@ -13,9 +13,11 @@ import {
   ComposedChart,
   ReferenceDot
 } from 'recharts'
+import FullscreenChartModal from './FullscreenChartModal'
 import './SignalChart.css'
 
 const SignalChart = ({ signalHistory, symbol }) => {
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const chartData = useMemo(() => {
     if (!signalHistory || signalHistory.length === 0) return []
 
@@ -121,6 +123,17 @@ const SignalChart = ({ signalHistory, symbol }) => {
     return null
   }
 
+  // Handle ESC key to close fullscreen
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [isFullscreen])
+
   if (!chartData || chartData.length === 0) {
     return (
       <div className="chart-empty">
@@ -129,8 +142,8 @@ const SignalChart = ({ signalHistory, symbol }) => {
     )
   }
 
-  return (
-    <div className="signal-chart-container">
+  const renderChartContent = () => (
+    <>
       {/* Statistics Summary */}
       {stats && (
         <div className="chart-stats">
@@ -249,6 +262,34 @@ const SignalChart = ({ signalHistory, symbol }) => {
           </div>
         )}
       </div>
+    </>
+  )
+
+  return (
+    <div className="signal-chart-container">
+      <div className="signal-chart-header">
+        <h3 className="signal-chart-title">Signal History - {symbol}</h3>
+        <button 
+          className="zoom-chart-btn"
+          onClick={() => setIsFullscreen(true)}
+          title="View Fullscreen"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+          </svg>
+        </button>
+      </div>
+      
+      {renderChartContent()}
+
+      {/* Fullscreen Modal */}
+      <FullscreenChartModal
+        isOpen={isFullscreen}
+        onClose={() => setIsFullscreen(false)}
+        title={`Signal History - ${symbol}`}
+      >
+        {renderChartContent()}
+      </FullscreenChartModal>
     </div>
   )
 }

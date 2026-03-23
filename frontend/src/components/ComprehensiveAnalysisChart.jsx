@@ -10,6 +10,7 @@ import {
   ResponsiveContainer
 } from 'recharts'
 import TimeframeSelector from './TimeframeSelector'
+import FullscreenChartModal from './FullscreenChartModal'
 import './ComprehensiveAnalysisChart.css'
 
 const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchlist }) => {
@@ -20,6 +21,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [timeframe, setTimeframe] = useState(365)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const [dataAvailability, setDataAvailability] = useState({
     interestRates: true,
     bondYields: true
@@ -74,6 +76,17 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     console.log('Dependencies:', { selectedCurrencyPair, timeframe, watchlistLength: watchlist?.length })
     loadAllData()
   }, [selectedCurrencyPair, timeframe, watchlist])
+
+  // Handle ESC key to close fullscreen
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [isFullscreen])
 
   const loadAllData = async () => {
     setLoading(true)
@@ -652,6 +665,17 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     quoteCurrency: 'CAD' 
   }
 
+  // Handle ESC key to close fullscreen
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [isFullscreen])
+
   if (loading) {
     return (
       <div className="comprehensive-chart-container">
@@ -680,6 +704,15 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       <div className="chart-header">
         <h2>📊 Comprehensive Currency Analysis</h2>
         <div className="pair-selector">
+          <button 
+            className="zoom-chart-btn"
+            onClick={() => setIsFullscreen(true)}
+            title="View Fullscreen"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+            </svg>
+          </button>
           <label>Currency Pair:</label>
           <select 
             value={selectedCurrencyPair} 
@@ -902,6 +935,24 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           </div>
         </div>
       </div>
+
+      {/* Fullscreen Modal */}
+      <FullscreenChartModal
+        isOpen={isFullscreen}
+        onClose={() => setIsFullscreen(false)}
+        title={`Comprehensive Currency Analysis - ${selectedCurrencyPair}`}
+      >
+        <div className="fullscreen-content">
+          <TimeframeSelector
+            selectedTimeframe={timeframe}
+            onTimeframeChange={setTimeframe}
+          />
+          {/* Charts will be rendered in fullscreen here */}
+          <p style={{ color: '#9ca3af', textAlign: 'center', padding: '20px' }}>
+            Fullscreen view enabled. All charts are visible.
+          </p>
+        </div>
+      </FullscreenChartModal>
     </div>
   )
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { createChart } from 'lightweight-charts'
 import { historyAPI } from '../api/api'
 import axios from 'axios'
+import FullscreenChartModal from './FullscreenChartModal'
 import './ChartModal.css'
 
 const API_URL = import.meta.env.VITE_TRADING_API_URL || 'http://167.172.215.78:8000'
@@ -46,6 +47,11 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
   const [volumeBarMode, setVolumeBarMode] = useState('stacked') // 'individual' or 'stacked'
   const [dailySnapshotVolume, setDailySnapshotVolume] = useState([]) // Daily snapshot volume data
   const [stackedVolumeData, setStackedVolumeData] = useState(null) // Stacked volume data (bullish/neutral/bearish)
+  
+  // Fullscreen states for each chart
+  const [isPriceChartFullscreen, setIsPriceChartFullscreen] = useState(false)
+  const [isRsiChartFullscreen, setIsRsiChartFullscreen] = useState(false)
+  const [isMacdChartFullscreen, setIsMacdChartFullscreen] = useState(false)
 
   useEffect(() => {
     if (!symbol) return
@@ -84,7 +90,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     if (chartData && indicators && Object.keys(indicators).length > 0) {
       renderChart(chartData, indicators)
     }
-  }, [visibleIndicators, chartData, indicators, signalMarkers, dailySnapshotVolume, stackedVolumeData, showVolumeMode, volumeBarMode])
+  }, [visibleIndicators, chartData, indicators, signalMarkers, dailySnapshotVolume, stackedVolumeData, showVolumeMode, volumeBarMode, isPriceChartFullscreen, isRsiChartFullscreen, isMacdChartFullscreen])
 
   // Handle window resize
   useEffect(() => {
@@ -109,6 +115,52 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  // Handle ESC key to close fullscreen charts
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        if (isPriceChartFullscreen) setIsPriceChartFullscreen(false)
+        if (isRsiChartFullscreen) setIsRsiChartFullscreen(false)
+        if (isMacdChartFullscreen) setIsMacdChartFullscreen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [isPriceChartFullscreen, isRsiChartFullscreen, isMacdChartFullscreen])
+
+  // Resize charts when fullscreen state changes
+  useEffect(() => {
+    const resizeCharts = () => {
+      setTimeout(() => {
+        if (chartRef.current && chartContainerRef.current) {
+          chartRef.current.applyOptions({
+            width: chartContainerRef.current.clientWidth,
+            height: isPriceChartFullscreen ? window.innerHeight - 200 : 400,
+          })
+          chartRef.current.timeScale().fitContent()
+        }
+        if (rsiChartRef.current && rsiChartContainerRef.current) {
+          rsiChartRef.current.applyOptions({
+            width: rsiChartContainerRef.current.clientWidth,
+            height: isRsiChartFullscreen ? window.innerHeight - 200 : 150,
+          })
+          rsiChartRef.current.timeScale().fitContent()
+        }
+        if (macdChartRef.current && macdChartContainerRef.current) {
+          macdChartRef.current.applyOptions({
+            width: macdChartContainerRef.current.clientWidth,
+            height: isMacdChartFullscreen ? window.innerHeight - 200 : 150,
+          })
+          macdChartRef.current.timeScale().fitContent()
+        }
+      }, 100)
+    }
+    
+    if (!loading && !error) {
+      resizeCharts()
+    }
+  }, [isPriceChartFullscreen, isRsiChartFullscreen, isMacdChartFullscreen, loading, error])
 
   const fetchChartData = async () => {
     setLoading(true)
@@ -675,7 +727,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         timeVisible: true,
       },
       width: chartContainerRef.current.clientWidth,
-      height: 400,
+      height: isPriceChartFullscreen ? window.innerHeight - 200 : 400,
     })
 
     chartRef.current = chart
@@ -967,7 +1019,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           visible: false,
         },
         width: rsiChartContainerRef.current.clientWidth,
-        height: 150,
+        height: isRsiChartFullscreen ? window.innerHeight - 200 : 150,
       })
 
       rsiChartRef.current = rsiChart
@@ -1040,7 +1092,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           visible: false,
         },
         width: macdChartContainerRef.current.clientWidth,
-        height: 150,
+        height: isMacdChartFullscreen ? window.innerHeight - 200 : 150,
       })
 
       macdChartRef.current = macdChart
@@ -1522,25 +1574,162 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
               </div>
 
               {/* Chart */}
-              <div className="chart-container-wrapper">
-                <div className="chart-label">Price Chart</div>
-                <div ref={chartContainerRef} className="chart-container" style={{ height: '400px' }} />
-              </div>
+              {!isPriceChartFullscreen ? (
+                <div className="chart-container-wrapper">
+                  <div className="chart-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span>Price Chart</span>
+                    <button 
+                      className="chart-zoom-btn"
+                      onClick={() => setIsPriceChartFullscreen(true)}
+                      title="Expand to fullscreen"
+                      style={{
+                        padding: '6px 12px',
+                        background: '#3b82f6',
+                        border: '1px solid #2563eb',
+                        borderRadius: '6px',
+                        color: '#ffffff',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: '0.85rem',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#2563eb'
+                        e.currentTarget.style.transform = 'translateY(-1px)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#3b82f6'
+                        e.currentTarget.style.transform = 'translateY(0)'
+                      }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                      </svg>
+                      Fullscreen
+                    </button>
+                  </div>
+                  <div ref={chartContainerRef} className="chart-container" style={{ height: '400px' }} />
+                </div>
+              ) : (
+                <FullscreenChartModal
+                  isOpen={isPriceChartFullscreen}
+                  onClose={() => setIsPriceChartFullscreen(false)}
+                  title={`${symbol} - Price Chart (${timeframe.charAt(0).toUpperCase() + timeframe.slice(1)})`}
+                >
+                  <div className="chart-container-wrapper">
+                    <div ref={chartContainerRef} className="chart-container" style={{ height: `${window.innerHeight - 200}px`, width: '100%' }} />
+                  </div>
+                </FullscreenChartModal>
+              )}
 
               {/* RSI Chart */}
-              {visibleIndicators.rsi && (
+              {visibleIndicators.rsi && !isRsiChartFullscreen && (
                 <div className="chart-container-wrapper">
-                  <div className="chart-label">RSI (9)</div>
+                  <div className="chart-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span>RSI (9)</span>
+                    <button 
+                      className="chart-zoom-btn"
+                      onClick={() => setIsRsiChartFullscreen(true)}
+                      title="Expand to fullscreen"
+                      style={{
+                        padding: '6px 12px',
+                        background: '#3b82f6',
+                        border: '1px solid #2563eb',
+                        borderRadius: '6px',
+                        color: '#ffffff',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: '0.85rem',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#2563eb'
+                        e.currentTarget.style.transform = 'translateY(-1px)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#3b82f6'
+                        e.currentTarget.style.transform = 'translateY(0)'
+                      }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                      </svg>
+                      Fullscreen
+                    </button>
+                  </div>
                   <div ref={rsiChartContainerRef} className="chart-container" style={{ height: '150px' }} />
                 </div>
               )}
 
+              {/* Fullscreen RSI Chart */}
+              {visibleIndicators.rsi && isRsiChartFullscreen && (
+                <FullscreenChartModal
+                  isOpen={isRsiChartFullscreen}
+                  onClose={() => setIsRsiChartFullscreen(false)}
+                  title={`${symbol} - RSI (9) Chart (${timeframe.charAt(0).toUpperCase() + timeframe.slice(1)})`}
+                >
+                  <div className="chart-container-wrapper">
+                    <div ref={rsiChartContainerRef} className="chart-container" style={{ height: `${window.innerHeight - 200}px`, width: '100%' }} />
+                  </div>
+                </FullscreenChartModal>
+              )}
+
               {/* MACD Chart */}
-              {visibleIndicators.macd && (
+              {visibleIndicators.macd && !isMacdChartFullscreen && (
                 <div className="chart-container-wrapper">
-                  <div className="chart-label">MACD (12, 26, 9)</div>
+                  <div className="chart-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span>MACD (12, 26, 9)</span>
+                    <button 
+                      className="chart-zoom-btn"
+                      onClick={() => setIsMacdChartFullscreen(true)}
+                      title="Expand to fullscreen"
+                      style={{
+                        padding: '6px 12px',
+                        background: '#3b82f6',
+                        border: '1px solid #2563eb',
+                        borderRadius: '6px',
+                        color: '#ffffff',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: '0.85rem',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#2563eb'
+                        e.currentTarget.style.transform = 'translateY(-1px)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#3b82f6'
+                        e.currentTarget.style.transform = 'translateY(0)'
+                      }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                      </svg>
+                      Fullscreen
+                    </button>
+                  </div>
                   <div ref={macdChartContainerRef} className="chart-container" style={{ height: '150px' }} />
                 </div>
+              )}
+
+              {/* Fullscreen MACD Chart */}
+              {visibleIndicators.macd && isMacdChartFullscreen && (
+                <FullscreenChartModal
+                  isOpen={isMacdChartFullscreen}
+                  onClose={() => setIsMacdChartFullscreen(false)}
+                  title={`${symbol} - MACD (12, 26, 9) Chart (${timeframe.charAt(0).toUpperCase() + timeframe.slice(1)})`}
+                >
+                  <div className="chart-container-wrapper">
+                    <div ref={macdChartContainerRef} className="chart-container" style={{ height: `${window.innerHeight - 200}px`, width: '100%' }} />
+                  </div>
+                </FullscreenChartModal>
               )}
 
               {/* Technical Indicators Cards - Show only relevant for timeframe */}

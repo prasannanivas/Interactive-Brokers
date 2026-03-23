@@ -26,6 +26,30 @@
   gap: 10px;
 }
 
+.zoom-chart-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+}
+
+.zoom-chart-btn:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.zoom-chart-btn:active {
+  transform: scale(0.95);
+}
+
 .chart-controls {
   display: flex;
   align-items: center;

@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts'
 import TimeframeSelector from './TimeframeSelector'
+import FullscreenChartModal from './FullscreenChartModal'
 import './BondYieldsChart.css'
 
 const BondYieldsChart = ({ selectedCurrencyPair }) => {
   const [bondData, setBondData] = useState([])
   const [loading, setLoading] = useState(false)
   const [timeframe, setTimeframe] = useState(365) // days - default to 1 year
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   // Map currency pairs to their countries
   const pairToCountries = {
@@ -213,20 +215,19 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
     return null
   }
 
-  return (
-    <div className="bond-yields-chart">
-      <div className="bond-yields-header">
-        <div className="chart-title-section">
-          <h3>Government Bond Yields (2Y vs 10Y) Spread - {selectedCurrencyPair}</h3>
-        </div>
-      </div>
-      
-      {/* Timeframe Selector */}
-      <TimeframeSelector
-        selectedTimeframe={timeframe}
-        onTimeframeChange={setTimeframe}
-      />
+  // Handle ESC key to close fullscreen
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [isFullscreen])
 
+  const renderChartContent = () => (
+    <>
       {loading && (
         <div className="loading-indicator">
           <div className="loading-spinner"></div>
@@ -329,6 +330,46 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
           </div>
         </>
       )}
+    </>
+  )
+
+  return (
+    <div className="bond-yields-chart">
+      <div className="bond-yields-header">
+        <div className="chart-title-section">
+          <h3>Government Bond Yields (2Y vs 10Y) Spread - {selectedCurrencyPair}</h3>
+          <button 
+            className="zoom-chart-btn"
+            onClick={() => setIsFullscreen(true)}
+            title="View Fullscreen"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      {/* Timeframe Selector */}
+      <TimeframeSelector
+        selectedTimeframe={timeframe}
+        onTimeframeChange={setTimeframe}
+      />
+
+      {renderChartContent()}
+
+      {/* Fullscreen Modal */}
+      <FullscreenChartModal
+        isOpen={isFullscreen}
+        onClose={() => setIsFullscreen(false)}
+        title={`Government Bond Yields (2Y vs 10Y) - ${selectedCurrencyPair}`}
+      >
+        <TimeframeSelector
+          selectedTimeframe={timeframe}
+          onTimeframeChange={setTimeframe}
+        />
+        {renderChartContent()}
+      </FullscreenChartModal>
     </div>
   )
 }

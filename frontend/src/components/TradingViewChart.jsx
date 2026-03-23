@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createChart } from 'lightweight-charts'
 import { historyAPI } from '../api/api'
+import FullscreenChartModal from './FullscreenChartModal'
 import './TradingViewChart.css'
 
 const TradingViewChart = ({ symbol, signalHistory }) => {
@@ -9,6 +10,37 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [stats, setStats] = useState(null)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
+  // Handle ESC key to close fullscreen
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [isFullscreen])
+
+  // Resize chart when fullscreen state changes
+  useEffect(() => {
+    const resizeChart = () => {
+      if (chartContainerRef.current && chartRef.current) {
+        setTimeout(() => {
+          chartRef.current.applyOptions({
+            width: chartContainerRef.current.clientWidth,
+            height: isFullscreen ? window.innerHeight - 150 : 500,
+          })
+          chartRef.current.timeScale().fitContent()
+        }, 100)
+      }
+    }
+    
+    if (!loading && !error) {
+      resizeChart()
+    }
+  }, [isFullscreen, loading, error])
 
   useEffect(() => {
     if (!symbol) {
@@ -228,26 +260,8 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
 
   console.log('TradingViewChart render - loading:', loading, 'error:', error, 'stats:', stats)
 
-  return (
-    <div className="tradingview-chart-container">
-      {/* Loading State */}
-      {loading && (
-        <div className="chart-loading">
-          <div className="loading-spinner"></div>
-          <p>Loading price data from Massive API...</p>
-        </div>
-      )}
-
-      {/* Error State */}
-      {error && !loading && (
-        <div className="chart-error">
-          <p>⚠️ {error}</p>
-          <p style={{ fontSize: '0.85rem', color: '#9ca3af', marginTop: '10px' }}>
-            Check browser console for details
-          </p>
-        </div>
-      )}
-
+  const chartContent = (
+    <>
       {/* Statistics Bar */}
       {stats && !loading && !error && (
         <div className="chart-stats-bar">
@@ -275,6 +289,17 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
             <span className="stat-label">🔴 Sell:</span>
             <span className="stat-value">{stats.sellSignals}</span>
           </div>
+          {!isFullscreen && (
+            <button 
+              className="chart-zoom-btn"
+              onClick={() => setIsFullscreen(true)}
+              title="Expand to fullscreen"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+              </svg>
+            </button>
+          )}
         </div>
       )}
 
@@ -320,6 +345,40 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
           <p>💡 <strong>Live Data from Massive API:</strong> Real candlesticks with buy/sell signals. Drag to pan, scroll to zoom</p>
         </div>
       )}
+    </>
+  )
+
+  return (
+    <div className="tradingview-chart-container">
+      {/* Loading State */}
+      {loading && (
+        <div className="chart-loading">
+          <div className="loading-spinner"></div>
+          <p>Loading price data from Massive API...</p>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && !loading && (
+        <div className="chart-error">
+          <p>⚠️ {error}</p>
+          <p style={{ fontSize: '0.85rem', color: '#9ca3af', marginTop: '10px' }}>
+            Check browser console for details
+          </p>
+        </div>
+      )}
+
+      {/* Normal View */}
+      {!isFullscreen && chartContent}
+
+      {/* Fullscreen Modal */}
+      <FullscreenChartModal
+        isOpen={isFullscreen}
+        onClose={() => setIsFullscreen(false)}
+        title={`${symbol} - Price Chart with Signals`}
+      >
+        {chartContent}
+      </FullscreenChartModal>
     </div>
   )
 }
