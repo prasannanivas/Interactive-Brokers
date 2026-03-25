@@ -852,12 +852,13 @@ async def get_telegram_status():
 
 
 @app.get("/api/bond/interest-rates")
-async def get_interest_rates(use_cache: bool = True):
+async def get_interest_rates(use_cache: bool = True, days: int = 0):
     """
-    Get latest central bank policy rates from MongoDB
+    Get central bank policy rates from MongoDB
     
     Query params:
         use_cache: Not used (kept for backward compatibility)
+        days: Number of days of history (0 = all data, default: 0)
     
     Returns:
         List of interest rate data matching the format:
@@ -875,23 +876,34 @@ async def get_interest_rates(use_cache: bool = True):
         # Fetch from MongoDB instead of BIS API
         collection = get_interest_rates_collection()
         
+        # Calculate cutoff date if days parameter is provided
+        cutoff_date = None
+        if days > 0:
+            cutoff_date = datetime.now() - timedelta(days=days)
+        
         results = []
         async for doc in collection.find({}):
             # Get the data array from document
             data_array = doc.get('data', [])
             
-            # Get latest data point for each country
-            if data_array:
-                latest_point = max(data_array, key=lambda x: x.get('date_obj', datetime.min))
+            # Return all historical data points (or filtered by date)
+            for data_point in data_array:
+                # Filter by date if cutoff_date is set
+                if cutoff_date and data_point.get('date_obj') and data_point['date_obj'] < cutoff_date:
+                    continue
+                    
                 results.append({
                     'Country': doc.get('country', ''),
                     'Category': doc.get('category', 'Interest Rate'),
-                    'DateTime': latest_point.get('date_time', ''),
-                    'Value': latest_point.get('value', 0),
+                    'DateTime': data_point.get('date_time', ''),
+                    'Value': data_point.get('value', 0),
                     'Frequency': doc.get('frequency', 'Daily'),
                     'HistoricalDataSymbol': doc.get('historical_data_symbol', ''),
-                    'LastUpdate': latest_point.get('last_update', '')
+                    'LastUpdate': data_point.get('last_update', '')
                 })
+        
+        # Sort by DateTime (most recent first)
+        results = sorted(results, key=lambda x: x['DateTime'], reverse=True)
         
         return results
         

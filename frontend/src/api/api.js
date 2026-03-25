@@ -120,7 +120,7 @@ export const backtestingAPI = {
 
 // Bond/Interest Rate API - uses trading service (port 8000)
 export const bondAPI = {
-  getInterestRates: () => tradingApi.get('/api/bond/interest-rates'),
+  getInterestRates: (days = 0) => tradingApi.get('/api/bond/interest-rates', { params: { days } }),
   
   getHistoricalRates: (refArea, days = 365) => 
     tradingApi.get(`/api/bond/interest-rates/${refArea}?days=${days}`),

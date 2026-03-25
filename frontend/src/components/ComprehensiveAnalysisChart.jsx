@@ -11,6 +11,7 @@ import {
 } from 'recharts'
 import TimeframeSelector from './TimeframeSelector'
 import FullscreenChartModal from './FullscreenChartModal'
+import { bondAPI } from '../api/api'
 import './ComprehensiveAnalysisChart.css'
 
 const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchlist }) => {
@@ -232,15 +233,20 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
   const loadInterestRates = async (mapping) => {
     try {
-      const baseFile = `${mapping.base.file}.json`
-      const quoteFile = `${mapping.quote.file}.json`
-
-      // Try to load both countries' interest rate data
-      const baseResponse = await fetch(`/Interest rate/${baseFile}`).catch(() => null)
-      const quoteResponse = await fetch(`/Interest rate/${quoteFile}`).catch(() => null)
-
-      const baseData = baseResponse && baseResponse.ok ? await baseResponse.json() : []
-      const quoteData = quoteResponse && quoteResponse.ok ? await quoteResponse.json() : []
+      console.log('📊 Loading interest rates from MongoDB for:', mapping.base.name, 'and', mapping.quote.name)
+      
+      // Fetch interest rate data from MongoDB API (all history, 0 = no limit)
+      const response = await bondAPI.getInterestRates(0)
+      const allData = response.data || []
+      
+      // Filter data for the two countries we need
+      const baseData = allData.filter(item => item.Country === mapping.base.name)
+      const quoteData = allData.filter(item => item.Country === mapping.quote.name)
+      
+      console.log('✓ Interest rates loaded from MongoDB:', {
+        base: `${mapping.base.name}: ${baseData.length} records`,
+        quote: `${mapping.quote.name}: ${quoteData.length} records`
+      })
 
       if (baseData.length === 0 && quoteData.length === 0) {
         console.warn('No interest rate data available for this pair')
@@ -254,7 +260,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       const filtered = filterDataByTimeframe(mergedData, 'date')
       setInterestRateData(filtered)
     } catch (error) {
-      console.error('Error loading interest rates:', error)
+      console.error('Error loading interest rates from MongoDB:', error)
       setDataAvailability(prev => ({ ...prev, interestRates: false }))
       setInterestRateData([])
     }
@@ -310,59 +316,46 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
   const loadBondData = async (mapping) => {
     try {
-      const baseCode = mapping.base.bond
-      const quoteCode = mapping.quote.bond
+      console.log('📊 Loading bond data from MongoDB for:', mapping.base.name, 'and', mapping.quote.name)
+      
+      // Map display names to MongoDB country names
+      const countryNameMap = {
+        'United States': 'United States',
+        'Canada': 'Canada',
+        'Euro Area': 'Euro Area',
+        'Japan': 'Japan',
+        'United Kingdom': 'United Kingdom',
+        'Australia': 'Australia'
+      }
+      
+      const baseCountry = countryNameMap[mapping.base.name] || mapping.base.name
+      const quoteCountry = countryNameMap[mapping.quote.name] || mapping.quote.name
 
-      // console.log('Loading bond data for:', {
-      //   baseCurrency: mapping.baseCurrency,
-      //   quoteCurrency: mapping.quoteCurrency,
-      //   baseCode,
-      //   quoteCode,
-      //   paths: [
-      //     `/bond/${baseCode}-10y.json`,
-      //     `/bond/${baseCode}-2y.json`,
-      //     `/bond/${quoteCode}-10y.json`,
-      //     `/bond/${quoteCode}-2y.json`
-      //   ]
-      // })
-
-      // Load bond data for both countries
+      // Load bond data for both countries from MongoDB API
       const [base10Y, base2Y, quote10Y, quote2Y] = await Promise.all([
-        fetch(`/bond/${baseCode}-10y.json`).then(r => {
-          console.log(`${baseCode}-10y.json response:`, r.ok, r.status)
-          return r.ok ? r.json() : []
-        }).catch(err => {
-          console.error(`Error loading ${baseCode}-10y.json:`, err)
+        bondAPI.getBondYields(baseCountry, '10y', timeframe).then(r => r.data || []).catch(err => {
+          console.error(`Error loading ${baseCountry} 10y:`, err)
           return []
         }),
-        fetch(`/bond/${baseCode}-2y.json`).then(r => {
-          console.log(`${baseCode}-2y.json response:`, r.ok, r.status)
-          return r.ok ? r.json() : []
-        }).catch(err => {
-          console.error(`Error loading ${baseCode}-2y.json:`, err)
+        bondAPI.getBondYields(baseCountry, '2y', timeframe).then(r => r.data || []).catch(err => {
+          console.error(`Error loading ${baseCountry} 2y:`, err)
           return []
         }),
-        fetch(`/bond/${quoteCode}-10y.json`).then(r => {
-          console.log(`${quoteCode}-10y.json response:`, r.ok, r.status)
-          return r.ok ? r.json() : []
-        }).catch(err => {
-          console.error(`Error loading ${quoteCode}-10y.json:`, err)
+        bondAPI.getBondYields(quoteCountry, '10y', timeframe).then(r => r.data || []).catch(err => {
+          console.error(`Error loading ${quoteCountry} 10y:`, err)
           return []
         }),
-        fetch(`/bond/${quoteCode}-2y.json`).then(r => {
-          console.log(`${quoteCode}-2y.json response:`, r.ok, r.status)
-          return r.ok ? r.json() : []
-        }).catch(err => {
-          console.error(`Error loading ${quoteCode}-2y.json:`, err)
+        bondAPI.getBondYields(quoteCountry, '2y', timeframe).then(r => r.data || []).catch(err => {
+          console.error(`Error loading ${quoteCountry} 2y:`, err)
           return []
         })
       ])
 
-      console.log('Bond data loaded:', {
-        base10YLength: base10Y.length,
-        base2YLength: base2Y.length,
-        quote10YLength: quote10Y.length,
-        quote2YLength: quote2Y.length
+      console.log('✓ Bond data loaded from MongoDB:', {
+        base10Y: `${baseCountry} 10Y: ${base10Y.length} records`,
+        base2Y: `${baseCountry} 2Y: ${base2Y.length} records`,
+        quote10Y: `${quoteCountry} 10Y: ${quote10Y.length} records`,
+        quote2Y: `${quoteCountry} 2Y: ${quote2Y.length} records`
       })
 
       if (base10Y.length === 0 && base2Y.length === 0 && quote10Y.length === 0 && quote2Y.length === 0) {
@@ -377,7 +370,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       const filtered = filterDataByTimeframe(spreadData, 'date')
       setBondSpreadData(filtered)
     } catch (error) {
-      console.error('Error loading bond data:', error)
+      console.error('Error loading bond data from MongoDB:', error)
       setDataAvailability(prev => ({ ...prev, bondYields: false }))
       setBondSpreadData([])
     }
