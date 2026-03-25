@@ -34,19 +34,19 @@ const tradingApi = axios.create({
 //   }
 // )
 
-// Add token to trading API requests (disabled for now)
-// tradingApi.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem('token')
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`
-//     }
-//     return config
-//   },
-//   (error) => {
-//     return Promise.reject(error)
-//   }
-// )
+// Add token to trading API requests
+tradingApi.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
 
 // Handle 401 errors for auth API (disabled for now)
 // authApi.interceptors.response.use(
@@ -123,7 +123,20 @@ export const bondAPI = {
   getInterestRates: () => tradingApi.get('/api/bond/interest-rates'),
   
   getHistoricalRates: (refArea, days = 365) => 
-    tradingApi.get(`/api/bond/interest-rates/${refArea}?days=${days}`)
+    tradingApi.get(`/api/bond/interest-rates/${refArea}?days=${days}`),
+  
+  // Bond yields from MongoDB
+  getBondYields: (country, maturity, days = 365) => 
+    tradingApi.get('/api/bond/yields', { params: { country, maturity, days } }),
+  
+  getBondYieldsByCountry: (country, maturity, days = 365) => 
+    tradingApi.get(`/api/bond/yields/${country}`, { params: { maturity, days } }),
+  
+  // Check if bond data is stale
+  checkDataFreshness: () => tradingApi.get('/api/bond/data-freshness'),
+  
+  // Trigger manual data refresh (requires auth)
+  refreshData: () => tradingApi.post('/api/bond/refresh-data')
 }
 
 export default authApi

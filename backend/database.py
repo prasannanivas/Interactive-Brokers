@@ -6,6 +6,10 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.errors import ConnectionFailure
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 
 class Database:
@@ -16,10 +20,16 @@ class Database:
         """Connect to MongoDB"""
         try:
             mongodb_url = os.getenv('MONGODB_URL', 'mongodb://localhost:27017')
-            cls.client = AsyncIOMotorClient(mongodb_url)
+            # Add connection options with longer timeout
+            cls.client = AsyncIOMotorClient(
+                mongodb_url,
+                serverSelectionTimeoutMS=300000,  # 5 minutes
+                connectTimeoutMS=300000,
+                socketTimeoutMS=300000
+            )
             # Test connection
             await cls.client.admin.command('ping')
-            print(f"✓ Connected to MongoDB at {mongodb_url}")
+            print(f"✓ Connected to MongoDB")
             
             # Create indexes
             await cls.create_indexes()
@@ -102,6 +112,18 @@ class Database:
         await db.daily_signal_snapshots.create_index([("snapshot_date", -1)], unique=True)
         await db.daily_signal_snapshots.create_index([("capture_timestamp", -1)])
         
+        # Bond yields indexes - one document per country+maturity
+        await db.bond_yields.create_index([("country", 1), ("maturity", 1)], unique=True)
+        await db.bond_yields.create_index([("last_available_date", -1)])
+        
+        # Interest rates indexes - one document per country
+        await db.interest_rates.create_index([("country", 1)], unique=True)
+        await db.interest_rates.create_index([("last_available_date", -1)])
+        
+        # Data fetch tracker indexes
+        await db.data_fetch_tracker.create_index([("country", 1), ("data_type", 1)], unique=True)
+        await db.data_fetch_tracker.create_index([("last_updated", -1)])
+        
         print("✓ MongoDB indexes created")
 
 
@@ -159,3 +181,18 @@ def get_position_changes_collection():
 def get_daily_signal_snapshots_collection():
     """Get daily signal snapshots collection"""
     return Database.get_db().daily_signal_snapshots
+
+
+def get_bond_yields_collection():
+    """Get bond yields collection"""
+    return Database.get_db().bond_yields
+
+
+def get_interest_rates_collection():
+    """Get interest rates collection"""
+    return Database.get_db().interest_rates
+
+
+def get_data_fetch_tracker_collection():
+    """Get data fetch tracker collection"""
+    return Database.get_db().data_fetch_tracker

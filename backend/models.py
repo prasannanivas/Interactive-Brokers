@@ -334,3 +334,69 @@ class DailySymbolSignal(BaseModel):
     daily_indicators: Optional[Dict[str, Any]] = None
     hourly_indicators: Optional[Dict[str, Any]] = None
     weekly_indicators: Optional[Dict[str, Any]] = None
+
+
+# Bond Yield Models
+class BondYield(BaseModel):
+    """Bond yield data stored in MongoDB - One document per country+maturity with historical data array"""
+    country: str  # e.g., "United States", "Canada", "Japan"
+    symbol: str  # e.g., "USGG10YR:IND", "USGG2YR:IND"
+    maturity: str  # "10y" or "2y"
+    last_available_date: datetime  # Most recent date in the data array
+    last_updated: datetime  # When this document was last updated
+    record_count: int  # Number of records in the data array
+    data: list  # Array of {date, date_obj, open, high, low, close}
+    
+    class Config:
+        json_encoders = {datetime: lambda v: v.isoformat()}
+
+
+class BondYieldCreate(BaseModel):
+    """Model for creating/updating bond yield records"""
+    country: str
+    symbol: str
+    maturity: str
+    date: str  # Format: "DD/MM/YYYY"
+    open: float
+    high: float
+    low: float
+    close: float
+
+
+# Interest Rate Models
+class InterestRate(BaseModel):
+    """Interest rate data stored in MongoDB - One document per country with historical data array"""
+    country: str  # e.g., "United States", "Canada", "Japan"
+    category: str = "Interest Rate"
+    historical_data_symbol: str = ""  # e.g., "FDTR"
+    frequency: str = "Daily"
+    last_available_date: datetime  # Most recent date in the data array
+    last_updated: datetime  # When this document was last updated
+    record_count: int  # Number of records in the data array
+    data: list  # Array of {date_time, date_obj, value, last_update}
+    
+    class Config:
+        json_encoders = {datetime: lambda v: v.isoformat()}
+
+
+class InterestRateCreate(BaseModel):
+    """Model for creating/updating interest rate records"""
+    country: str
+    date_time: str  # Format: "2026-03-18T00:00:00"
+    value: float  # Interest rate percentage
+    frequency: str = "Daily"
+    historical_data_symbol: str = ""
+    last_update: str = ""
+
+
+# Data Fetch Tracker Model
+    """Track the last fetch date for each country/data_type"""
+    country: str
+    data_type: str  # "interest_rate", "bond_10y", "bond_2y"
+    last_fetch_date: datetime
+    last_available_date: datetime  # Last date in the data
+    total_records: int
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    
+    class Config:
+        json_encoders = {datetime: lambda v: v.isoformat()}

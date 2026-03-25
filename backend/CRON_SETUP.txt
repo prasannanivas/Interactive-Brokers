@@ -1,0 +1,90 @@
+# Cron Job Configuration for Incremental Bond Data Update
+# 
+# This cron job runs daily to fetch only new bond yields and interest rate data
+# from Trading Economics API and appends it to MongoDB
+#
+# Schedule: Daily at 2:00 AM (when markets are typically closed and data is available)
+# 
+# To add this cron job to your server:
+# 1. SSH into your server
+# 2. Run: crontab -e
+# 3. Add one of the lines below (choose your preferred time)
+# 4. Save and exit
+#
+# Verify cron is running: sudo systemctl status cron
+# Check logs: tail -f /path/to/backend/logs/incremental_update_YYYYMMDD.log
+
+# ============================================================================
+# RECOMMENDED: Run daily at 2:00 AM server time
+# ============================================================================
+0 2 * * * cd /path/to/Interactive\ Brokers/backend && bash run_incremental_update.sh
+
+# ============================================================================
+# ALTERNATIVE SCHEDULES (uncomment one if you prefer different timing)
+# ============================================================================
+
+# Run at 3:00 AM daily
+# 0 3 * * * cd /path/to/Interactive\ Brokers/backend && bash run_incremental_update.sh
+
+# Run at 6:00 AM daily (after US market data is typically finalized)
+# 0 6 * * * cd /path/to/Interactive\ Brokers/backend && bash run_incremental_update.sh
+
+# Run twice daily: 6 AM and 6 PM
+# 0 6,18 * * * cd /path/to/Interactive\ Brokers/backend && bash run_incremental_update.sh
+
+# Run every 6 hours
+# 0 */6 * * * cd /path/to/Interactive\ Brokers/backend && bash run_incremental_update.sh
+
+# ============================================================================
+# CRONTAB SYNTAX REFERENCE
+# ============================================================================
+# * * * * * command to execute
+# │ │ │ │ │
+# │ │ │ │ └─── Day of week (0-7, where 0 and 7 = Sunday)
+# │ │ │ └───── Month (1-12)
+# │ │ └─────── Day of month (1-31)
+# │ └───────── Hour (0-23)
+# └─────────── Minute (0-59)
+
+# ============================================================================
+# SETUP INSTRUCTIONS FOR YOUR SERVER
+# ============================================================================
+# 1. Upload files to server:
+#    - fetch_incremental_bond_data.py
+#    - run_incremental_update.sh
+#
+# 2. Make the shell script executable:
+#    chmod +x /path/to/backend/run_incremental_update.sh
+#
+# 3. Update the path in the cron command above to match your server path
+#
+# 4. Ensure Python3 and required packages are installed on server:
+#    pip3 install pymongo requests python-dotenv
+#
+# 5. Ensure .env file with MongoDB credentials exists on server
+#
+# 6. Add to crontab:
+#    crontab -e
+#    (paste the cron line with correct path)
+#
+# 7. Verify cron job is scheduled:
+#    crontab -l
+#
+# ============================================================================
+# MONITORING & TROUBLESHOOTING
+# ============================================================================
+# Check if cron daemon is running:
+#   sudo systemctl status cron
+#
+# View cron logs on Ubuntu/Debian:
+#   grep CRON /var/log/syslog
+#
+# View script execution logs:
+#   ls backend/logs/
+#   tail -f backend/logs/incremental_update_20260325.log
+#
+# Test the script manually before scheduling:
+#   cd /path/to/backend
+#   bash run_incremental_update.sh
+#
+# Check for errors in the log files if data is not updating

@@ -20,7 +20,7 @@ from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from massive_monitor_v2 import MassiveMonitorV2
 from telegram_bot import TelegramBot
-from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection
+from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection
 from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot, PasswordResetRequest, PasswordReset, PasswordChange, LoginHistoryResponse
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
 from state_tracker import track_and_detect_changes, INDICATOR_MAPPING
@@ -128,63 +128,80 @@ async def load_previous_states():
 
 async def run_daily_economic_data_refresh():
     """
-    Fetch bond yields and interest rates daily
+    Fetch bond yields and interest rates incrementally from MongoDB
     This function is scheduled to run at 5:00 AM EST daily
+    Only fetches data from last available date to today (incremental update)
     """
     try:
         print("\n" + "="*60)
-        print(f"📊 Running scheduled economic data refresh...")
+        print(f"📊 Running scheduled economic data refresh (incremental)...")
         print(f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         print("="*60)
         
         # Run in executor to avoid blocking async loop
-        def fetch_all_data():
+        def fetch_incremental_data():
             import subprocess
             import sys
             
             base_path = os.path.dirname(os.path.abspath(__file__))
             
-            # Step 1: Fetch bond data (10Y)
-            print("\n📈 Step 1/3: Fetching bond yields...")
-            result1 = subprocess.run(
-                [sys.executable, os.path.join(base_path, 'fetch_bond_data_tradingeconomics.py')],
+            # Run incremental update script - fetches only missing dates
+            print("\n📈 Fetching incremental bond yields and interest rates...")
+            print("   (Only fetching data from last available date to today)")
+            
+            result = subprocess.run(
+                [sys.executable, os.path.join(base_path, 'fetch_incremental_bond_data.py')],
                 capture_output=True,
                 text=True
             )
-            if result1.returncode != 0:
-                print(f"✗ Bond data fetch failed: {result1.stderr[:200]}")
-                return False
-            print("✓ Bond yields fetched")
             
-            # Step 2: Generate 2Y data from 10Y
-            print("\n📉 Step 2/3: Generating 2Y bond data...")
-            result2 = subprocess.run(
-                [sys.executable, os.path.join(base_path, 'generate_2y_from_10y.py')],
-                capture_output=True,
-                text=True
-            )
-            if result2.returncode != 0:
-                print(f"✗ 2Y generation failed: {result2.stderr[:200]}")
-                return False
-            print("✓ 2Y data generated")
+            # Print output for logging
+            if result.stdout:
+                print(result.stdout)
             
-            # Step 3: Fetch interest rates
-            print("\n🏦 Step 3/3: Fetching interest rates...")
-            result3 = subprocess.run(
-                [sys.executable, os.path.join(base_path, 'fetch_interest_rates_tradingeconomics.py')],
-                capture_output=True,
-                text=True
-            )
-            if result3.returncode != 0:
-                print(f"✗ Interest rate fetch failed: {result3.stderr[:200]}")
-                return False
-            print("✓ Interest rates fetched")
+            if result.returncode != 0:
+                print(f"\n✗ Incremental data fetch failed!")
+                if result.stderr:
+                    print(f"Error: {result.stderr[:500]}")
+                return False, 0, 0
             
-            return True
+            # Parse output to get record counts
+            bonds_added = 0
+            rates_added = 0
+            
+            try:
+                output = result.stdout
+                # Look for "Bond Yields: • New records added: X"
+                if "Bond Yields:" in output and "New records added:" in output:
+                    for line in output.split('\n'):
+                        if "Bond Yields:" in line:
+                            # Next line should have count
+                            continue
+                        elif "New records added:" in line and bonds_added == 0:
+                            bonds_added = int(line.split(":")[-1].strip())
+                            break
+                
+                # Look for "Interest Rates: • New records added: Y"
+                if "Interest Rates:" in output and "New records added:" in output:
+                    lines = output.split('\n')
+                    for i, line in enumerate(lines):
+                        if "Interest Rates:" in line and i + 1 < len(lines):
+                            next_line = lines[i + 1]
+                            if "New records added:" in next_line:
+                                rates_added = int(next_line.split(":")[-1].strip())
+                                break
+            except:
+                pass
+            
+            print(f"\n✓ Incremental update complete!")
+            print(f"  • Bond yields records added: {bonds_added}")
+            print(f"  • Interest rate records added: {rates_added}")
+            
+            return True, bonds_added, rates_added
         
         # Run in thread pool to avoid blocking
         loop = asyncio.get_event_loop()
-        success = await loop.run_in_executor(None, fetch_all_data)
+        success, bonds_count, rates_count = await loop.run_in_executor(None, fetch_incremental_data)
         
         if success:
             print("\n✓ Economic data refresh completed successfully!")
@@ -193,10 +210,10 @@ async def run_daily_economic_data_refresh():
             if telegram_bot.is_configured():
                 try:
                     msg = (
-                        f"📊 <b>Economic Data Updated</b>\n\n"
-                        f"✅ Bond yields (10Y)\n"
-                        f"✅ Bond yields (2Y - generated)\n"
-                        f"✅ Interest rates\n\n"
+                        f"📊 <b>Economic Data Updated (Incremental)</b>\n\n"
+                        f"✅ Bond yields: {bonds_count} new records\n"
+                        f"✅ Interest rates: {rates_count} new records\n\n"
+                        f"💾 Data stored in MongoDB\n"
                         f"⏰ {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}"
                     )
                     await telegram_bot.send_message(msg)
@@ -210,7 +227,8 @@ async def run_daily_economic_data_refresh():
                 try:
                     await telegram_bot.send_message(
                         f"⚠️ <b>Economic Data Refresh Failed</b>\n\n"
-                        f"Please check the logs for details.\n"
+                        f"Incremental update encountered an error.\n"
+                        f"Please check the logs for details.\n\n"
                         f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}"
                     )
                 except:
@@ -836,10 +854,10 @@ async def get_telegram_status():
 @app.get("/api/bond/interest-rates")
 async def get_interest_rates(use_cache: bool = True):
     """
-    Get latest central bank policy rates from BIS SDMX API
+    Get latest central bank policy rates from MongoDB
     
     Query params:
-        use_cache: Whether to use cached data (default: True, 12-hour cache)
+        use_cache: Not used (kept for backward compatibility)
     
     Returns:
         List of interest rate data matching the format:
@@ -854,25 +872,45 @@ async def get_interest_rates(use_cache: bool = True):
         }]
     """
     try:
-        bis_fetcher = get_bis_fetcher()
-        data = bis_fetcher.get_latest_rates(use_cache=use_cache)
-        return data
+        # Fetch from MongoDB instead of BIS API
+        collection = get_interest_rates_collection()
+        
+        results = []
+        async for doc in collection.find({}):
+            # Get the data array from document
+            data_array = doc.get('data', [])
+            
+            # Get latest data point for each country
+            if data_array:
+                latest_point = max(data_array, key=lambda x: x.get('date_obj', datetime.min))
+                results.append({
+                    'Country': doc.get('country', ''),
+                    'Category': doc.get('category', 'Interest Rate'),
+                    'DateTime': latest_point.get('date_time', ''),
+                    'Value': latest_point.get('value', 0),
+                    'Frequency': doc.get('frequency', 'Daily'),
+                    'HistoricalDataSymbol': doc.get('historical_data_symbol', ''),
+                    'LastUpdate': latest_point.get('last_update', '')
+                })
+        
+        return results
+        
     except Exception as e:
         logger = logging.getLogger(__name__)
-        logger.error(f"Failed to fetch BIS interest rates: {e}")
+        logger.error(f"Failed to fetch interest rates from MongoDB: {e}")
         raise HTTPException(
             status_code=500,
-            detail=f"Failed to fetch interest rate data from BIS: {str(e)}"
+            detail=f"Failed to fetch interest rate data: {str(e)}"
         )
 
 
 @app.get("/api/bond/interest-rates/{ref_area}")
 async def get_historical_interest_rates(ref_area: str, days: int = 365):
     """
-    Get historical central bank policy rates for a specific country
+    Get historical central bank policy rates for a specific country from MongoDB
     
     Path params:
-        ref_area: BIS reference area code (US, XM, JP, GB, CA, AU)
+        ref_area: Country name or BIS code (US/United States, XM/Euro Area, etc.)
     
     Query params:
         days: Number of days of history (default: 365)
@@ -881,25 +919,401 @@ async def get_historical_interest_rates(ref_area: str, days: int = 365):
         List of historical interest rate data
     """
     try:
-        # Validate ref_area
-        valid_areas = ['US', 'XM', 'JP', 'GB', 'CA', 'AU']
-        if ref_area.upper() not in valid_areas:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Invalid ref_area. Must be one of: {', '.join(valid_areas)}"
-            )
+        # Map BIS codes to country names
+        area_to_country = {
+            'US': 'United States',
+            'XM': 'Euro Area',
+            'JP': 'Japan',
+            'GB': 'United Kingdom',
+            'CA': 'Canada',
+            'AU': 'Australia'
+        }
         
-        bis_fetcher = get_bis_fetcher()
-        data = bis_fetcher.get_historical_rates(ref_area.upper(), days=days)
-        return data
+        # Use mapping if it's a BIS code, otherwise use as-is
+        country = area_to_country.get(ref_area.upper(), ref_area)
+        
+        # Fetch from MongoDB using the updated endpoint
+        return await get_interest_rates_from_db(country=country, days=days)
+        
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to fetch historical rates: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch historical data: {str(e)}"
+        )
+
+
+# ============================================
+# BOND YIELDS & INTEREST RATES FROM MONGODB
+# ============================================
+
+@app.get("/api/bond/yields")
+async def get_bond_yields(
+    country: Optional[str] = None,
+    maturity: Optional[str] = None,
+    days: int = 365,
+    limit: int = 1000
+):
+    """
+    Get bond yield data from MongoDB
+    
+    Query params:
+        country: Filter by country (e.g., "United States", "Canada", "Japan")
+        maturity: Filter by maturity ("10y" or "2y")
+        days: Number of days of history (default: 365)
+        limit: Maximum number of records (default: 1000)
+    
+    Returns:
+        List of bond yield records with OHLC data in original JSON format
+    """
+    try:
+        collection = get_bond_yields_collection()
+        
+        # Build query for documents
+        query = {}
+        if country:
+            query['country'] = country
+        if maturity:
+            query['maturity'] = maturity
+        
+        # Fetch matching documents
+        cursor = collection.find(query)
+        
+        # Calculate cutoff date
+        cutoff_date = datetime.now() - timedelta(days=days)
+        
+        results = []
+        async for doc in cursor:
+            # Get the data array from document
+            data_array = doc.get('data', [])
+            
+            # Filter by date and transform to original format
+            for data_point in data_array:
+                if data_point.get('date_obj') and data_point['date_obj'] >= cutoff_date:
+                    results.append({
+                        'Symbol': doc.get('symbol', ''),
+                        'Date': data_point.get('date', ''),
+                        'Open': data_point.get('open', 0),
+                        'High': data_point.get('high', 0),
+                        'Low': data_point.get('low', 0),
+                        'Close': data_point.get('close', 0)
+                    })
+            
+            if len(results) >= limit:
+                break
+        
+        # Sort by most recent first and apply limit
+        results = sorted(results, key=lambda x: x['Date'], reverse=True)[:limit]
+        
+        return results
+        
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to fetch bond yields: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch bond yields from database: {str(e)}"
+        )
+
+
+@app.get("/api/bond/yields/{country}")
+async def get_bond_yields_by_country(
+    country: str,
+    maturity: Optional[str] = None,
+    days: int = 365
+):
+    """
+    Get bond yield data for a specific country
+    
+    Path params:
+        country: Country name (e.g., "United States", "Canada")
+    
+    Query params:
+        maturity: Filter by maturity ("10y" or "2y")
+        days: Number of days of history (default: 365)
+    
+    Returns:
+        Bond yield data for the country in original JSON format
+    """
+    return await get_bond_yields(country=country, maturity=maturity, days=days)
+
+
+@app.get("/api/interest-rates")
+async def get_interest_rates_from_db(
+    country: Optional[str] = None,
+    days: int = 365,
+    limit: int = 1000
+):
+    """
+    Get interest rate data from MongoDB
+    
+    Query params:
+        country: Filter by country (e.g., "United States", "Canada")
+        days: Number of days of history (default: 365)
+        limit: Maximum number of records (default: 1000)
+    
+    Returns:
+        List of interest rate records in original JSON format
+    """
+    try:
+        collection = get_interest_rates_collection()
+        
+        # Build query for documents
+        query = {}
+        if country:
+            query['country'] = country
+        
+        # Fetch matching documents
+        cursor = collection.find(query)
+        
+        # Calculate cutoff date
+        cutoff_date = datetime.now() - timedelta(days=days)
+        
+        results = []
+        async for doc in cursor:
+            # Get the data array from document
+            data_array = doc.get('data', [])
+            
+            # Filter by date and transform to original format
+            for data_point in data_array:
+                if data_point.get('date_obj') and data_point['date_obj'] >= cutoff_date:
+                    results.append({
+                        'Country': doc.get('country', ''),
+                        'Category': doc.get('category', 'Interest Rate'),
+                        'DateTime': data_point.get('date_time', ''),
+                        'Value': data_point.get('value', 0),
+                        'Frequency': doc.get('frequency', 'Daily'),
+                        'HistoricalDataSymbol': doc.get('historical_data_symbol', ''),
+                        'LastUpdate': data_point.get('last_update', '')
+                    })
+            
+            if len(results) >= limit:
+                break
+        
+        # Sort by most recent first and apply limit
+        results = sorted(results, key=lambda x: x['DateTime'], reverse=True)[:limit]
+        
+        return results
+        
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to fetch interest rates: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch interest rates from database: {str(e)}"
+        )
+
+
+@app.get("/api/interest-rates/{country}")
+async def get_interest_rates_by_country(country: str, days: int = 365):
+    """
+    Get interest rate data for a specific country
+    
+    Path params:
+        country: Country name (e.g., "United States", "Canada")
+    
+    Query params:
+        days: Number of days of history (default: 365)
+    
+    Returns:
+        Interest rate data for the country in original JSON format
+    """
+    return await get_interest_rates_from_db(country=country, days=days)
+
+
+@app.get("/api/data-tracker")
+async def get_data_tracker_status():
+    """
+    Get the status of data fetch tracker for all countries
+    
+    Returns:
+        List of tracker records showing last fetch date and last available date
+    """
+    try:
+        collection = get_data_fetch_tracker_collection()
+        
+        cursor = collection.find({}).sort([('country', 1), ('data_type', 1)])
+        
+        results = []
+        async for doc in cursor:
+            if '_id' in doc:
+                doc['_id'] = str(doc['_id'])
+            # Convert datetime objects to strings
+            for field in ['last_fetch_date', 'last_available_date', 'last_updated']:
+                if field in doc and doc[field]:
+                    doc[field] = doc[field].isoformat()
+            results.append(doc)
+        
+        return {
+            'count': len(results),
+            'trackers': results
+        }
+        
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to fetch data tracker: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch data tracker from database: {str(e)}"
+        )
+
+
+@app.get("/api/countries")
+async def get_available_countries():
+    """
+    Get list of available countries for bond yields and interest rates
+    
+    Returns:
+        List of country names
+    """
+    countries = [
+        "United States",
+        "Canada",
+        "Japan",
+        "Euro Area",
+        "United Kingdom",
+        "Australia"
+    ]
+    return {"countries": countries}
+
+
+@app.get("/api/bond/data-freshness")
+async def check_bond_data_freshness():
+    """
+    Check if bond yield and interest rate data is up to date
+    
+    Returns:
+        Status of data freshness for all countries
+        {
+            "is_stale": bool,
+            "bond_yields": {...},
+            "interest_rates": {...},
+            "oldest_data_date": "YYYY-MM-DD",
+            "message": "..."
+        }
+    """
+    try:
+        bond_collection = get_bond_yields_collection()
+        ir_collection = get_interest_rates_collection()
+        
+        today = datetime.now().date()
+        results = {
+            "is_stale": False,
+            "bond_yields": {},
+            "interest_rates": {},
+            "checked_at": datetime.now().isoformat(),
+            "message": "All data is up to date"
+        }
+        
+        # Check bond yields
+        cursor = bond_collection.find({})
+        oldest_bond_date = None
+        async for doc in cursor:
+            country = doc.get('country')
+            maturity = doc.get('maturity')
+            last_date = doc.get('last_available_date')
+            
+            if last_date:
+                last_date_obj = last_date.date() if hasattr(last_date, 'date') else last_date
+                days_old = (today - last_date_obj).days
+                
+                key = f"{country}_{maturity}"
+                results['bond_yields'][key] = {
+                    "country": country,
+                    "maturity": maturity,
+                    "last_date": last_date_obj.isoformat(),
+                    "days_old": days_old,
+                    "is_stale": days_old > 3  # Consider stale if older than 3 days
+                }
+                
+                if days_old > 3:
+                    results['is_stale'] = True
+                
+                if not oldest_bond_date or last_date_obj < oldest_bond_date:
+                    oldest_bond_date = last_date_obj
+        
+        # Check interest rates
+        cursor = ir_collection.find({})
+        oldest_ir_date = None
+        async for doc in cursor:
+            country = doc.get('country')
+            last_date = doc.get('last_available_date')
+            
+            if last_date:
+                last_date_obj = last_date.date() if hasattr(last_date, 'date') else last_date
+                days_old = (today - last_date_obj).days
+                
+                results['interest_rates'][country] = {
+                    "country": country,
+                    "last_date": last_date_obj.isoformat(),
+                    "days_old": days_old,
+                    "is_stale": days_old > 7  # Interest rates update less frequently
+                }
+                
+                if days_old > 7:
+                    results['is_stale'] = True
+                
+                if not oldest_ir_date or last_date_obj < oldest_ir_date:
+                    oldest_ir_date = last_date_obj
+        
+        # Set oldest date and message
+        oldest_date = min(filter(None, [oldest_bond_date, oldest_ir_date]))
+        results['oldest_data_date'] = oldest_date.isoformat() if oldest_date else None
+        
+        if results['is_stale']:
+            days_since = (today - oldest_date).days if oldest_date else 0
+            results['message'] = f"Data is {days_since} days old. Consider refreshing."
+        
+        return results
+        
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Failed to check data freshness: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to check data freshness: {str(e)}"
+        )
+
+
+@app.post("/api/bond/refresh-data")
+async def trigger_manual_data_refresh(current_user: dict = Depends(get_current_user)):
+    """
+    Manually trigger incremental bond yield and interest rate data refresh
+    Requires authentication. Admin users only recommended.
+    
+    Returns:
+        Status of the refresh operation
+    """
+    try:
+        print("\n" + "="*60)
+        print(f"🔄 Manual data refresh triggered by user: {current_user.get('email', 'unknown')}")
+        print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print("="*60)
+        
+        # Run the refresh function
+        success = await run_daily_economic_data_refresh()
+        
+        if success:
+            return {
+                "success": True,
+                "message": "Data refresh completed successfully",
+                "timestamp": datetime.now().isoformat()
+            }
+        else:
+            raise HTTPException(
+                status_code=500,
+                detail="Data refresh failed. Check server logs for details."
+            )
+            
     except HTTPException:
         raise
     except Exception as e:
         logger = logging.getLogger(__name__)
-        logger.error(f"Failed to fetch BIS historical rates: {e}")
+        logger.error(f"Failed to trigger manual refresh: {e}")
         raise HTTPException(
             status_code=500,
-            detail=f"Failed to fetch historical data: {str(e)}"
+            detail=f"Failed to trigger data refresh: {str(e)}"
         )
 
 

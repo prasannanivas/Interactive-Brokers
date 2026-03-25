@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts'
 import TimeframeSelector from './TimeframeSelector'
 import FullscreenChartModal from './FullscreenChartModal'
+import { bondAPI } from '../api/api'
 import './BondYieldsChart.css'
 
 const BondYieldsChart = ({ selectedCurrencyPair }) => {
@@ -9,6 +10,9 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
   const [loading, setLoading] = useState(false)
   const [timeframe, setTimeframe] = useState(365) // days - default to 1 year
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [isStale, setIsStale] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
+  const [staleDays, setStaleDays] = useState(0)
 
   // Map currency pairs to their countries
   const pairToCountries = {
@@ -36,7 +40,7 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
     { name: 'United States', historyFile: 'us-10and2y.json', flag: '🇺🇸' }
   ]
 
-  // Load historical bond yield data
+  // Load historical bond yield data from MongoDB API
   const loadBondData = async () => {
     if (loading) return
     
@@ -44,44 +48,44 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
     try {
       const selectedCountries = pairToCountries[selectedCurrencyPair] || []
       
-      // Map country names to their file prefixes
-      const countryFileMap = {
-        'United States': 'us',
-        'Canada': 'canada',
-        'Germany': 'germany',
-        'Japan': 'japan',
-        'United Kingdom': 'uk',
-        'Australia': 'australia'
+      // Map country display names to database country names
+      const countryNameMap = {
+        'United States': 'United States',
+        'Canada': 'Canada',
+        'Germany': 'Euro Area',  // Germany = Euro Area in DB
+        'Japan': 'Japan',
+        'United Kingdom': 'United Kingdom',
+        'Australia': 'Australia'
       }
       
       const historicalData = []
       
-      // Load data for each selected country
+      // Load data for each selected country (both 10Y and 2Y)
       for (const countryName of selectedCountries) {
-        const filePrefix = countryFileMap[countryName]
-        if (!filePrefix) continue
+        const dbCountryName = countryNameMap[countryName]
+        if (!dbCountryName) continue
         
         try {
-          // Load combined 10Y and 2Y data
-          const response = await fetch(`/bond/${filePrefix}-10and2y.json`)
-          if (!response.ok) {
-            console.warn(`Failed to load ${filePrefix} bond data:`, response.status)
-            continue
-          }
+          // Fetch 10Y and 2Y data from MongoDB API
+          const [response10Y, response2Y] = await Promise.all([
+            bondAPI.getBondYields(dbCountryName, '10y', timeframe),
+            bondAPI.getBondYields(dbCountryName, '2y', timeframe)
+          ])
           
-          const data = await response.json()
-          console.log(`Loaded ${filePrefix} bond data:`, data.length, 'records')
+          const data10Y = response10Y.data || []
+          const data2Y = response2Y.data || []
           
-          // Process and extract 2Y and 10Y data
-          // Group by date since file contains both 2Y and 10Y entries per date
+          console.log(`Loaded ${countryName} bond data from MongoDB:`, data10Y.length, '10Y records,', data2Y.length, '2Y records')
+          
+          // Group by date
           const dateMap = {}
           
-          data.forEach(item => {
-            const date = item.date || item.Date
-            const symbol = item.symbol || item.Symbol
-            const close = item.close || item.Close
+          // Process 10Y data
+          data10Y.forEach(item => {
+            const date = item.Date
+            const close = item.Close
             
-            if (!date || !symbol || !close) return
+            if (!date || close === undefined) return
             
             // Parse date from dd/mm/yyyy to yyyy-mm-dd
             const [day, month, year] = date.split('/')
@@ -94,12 +98,28 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
               }
             }
             
-            // Determine if this is 2Y or 10Y based on symbol
-            if (symbol.includes('2Y') || symbol.includes('2y')) {
-              dateMap[isoDate].yield2Y = close
-            } else if (symbol.includes('10Y') || symbol.includes('10y')) {
-              dateMap[isoDate].yield10Y = close
+            dateMap[isoDate].yield10Y = close
+          })
+          
+          // Process 2Y data
+          data2Y.forEach(item => {
+            const date = item.Date
+            const close = item.Close
+            
+            if (!date || close === undefined) return
+            
+            // Parse date from dd/mm/yyyy to yyyy-mm-dd
+            const [day, month, year] = date.split('/')
+            const isoDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+            
+            if (!dateMap[isoDate]) {
+              dateMap[isoDate] = {
+                date: isoDate,
+                country: countryName
+              }
             }
+            
+            dateMap[isoDate].yield2Y = close
           })
           
           // Convert to array and calculate spreads
@@ -111,22 +131,15 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
           })
           
         } catch (error) {
-          console.error(`Error loading ${countryName} bond data:`, error)
+          console.error(`Error loading ${countryName} bond data from MongoDB:`, error)
         }
       }
       
       // Sort by date (most recent last for charting)
       historicalData.sort((a, b) => new Date(a.date) - new Date(b.date))
       
-      // Filter by selected timeframe
-      const cutoffDate = new Date()
-      cutoffDate.setDate(cutoffDate.getDate() - timeframe)
-      const recentData = historicalData.filter(item => 
-        new Date(item.date) >= cutoffDate
-      )
-      
-      console.log('📊 Loaded real bond data:', recentData.length, 'records from', selectedCountries)
-      setBondData(recentData)
+      console.log('📊 Loaded bond data from MongoDB:', historicalData.length, 'records from', selectedCountries)
+      setBondData(historicalData)
       
     } catch (error) {
       console.error('Error loading bond yield data:', error)
@@ -136,9 +149,66 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
     }
   }
 
+  // Check data freshness
+  const checkDataFreshness = async () => {
+    try {
+      const response = await bondAPI.checkDataFreshness()
+      const data = response.data
+      
+      if (data.is_stale) {
+        setIsStale(true)
+        // Calculate oldest data
+        if (data.oldest_data_date) {
+          const oldestDate = new Date(data.oldest_data_date)
+          const today = new Date()
+          const daysDiff = Math.floor((today - oldestDate) / (1000 * 60 * 60 * 24))
+          setStaleDays(daysDiff)
+        }
+      } else {
+        setIsStale(false)
+        setStaleDays(0)
+      }
+    } catch (error) {
+      console.error('Error checking data freshness:', error)
+    }
+  }
+  
+  // Handle manual data refresh
+  const handleRefresh = async () => {
+    if (refreshing) return
+    
+    setRefreshing(true)
+    try {
+      console.log('🔄 Triggering manual data refresh...')
+      
+      const response = await bondAPI.refreshData()
+      
+      if (response.data.success) {
+        console.log('✓ Data refresh successful')
+        
+        // Wait a moment for data to be written
+        setTimeout(async () => {
+          // Reload the chart data
+          await loadBondData()
+          
+          // Recheck freshness
+          await checkDataFreshness()
+          
+          alert('Data refreshed successfully!')
+        }, 2000)
+      }
+    } catch (error) {
+      console.error('Error refreshing data:', error)
+      alert(`Failed to refresh data: ${error.response?.data?.detail || error.message}`)
+    } finally {
+      setRefreshing(false)
+    }
+  }
+  
   // Load data when currency pair or timeframe changes
   useEffect(() => {
     loadBondData()
+    checkDataFreshness()
   }, [selectedCurrencyPair, timeframe])
 
   // Prepare chart data - group all dates and organize by country
@@ -338,15 +408,55 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
       <div className="bond-yields-header">
         <div className="chart-title-section">
           <h3>Government Bond Yields (2Y vs 10Y) Spread - {selectedCurrencyPair}</h3>
-          <button 
-            className="zoom-chart-btn"
-            onClick={() => setIsFullscreen(true)}
-            title="View Fullscreen"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
-            </svg>
-          </button>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            {isStale && (
+              <button
+                className="refresh-data-btn"
+                onClick={handleRefresh}
+                disabled={refreshing}
+                title={`Data is ${staleDays} days old. Click to refresh.`}
+                style={{
+                  padding: '6px 12px',
+                  backgroundColor: refreshing ? '#6b7280' : '#ef4444',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: refreshing ? 'not-allowed' : 'pointer',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  animation: 'pulse 2s infinite'
+                }}
+              >
+                {refreshing ? (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ animation: 'spin 1s linear infinite' }}>
+                      <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
+                    </svg>
+                    Refreshing...
+                  </>
+                ) : (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
+                    </svg>
+                    Refresh Data ({staleDays}d old)
+                  </>
+                )}
+              </button>
+            )}
+            <button 
+              className="zoom-chart-btn"
+              onClick={() => setIsFullscreen(true)}
+              title="View Fullscreen"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
       
