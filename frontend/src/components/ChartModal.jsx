@@ -136,21 +136,21 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         if (chartRef.current && chartContainerRef.current) {
           chartRef.current.applyOptions({
             width: chartContainerRef.current.clientWidth,
-            height: isPriceChartFullscreen ? window.innerHeight - 200 : 400,
+            height: isPriceChartFullscreen ? Math.floor(window.innerHeight * 0.65) : 400,
           })
           chartRef.current.timeScale().fitContent()
         }
         if (rsiChartRef.current && rsiChartContainerRef.current) {
           rsiChartRef.current.applyOptions({
             width: rsiChartContainerRef.current.clientWidth,
-            height: isRsiChartFullscreen ? window.innerHeight - 200 : 150,
+            height: isRsiChartFullscreen ? Math.floor(window.innerHeight * 0.65) : 150,
           })
           rsiChartRef.current.timeScale().fitContent()
         }
         if (macdChartRef.current && macdChartContainerRef.current) {
           macdChartRef.current.applyOptions({
             width: macdChartContainerRef.current.clientWidth,
-            height: isMacdChartFullscreen ? window.innerHeight - 200 : 150,
+            height: isMacdChartFullscreen ? Math.floor(window.innerHeight * 0.65) : 150,
           })
           macdChartRef.current.timeScale().fitContent()
         }
@@ -701,14 +701,14 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         borderColor: '#4b5563',
         scaleMargins: {
           top: 0.05,
-          bottom: showVolumeMode ? 0.4 : 0.05,  // Reserve 40% at bottom for volume section when active
+          bottom: isPriceChartFullscreen ? 0.15 : (showVolumeMode ? 0.4 : 0.05),
         },
       },
       leftPriceScale: {
         visible: showVolumeMode,  // Only show when volume bars are active
         borderColor: '#4b5563',
         scaleMargins: {
-          top: 0.75,  // Volume section in bottom 25% with top padding
+          top: isPriceChartFullscreen ? 0.6 : 0.75,
           bottom: 0.05,
         },
       },
@@ -727,7 +727,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         timeVisible: true,
       },
       width: chartContainerRef.current.clientWidth,
-      height: isPriceChartFullscreen ? window.innerHeight - 200 : 400,
+      height: isPriceChartFullscreen ? Math.floor(window.innerHeight * 0.65) : 400,
     })
 
     chartRef.current = chart
@@ -1016,10 +1016,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           borderColor: '#4b5563',
           timeVisible: true,
           secondsVisible: false,
-          visible: false,
+          visible: isRsiChartFullscreen ? true : false,
         },
         width: rsiChartContainerRef.current.clientWidth,
-        height: isRsiChartFullscreen ? window.innerHeight - 200 : 150,
+        height: isRsiChartFullscreen ? Math.floor(window.innerHeight * 0.65) : 150,
       })
 
       rsiChartRef.current = rsiChart
@@ -1089,10 +1089,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           borderColor: '#4b5563',
           timeVisible: true,
           secondsVisible: false,
-          visible: false,
+          visible: isMacdChartFullscreen ? true : false,
         },
         width: macdChartContainerRef.current.clientWidth,
-        height: isMacdChartFullscreen ? window.innerHeight - 200 : 150,
+        height: isMacdChartFullscreen ? Math.floor(window.innerHeight * 0.65) : 150,
       })
 
       macdChartRef.current = macdChart
@@ -1619,7 +1619,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   title={`${symbol} - Price Chart (${timeframe.charAt(0).toUpperCase() + timeframe.slice(1)})`}
                 >
                   <div className="chart-container-wrapper">
-                    <div ref={chartContainerRef} className="chart-container" style={{ height: `${window.innerHeight - 200}px`, width: '100%' }} />
+                    <div ref={chartContainerRef} className="chart-container" style={{ height: `${Math.floor(window.innerHeight * 0.65)}px`, width: '100%' }} />
                   </div>
                 </FullscreenChartModal>
               )}
@@ -1673,7 +1673,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   title={`${symbol} - RSI (9) Chart (${timeframe.charAt(0).toUpperCase() + timeframe.slice(1)})`}
                 >
                   <div className="chart-container-wrapper">
-                    <div ref={rsiChartContainerRef} className="chart-container" style={{ height: `${window.innerHeight - 200}px`, width: '100%' }} />
+                    <div ref={rsiChartContainerRef} className="chart-container" style={{ height: `${Math.floor(window.innerHeight * 0.65)}px`, width: '100%' }} />
                   </div>
                 </FullscreenChartModal>
               )}
@@ -1727,7 +1727,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   title={`${symbol} - MACD (12, 26, 9) Chart (${timeframe.charAt(0).toUpperCase() + timeframe.slice(1)})`}
                 >
                   <div className="chart-container-wrapper">
-                    <div ref={macdChartContainerRef} className="chart-container" style={{ height: `${window.innerHeight - 200}px`, width: '100%' }} />
+                    <div ref={macdChartContainerRef} className="chart-container" style={{ height: `${Math.floor(window.innerHeight * 0.65)}px`, width: '100%' }} />
                   </div>
                 </FullscreenChartModal>
               )}

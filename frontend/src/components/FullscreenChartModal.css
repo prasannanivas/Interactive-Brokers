@@ -84,10 +84,12 @@
 
 .fullscreen-chart-content {
   flex: 1;
-  padding: 20px;
+  padding: 20px 20px 40px 20px;
   overflow: auto;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  box-sizing: border-box;
 }
 
 /* Make charts fill the fullscreen space */
@@ -117,16 +119,28 @@
 .fullscreen-chart-content .chart-container-wrapper {
   background: #1f2937;
   border-radius: 8px;
-  padding: 16px;
+  padding: 16px 16px 60px 16px;
   height: 100%;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: visible !important;
 }
 
 .fullscreen-chart-content .chart-container {
   background: #111827;
   border-radius: 6px;
   flex: 1;
+  overflow: visible !important;
+  min-height: 0;
+  position: relative;
+}
+
+/* Ensure lightweight-charts elements are not clipped */
+.fullscreen-chart-content .chart-container > div,
+.fullscreen-chart-content .chart-container table {
+  overflow: visible !important;
 }
 
 /* ESC key hint */
