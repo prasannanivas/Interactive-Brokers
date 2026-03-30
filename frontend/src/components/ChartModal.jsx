@@ -1341,7 +1341,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         transition: 'all 0.2s'
                       }}
                     >
-                      📊 Stacked (🟢⚪🔴)
+                      📊 Total Signal (🟢⚪🔴)
                     </button>
                     <button
                       onClick={() => setVolumeBarMode('individual')}
@@ -1357,7 +1357,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         transition: 'all 0.2s'
                       }}
                     >
-                      📊 Individual
+                      📊 Net Signal
                     </button>
                   </div>
                 )}
@@ -1381,8 +1381,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   </div>
                   <div style={{ fontSize: '12px', color: '#9ca3af' }}>
                     {volumeBarMode === 'stacked' 
-                      ? 'Stacked bars show signal counts: 🟢 Bullish (bottom) | ⚪ Neutral (middle) | 🔴 Bearish (top)'
-                      : 'Individual bars show signal strength by type: 🟢 Bullish | ⚪ Neutral | 🔴 Bearish'}
+                      ? 'Total Signal bars show signal counts: 🟢 Bullish (bottom) | ⚪ Neutral (middle) | 🔴 Bearish (top)'
+                      : 'Net Signal bars show signal strength by type: 🟢 Bullish | ⚪ Neutral | 🔴 Bearish'}
                   </div>
                 </div>
               )}
