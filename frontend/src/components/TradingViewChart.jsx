@@ -96,8 +96,20 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
         const chart = createChart(chartContainerRef.current, {
           localization: {
             timeFormatter: (time) => {
-              // UTCTimestamp \u2014 hourly bars, display in US/Eastern
-              return new Date(time * 1000).toLocaleString('en-US', {
+              if (typeof time === 'object' && time !== null) {
+                // BusinessDay {year, month, day}
+                const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+                return `${months[time.month - 1]} ${time.day}, ${time.year}`
+              }
+              if (typeof time === 'string') {
+                const [year, month, day] = time.split('-')
+                const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+                return `${months[parseInt(month, 10) - 1]} ${parseInt(day, 10)}, ${year}`
+              }
+              // UTCTimestamp (number) — hourly bars
+              const d = new Date(time * 1000)
+              if (isNaN(d.getTime())) return String(time)
+              return d.toLocaleString('en-US', {
                 timeZone: 'America/New_York',
                 month: 'short', day: 'numeric',
                 hour: '2-digit', minute: '2-digit', hour12: false

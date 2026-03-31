@@ -691,14 +691,21 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       macdChartRef.current.remove()
     }
 
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     const estTimeFormatter = (time) => {
       if (typeof time === 'object' && time !== null) {
-        // BusinessDay {year, month, day} — from 'YYYY-MM-DD' date strings (daily/weekly)
-        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+        // BusinessDay {year, month, day}
         return `${months[time.month - 1]} ${time.day}, ${time.year}`
       }
-      // UTCTimestamp (number) — hourly intraday bars, display in US/Eastern
-      return new Date(time * 1000).toLocaleString('en-US', {
+      if (typeof time === 'string') {
+        // 'YYYY-MM-DD' passed directly by lightweight-charts v4
+        const [year, month, day] = time.split('-')
+        return `${months[parseInt(month, 10) - 1]} ${parseInt(day, 10)}, ${year}`
+      }
+      // UTCTimestamp (number) — hourly intraday bars
+      const d = new Date(time * 1000)
+      if (isNaN(d.getTime())) return String(time)
+      return d.toLocaleString('en-US', {
         timeZone: 'America/New_York',
         month: 'short', day: 'numeric',
         hour: '2-digit', minute: '2-digit', hour12: false
