@@ -3,7 +3,7 @@ Authentication and Authorization Utilities
 JWT token generation, password hashing, and user verification
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 from jose import JWTError, jwt
 import bcrypt
@@ -130,7 +130,7 @@ async def record_login_history(user_id: str, email: str, ip_address: Optional[st
     login_record = {
         "user_id": user_id,
         "email": email,
-        "login_time": datetime.utcnow(),
+        "login_time": datetime.now(timezone.utc),
         "ip_address": ip_address,
         "user_agent": user_agent,
         "success": success

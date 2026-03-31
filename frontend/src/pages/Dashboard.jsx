@@ -661,7 +661,7 @@ const Dashboard = () => {
           <p className="welcome-text">Real-time Forex Trading Signals</p>
         </div>
         <div className="user-actions">
-          <button className="history-button" onClick={() => setShowLoginHistory(true)} title="View Login History">
+          <button className="login-history-btn" onClick={() => setShowLoginHistory(true)} title="View Login History">
             📋 History
           </button>
           <span className="user-info">👤 {user?.username || user?.email}</span>

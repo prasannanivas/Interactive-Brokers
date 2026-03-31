@@ -41,8 +41,9 @@ const LoginHistory = ({ onClose }) => {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
-    })
+      second: '2-digit',
+      timeZone: 'America/New_York'
+    }) + ' ET'
   }
 
   const getDateKey = (dateString) => {
@@ -50,7 +51,8 @@ const LoginHistory = ({ onClose }) => {
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
+      timeZone: 'America/New_York'
     })
   }
 
