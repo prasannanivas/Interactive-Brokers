@@ -301,7 +301,13 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       }
 
       snapshots.reverse().forEach((snapshot, idx) => {
-        const date = new Date(snapshot.snapshot_date)
+        // Force UTC parsing — MongoDB returns naive datetimes without 'Z', so browsers
+        // parse them as local time which shifts the date in non-UTC timezones (e.g. BST/IST)
+        const rawDate = snapshot.snapshot_date
+        const utcStr = typeof rawDate === 'string' && !rawDate.endsWith('Z') && !/[+-]\d{2}:?\d{2}$/.test(rawDate)
+          ? rawDate + 'Z'
+          : rawDate
+        const date = new Date(utcStr)
         // Use the same time format as the candles: date string for daily/weekly, Unix seconds for hourly
         const timestamp = timeframe === 'hourly'
           ? (() => { date.setUTCHours(0, 0, 0, 0); return Math.floor(date.getTime() / 1000) })()
@@ -383,7 +389,12 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
 
       // Process snapshots for INDIVIDUAL mode (one bar per day with color)
       const volumeData = snapshots.map(snapshot => {
-        const date = new Date(snapshot.snapshot_date)
+        // Force UTC parsing — same fix as stacked mode above
+        const rawDate = snapshot.snapshot_date
+        const utcStr = typeof rawDate === 'string' && !rawDate.endsWith('Z') && !/[+-]\d{2}:?\d{2}$/.test(rawDate)
+          ? rawDate + 'Z'
+          : rawDate
+        const date = new Date(utcStr)
         // Use the same time format as the candles: date string for daily/weekly, Unix seconds for hourly
         const timestamp = timeframe === 'hourly'
           ? (() => { date.setUTCHours(0, 0, 0, 0); return Math.floor(date.getTime() / 1000) })()
