@@ -1372,7 +1372,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         transition: 'all 0.2s'
                       }}
                     >
-                      📊 Total Signal (🟢⚪🔴)
+                      📊 Total Signal
                     </button>
                     <button
                       onClick={() => setVolumeBarMode('individual')}
