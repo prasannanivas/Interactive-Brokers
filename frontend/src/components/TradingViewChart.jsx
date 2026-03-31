@@ -150,8 +150,17 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
           wickDownColor: '#ef4444',
         })
 
-        // Sort candles by time (ascending order required) - do this ONCE
-        const sortedCandles = [...candles].sort((a, b) => a.time - b.time)
+        // Sort candles by time (ascending order required) - handles both 'YYYY-MM-DD' strings and Unix-second numbers
+        const sortedCandles = [...candles]
+          .sort((a, b) => typeof a.time === 'string' ? a.time.localeCompare(b.time) : a.time - b.time)
+          .filter(candle => {
+            // Filter out weekend candles (Saturday=6, Sunday=0)
+            const date = typeof candle.time === 'string'
+              ? new Date(candle.time + 'T00:00:00Z')
+              : new Date(candle.time * 1000)
+            const day = date.getUTCDay()
+            return day !== 0 && day !== 6
+          })
         
         // Set candlestick data
         candlestickSeries.setData(sortedCandles)
