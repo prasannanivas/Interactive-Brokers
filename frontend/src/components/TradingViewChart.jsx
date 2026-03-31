@@ -94,6 +94,16 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
 
         // Create chart with v4.x API
         const chart = createChart(chartContainerRef.current, {
+          localization: {
+            timeFormatter: (time) => {
+              // UTCTimestamp \u2014 hourly bars, display in US/Eastern
+              return new Date(time * 1000).toLocaleString('en-US', {
+                timeZone: 'America/New_York',
+                month: 'short', day: 'numeric',
+                hour: '2-digit', minute: '2-digit', hour12: false
+              }) + ' ET'
+            }
+          },
           layout: {
             backgroundColor: '#1f2937',
             textColor: '#d1d5db',

@@ -377,7 +377,7 @@ class MassiveMonitor:
             if aggs:
                 df_start = time.time()
                 df = pd.DataFrame(aggs)
-                df['date'] = pd.to_datetime(df['timestamp'], unit='ms')
+                df['date'] = pd.to_datetime(df['timestamp'], unit='ms', utc=True)
                 df = df.set_index('date')
                 df_time = time.time() - df_start
                 print(f"   ⏱️  DataFrame creation: {df_time:.3f}s")

@@ -560,8 +560,14 @@ async def get_price_history(
         process_start = time.time()
         candles = []
         for timestamp, row in df.iterrows():
+            # Daily/weekly: use 'YYYY-MM-DD' date string — trading date, fully timezone-agnostic
+            # Hourly/minute: use UTC seconds so the chart shows the correct intraday time
+            if timespan in ('day', 'week'):
+                time_val = timestamp.strftime('%Y-%m-%d')
+            else:
+                time_val = int(timestamp.value // 1_000_000_000)  # UTC ns → s, safe on any server TZ
             candles.append({
-                "time": int(timestamp.timestamp()),
+                "time": time_val,
                 "open": float(row['open']),
                 "high": float(row['high']),
                 "low": float(row['low']),

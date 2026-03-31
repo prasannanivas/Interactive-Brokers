@@ -212,12 +212,17 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         return
       }
 
-      // Sort candles by time
-      const sortedCandles = [...candles].sort((a, b) => a.time - b.time)
+      // Sort candles by time (handles both 'YYYY-MM-DD' strings and Unix-second numbers)
+      const sortedCandles = [...candles].sort((a, b) => {
+        if (typeof a.time === 'string') return a.time.localeCompare(b.time)
+        return a.time - b.time
+      })
       
       // Filter out weekend candles (Saturday=6, Sunday=0) for forex markets
       const filteredCandles = sortedCandles.filter(candle => {
-        const date = new Date(candle.time * 1000)
+        const date = typeof candle.time === 'string'
+          ? new Date(candle.time + 'T00:00:00Z')
+          : new Date(candle.time * 1000)
         const dayOfWeek = date.getUTCDay()
         return dayOfWeek !== 0 && dayOfWeek !== 6  // Exclude Sunday (0) and Saturday (6)
       })
@@ -297,9 +302,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
 
       snapshots.reverse().forEach((snapshot, idx) => {
         const date = new Date(snapshot.snapshot_date)
-        // Normalize to midnight UTC to match candle timestamps
-        date.setUTCHours(0, 0, 0, 0)
-        const timestamp = Math.floor(date.getTime() / 1000)
+        // Use the same time format as the candles: date string for daily/weekly, Unix seconds for hourly
+        const timestamp = timeframe === 'hourly'
+          ? (() => { date.setUTCHours(0, 0, 0, 0); return Math.floor(date.getTime() / 1000) })()
+          : date.toISOString().split('T')[0]  // 'YYYY-MM-DD' matches daily/weekly candles
         
         // Find this symbol's data
         const symbolData = snapshot.signals?.find(s => s.symbol === symbol)
@@ -378,9 +384,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       // Process snapshots for INDIVIDUAL mode (one bar per day with color)
       const volumeData = snapshots.map(snapshot => {
         const date = new Date(snapshot.snapshot_date)
-        // Normalize to midnight UTC to match candle timestamps
-        date.setUTCHours(0, 0, 0, 0)
-        const timestamp = Math.floor(date.getTime() / 1000)
+        // Use the same time format as the candles: date string for daily/weekly, Unix seconds for hourly
+        const timestamp = timeframe === 'hourly'
+          ? (() => { date.setUTCHours(0, 0, 0, 0); return Math.floor(date.getTime() / 1000) })()
+          : date.toISOString().split('T')[0]  // 'YYYY-MM-DD' matches daily/weekly candles
         
         // Find this symbol's data in the snapshot
         const symbolData = snapshot.signals?.find(s => s.symbol === symbol)
@@ -684,8 +691,23 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       macdChartRef.current.remove()
     }
 
+    const estTimeFormatter = (time) => {
+      if (typeof time === 'object' && time !== null) {
+        // BusinessDay {year, month, day} — from 'YYYY-MM-DD' date strings (daily/weekly)
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+        return `${months[time.month - 1]} ${time.day}, ${time.year}`
+      }
+      // UTCTimestamp (number) — hourly intraday bars, display in US/Eastern
+      return new Date(time * 1000).toLocaleString('en-US', {
+        timeZone: 'America/New_York',
+        month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit', hour12: false
+      }) + ' ET'
+    }
+
     // Create main price chart
     const chart = createChart(chartContainerRef.current, {
+      localization: { timeFormatter: estTimeFormatter },
       layout: {
         background: { color: '#1f2937' },
         textColor: '#d1d5db',
@@ -998,6 +1020,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     // Create RSI chart if visible
     if (visibleIndicators.rsi && rsiChartContainerRef.current && indicators.rsi && indicators.rsi.data) {
       const rsiChart = createChart(rsiChartContainerRef.current, {
+        localization: { timeFormatter: estTimeFormatter },
         layout: {
           background: { color: '#1f2937' },
           textColor: '#d1d5db',
@@ -1071,6 +1094,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     // Create MACD chart if visible
     if (visibleIndicators.macd && macdChartContainerRef.current && indicators.macd && indicators.macd.data) {
       const macdChart = createChart(macdChartContainerRef.current, {
+        localization: { timeFormatter: estTimeFormatter },
         layout: {
           background: { color: '#1f2937' },
           textColor: '#d1d5db',
