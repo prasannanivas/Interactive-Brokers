@@ -783,6 +783,9 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     // Add volume histogram bars if in volume mode
     if (showVolumeMode) {
       console.log('🔍 Adding volume bars to main chart - volumeBarMode:', volumeBarMode)
+
+      // Build a set of all valid candle times to ensure volume bars never introduce extra timeline slots
+      const validCandleTimes = new Set(candles.map(c => c.time))
       
       if (volumeBarMode === 'stacked' && stackedVolumeData) {
         // STACKED MODE - Show Bullish UP (green) and Bearish DOWN (red) from zero line
@@ -795,6 +798,9 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         stackedVolumeData.bullish.forEach((bullishItem, idx) => {
           const bearishItem = stackedVolumeData.bearish[idx]
           const neutralItem = stackedVolumeData.neutral[idx]
+
+          // Skip dates that have no corresponding candle (weekends, holidays)
+          if (!validCandleTimes.has(bullishItem.time)) return
           
           // Extract individual counts from cumulative values
           const bullishCount = bullishItem.value
@@ -863,9 +869,9 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         
         const scaleFactor = 1  // Use actual values
         
-        // Convert to histogram format based on signal type, filter out empty days
+        // Convert to histogram format based on signal type, filter out empty days and non-candle dates
         const volumeHistogramData = dailySnapshotVolume
-          .filter(item => item.value > 0)  // Skip days with no signals
+          .filter(item => item.value > 0 && validCandleTimes.has(item.time))  // Skip days with no signals or no candle
           .map(item => {
             // If color is green/bullish, make positive; if red/bearish, make negative
             const isPositive = item.color === '#10B981' || item.color === '#10b981'
