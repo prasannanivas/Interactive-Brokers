@@ -1658,7 +1658,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                       Fullscreen
                     </button>
                   </div>
-                  <div ref={chartContainerRef} className="chart-container" style={{ height: '400px' }} />
+                  <div ref={chartContainerRef} className="chart-container-two" style={{ height: '400px' }} />
                 </div>
               ) : (
                 <FullscreenChartModal
@@ -1709,7 +1709,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                       Fullscreen
                     </button>
                   </div>
-                  <div ref={rsiChartContainerRef} className="chart-container" style={{ height: '150px' }} />
+                  <div ref={rsiChartContainerRef} className="chart-container-tt" style={{ height: '150px' }} />
                 </div>
               )}
 
@@ -1763,7 +1763,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                       Fullscreen
                     </button>
                   </div>
-                  <div ref={macdChartContainerRef} className="chart-container" style={{ height: '150px' }} />
+                  <div ref={macdChartContainerRef} className="chart-container-tt" style={{ height: '150px' }} />
                 </div>
               )}
 

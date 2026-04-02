@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import './EconomicCalendar.css';
 
+const API_URL = import.meta.env.VITE_TRADING_API_URL || 'http://167.172.215.78:8000'
+
 const EconomicCalendar = () => {
   const [calendarData, setCalendarData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,10 +26,17 @@ const EconomicCalendar = () => {
   const loadCalendarData = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/economic-calendar.json');
+      const response = await fetch(`${API_URL}/api/economic-calendar?days_past=30&days_future=180`);
       if (!response.ok) throw new Error('Failed to load calendar data');
-      const data = await response.json();
-      setCalendarData(data);
+      const json = await response.json();
+      // API returns { total, events } — map to the same shape the UI expects
+      const events = (json.events || []).map(ev => ({
+        ...ev,
+        date: ev.date_str || ev.date?.split('T')[0] || ev.date,
+        time: ev.time || '',
+        is_future_event: ev.is_future_event,
+      }));
+      setCalendarData(events);
       setError(null);
     } catch (err) {
       console.error('Error loading calendar:', err);

@@ -20,7 +20,7 @@ from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from massive_monitor_v2 import MassiveMonitorV2
 from telegram_bot import TelegramBot
-from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection
+from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection, get_economic_calendar_collection
 from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot, PasswordResetRequest, PasswordReset, PasswordChange, LoginHistoryResponse
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
 from state_tracker import track_and_detect_changes, INDICATOR_MAPPING
@@ -244,6 +244,87 @@ async def run_daily_economic_data_refresh():
         return False
 
 
+async def run_daily_economic_calendar_refresh():
+    """
+    Fetch new economic calendar events incrementally from Trading Economics API.
+    Finds the last stored event date in MongoDB and fetches only new/upcoming events.
+    Scheduled to run daily at 6:00 AM EST.
+    """
+    try:
+        print("\n" + "="*60)
+        print(f"📅 Running scheduled economic calendar refresh (incremental)...")
+        print(f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        print("="*60)
+
+        def fetch_calendar():
+            import subprocess
+            import sys
+
+            base_path = os.path.dirname(os.path.abspath(__file__))
+            result = subprocess.run(
+                [sys.executable, os.path.join(base_path, 'fetch_incremental_economic_calendar.py')],
+                capture_output=True,
+                text=True
+            )
+
+            if result.stdout:
+                print(result.stdout)
+
+            if result.returncode != 0:
+                print(f"\n✗ Economic calendar fetch failed!")
+                if result.stderr:
+                    print(f"Error: {result.stderr[:500]}")
+                return False, 0
+
+            # Parse affected count from output
+            affected = 0
+            try:
+                for line in result.stdout.split('\n'):
+                    if 'Records inserted/updated:' in line:
+                        affected = int(line.split(':')[-1].strip())
+                        break
+            except Exception:
+                pass
+
+            return True, affected
+
+        loop = asyncio.get_event_loop()
+        success, affected = await loop.run_in_executor(None, fetch_calendar)
+
+        if success:
+            print("\n✓ Economic calendar refresh completed successfully!")
+            if telegram_bot.is_configured():
+                try:
+                    await telegram_bot.send_message(
+                        f"📅 <b>Economic Calendar Updated</b>\n\n"
+                        f"✅ Records inserted/updated: {affected}\n"
+                        f"💾 Stored in MongoDB\n"
+                        f"⏰ {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}"
+                    )
+                except Exception as e:
+                    print(f"✗ Failed to send Telegram notification: {e}")
+        else:
+            print("\n✗ Economic calendar refresh failed!")
+            if telegram_bot.is_configured():
+                try:
+                    await telegram_bot.send_message(
+                        f"⚠️ <b>Economic Calendar Refresh Failed</b>\n\n"
+                        f"Please check the server logs.\n"
+                        f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}"
+                    )
+                except Exception:
+                    pass
+
+        print("="*60 + "\n")
+        return success
+
+    except Exception as e:
+        print(f"✗ Error running economic calendar refresh: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 async def run_daily_signal_capture():
     """
     Run daily signal capture and store snapshot in MongoDB
@@ -372,6 +453,15 @@ async def startup_event():
             name='Daily Economic Data Refresh at 5am EST',
             replace_existing=True
         )
+
+        # Schedule daily economic calendar refresh at 6:00 AM EST
+        scheduler.add_job(
+            run_daily_economic_calendar_refresh,
+            trigger=CronTrigger(hour=6, minute=0, timezone=est_tz),
+            id='daily_economic_calendar_refresh',
+            name='Daily Economic Calendar Refresh at 6am EST',
+            replace_existing=True
+        )
         
         # Start the scheduler
         scheduler.start()
@@ -379,12 +469,15 @@ async def startup_event():
         # Show next run times
         next_run_signal = scheduler.get_job('daily_signal_capture').next_run_time
         next_run_data = scheduler.get_job('daily_economic_data_refresh').next_run_time
+        next_run_calendar = scheduler.get_job('daily_economic_calendar_refresh').next_run_time
         
         print(f"\n✓ Scheduled jobs configured")
         print(f"  • Signal Capture: Every day at 5:00 PM EST")
         print(f"    Next run: {next_run_signal.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         print(f"  • Economic Data: Every day at 5:00 AM EST")
         print(f"    Next run: {next_run_data.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        print(f"  • Economic Calendar: Every day at 6:00 AM EST")
+        print(f"    Next run: {next_run_calendar.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         print()
         
     except Exception as e:
@@ -1327,6 +1420,75 @@ async def trigger_manual_data_refresh(current_user: dict = Depends(get_current_u
             status_code=500,
             detail=f"Failed to trigger data refresh: {str(e)}"
         )
+
+
+# ============================================
+# ECONOMIC CALENDAR ENDPOINTS
+# ============================================
+
+@app.get("/api/economic-calendar")
+async def get_economic_calendar(
+    days_past: int = 30,
+    days_future: int = 180,
+    country: Optional[str] = None,
+    importance: Optional[str] = None
+):
+    """
+    Get economic calendar events from MongoDB.
+
+    Query params:
+        days_past: How many past days to include (default: 30)
+        days_future: How many future days to include (default: 180)
+        country: Filter by country name (optional)
+        importance: Filter by importance level (optional)
+    """
+    try:
+        now = datetime.utcnow()
+        start_dt = now - timedelta(days=days_past)
+        end_dt = now + timedelta(days=days_future)
+
+        query = {
+            'date': {
+                '$gte': start_dt,
+                '$lte': end_dt
+            }
+        }
+        if country:
+            query['country'] = country
+        if importance:
+            query['importance'] = importance
+
+        collection = get_economic_calendar_collection()
+        cursor = collection.find(query, {'_id': 0}).sort('date', 1)
+
+        events = []
+        async for doc in cursor:
+            # Serialize datetime to ISO string for JSON
+            doc['date'] = doc['date'].strftime('%Y-%m-%dT%H:%M:%S') if isinstance(doc.get('date'), datetime) else doc.get('date')
+            doc['updated_at'] = doc['updated_at'].isoformat() if isinstance(doc.get('updated_at'), datetime) else doc.get('updated_at')
+            events.append(doc)
+
+        return {
+            'total': len(events),
+            'events': events
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch economic calendar: {str(e)}")
+
+
+@app.post("/api/economic-calendar/refresh")
+async def trigger_economic_calendar_refresh(current_user: dict = Depends(get_current_user)):
+    """Manually trigger an incremental economic calendar refresh."""
+    try:
+        success = await run_daily_economic_calendar_refresh()
+        if success:
+            return {"success": True, "message": "Economic calendar refresh completed", "timestamp": datetime.now().isoformat()}
+        raise HTTPException(status_code=500, detail="Calendar refresh failed. Check server logs.")
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # ============================================

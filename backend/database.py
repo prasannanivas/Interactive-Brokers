@@ -123,7 +123,10 @@ class Database:
         # Data fetch tracker indexes
         await db.data_fetch_tracker.create_index([("country", 1), ("data_type", 1)], unique=True)
         await db.data_fetch_tracker.create_index([("last_updated", -1)])
-        
+        # Economic calendar indexes
+        await db.economic_calendar.create_index([('date', -1)])
+        await db.economic_calendar.create_index([('country', 1), ('date', -1)])
+        await db.economic_calendar.create_index([('is_future_event', 1), ('date', 1)])        
         print("✓ MongoDB indexes created")
 
 
@@ -196,3 +199,8 @@ def get_interest_rates_collection():
 def get_data_fetch_tracker_collection():
     """Get data fetch tracker collection"""
     return Database.get_db().data_fetch_tracker
+
+
+def get_economic_calendar_collection():
+    """Get economic calendar collection"""
+    return Database.get_db().economic_calendar
