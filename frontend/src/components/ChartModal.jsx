@@ -385,6 +385,14 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         neutral: stackedData.neutral.reduce((sum, d) => sum + d.value, 0) - stackedData.bullish.reduce((sum, d) => sum + d.value, 0),
         bearish: stackedData.bearish.reduce((sum, d) => sum + d.value, 0) - stackedData.neutral.reduce((sum, d) => sum + d.value, 0)
       })
+
+      // Filter out days with no data for this symbol (same as Net Signal filter)
+      const activeDays = stackedData.bearish.map(d => d.value > 0)
+      stackedData.bullish = stackedData.bullish.filter((_, i) => activeDays[i])
+      stackedData.neutral = stackedData.neutral.filter((_, i) => activeDays[i])
+      stackedData.bearish = stackedData.bearish.filter((_, i) => activeDays[i])
+      console.log('📊 Active days after filtering zeros:', stackedData.bullish.length)
+
       setStackedVolumeData(stackedData)
 
       // Process snapshots for INDIVIDUAL mode (one bar per day with color)
@@ -1429,7 +1437,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   </div>
                   <div style={{ fontSize: '12px', color: '#9ca3af' }}>
                     {volumeBarMode === 'stacked' 
-                      ? 'Total Signal bars show signal counts: 🟢 Bullish (bottom) | ⚪ Neutral (middle) | 🔴 Bearish (top)'
+                      ? 'Total Signal bars show signal counts: 🟢 Bullish | ⚪ Neutral | 🔴 Bearish'
                       : 'Net Signal bars show signal strength by type: 🟢 Bullish | ⚪ Neutral | 🔴 Bearish'}
                   </div>
                 </div>
