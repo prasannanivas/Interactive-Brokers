@@ -11,7 +11,7 @@ import {
 } from 'recharts'
 import TimeframeSelector from './TimeframeSelector'
 import FullscreenChartModal from './FullscreenChartModal'
-import { bondAPI } from '../api/api'
+import { bondAPI, historyAPI } from '../api/api'
 import './ComprehensiveAnalysisChart.css'
 
 const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchlist }) => {
@@ -455,135 +455,47 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   }
 
   const loadEMA9Data = async (pair) => {
-    console.log('\n🔍 === LOADING EMA9 DATA ===')
-    console.log('Currency Pair:', pair)
-    console.log('Watchlist available:', !!watchlist)
-    console.log('Watchlist length:', watchlist?.length || 0)
-    
     try {
-      // Find the symbol in watchlist (format: "C:USDCAD" or "USDCAD")
-      const symbol = pair.replace('C:', '')
-      console.log('Looking for symbol:', symbol)
-      
-      if (watchlist && watchlist.length > 0) {
-        console.log('Available symbols:', watchlist.map(item => item.symbol).join(', '))
-      }
-      
-      const watchlistItem = watchlist?.find(item => 
-        item.symbol === symbol || item.symbol === `C:${symbol}`
-      )
-      
-      console.log('Watchlist item found:', !!watchlistItem)
-      
-      if (watchlistItem) {
-        console.log('Item details:', {
-          symbol: watchlistItem.symbol,
-          price: watchlistItem.price,
-          has_daily_indicators: !!watchlistItem.daily_indicators,
-          daily_indicators: watchlistItem.daily_indicators
-        })
+      // Ensure Polygon ticker format: C:USDCAD
+      const symbol = pair.startsWith('C:') ? pair : `C:${pair}`
+
+      const response = await historyAPI.getPriceHistory(symbol, timeframe, 'day')
+      const candles = response.data?.candles || []
+
+      if (candles.length === 0) {
+        console.warn('No price data returned for', symbol)
+        setEma9Data([])
+        return
       }
 
-      if (watchlistItem?.daily_indicators?.ema_9) {
-        // Use current price and EMA9 value to create chart data
-        const currentPrice = watchlistItem.price || 0
-        const ema9Value = watchlistItem.daily_indicators.ema_9.ema_value || currentPrice
-        
-        console.log('✅ Using REAL EMA9 data:', {
-          currentPrice,
-          ema9Value,
-          full_ema9_object: watchlistItem.daily_indicators.ema_9
-        })
+      // Sort ascending by date; exclude Saturday (forex trades Sun–Fri)
+      const sorted = [...candles]
+        .filter(c => new Date(c.time + 'T00:00:00Z').getUTCDay() !== 6)
+        .sort((a, b) => a.time.localeCompare(b.time))
 
-        // Generate historical-like data for the timeframe (daily)
-        const data = []
-        const now = new Date()
-        const priceChange = currentPrice - ema9Value
-        
-        for (let i = timeframe; i >= 0; i--) {
-          const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000))
-          const dateKey = date.toISOString().split('T')[0]
-          
-          // Simulate realistic price movement with trend and noise
-          const factor = (timeframe - i) / timeframe
-          const noise = (Math.random() - 0.5) * 0.002 * currentPrice
-          const price = ema9Value + (priceChange * factor) + noise
-          const ema = ema9Value + (priceChange * factor * 0.8) + noise * 0.5
+      // Calculate EMA9 from real close prices
+      const period = 9
+      const multiplier = 2 / (period + 1)
+      let ema = sorted[0].close
 
-          data.push({
-            date: dateKey,
-            price: parseFloat(price.toFixed(5)),
-            ema9: parseFloat(ema.toFixed(5))
-          })
+      const data = sorted.map((candle, i) => {
+        if (i === 0) {
+          ema = candle.close
+        } else {
+          ema = candle.close * multiplier + ema * (1 - multiplier)
         }
-        
-        console.log('Generated', data.length, 'data points from real EMA9')
-        console.log('Sample data (first 3):', data.slice(0, 3))
-        console.log('Sample data (last 3):', data.slice(-3))
-        console.log('Price range:', {
-          min: Math.min(...data.map(d => d.price)),
-          max: Math.max(...data.map(d => d.price)),
-          avg: (data.reduce((sum, d) => sum + d.price, 0) / data.length).toFixed(5)
-        })
+        return {
+          date: candle.time,            // 'YYYY-MM-DD'
+          price: candle.close,
+          ema9: parseFloat(ema.toFixed(5))
+        }
+      })
 
-        setEma9Data(data)
-        console.log('✅ EMA9 data state updated with real data')
-      } else {
-        // Fallback stub data if watchlist item not found
-        console.warn('⚠️ Using STUB data - watchlist item or EMA9 not found')
-        generateStubEMA9Data(pair)
-      }
+      setEma9Data(data)
     } catch (error) {
-      console.error('❌ Error loading EMA9 data:', error)
-      generateStubEMA9Data(pair)
+      console.error('Error loading price/EMA9 data:', error)
+      setEma9Data([])
     }
-    
-    console.log('=== EMA9 DATA LOADING COMPLETE ===\n')
-  }
-
-  const generateStubEMA9Data = (pair) => {
-    console.log('📊 Generating STUB EMA9 data for', pair)
-    
-    const now = new Date()
-    const dates = []
-    for (let i = timeframe; i >= 0; i--) {
-      const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000))
-      dates.push(date.toISOString().split('T')[0])
-    }
-    
-    const baseValue = pair === 'USDCAD' ? 1.35 : 
-                     pair === 'USDJPY' ? 148.5 : 
-                     pair === 'EURUSD' ? 1.08 :
-                     pair === 'GBPUSD' ? 1.27 : 1.0
-
-    console.log('Base value for', pair, ':', baseValue)
-
-    // Generate realistic price data with random walk (NO MORE SINE WAVE!)
-    let currentPrice = baseValue
-    const data = dates.map((date, index) => {
-      // Random walk with slight mean reversion
-      const drift = (Math.random() - 0.5) * 0.003 * baseValue
-      const meanReversion = (baseValue - currentPrice) * 0.02 // Pull back to base
-      const noise = (Math.random() - 0.5) * 0.005 * baseValue
-      
-      currentPrice += drift + meanReversion + noise
-      
-      // Calculate EMA9 as lagging indicator (proper exponential moving average)
-      const smoothingFactor = 2 / (9 + 1) // 0.2 for EMA9
-      const ema = index === 0 ? currentPrice : 
-        currentPrice * smoothingFactor + data[index - 1].ema9 * (1 - smoothingFactor)
-
-      return {
-        date: date,
-        price: parseFloat(currentPrice.toFixed(5)),
-        ema9: parseFloat(ema.toFixed(5))
-      }
-    })
-    
-    console.log('Generated', data.length, 'stub data points')
-    console.log('Price range:', Math.min(...data.map(d => d.price)).toFixed(5), 'to', Math.max(...data.map(d => d.price)).toFixed(5))
-
-    setEma9Data(data)
   }
 
   const generateStubInterestRateData = (mapping, dates) => {

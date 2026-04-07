@@ -260,7 +260,7 @@
   letter-spacing: 0.5px;
 }
 
-.indicator-value {
+.indicator-card .indicator-value {
   font-size: 18px;
   font-weight: 700;
   color: #fff;
