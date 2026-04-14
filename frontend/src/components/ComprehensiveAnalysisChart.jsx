@@ -624,14 +624,20 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             onChange={(e) => onPairChange(e.target.value)}
             className="pair-select"
           >
-            {watchlist && watchlist.map(item => {
-              const symbol = item.symbol.replace('C:', '')
-              return (
-                <option key={symbol} value={symbol}>
-                  {symbol.substring(0, 3)}/{symbol.substring(3, 6)}
-                </option>
-              )
-            })}
+            {watchlist && [...watchlist]
+              .sort((a, b) => {
+                const symbolA = a.symbol.replace('C:', '')
+                const symbolB = b.symbol.replace('C:', '')
+                return symbolA.localeCompare(symbolB)
+              })
+              .map(item => {
+                const symbol = item.symbol.replace('C:', '')
+                return (
+                  <option key={symbol} value={symbol}>
+                    {symbol.substring(0, 3)}/{symbol.substring(3, 6)}
+                  </option>
+                )
+              })}
           </select>
         </div>
       </div>
