@@ -639,7 +639,11 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
         </div>
         {loadingInterest ? (
-          <div className="chart-skeleton"><div className="skeleton-shimmer" /></div>
+          <div className="chart-skeleton">
+            <div className="skeleton-shimmer" />
+            <div className="skeleton-spinner" />
+            <span className="skeleton-label">Loading interest rates…</span>
+          </div>
         ) : !dataAvailability.interestRates ? (
           <div className="data-not-available">
             <p>📊 DATA NOT AVAILABLE</p>
@@ -692,7 +696,11 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           <p className="chart-subtitle">Difference between {mapping.base.name} and {mapping.quote.name}</p>
         </div>
         {loadingBond ? (
-          <div className="chart-skeleton"><div className="skeleton-shimmer" /></div>
+          <div className="chart-skeleton">
+            <div className="skeleton-shimmer" />
+            <div className="skeleton-spinner" />
+            <span className="skeleton-label">Loading bond yields…</span>
+          </div>
         ) : !dataAvailability.bondYields ? (
           <div className="data-not-available">
             <p>📊 DATA NOT AVAILABLE</p>
@@ -745,7 +753,11 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           <p className="chart-subtitle">{selectedCurrencyPair}</p>
         </div>
         {loadingEma9 ? (
-          <div className="chart-skeleton"><div className="skeleton-shimmer" /></div>
+          <div className="chart-skeleton">
+            <div className="skeleton-shimmer" />
+            <div className="skeleton-spinner" />
+            <span className="skeleton-label">Loading price data…</span>
+          </div>
         ) : (
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={ema9Data} syncId="comprehensiveAnalysis">
