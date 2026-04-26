@@ -92,6 +92,7 @@ export const tradingAPI = {
   configureAlgorithm: (data) => tradingApi.post('/api/algorithm/configure', data),
   getTelegramStatus: () => tradingApi.get('/api/telegram/status'),
   configureTelegram: (data) => tradingApi.post('/api/telegram/configure', data),
+  getSnapshotByDate: (date) => tradingApi.get(`/api/signals/daily-snapshots/${date}`),
 }
 
 // Data API - uses data service (port 8001) - watchlist and search operations

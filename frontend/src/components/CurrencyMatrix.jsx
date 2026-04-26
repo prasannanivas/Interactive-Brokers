@@ -1,269 +1,317 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
+import { tradingAPI } from '../api/api'
 import './CurrencyMatrix.css'
+
+// ── Module-level helpers (pure, no state) ─────────────────────────────────────
+
+const countNeutralSignals = (item) => {
+  let count = 0
+
+  if (item.daily_indicators) {
+    if (!item.daily_indicators.bollinger_band?.signal) count++
+    if (!item.daily_indicators.rsi_9?.signal) count++
+    if (!item.daily_indicators.ema_9?.signal) count++
+    if (!item.daily_indicators.ema_20?.signal) count++
+    if (!item.daily_indicators.ema_50?.signal) count++
+    if (!item.daily_indicators.ema_200?.signal) count++
+    if (!item.daily_indicators.ma_crossover?.signal) count++
+    if (!item.daily_indicators.macd?.signal) count++
+  }
+
+  if (item.hourly_indicators?.ema_100 && !item.hourly_indicators.ema_100.signal) count++
+  if (item.weekly_indicators?.ema_20 && !item.weekly_indicators.ema_20.signal) count++
+
+  return count
+}
+
+const getHeatmapColor = (count, type) => {
+  if (count === null) return '#f3f4f6'
+  if (count === 0) return '#ffffff'
+
+  const maxIntensity = 10
+  const absCount = Math.abs(count)
+  const intensity = Math.min(absCount / maxIntensity, 1)
+
+  if (type === 'bullish' || (type === 'net' && count > 0)) {
+    return `rgb(${Math.round(16 + (234 * (1 - intensity)))}, ${Math.round(185 + (70 * (1 - intensity)))}, ${Math.round(129 + (115 * (1 - intensity)))})`
+  } else if (type === 'bearish' || (type === 'net' && count < 0)) {
+    return `rgb(${Math.round(254 - (intensity * 34))}, ${Math.round(226 - (intensity * 188))}, ${Math.round(226 - (intensity * 188))})`
+  } else {
+    const grayValue = Math.round(156 - (intensity * 80))
+    return `rgb(${grayValue}, ${grayValue + 10}, ${grayValue + 20})`
+  }
+}
+
+const parsePairSymbol = (rawSymbol) => {
+  let symbol = rawSymbol
+  if (symbol?.startsWith('C:')) symbol = symbol.substring(2)
+
+  let base, quote
+  if (symbol?.includes('/')) {
+    const parts = symbol.split('/')
+    base = parts[0]
+    quote = parts[1]
+  } else if (symbol?.length === 6 && /^[A-Z]{6}$/.test(symbol)) {
+    base = symbol.substring(0, 3)
+    quote = symbol.substring(3, 6)
+  } else if (symbol?.includes('-')) {
+    const parts = symbol.split('-')
+    base = parts[0]
+    quote = parts[1]
+  }
+
+  if (base?.length === 3 && quote?.length === 3) return { base, quote }
+  return null
+}
+
+// ── HeatmapCell sub-component ─────────────────────────────────────────────────
+
+const HeatmapCell = ({ value, type, delta, showDelta, isNull, onClick, title }) => {
+  let deltaColor = '#6b7280'
+  let deltaText = ''
+
+  if (!isNull && delta !== null && delta !== undefined) {
+    if (delta > 0)      { deltaColor = '#16a34a'; deltaText = `+${delta}` }
+    else if (delta < 0) { deltaColor = '#dc2626'; deltaText = `${delta}` }
+    else                { deltaColor = '#9ca3af'; deltaText = '±0' }
+  }
+
+  return (
+    <td
+      className={`matrix-cell ${isNull ? 'diagonal' : ''}`}
+      style={{
+        backgroundColor: getHeatmapColor(value, type),
+        fontWeight: (!isNull && value !== 0) ? 'bold' : 'normal',
+        cursor: isNull ? 'default' : 'pointer',
+        position: 'relative',
+      }}
+      onClick={onClick}
+      title={title}
+    >
+      {isNull ? '—' : value}
+      {showDelta && !isNull && deltaText && (
+        <span
+          style={{
+            position: 'absolute',
+            bottom: '1px',
+            right: '2px',
+            fontSize: '9px',
+            fontWeight: 'normal',
+            lineHeight: 1,
+            color: deltaColor,
+            pointerEvents: 'none',
+          }}
+        >
+          {deltaText}
+        </span>
+      )}
+    </td>
+  )
+}
+
+// ── Main component ────────────────────────────────────────────────────────────
 
 const CurrencyMatrix = ({ watchlist, onPairClick }) => {
   const [filterEmpty, setFilterEmpty] = useState(true)
-  
-  // Count neutral signals (same as Dashboard logic)
-  const countNeutralSignals = (item) => {
-    let count = 0
-    
-    // Daily indicators
-    if (item.daily_indicators) {
-      if (!item.daily_indicators.bollinger_band?.signal) count++
-      if (!item.daily_indicators.rsi_9?.signal) count++
-      if (!item.daily_indicators.ema_9?.signal) count++
-      if (!item.daily_indicators.ema_20?.signal) count++
-      if (!item.daily_indicators.ema_50?.signal) count++
-      if (!item.daily_indicators.ema_200?.signal) count++
-      if (!item.daily_indicators.ma_crossover?.signal) count++
-      if (!item.daily_indicators.macd?.signal) count++
-    }
-    
-    // Hourly indicators
-    if (item.hourly_indicators?.ema_100 && !item.hourly_indicators.ema_100.signal) count++
-    
-    // Weekly indicators
-    if (item.weekly_indicators?.ema_20 && !item.weekly_indicators.ema_20.signal) count++
-    
-    return count
-  }
+  const [showDelta, setShowDelta] = useState(false)
+  const [historicalPairData, setHistoricalPairData] = useState(null)
 
-  // Extract unique currencies from pairs and build matrix data
+  // Fetch 7-days-ago snapshot once on mount for delta computation
+  useEffect(() => {
+    const fetchHistoricalData = async () => {
+      const d = new Date()
+      d.setDate(d.getDate() - 7)
+      const dateStr = d.toISOString().split('T')[0]
+
+      try {
+        const response = await tradingAPI.getSnapshotByDate(dateStr)
+        const snapshot = response.data
+        const histData = {}
+
+        if (snapshot?.signals) {
+          snapshot.signals.forEach(item => {
+            const parsed = parsePairSymbol(item.symbol)
+            if (parsed) {
+              histData[`${parsed.base}/${parsed.quote}`] = {
+                bullish: item.buy_signals?.length || 0,
+                bearish: item.sell_signals?.length || 0,
+                neutral: countNeutralSignals(item),
+              }
+            }
+          })
+        }
+
+        setHistoricalPairData(histData)
+      } catch {
+        // No snapshot 7 days ago — delta display will be suppressed
+        setHistoricalPairData(null)
+      }
+    }
+
+    fetchHistoricalData()
+  }, [])
+
+  // Build all matrices (current + net + deltas)
   const matrixData = useMemo(() => {
     if (!watchlist || watchlist.length === 0) return null
 
-    // Extract unique currencies from symbols like "EUR/USD" or "C:EURUSD"
     const currenciesSet = new Set()
     const pairData = {}
 
     watchlist.forEach(item => {
-      let symbol = item.symbol
-      
-      // Handle different formats: "C:EURUSD", "EURUSD", "EUR/USD"
-      if (symbol.startsWith('C:')) {
-        symbol = symbol.substring(2) // Remove "C:" prefix
-      }
-      
-      let base, quote
-      
-      // Try to split by /
-      if (symbol.includes('/')) {
-        const parts = symbol.split('/')
-        base = parts[0]
-        quote = parts[1]
-      } 
-      // Try common 6-character forex format like "EURUSD"
-      else if (symbol.length === 6 && /^[A-Z]{6}$/.test(symbol)) {
-        base = symbol.substring(0, 3)
-        quote = symbol.substring(3, 6)
-      }
-      // Try 7-character format with separator like "EUR-USD"
-      else if (symbol.includes('-')) {
-        const parts = symbol.split('-')
-        base = parts[0]
-        quote = parts[1]
-      }
-      
-      // Include all valid currency pairs
-      if (base && quote && base.length === 3 && quote.length === 3) {
+      const parsed = parsePairSymbol(item.symbol)
+      if (parsed) {
+        const { base, quote } = parsed
         currenciesSet.add(base)
         currenciesSet.add(quote)
-        
-        const normalizedSymbol = `${base}/${quote}`
-        
-        // Store signal counts for this pair
-        pairData[normalizedSymbol] = {
+        pairData[`${base}/${quote}`] = {
           bullish: item.buy_signals?.length || 0,
           bearish: item.sell_signals?.length || 0,
           neutral: countNeutralSignals(item),
-          originalSymbol: item.symbol
+          originalSymbol: item.symbol,
         }
       }
     })
 
     const currencies = Array.from(currenciesSet).sort()
-    
+
     console.log('🔍 Matrix Debug:', {
       watchlistCount: watchlist.length,
       symbols: watchlist.map(w => w.symbol),
       majorCurrencies: currencies,
       majorPairsCount: Object.keys(pairData).length,
-      pairDataKeys: Object.keys(pairData)
+      pairDataKeys: Object.keys(pairData),
     })
 
-    // Build matrix: matrix[row][col] = signals for currencies[row]/currencies[col]
-    const bullishMatrix = []
-    const bearishMatrix = []
-    const neutralMatrix = []
+    // Full unfiltered matrices
+    const bullishFull = []
+    const bearishFull = []
+    const neutralFull = []
 
-    currencies.forEach((baseCurrency, rowIndex) => {
-      bullishMatrix[rowIndex] = []
-      bearishMatrix[rowIndex] = []
-      neutralMatrix[rowIndex] = []
+    currencies.forEach((base, ri) => {
+      bullishFull[ri] = []
+      bearishFull[ri] = []
+      neutralFull[ri] = []
 
-      currencies.forEach((quoteCurrency, colIndex) => {
-        if (baseCurrency === quoteCurrency) {
-          // Diagonal cells - same currency
-          bullishMatrix[rowIndex][colIndex] = null
-          bearishMatrix[rowIndex][colIndex] = null
-          neutralMatrix[rowIndex][colIndex] = null
+      currencies.forEach((quote, ci) => {
+        if (base === quote) {
+          bullishFull[ri][ci] = null
+          bearishFull[ri][ci] = null
+          neutralFull[ri][ci] = null
         } else {
-          const pairSymbol = `${baseCurrency}/${quoteCurrency}`
-          const pair = pairData[pairSymbol]
-          
-          if (pair) {
-            bullishMatrix[rowIndex][colIndex] = pair.bullish
-            bearishMatrix[rowIndex][colIndex] = pair.bearish
-            neutralMatrix[rowIndex][colIndex] = pair.neutral
-          } else {
-            bullishMatrix[rowIndex][colIndex] = 0
-            bearishMatrix[rowIndex][colIndex] = 0
-            neutralMatrix[rowIndex][colIndex] = 0
-          }
+          const pair = pairData[`${base}/${quote}`]
+          bullishFull[ri][ci] = pair ? pair.bullish : 0
+          bearishFull[ri][ci] = pair ? pair.bearish : 0
+          neutralFull[ri][ci] = pair ? pair.neutral : 0
         }
       })
     })
 
-    // Conditionally filter rows and columns based on filterEmpty state
-    let rowCurrencies, colCurrencies, filteredBullishMatrix, filteredBearishMatrix, filteredNeutralMatrix
-    
+    // Filter empty rows/columns
+    let rowCurrencies, colCurrencies,
+        filteredBullish, filteredBearish, filteredNeutral
+
     if (filterEmpty) {
-      // Filter rows and columns independently
-      // Keep row if it has any signals, keep column if it has any signals
-      const hasRowSignals = (rowIndex) => {
-        for (let col = 0; col < currencies.length; col++) {
-          if (col === rowIndex) continue // Skip diagonal
-          
-          const bullish = bullishMatrix[rowIndex][col]
-          const bearish = bearishMatrix[rowIndex][col]
-          const neutral = neutralMatrix[rowIndex][col]
-          
-          if ((typeof bullish === 'number' && bullish > 0) || 
-              (typeof bearish === 'number' && bearish > 0) || 
-              (typeof neutral === 'number' && neutral > 0)) {
-            return true
-          }
-        }
-        return false
-      }
-      
-      const hasColSignals = (colIndex) => {
-        for (let row = 0; row < currencies.length; row++) {
-          if (row === colIndex) continue // Skip diagonal
-          
-          const bullish = bullishMatrix[row][colIndex]
-          const bearish = bearishMatrix[row][colIndex]
-          const neutral = neutralMatrix[row][colIndex]
-          
-          if ((typeof bullish === 'number' && bullish > 0) || 
-              (typeof bearish === 'number' && bearish > 0) || 
-              (typeof neutral === 'number' && neutral > 0)) {
-            return true
-          }
-        }
-        return false
-      }
+      const hasRowSignals = (ri) =>
+        currencies.some((_, ci) => ci !== ri &&
+          ((bullishFull[ri][ci] > 0) || (bearishFull[ri][ci] > 0) || (neutralFull[ri][ci] > 0)))
 
-      // Get active rows and columns separately
-      console.log('🔍 Filtering rows and columns independently...')
-      const activeRowIndices = []
-      const activeColIndices = []
-      
-      for (let i = 0; i < currencies.length; i++) {
-        const hasRow = hasRowSignals(i)
-        const hasCol = hasColSignals(i)
-        
-        if (hasRow) activeRowIndices.push(i)
-        if (hasCol) activeColIndices.push(i)
-        
-        console.log(`${currencies[i]}: row=${hasRow ? '✅' : '❌'}, col=${hasCol ? '✅' : '❌'}`)
-      }
-      
-      console.log('🔍 Filtering complete:', {
-        activeRows: activeRowIndices.map(i => currencies[i]),
-        activeCols: activeColIndices.map(i => currencies[i])
-      })
-      
-      // Filter currencies for row and column headers
-      rowCurrencies = activeRowIndices.map(i => currencies[i])
-      colCurrencies = activeColIndices.map(i => currencies[i])
-      
-      // Build filtered matrices: rows x columns
-      filteredBullishMatrix = activeRowIndices.map(rowIdx =>
-        activeColIndices.map(colIdx => bullishMatrix[rowIdx][colIdx])
-      )
-      
-      filteredBearishMatrix = activeRowIndices.map(rowIdx =>
-        activeColIndices.map(colIdx => bearishMatrix[rowIdx][colIdx])
-      )
-      
-      filteredNeutralMatrix = activeRowIndices.map(rowIdx =>
-        activeColIndices.map(colIdx => neutralMatrix[rowIdx][colIdx])
-      )
+      const hasColSignals = (ci) =>
+        currencies.some((_, ri) => ri !== ci &&
+          ((bullishFull[ri][ci] > 0) || (bearishFull[ri][ci] > 0) || (neutralFull[ri][ci] > 0)))
 
-      const removedRows = currencies.filter((c, i) => !activeRowIndices.includes(i))
-      const removedCols = currencies.filter((c, i) => !activeColIndices.includes(i))
-      
-      console.log('🔍 Matrix Filtering Summary:', {
-        originalCount: currencies.length,
-        rowsKept: rowCurrencies.length,
-        colsKept: colCurrencies.length,
-        rowsRemoved: removedRows,
-        colsRemoved: removedCols
+      const activeRows = []
+      const activeCols = []
+      currencies.forEach((_, i) => {
+        if (hasRowSignals(i)) activeRows.push(i)
+        if (hasColSignals(i)) activeCols.push(i)
       })
 
-      // If no active rows or columns, return empty
+      console.log('🔍 Filtering:', {
+        activeRows: activeRows.map(i => currencies[i]),
+        activeCols: activeCols.map(i => currencies[i]),
+      })
+
+      rowCurrencies = activeRows.map(i => currencies[i])
+      colCurrencies = activeCols.map(i => currencies[i])
+
+      filteredBullish = activeRows.map(ri => activeCols.map(ci => bullishFull[ri][ci]))
+      filteredBearish = activeRows.map(ri => activeCols.map(ci => bearishFull[ri][ci]))
+      filteredNeutral = activeRows.map(ri => activeCols.map(ci => neutralFull[ri][ci]))
+
       if (rowCurrencies.length === 0 || colCurrencies.length === 0) {
         return {
-          rowCurrencies: [],
-          colCurrencies: [],
-          bullishMatrix: [],
-          bearishMatrix: [],
-          neutralMatrix: [],
-          pairData
+          rowCurrencies: [], colCurrencies: [],
+          bullishMatrix: [], bearishMatrix: [], neutralMatrix: [], netMatrix: [],
+          bullishDelta: null, bearishDelta: null, neutralDelta: null, netDelta: null,
+          pairData,
         }
       }
     } else {
-      // No filtering - show all currencies
-      console.log('🔍 No filtering applied - showing all currencies')
       rowCurrencies = currencies
       colCurrencies = currencies
-      filteredBullishMatrix = bullishMatrix
-      filteredBearishMatrix = bearishMatrix
-      filteredNeutralMatrix = neutralMatrix
+      filteredBullish = bullishFull
+      filteredBearish = bearishFull
+      filteredNeutral = neutralFull
+    }
+
+    // Net signal matrix (bullish − bearish)
+    const netMatrix = rowCurrencies.map((_, ri) =>
+      colCurrencies.map((_, ci) => {
+        const b = filteredBullish[ri][ci]
+        return b === null ? null : b - filteredBearish[ri][ci]
+      })
+    )
+
+    // Delta matrices vs 7-day-ago snapshot
+    let bullishDelta = null, bearishDelta = null, neutralDelta = null, netDelta = null
+
+    if (historicalPairData) {
+      bullishDelta = rowCurrencies.map((base, ri) =>
+        colCurrencies.map((quote, ci) => {
+          if (filteredBullish[ri][ci] === null) return null
+          const hist = historicalPairData[`${base}/${quote}`]
+          return hist != null ? filteredBullish[ri][ci] - hist.bullish : null
+        })
+      )
+      bearishDelta = rowCurrencies.map((base, ri) =>
+        colCurrencies.map((quote, ci) => {
+          if (filteredBearish[ri][ci] === null) return null
+          const hist = historicalPairData[`${base}/${quote}`]
+          return hist != null ? filteredBearish[ri][ci] - hist.bearish : null
+        })
+      )
+      neutralDelta = rowCurrencies.map((base, ri) =>
+        colCurrencies.map((quote, ci) => {
+          if (filteredNeutral[ri][ci] === null) return null
+          const hist = historicalPairData[`${base}/${quote}`]
+          return hist != null ? filteredNeutral[ri][ci] - hist.neutral : null
+        })
+      )
+      netDelta = rowCurrencies.map((base, ri) =>
+        colCurrencies.map((quote, ci) => {
+          if (netMatrix[ri][ci] === null) return null
+          const hist = historicalPairData[`${base}/${quote}`]
+          if (hist == null) return null
+          return netMatrix[ri][ci] - (hist.bullish - hist.bearish)
+        })
+      )
     }
 
     return {
       rowCurrencies,
       colCurrencies,
-      bullishMatrix: filteredBullishMatrix,
-      bearishMatrix: filteredBearishMatrix,
-      neutralMatrix: filteredNeutralMatrix,
-      pairData
+      bullishMatrix: filteredBullish,
+      bearishMatrix: filteredBearish,
+      neutralMatrix: filteredNeutral,
+      netMatrix,
+      bullishDelta,
+      bearishDelta,
+      neutralDelta,
+      netDelta,
+      pairData,
     }
-  }, [watchlist, filterEmpty])
-
-  // Get color intensity based on signal count
-  const getHeatmapColor = (count, type) => {
-    if (count === null) return '#f3f4f6' // Gray for diagonal
-    if (count === 0) return '#ffffff' // White for no signals
-
-    const maxIntensity = 10 // Assume max 10 signals for color scale
-    const intensity = Math.min(count / maxIntensity, 1)
-
-    if (type === 'bullish') {
-      // Green scale - from light green to dark green
-      return `rgb(${Math.round(16 + (234 * (1 - intensity)))}, ${Math.round(185 + (70 * (1 - intensity)))}, ${Math.round(129 + (115 * (1 - intensity)))})`
-    } else if (type === 'bearish') {
-      // Red scale - more vibrant reds from #fee to #dc2626
-      return `rgb(${Math.round(254 - (intensity * 34))}, ${Math.round(226 - (intensity * 188))}, ${Math.round(226 - (intensity * 188))})`
-    } else {
-      // Gray scale for neutral
-      const grayValue = Math.round(156 - (intensity * 80))
-      return `rgb(${grayValue}, ${grayValue + 10}, ${grayValue + 20})`
-    }
-  }
+  }, [watchlist, filterEmpty, historicalPairData])
 
   if (!matrixData) {
     return (
@@ -275,22 +323,22 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
     )
   }
 
-  const { rowCurrencies, colCurrencies, bullishMatrix, bearishMatrix, neutralMatrix } = matrixData
+  const {
+    rowCurrencies, colCurrencies,
+    bullishMatrix, bearishMatrix, neutralMatrix, netMatrix,
+    bullishDelta, bearishDelta, neutralDelta, netDelta,
+  } = matrixData
 
-  const renderMatrix = (matrix, type, title, emoji) => (
+  const renderMatrix = (matrix, type, title, emoji, deltaMatrix) => (
     <div className="matrix-panel">
-      <h3 className="matrix-title">
-        {emoji} {title}
-      </h3>
+      <h3 className="matrix-title">{emoji} {title}</h3>
       <div className="matrix-table-wrapper">
         <table className="currency-matrix-table">
           <thead>
             <tr>
-              <th className="matrix-corner">Quote →<br/>Base ↓</th>
+              <th className="matrix-corner">Quote →<br />Base ↓</th>
               {colCurrencies.map(currency => (
-                <th key={currency} className="matrix-header-cell">
-                  {currency}
-                </th>
+                <th key={currency} className="matrix-header-cell">{currency}</th>
               ))}
             </tr>
           </thead>
@@ -301,22 +349,23 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
                 {colCurrencies.map((quoteCurrency, colIndex) => {
                   const value = matrix[rowIndex][colIndex]
                   const isNull = value === null
+                  const delta = deltaMatrix?.[rowIndex]?.[colIndex] ?? null
                   const pairSymbol = `${baseCurrency}/${quoteCurrency}`
-                  
                   return (
-                    <td
+                    <HeatmapCell
                       key={colIndex}
-                      className={`matrix-cell ${isNull ? 'diagonal' : ''}`}
-                      style={{
-                        backgroundColor: getHeatmapColor(value, type),
-                        fontWeight: value > 0 ? 'bold' : 'normal',
-                        cursor: isNull ? 'default' : 'pointer'
-                      }}
+                      value={value}
+                      type={type}
+                      delta={delta}
+                      showDelta={showDelta}
+                      isNull={isNull}
                       onClick={() => !isNull && onPairClick && onPairClick(`C:${baseCurrency}${quoteCurrency}`, type)}
-                      title={isNull ? `${baseCurrency} (same currency)` : `${pairSymbol}: ${value} ${title.toLowerCase()} signal${value !== 1 ? 's' : ''}`}
-                    >
-                      {isNull ? '—' : value}
-                    </td>
+                      title={
+                        isNull
+                          ? `${baseCurrency} (same currency)`
+                          : `${pairSymbol}: ${value} ${title.toLowerCase()} signal${value !== 1 ? 's' : ''}`
+                      }
+                    />
                   )
                 })}
               </tr>
@@ -324,11 +373,6 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
           </tbody>
         </table>
       </div>
-      {/* <div className="matrix-legend">
-        <span className="legend-item">Darker color = More signals</span>
-        <span className="legend-item">White = No signals</span>
-        <span className="legend-item">Gray diagonal = Same currency</span>
-      </div> */}
     </div>
   )
 
@@ -339,7 +383,7 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
         <p className="matrix-description">
           Heatmap showing signal counts for each currency pair. Darker colors indicate more signals.
         </p>
-        <div className="matrix-filter-toggle">
+        <div className="matrix-controls">
           <label className="toggle-label">
             <input
               type="checkbox"
@@ -349,25 +393,28 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
             />
             <span className="toggle-text">Hide empty rows/columns</span>
           </label>
+          <label className="toggle-label">
+            <input
+              type="checkbox"
+              checked={showDelta}
+              onChange={(e) => setShowDelta(e.target.checked)}
+              className="toggle-checkbox"
+              disabled={!historicalPairData}
+            />
+            <span className="toggle-text">
+              Show Δ vs 7 days ago
+              {!historicalPairData && <span className="toggle-hint"> (no snapshot available)</span>}
+            </span>
+          </label>
         </div>
       </div>
 
       <div className="matrices-grid">
-        {renderMatrix(bullishMatrix, 'bullish', 'Bullish Signals', '🟢')}
-        {renderMatrix(bearishMatrix, 'bearish', 'Bearish Signals', '🔴')}
-        {renderMatrix(neutralMatrix, 'neutral', 'Neutral Signals', '⚪')}
+        {renderMatrix(bullishMatrix, 'bullish', 'Bullish Signals', '🟢', bullishDelta)}
+        {renderMatrix(bearishMatrix, 'bearish', 'Bearish Signals', '🔴', bearishDelta)}
+        {renderMatrix(neutralMatrix, 'neutral', 'Neutral Signals', '⚪', neutralDelta)}
+        {renderMatrix(netMatrix, 'net', 'Net Signal (Bullish − Bearish)', '📊', netDelta)}
       </div>
-
-      {/* <div className="matrix-insights">
-        <h4>💡 How to Read This Matrix</h4>
-        <ul>
-          <li><strong>Rows (Base Currency):</strong> The currency you're buying</li>
-          <li><strong>Columns (Quote Currency):</strong> The currency you're selling</li>
-          <li><strong>Cell Value:</strong> Number of indicators signaling for that pair</li>
-          <li><strong>Example:</strong> EUR row + USD column = EUR/USD pair signals</li>
-          <li><strong>Diagonal:</strong> Same currency (e.g., EUR/EUR) - not a valid pair</li>
-        </ul>
-      </div> */}
     </div>
   )
 }
