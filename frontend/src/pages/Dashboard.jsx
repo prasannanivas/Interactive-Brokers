@@ -361,6 +361,10 @@ const Dashboard = () => {
     
     setChartSymbol(symbol)
     setShowChartModal(true)
+
+    // Also sync the ComprehensiveAnalysisChart pair selector
+    const normalised = symbol.startsWith('C:') ? symbol.slice(2) : symbol
+    setSelectedCurrencyPair(normalised)
     
     try {
       // First, get the watchlist item for this symbol to check current signals

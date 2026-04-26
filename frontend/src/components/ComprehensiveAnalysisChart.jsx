@@ -19,7 +19,10 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   const [bondSpreadData, setBondSpreadData] = useState([])
   const [ema9Data, setEma9Data] = useState([])
   const [commonDateRange, setCommonDateRange] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [loadingInterest, setLoadingInterest] = useState(true)
+  const [loadingBond, setLoadingBond] = useState(true)
+  const [loadingEma9, setLoadingEma9] = useState(true)
+  const loading = loadingInterest || loadingBond || loadingEma9
   const [error, setError] = useState(null)
   const [timeframe, setTimeframe] = useState(365)
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -89,67 +92,40 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     return () => window.removeEventListener('keydown', handleEsc)
   }, [isFullscreen])
 
-  const loadAllData = async () => {
-    setLoading(true)
+  const loadAllData = () => {
     setError(null)
     setDataAvailability({ interestRates: true, bondYields: true })
+    setInterestRateData([])
+    setBondSpreadData([])
+    setEma9Data([])
+    setLoadingInterest(true)
+    setLoadingBond(true)
+    setLoadingEma9(true)
 
-    try {
-      const mapping = parseCurrencyPair(selectedCurrencyPair)
-      if (!mapping || !mapping.base || !mapping.quote) {
-        setError(`Currency pair not supported: ${selectedCurrencyPair}`)
-        setLoading(false)
-        return
-      }
-
-      // Load all three datasets concurrently
-      const [interestData, bondData, priceData] = await Promise.all([
-        loadInterestRates(mapping),
-        loadBondData(mapping),
-        loadEMA9Data(selectedCurrencyPair)
-      ])
-
-      // Align all three to the same date array.
-      // Recharts syncId syncs by array INDEX, so every chart must have the
-      // exact same date string at each index position.
-      const interestMap = new Map(interestData.map(d => [d.date, d]))
-      const bondMap     = new Map(bondData.map(d => [d.date, d]))
-      const priceMap    = new Map(priceData.map(d => [d.date, d]))
-
-      const allDates = Array.from(
-        new Set([
-          ...interestData.map(d => d.date),
-          ...bondData.map(d => d.date),
-          ...priceData.map(d => d.date)
-        ])
-      ).sort()
-
-      let lastInterest = null, lastBond = null, lastPrice = null
-      const alignedInterest = [], alignedBond = [], alignedPrice = []
-
-      for (const date of allDates) {
-        if (interestMap.has(date)) lastInterest = interestMap.get(date)
-        if (bondMap.has(date))     lastBond     = bondMap.get(date)
-        if (priceMap.has(date))    lastPrice    = priceMap.get(date)
-
-        // Only emit once all three have seen at least one record (skip leading gaps)
-        if (lastInterest && lastBond && lastPrice) {
-          alignedInterest.push({ ...lastInterest, date })
-          alignedBond.push({    ...lastBond,     date })
-          alignedPrice.push({   ...lastPrice,    date })
-        }
-      }
-
-      setInterestRateData(alignedInterest.length > 0 ? alignedInterest : interestData)
-      setBondSpreadData(alignedBond.length > 0 ? alignedBond : bondData)
-      setEma9Data(alignedPrice.length > 0 ? alignedPrice : priceData)
-
-    } catch (err) {
-      console.error('Error loading data:', err)
-      setError('Failed to load data')
-    } finally {
-      setLoading(false)
+    const mapping = parseCurrencyPair(selectedCurrencyPair)
+    if (!mapping || !mapping.base || !mapping.quote) {
+      setError(`Currency pair not supported: ${selectedCurrencyPair}`)
+      setLoadingInterest(false)
+      setLoadingBond(false)
+      setLoadingEma9(false)
+      return
     }
+
+    // Each dataset fetches and sets state independently — chart appears as soon as ready
+    loadInterestRates(mapping)
+      .then(data => setInterestRateData(data))
+      .catch(() => setDataAvailability(prev => ({ ...prev, interestRates: false })))
+      .finally(() => setLoadingInterest(false))
+
+    loadBondData(mapping)
+      .then(data => setBondSpreadData(data))
+      .catch(() => setDataAvailability(prev => ({ ...prev, bondYields: false })))
+      .finally(() => setLoadingBond(false))
+
+    loadEMA9Data(selectedCurrencyPair)
+      .then(data => setEma9Data(data))
+      .catch(err => console.error('Error loading EMA9:', err))
+      .finally(() => setLoadingEma9(false))
   }
 
   const synchronizeDataRanges = () => {
@@ -604,28 +580,6 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     return () => window.removeEventListener('keydown', handleEsc)
   }, [isFullscreen])
 
-  if (loading) {
-    return (
-      <div className="comprehensive-chart-container">
-        <div className="chart-loading">
-          <div className="spinner"></div>
-          <p>Loading comprehensive analysis...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="comprehensive-chart-container">
-        <div className="chart-error">
-          <p>⚠️ {error}</p>
-          <button onClick={loadAllData} className="retry-btn">Retry</button>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="comprehensive-chart-container">
       {/* Header with pair selector */}
@@ -671,13 +625,22 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         onTimeframeChange={setTimeframe}
       />
 
+      {error && (
+        <div className="chart-error" style={{ margin: '0 0 16px 0' }}>
+          <p>⚠️ {error}</p>
+          <button onClick={loadAllData} className="retry-btn">Retry</button>
+        </div>
+      )}
+
       {/* 1. Interest Rate Comparison Chart */}
       <div className="chart-section">
         <div className="chart-title">
           <h3>🏦 Interest Rate Comparison</h3>
           <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
         </div>
-        {!dataAvailability.interestRates ? (
+        {loadingInterest ? (
+          <div className="chart-skeleton"><div className="skeleton-shimmer" /></div>
+        ) : !dataAvailability.interestRates ? (
           <div className="data-not-available">
             <p>📊 DATA NOT AVAILABLE</p>
             <p className="unavailable-subtitle">Interest rate data not available for this currency pair</p>
@@ -728,7 +691,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           <h3>📈 Bond Yield Spread</h3>
           <p className="chart-subtitle">Difference between {mapping.base.name} and {mapping.quote.name}</p>
         </div>
-        {!dataAvailability.bondYields ? (
+        {loadingBond ? (
+          <div className="chart-skeleton"><div className="skeleton-shimmer" /></div>
+        ) : !dataAvailability.bondYields ? (
           <div className="data-not-available">
             <p>📊 DATA NOT AVAILABLE</p>
             <p className="unavailable-subtitle">Bond yield data not available for this currency pair</p>
@@ -779,20 +744,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           <h3>💱 Price & EMA 9 (Daily)</h3>
           <p className="chart-subtitle">{selectedCurrencyPair}</p>
         </div>
-        {(() => {
-          // Debug: Log what's actually being displayed
-          if (ema9Data.length > 0) {
-            const prices = ema9Data.map(d => d.price)
-            console.log('📊 Rendering EMA9 chart with', ema9Data.length, 'points')
-            console.log('📊 Price range being displayed:', {
-              min: Math.min(...prices).toFixed(5),
-              max: Math.max(...prices).toFixed(5),
-              first: ema9Data[0].price,
-              last: ema9Data[ema9Data.length - 1].price
-            })
-          }
-          return null
-        })()}
+        {loadingEma9 ? (
+          <div className="chart-skeleton"><div className="skeleton-shimmer" /></div>
+        ) : (
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={ema9Data} syncId="comprehensiveAnalysis">
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -831,6 +785,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             />
           </LineChart>
         </ResponsiveContainer>
+        )}
       </div>
 
       {/* Analysis Summary */}
