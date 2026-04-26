@@ -65,21 +65,20 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     setVisibleIndicators(newVisibleState)
 
     console.log('🔄 ChartModal useEffect triggered for symbol:', symbol, 'timeframe:', timeframe)
-    fetchChartData()
-    fetchDailySnapshotVolume() // Fetch daily snapshot data for volume bars
+    fetchChartData() // Volume bars are computed from chart data (no separate API call)
 
     // Cleanup on unmount
     return () => {
       if (chartRef.current) {
-        chartRef.current.remove()
+        try { chartRef.current.remove() } catch (e) {}
         chartRef.current = null
       }
       if (rsiChartRef.current) {
-        rsiChartRef.current.remove()
+        try { rsiChartRef.current.remove() } catch (e) {}
         rsiChartRef.current = null
       }
       if (macdChartRef.current) {
-        macdChartRef.current.remove()
+        try { macdChartRef.current.remove() } catch (e) {}
         macdChartRef.current = null
       }
     }
@@ -171,11 +170,19 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       const now = Date.now()
       const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes in milliseconds
       
-      if (cache[timeframe] && (now - cache[timeframe].timestamp) < CACHE_DURATION) {
+      if (cache[timeframe] && (now - cache[timeframe].timestamp) < CACHE_DURATION && cache[timeframe].data?.length > 0) {
         console.log(`📦 Using cached ${timeframe} data`)
         const cached = cache[timeframe]
         setChartData(cached.data)
         setIndicators(cached.indicators)
+        if (cached.stackedData) {
+          setStackedVolumeData(cached.stackedData)
+          setDailySnapshotVolume(cached.individualData || [])
+        } else {
+          const { stackedData, individualData } = computeVolumeFromChartData(cached.data, cached.indicators, timeframe)
+          setStackedVolumeData(stackedData)
+          setDailySnapshotVolume(individualData)
+        }
         setLoading(false)
         return
       }
@@ -190,7 +197,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           timespan = 'hour'
           break
         case 'daily':
-          days = 365     // 365 days = 1 year
+          days = 850     // ~2.3 years back to Jan 1, 2024
           timespan = 'day'
           break
         case 'weekly':
@@ -203,10 +210,13 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       }
 
       // Fetch candles with correct timespan from Massive API
+      console.log(`[WEEKLY DBG] Requesting: symbol=${symbol} days=${days} timespan=${timespan}`)
       const response = await historyAPI.getPriceHistory(symbol, days, timespan)
+      console.log(`[WEEKLY DBG] Raw response status=${response.status} candles=${response.data?.candles?.length}`)
       const candles = response.data.candles
 
       if (!candles || candles.length === 0) {
+        console.warn('[WEEKLY DBG] No candles returned — setting error')
         setError('No price data available')
         setLoading(false)
         return
@@ -219,7 +229,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       })
       
       // Filter out weekend candles (Saturday=6, Sunday=0) for forex markets
-      const filteredCandles = sortedCandles.filter(candle => {
+      // Weekly bars already represent a full week — do NOT filter them by day
+      const filteredCandles = timeframe === 'weekly' ? sortedCandles : sortedCandles.filter(candle => {
         const date = typeof candle.time === 'string'
           ? new Date(candle.time + 'T00:00:00Z')
           : new Date(candle.time * 1000)
@@ -231,25 +242,37 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       const candlesToUse = filteredCandles
       
       console.log(`📊 Filtered ${sortedCandles.length - filteredCandles.length} weekend candles (${sortedCandles.length} → ${filteredCandles.length})`)
+      console.log(`[WEEKLY DBG] candlesToUse.length=${candlesToUse.length}, first=${JSON.stringify(candlesToUse[0])}, last=${JSON.stringify(candlesToUse[candlesToUse.length-1])}`)
 
       // Calculate technical indicators on full dataset
       const calculatedIndicators = calculateIndicators(candlesToUse)
-      
+      console.log(`[WEEKLY DBG] calculatedIndicators keys:`, Object.keys(calculatedIndicators))
+
+      // Compute volume bars directly from indicator arrays (no DB snapshot API call needed)
+      console.log(`[WEEKLY DBG] calling computeVolumeFromChartData tf=${timeframe}`)
+      const { stackedData, individualData } = computeVolumeFromChartData(candlesToUse, calculatedIndicators, timeframe)
+      console.log(`[WEEKLY DBG] stackedData=${stackedData ? 'yes len='+stackedData.bullish?.length : 'null'} individualData.length=${individualData?.length}`)
+
       // Update cache for this timeframe
       setCache(prevCache => ({
         ...prevCache,
         [timeframe]: {
           data: candlesToUse,
           indicators: calculatedIndicators,
+          stackedData,
+          individualData,
           timestamp: now
         }
       }))
-      
+
       setIndicators(calculatedIndicators)
       setChartData(candlesToUse)
+      setStackedVolumeData(stackedData)
+      setDailySnapshotVolume(individualData)
+      console.log(`[WEEKLY DBG] setLoading(false) — chart should render now`)
       setLoading(false)
     } catch (err) {
-      console.error('Failed to fetch chart data:', err)
+      console.error('[WEEKLY DBG] fetchChartData CATCH:', err)
       setError(err.response?.data?.detail || 'Failed to load chart data')
       setLoading(false)
     }
@@ -266,7 +289,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           snapshotDays = 42  // Match hourly chart period
           break
         case 'daily':
-          snapshotDays = 365  // Match daily chart period (1 year)
+          snapshotDays = 850  // ~2.3 years back to Jan 1, 2024
           break
         case 'weekly':
           snapshotDays = 1825  // Match weekly chart period (5 years)
@@ -476,7 +499,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         change: candles.length > 1 ? ((currentPrice - candles[candles.length - 2].close) / candles[candles.length - 2].close * 100).toFixed(2) : 0
       }
     } else if (timeframe === 'weekly') {
-      // WEEKLY: Bollinger Bands + EMA 20
+      // WEEKLY: Visual — Bollinger Bands + EMA 20
+      //         Signal counting — same 7 indicators as daily (computed on weekly closes)
       const bbPeriod = 20
       const bb = calculateBollingerBands(closes, bbPeriod, 2)
       const ema20 = calculateEMA(closes, 20)
@@ -485,9 +509,16 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       const currentBBUpper = bb.upper[bb.upper.length - 1]
       const currentBBMiddle = bb.middle[bb.middle.length - 1]
       const currentBBLower = bb.lower[bb.lower.length - 1]
-      
       const bbSignal = currentPrice > currentBBUpper ? 'sell' : currentPrice < currentBBLower ? 'buy' : 'neutral'
-      
+
+      // Compute all 7 signal-counting indicators on weekly closes
+      const wRsi9      = calculateRSI(closes, 9)
+      const wEma9      = calculateEMA(closes, 9)
+      const wEma50     = calculateEMA(closes, 50)
+      const wEma200    = calculateEMA(closes, 200)
+      const wMacd      = calculateMACD(closes, 12, 26, 9)
+      const wMaCross   = calculateMACross(closes, 9, 21)
+
       return {
         bollingerBands: {
           upper: currentBBUpper?.toFixed(2),
@@ -499,12 +530,14 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           lowerData: bb.lower,
           label: 'Bollinger Bands (20,2)'
         },
-        ema20: { 
-          value: currentEMA20?.toFixed(2), 
-          signal: currentPrice > currentEMA20 ? 'buy' : 'sell', 
-          data: ema20, 
-          label: 'EMA 20' 
-        },
+        ema20: { value: currentEMA20?.toFixed(2), signal: currentPrice > currentEMA20 ? 'buy' : 'sell', data: ema20, label: 'EMA 20' },
+        // Signal-counting arrays (not rendered as chart lines)
+        rsi:     { data: wRsi9 },
+        ema9:    { data: wEma9 },
+        ema50:   { data: wEma50 },
+        ema200:  { data: wEma200 },
+        macd:    { data: wMacd },
+        maCross: { data: wMaCross },
         price: currentPrice,
         change: candles.length > 1 ? ((currentPrice - candles[candles.length - 2].close) / candles[candles.length - 2].close * 100).toFixed(2) : 0
       }
@@ -696,18 +729,176 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     return { shortMA, longMA, signal }
   }
 
-  const renderChart = (candles, indicators) => {
-    if (!chartContainerRef.current) return
+  // Compute stacked + individual volume bar data from already-calculated indicator arrays.
+  // This replaces the daily-snapshots DB API call — full history, always in sync with the chart.
+  const computeVolumeFromChartData = (candles, indics, tf) => {
+    // Hourly: no volume bars
+    if (tf === 'hourly') return { stackedData: null, individualData: [] }
 
-    // Remove existing charts
+    const closes = candles.map(c => c.close)
+    const n = candles.length
+
+    // Pre-extract indicator data arrays
+    const ema9Arr    = indics.ema9?.data    || []
+    const ema20Arr   = indics.ema20?.data   || []
+    const ema50Arr   = indics.ema50?.data   || []
+    const ema200Arr  = indics.ema200?.data  || []
+    const rsiArr     = indics.rsi?.data     || []
+    const macdHist   = indics.macd?.data?.histogram || []
+    const shortMAArr = indics.maCross?.data?.shortMA || []
+    const longMAArr  = indics.maCross?.data?.longMA  || []
+    const bbUpperArr = indics.bollingerBands?.upperData || []
+    const bbLowerArr = indics.bollingerBands?.lowerData || []
+    const ema100Arr  = indics.ema100?.data  || []
+
+    const bullish = []
+    const neutral = []
+    const bearish = []
+    const individualData = []
+
+    for (let ci = 0; ci < n; ci++) {
+      const time = candles[ci].time
+      const price = closes[ci]
+      let buyCount = 0
+      let sellCount = 0
+
+      if (tf === 'weekly') {
+        // Weekly: same 7 indicators as daily, computed on weekly closes by calculateIndicators
+        // RSI9: rsiArr[i] → candle i+9
+        if (ci >= 9) {
+          const rsi = rsiArr[ci - 9]
+          if (Number.isFinite(rsi)) {
+            if (rsi < 30) buyCount++
+            else if (rsi > 70) sellCount++
+          }
+        }
+        // EMA9: ema9Arr[i] → candle i+8
+        if (ci >= 8) {
+          const ema = ema9Arr[ci - 8]
+          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
+        }
+        // EMA20: ema20Arr[i] → candle i+19
+        if (ci >= 19) {
+          const ema = ema20Arr[ci - 19]
+          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
+        }
+        // EMA50: ema50Arr[i] → candle i+49
+        if (ci >= 49) {
+          const ema = ema50Arr[ci - 49]
+          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
+        }
+        // EMA200: ema200Arr[i] → candle i+199
+        if (ci >= 199) {
+          const ema = ema200Arr[ci - 199]
+          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
+        }
+        // MACD histogram: macdHist[i] → candle i+33
+        if (ci >= 33) {
+          const hist = macdHist[ci - 33]
+          if (Number.isFinite(hist)) { hist > 0 ? buyCount++ : sellCount++ }
+        }
+        // MA Cross SMA9 vs SMA21: shortMAArr[i] → candle i+8, longMAArr[i] → candle i+20
+        if (ci >= 20) {
+          const short = shortMAArr[ci - 8]
+          const long  = longMAArr[ci - 20]
+          if (Number.isFinite(short) && Number.isFinite(long)) {
+            short > long ? buyCount++ : sellCount++
+          }
+        }
+
+      } else {
+        // DAILY: 7 indicators
+        // RSI9: rsiArr[i] → candle i+9
+        if (ci >= 9) {
+          const rsi = rsiArr[ci - 9]
+          if (Number.isFinite(rsi)) {
+            if (rsi < 30) buyCount++
+            else if (rsi > 70) sellCount++
+            // 30–70 = neutral, not counted
+          }
+        }
+        // EMA9: ema9Arr[i] → candle i+8
+        if (ci >= 8) {
+          const ema = ema9Arr[ci - 8]
+          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
+        }
+        // EMA20: ema20Arr[i] → candle i+19
+        if (ci >= 19) {
+          const ema = ema20Arr[ci - 19]
+          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
+        }
+        // EMA50: ema50Arr[i] → candle i+49
+        if (ci >= 49) {
+          const ema = ema50Arr[ci - 49]
+          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
+        }
+        // EMA200: ema200Arr[i] → candle i+199
+        if (ci >= 199) {
+          const ema = ema200Arr[ci - 199]
+          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
+        }
+        // MACD histogram: macdHist[i] → candle i+33
+        if (ci >= 33) {
+          const hist = macdHist[ci - 33]
+          if (Number.isFinite(hist)) { hist > 0 ? buyCount++ : sellCount++ }
+        }
+        // MA Cross SMA9 vs SMA21: shortMAArr[i] → candle i+8, longMAArr[i] → candle i+20
+        if (ci >= 20) {
+          const short = shortMAArr[ci - 8]
+          const long  = longMAArr[ci - 20]
+          if (Number.isFinite(short) && Number.isFinite(long)) {
+            short > long ? buyCount++ : sellCount++
+          }
+        }
+      }
+
+      // Stacked format — same shape the renderChart consumer expects
+      bullish.push({ time, value: buyCount })
+      neutral.push({ time, value: buyCount })  // no neutral bucket
+      bearish.push({ time, value: buyCount + sellCount })
+
+      // Individual signal-strength format
+      if (buyCount > 0 || sellCount > 0) {
+        const strength = buyCount - sellCount
+        individualData.push({
+          time,
+          value: Math.abs(strength),
+          color: strength > 0 ? '#10B981' : strength < 0 ? '#EF4444' : '#6B7280'
+        })
+      }
+    }
+
+    return { stackedData: { bullish, neutral, bearish }, individualData }
+  }
+
+  const renderChart = (candles, indicators) => {
+    console.log(`[WEEKLY DBG] renderChart called: candles=${candles?.length} tf=${timeframe} chartContainerRef=${!!chartContainerRef.current}`)
+    if (!chartContainerRef.current) { console.warn('[WEEKLY DBG] renderChart bailed — no chartContainerRef'); return }
+    if (!candles || candles.length === 0) { console.warn('[WEEKLY DBG] renderChart bailed — empty candles'); return }
+
+    // Safe mapper: aligns an indicator array to candle times, skipping any out-of-bounds entries.
+    // This guards against transient state mismatches when switching timeframes.
+    const safeMap = (data, startIndex) =>
+      data.reduce((acc, val, i) => {
+        const candle = candles[startIndex + i]
+        if (candle && val != null) acc.push({ time: candle.time, value: val })
+        return acc
+      }, [])
+
+    // Remove existing charts — wrap in try/catch because the container DOM node
+    // may already be unmounted (e.g. when closing a fullscreen modal) which causes
+    // lightweight-charts to throw, crashing the entire React component tree.
     if (chartRef.current) {
-      chartRef.current.remove()
+      try { chartRef.current.remove() } catch (e) { /* container already gone */ }
+      chartRef.current = null
     }
     if (rsiChartRef.current) {
-      rsiChartRef.current.remove()
+      try { rsiChartRef.current.remove() } catch (e) { /* container already gone */ }
+      rsiChartRef.current = null
     }
     if (macdChartRef.current) {
-      macdChartRef.current.remove()
+      try { macdChartRef.current.remove() } catch (e) { /* container already gone */ }
+      macdChartRef.current = null
     }
 
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
@@ -799,8 +990,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       candleSeries.setMarkers(signalMarkers)
     }
 
-    // Add volume histogram bars if in volume mode
-    if (showVolumeMode) {
+    // Add volume histogram bars if in volume mode (not for hourly)
+    if (showVolumeMode && timeframe !== 'hourly') {
       console.log('🔍 Adding volume bars to main chart - volumeBarMode:', volumeBarMode)
 
       // Build a set of all valid candle times to ensure volume bars never introduce extra timeline slots
@@ -941,10 +1132,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           priceLineVisible: false,
           lastValueVisible: false,
         })
-        upperBandSeries.setData(bbData.upper.map((val, i) => ({
-          time: candles[bbStartIndex + i].time,
-          value: val
-        })))
+        upperBandSeries.setData(safeMap(bbData.upper, bbStartIndex))
 
         const middleBandSeries = chart.addLineSeries({
           color: '#6366f1',
@@ -952,10 +1140,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           priceLineVisible: false,
           lastValueVisible: false,
         })
-        middleBandSeries.setData(bbData.middle.map((val, i) => ({
-          time: candles[bbStartIndex + i].time,
-          value: val
-        })))
+        middleBandSeries.setData(safeMap(bbData.middle, bbStartIndex))
 
         const lowerBandSeries = chart.addLineSeries({
           color: '#8b5cf6',
@@ -964,10 +1149,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           priceLineVisible: false,
           lastValueVisible: false,
         })
-        lowerBandSeries.setData(bbData.lower.map((val, i) => ({
-          time: candles[bbStartIndex + i].time,
-          value: val
-        })))
+        lowerBandSeries.setData(safeMap(bbData.lower, bbStartIndex))
       }
     }
 
@@ -980,10 +1162,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         priceLineVisible: false,
         lastValueVisible: false,
       })
-      ema9Series.setData(indicators.ema9.data.map((val, i) => ({
-        time: candles[ema9StartIndex + i].time,
-        value: val
-      })))
+      ema9Series.setData(safeMap(indicators.ema9.data, ema9StartIndex))
     }
 
     // Add EMA 20 (Daily or Weekly)
@@ -995,10 +1174,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         priceLineVisible: false,
         lastValueVisible: false,
       })
-      ema20Series.setData(indicators.ema20.data.map((val, i) => ({
-        time: candles[ema20StartIndex + i].time,
-        value: val
-      })))
+      ema20Series.setData(safeMap(indicators.ema20.data, ema20StartIndex))
     }
 
     // Add EMA 50 (Daily)
@@ -1010,10 +1186,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         priceLineVisible: false,
         lastValueVisible: false,
       })
-      ema50Series.setData(indicators.ema50.data.map((val, i) => ({
-        time: candles[ema50StartIndex + i].time,
-        value: val
-      })))
+      ema50Series.setData(safeMap(indicators.ema50.data, ema50StartIndex))
     }
 
     // Add EMA 100 (Hourly)
@@ -1025,10 +1198,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         priceLineVisible: false,
         lastValueVisible: false,
       })
-      ema100Series.setData(indicators.ema100.data.map((val, i) => ({
-        time: candles[ema100StartIndex + i].time,
-        value: val
-      })))
+      ema100Series.setData(safeMap(indicators.ema100.data, ema100StartIndex))
     }
 
     // Add EMA 200 (Daily)
@@ -1040,10 +1210,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         priceLineVisible: false,
         lastValueVisible: false,
       })
-      ema200Series.setData(indicators.ema200.data.map((val, i) => ({
-        time: candles[ema200StartIndex + i].time,
-        value: val
-      })))
+      ema200Series.setData(safeMap(indicators.ema200.data, ema200StartIndex))
     }
 
     // Fit content
@@ -1088,10 +1255,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       })
 
       const rsiStartIndex = candles.length - indicators.rsi.data.length
-      rsiSeries.setData(indicators.rsi.data.map((val, i) => ({
-        time: candles[rsiStartIndex + i].time,
-        value: val
-      })))
+      rsiSeries.setData(safeMap(indicators.rsi.data, rsiStartIndex))
 
       // Add horizontal lines at 30 and 70
       const oversoldLine = rsiChart.addLineSeries({
@@ -1163,10 +1327,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         priceLineVisible: false,
         lastValueVisible: true,
       })
-      macdSeries.setData(macdData.macd.map((val, i) => ({
-        time: candles[macdStartIndex + i].time,
-        value: val
-      })))
+      macdSeries.setData(safeMap(macdData.macd, macdStartIndex))
 
       // Add Signal line
       const signalStartIndex = candles.length - macdData.signal.length
@@ -1176,10 +1337,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         priceLineVisible: false,
         lastValueVisible: true,
       })
-      signalSeries.setData(macdData.signal.map((val, i) => ({
-        time: candles[signalStartIndex + i].time,
-        value: val
-      })))
+      signalSeries.setData(safeMap(macdData.signal, signalStartIndex))
 
       // Add Histogram
       const histogramStartIndex = candles.length - macdData.histogram.length
@@ -1188,11 +1346,11 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         priceLineVisible: false,
         lastValueVisible: false,
       })
-      histogramSeries.setData(macdData.histogram.map((val, i) => ({
-        time: candles[histogramStartIndex + i].time,
-        value: val,
-        color: val >= 0 ? '#10b981' : '#ef4444'
-      })))
+      histogramSeries.setData(macdData.histogram.reduce((acc, val, i) => {
+        const candle = candles[histogramStartIndex + i]
+        if (candle && val != null) acc.push({ time: candle.time, value: val, color: val >= 0 ? '#10b981' : '#ef4444' })
+        return acc
+      }, []))
 
       macdChart.timeScale().fitContent()
 
@@ -1333,6 +1491,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   <span style={{ color: '#d1d5db', fontSize: '14px', fontWeight: '500' }}>
                     📊 Signal Display:
                   </span>
+                  {timeframe !== 'hourly' && (
                   <button
                     onClick={() => setShowVolumeMode(true)}
                     style={{
@@ -1349,6 +1508,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   >
                     📊 Volume Bars
                   </button>
+                  )}
                   <button
                     onClick={() => setShowVolumeMode(false)}
                     style={{

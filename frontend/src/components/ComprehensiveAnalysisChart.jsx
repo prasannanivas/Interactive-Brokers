@@ -92,32 +92,58 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   const loadAllData = async () => {
     setLoading(true)
     setError(null)
-    
-    // Reset data availability
-    setDataAvailability({
-      interestRates: true,
-      bondYields: true
-    })
+    setDataAvailability({ interestRates: true, bondYields: true })
 
     try {
-      // Parse the currency pair
       const mapping = parseCurrencyPair(selectedCurrencyPair)
-      
       if (!mapping || !mapping.base || !mapping.quote) {
         setError(`Currency pair not supported: ${selectedCurrencyPair}`)
         setLoading(false)
         return
       }
-      
-      // Load all data with timeframe filtering (continue even if some fail)
-      await loadInterestRates(mapping)
-      await loadBondData(mapping)
-      await loadEMA9Data(selectedCurrencyPair)
-      
-      // NOTE: Do NOT call synchronizeDataRanges() here!
-      // React state updates are asynchronous, so the data isn't available yet.
-      // The charts will automatically use the data once state is updated.
-      
+
+      // Load all three datasets concurrently
+      const [interestData, bondData, priceData] = await Promise.all([
+        loadInterestRates(mapping),
+        loadBondData(mapping),
+        loadEMA9Data(selectedCurrencyPair)
+      ])
+
+      // Align all three to the same date array.
+      // Recharts syncId syncs by array INDEX, so every chart must have the
+      // exact same date string at each index position.
+      const interestMap = new Map(interestData.map(d => [d.date, d]))
+      const bondMap     = new Map(bondData.map(d => [d.date, d]))
+      const priceMap    = new Map(priceData.map(d => [d.date, d]))
+
+      const allDates = Array.from(
+        new Set([
+          ...interestData.map(d => d.date),
+          ...bondData.map(d => d.date),
+          ...priceData.map(d => d.date)
+        ])
+      ).sort()
+
+      let lastInterest = null, lastBond = null, lastPrice = null
+      const alignedInterest = [], alignedBond = [], alignedPrice = []
+
+      for (const date of allDates) {
+        if (interestMap.has(date)) lastInterest = interestMap.get(date)
+        if (bondMap.has(date))     lastBond     = bondMap.get(date)
+        if (priceMap.has(date))    lastPrice    = priceMap.get(date)
+
+        // Only emit once all three have seen at least one record (skip leading gaps)
+        if (lastInterest && lastBond && lastPrice) {
+          alignedInterest.push({ ...lastInterest, date })
+          alignedBond.push({    ...lastBond,     date })
+          alignedPrice.push({   ...lastPrice,    date })
+        }
+      }
+
+      setInterestRateData(alignedInterest.length > 0 ? alignedInterest : interestData)
+      setBondSpreadData(alignedBond.length > 0 ? alignedBond : bondData)
+      setEma9Data(alignedPrice.length > 0 ? alignedPrice : priceData)
+
     } catch (err) {
       console.error('Error loading data:', err)
       setError('Failed to load data')
@@ -251,18 +277,17 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       if (baseData.length === 0 && quoteData.length === 0) {
         console.warn('No interest rate data available for this pair')
         setDataAvailability(prev => ({ ...prev, interestRates: false }))
-        setInterestRateData([])
-        return
+        return []
       }
 
       // Process and merge data by date (daily, not monthly)
       const mergedData = processInterestRateData(baseData, quoteData, mapping)
       const filtered = filterDataByTimeframe(mergedData, 'date')
-      setInterestRateData(filtered)
+      return filtered
     } catch (error) {
       console.error('Error loading interest rates from MongoDB:', error)
       setDataAvailability(prev => ({ ...prev, interestRates: false }))
-      setInterestRateData([])
+      return []
     }
   }
 
@@ -361,18 +386,17 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       if (base10Y.length === 0 && base2Y.length === 0 && quote10Y.length === 0 && quote2Y.length === 0) {
         console.warn('No bond yield data available for this pair')
         setDataAvailability(prev => ({ ...prev, bondYields: false }))
-        setBondSpreadData([])
-        return
+        return []
       }
 
       // Process bond spread data (daily, not monthly)
       const spreadData = processBondSpreadData(base10Y, base2Y, quote10Y, quote2Y, mapping)
       const filtered = filterDataByTimeframe(spreadData, 'date')
-      setBondSpreadData(filtered)
+      return filtered
     } catch (error) {
       console.error('Error loading bond data from MongoDB:', error)
       setDataAvailability(prev => ({ ...prev, bondYields: false }))
-      setBondSpreadData([])
+      return []
     }
   }
 
@@ -464,8 +488,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
       if (candles.length === 0) {
         console.warn('No price data returned for', symbol)
-        setEma9Data([])
-        return
+        return []
       }
 
       // Sort ascending by date; exclude Saturday (forex trades Sun–Fri)
@@ -491,10 +514,10 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         }
       })
 
-      setEma9Data(data)
+      return data
     } catch (error) {
       console.error('Error loading price/EMA9 data:', error)
-      setEma9Data([])
+      return []
     }
   }
 
@@ -661,7 +684,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           </div>
         ) : (
         <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={interestRateData}>
+          <LineChart data={interestRateData} syncId="comprehensiveAnalysis">
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis 
               dataKey="date" 
@@ -669,7 +692,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
               interval={getTickInterval(interestRateData.length)}
-              domain={['dataMin', 'dataMax']}
+              domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']}
             />
             <YAxis 
               stroke="#6b7280"
@@ -712,7 +735,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           </div>
         ) : (
         <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={bondSpreadData}>
+          <LineChart data={bondSpreadData} syncId="comprehensiveAnalysis">
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis 
               dataKey="date" 
@@ -720,7 +743,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
               interval={getTickInterval(bondSpreadData.length)}
-              domain={['dataMin', 'dataMax']}
+              domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']}
             />
             <YAxis 
               stroke="#6b7280"
@@ -771,7 +794,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           return null
         })()}
         <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={ema9Data}>
+          <LineChart data={ema9Data} syncId="comprehensiveAnalysis">
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis 
               dataKey="date" 
@@ -779,7 +802,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
               interval={getTickInterval(ema9Data.length)}
-              domain={['dataMin', 'dataMax']}
+              domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']}
             />
             <YAxis 
               stroke="#6b7280"
