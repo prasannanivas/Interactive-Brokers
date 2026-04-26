@@ -881,10 +881,77 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             selectedTimeframe={timeframe}
             onTimeframeChange={setTimeframe}
           />
-          {/* Charts will be rendered in fullscreen here */}
-          <p style={{ color: '#9ca3af', textAlign: 'center', padding: '20px' }}>
-            Fullscreen view enabled. All charts are visible.
-          </p>
+
+          {/* 1. Interest Rate Comparison */}
+          <div className="chart-section">
+            <div className="chart-title">
+              <h3>🏦 Interest Rate Comparison</h3>
+              <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
+            </div>
+            {!dataAvailability.interestRates ? (
+              <div className="data-not-available">
+                <p>📊 DATA NOT AVAILABLE</p>
+                <p className="unavailable-subtitle">Interest rate data not available for this currency pair</p>
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={interestRateData} syncId="comprehensiveAnalysisFS">
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(interestRateData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
+                  <YAxis stroke="#6b7280" style={{ fontSize: '12px' }} label={{ value: 'Interest Rate (%)', angle: -90, position: 'insideLeft' }} />
+                  <Tooltip content={<CustomTooltip title="Interest Rate" />} />
+                  <Legend />
+                  <Line type="monotone" dataKey="baseRate" name={mapping.base.name} stroke="#3b82f6" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="quoteRate" name={mapping.quote.name} stroke="#10b981" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            )}
+          </div>
+
+          {/* 2. Bond Yield Spread */}
+          <div className="chart-section">
+            <div className="chart-title">
+              <h3>📈 Bond Yield Spread</h3>
+              <p className="chart-subtitle">Difference between {mapping.base.name} and {mapping.quote.name}</p>
+            </div>
+            {!dataAvailability.bondYields ? (
+              <div className="data-not-available">
+                <p>📊 DATA NOT AVAILABLE</p>
+                <p className="unavailable-subtitle">Bond yield data not available for this currency pair</p>
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={bondSpreadData} syncId="comprehensiveAnalysisFS">
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(bondSpreadData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
+                  <YAxis stroke="#6b7280" style={{ fontSize: '12px' }} label={{ value: 'Spread (%)', angle: -90, position: 'insideLeft' }} />
+                  <Tooltip content={<CustomTooltip title="Spread" />} />
+                  <Legend />
+                  <Line type="monotone" dataKey="spread10Y" name="10Y Bond Spread" stroke="#3b82f6" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="spread2Y" name="2Y Bond Spread" stroke="#ef4444" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            )}
+          </div>
+
+          {/* 3. Price & EMA 9 */}
+          <div className="chart-section">
+            <div className="chart-title">
+              <h3>💱 Price & EMA 9 (Daily)</h3>
+              <p className="chart-subtitle">{selectedCurrencyPair}</p>
+            </div>
+            <ResponsiveContainer width="100%" height={280}>
+              <LineChart data={ema9Data} syncId="comprehensiveAnalysisFS">
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(ema9Data.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
+                <YAxis stroke="#6b7280" style={{ fontSize: '12px' }} domain={['auto', 'auto']} label={{ value: 'Price', angle: -90, position: 'insideLeft' }} />
+                <Tooltip content={<CustomTooltip title="Price" />} />
+                <Legend />
+                <Line type="monotone" dataKey="price" name="Price" stroke="#8b5cf6" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="ema9" name="EMA 9" stroke="#f59e0b" strokeWidth={2} dot={false} strokeDasharray="5 5" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </FullscreenChartModal>
     </div>
