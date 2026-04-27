@@ -113,7 +113,7 @@ const HeatmapCell = ({ value, type, delta, showDelta, isNull, onClick, title }) 
 
 const CurrencyMatrix = ({ watchlist, onPairClick }) => {
   const [filterEmpty, setFilterEmpty] = useState(true)
-  const [showDelta, setShowDelta] = useState(false)
+  const [showDelta, setShowDelta] = useState(true)
   const [historicalPairData, setHistoricalPairData] = useState(null)
 
   // Fetch 7-days-ago snapshot once on mount for delta computation
