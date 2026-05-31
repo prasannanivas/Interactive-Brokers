@@ -19,7 +19,20 @@ BOND_COUNTRIES = {
     'japan': 'Japan',
     'germany': 'Euro Area',
     'uk': 'United Kingdom',
-    'australia': 'Australia'
+    'australia': 'Australia',
+    'china': 'China',
+    'czech': 'Czech Republic',
+    'denmark': 'Denmark',
+    'hong_kong': 'Hong Kong',
+    'hungary': 'Hungary',
+    'israel': 'Israel',
+    'mexico': 'Mexico',
+    'new_zealand': 'New Zealand',
+    'norway': 'Norway',
+    'russia': 'Russia',
+    'singapore': 'Singapore',
+    'sweden': 'Sweden',
+    'switzerland': 'Switzerland'
 }
 
 INTEREST_RATE_FILES = {
@@ -28,7 +41,20 @@ INTEREST_RATE_FILES = {
     'japan.json': 'Japan',
     'euro_area.json': 'Euro Area',
     'united_kingdom.json': 'United Kingdom',
-    'australia.json': 'Australia'
+    'australia.json': 'Australia',
+    'china.json': 'China',
+    'czech_republic.json': 'Czech Republic',
+    'denmark.json': 'Denmark',
+    'hong_kong.json': 'Hong Kong',
+    'hungary.json': 'Hungary',
+    'israel.json': 'Israel',
+    'mexico.json': 'Mexico',
+    'new_zealand.json': 'New Zealand',
+    'norway.json': 'Norway',
+    'russia.json': 'Russia',
+    'singapore.json': 'Singapore',
+    'sweden.json': 'Sweden',
+    'switzerland.json': 'Switzerland'
 }
 
 # Symbol to country mapping for bonds

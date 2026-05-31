@@ -24,17 +24,43 @@ BOND_FILES = {
     'germany': 'Euro Area',
     'japan': 'Japan',
     'uk': 'United Kingdom',
-    'us': 'United States'
+    'us': 'United States',
+    'china': 'China',
+    'czech': 'Czech Republic',
+    'denmark': 'Denmark',
+    'hong_kong': 'Hong Kong',
+    'hungary': 'Hungary',
+    'israel': 'Israel',
+    'mexico': 'Mexico',
+    'new_zealand': 'New Zealand',
+    'norway': 'Norway',
+    'russia': 'Russia',
+    'singapore': 'Singapore',
+    'sweden': 'Sweden',
+    'switzerland': 'Switzerland'
 }
 
 # Interest rate data mapping: filename -> country
 INTEREST_RATE_FILES = {
-    'Australia.json': 'Australia',
-    'Canada.json': 'Canada',
-    'Euro_area.json': 'Euro Area',
-    'Japan.json': 'Japan',
-    'United_Kingdom.json': 'United Kingdom',
-    'United_States.json': 'United States'
+    'australia.json': 'Australia',
+    'canada.json': 'Canada',
+    'euro_area.json': 'Euro Area',
+    'japan.json': 'Japan',
+    'united_kingdom.json': 'United Kingdom',
+    'united_states.json': 'United States',
+    'china.json': 'China',
+    'czech_republic.json': 'Czech Republic',
+    'denmark.json': 'Denmark',
+    'hong_kong.json': 'Hong Kong',
+    'hungary.json': 'Hungary',
+    'israel.json': 'Israel',
+    'mexico.json': 'Mexico',
+    'new_zealand.json': 'New Zealand',
+    'norway.json': 'Norway',
+    'russia.json': 'Russia',
+    'singapore.json': 'Singapore',
+    'sweden.json': 'Sweden',
+    'switzerland.json': 'Switzerland'
 }
 
 

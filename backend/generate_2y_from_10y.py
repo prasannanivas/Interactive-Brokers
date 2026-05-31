@@ -11,7 +11,20 @@ SPREAD_CONFIG = {
     'United Kingdom': 0.25,
     'Japan': 0.1,  # Flatter curve
     'Canada': 0.3,
-    'Australia': 0.35
+    'Australia': 0.35,
+    'China': 0.3,
+    'Czech Republic': 0.35,
+    'Denmark': 0.3,
+    'Hong Kong': 0.25,
+    'Hungary': 0.4,
+    'Israel': 0.3,
+    'Mexico': 0.4,
+    'New Zealand': 0.35,
+    'Norway': 0.3,
+    'Russia': 0.5,
+    'Singapore': 0.25,
+    'Sweden': 0.3,
+    'Switzerland': 0.25
 }
 
 FILE_MAPPING = {
@@ -20,7 +33,20 @@ FILE_MAPPING = {
     'United Kingdom': {'prefix': 'uk', 'country_name': 'UK'},
     'Japan': {'prefix': 'japan', 'country_name': 'Japan'},
     'Canada': {'prefix': 'canada', 'country_name': 'Canada'},
-    'Australia': {'prefix': 'australia', 'country_name': 'Australia'}
+    'Australia': {'prefix': 'australia', 'country_name': 'Australia'},
+    'China': {'prefix': 'china', 'country_name': 'China'},
+    'Czech Republic': {'prefix': 'czech', 'country_name': 'Czech Republic'},
+    'Denmark': {'prefix': 'denmark', 'country_name': 'Denmark'},
+    'Hong Kong': {'prefix': 'hong_kong', 'country_name': 'Hong Kong'},
+    'Hungary': {'prefix': 'hungary', 'country_name': 'Hungary'},
+    'Israel': {'prefix': 'israel', 'country_name': 'Israel'},
+    'Mexico': {'prefix': 'mexico', 'country_name': 'Mexico'},
+    'New Zealand': {'prefix': 'new_zealand', 'country_name': 'New Zealand'},
+    'Norway': {'prefix': 'norway', 'country_name': 'Norway'},
+    'Russia': {'prefix': 'russia', 'country_name': 'Russia'},
+    'Singapore': {'prefix': 'singapore', 'country_name': 'Singapore'},
+    'Sweden': {'prefix': 'sweden', 'country_name': 'Sweden'},
+    'Switzerland': {'prefix': 'switzerland', 'country_name': 'Switzerland'}
 }
 
 SYMBOL_MAPPING = {
@@ -29,7 +55,20 @@ SYMBOL_MAPPING = {
     'United Kingdom': {'2y': 'GUKG2:IND'},
     'Japan': {'2y': 'GJGB2:IND'},
     'Canada': {'2y': 'GCAN2YR:IND'},
-    'Australia': {'2y': 'GACGB2YR:IND'}
+    'Australia': {'2y': 'GACGB2YR:IND'},
+    'China': {'2y': 'GCHI2Y:GOV'},
+    'Czech Republic': {'2y': 'GCZK2Y:GOV'},
+    'Denmark': {'2y': 'GDNK2Y:GOV'},
+    'Hong Kong': {'2y': 'GHKG2Y:GOV'},
+    'Hungary': {'2y': 'GHUN2Y:GOV'},
+    'Israel': {'2y': 'GISR2Y:GOV'},
+    'Mexico': {'2y': 'GMEX2Y:GOV'},
+    'New Zealand': {'2y': 'GNZD2Y:GOV'},
+    'Norway': {'2y': 'GNOR2Y:GOV'},
+    'Russia': {'2y': 'GRUS2Y:GOV'},
+    'Singapore': {'2y': 'GSGD2Y:GOV'},
+    'Sweden': {'2y': 'GSWE2Y:GOV'},
+    'Switzerland': {'2y': 'GCHF2Y:GOV'}
 }
 
 def generate_2y_from_10y(country, base_path):
@@ -108,6 +147,11 @@ def update_combined_file(country, data_2y, base_path):
     """Update combined 10Y+2Y file with 2Y data"""
     prefix = FILE_MAPPING[country]['prefix']
     file_combined = os.path.join(base_path, f'{prefix}-10and2y.json')
+    
+    # Skip if combined file doesn't exist
+    if not os.path.exists(file_combined):
+        print(f"  ℹ️ Skipping {prefix}-10and2y.json (file doesn't exist)")
+        return
     
     # Load existing combined file (which has 10Y data)
     with open(file_combined, 'r') as f:

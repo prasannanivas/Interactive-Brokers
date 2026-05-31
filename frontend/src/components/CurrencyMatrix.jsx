@@ -116,34 +116,27 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
   const [showDelta, setShowDelta] = useState(true)
   const [historicalPairData, setHistoricalPairData] = useState(null)
 
-  // Fetch 7-days-ago snapshot once on mount for delta computation
+  // Fetch 7-days-ago signal counts on the fly (from live signals collection, no snapshot required)
   useEffect(() => {
     const fetchHistoricalData = async () => {
-      const d = new Date()
-      d.setDate(d.getDate() - 7)
-      const dateStr = d.toISOString().split('T')[0]
-
       try {
-        const response = await tradingAPI.getSnapshotByDate(dateStr)
-        const snapshot = response.data
+        const response = await tradingAPI.getSignalsDelta(7)
+        const rawData = response.data?.data || {}
         const histData = {}
 
-        if (snapshot?.signals) {
-          snapshot.signals.forEach(item => {
-            const parsed = parsePairSymbol(item.symbol)
-            if (parsed) {
-              histData[`${parsed.base}/${parsed.quote}`] = {
-                bullish: item.buy_signals?.length || 0,
-                bearish: item.sell_signals?.length || 0,
-                neutral: countNeutralSignals(item),
-              }
+        Object.entries(rawData).forEach(([symbol, counts]) => {
+          const parsed = parsePairSymbol(symbol)
+          if (parsed) {
+            histData[`${parsed.base}/${parsed.quote}`] = {
+              bullish: counts.bullish || 0,
+              bearish: counts.bearish || 0,
+              neutral: 0, // neutral not stored in signals collection
             }
-          })
-        }
+          }
+        })
 
-        setHistoricalPairData(histData)
+        setHistoricalPairData(Object.keys(histData).length > 0 ? histData : null)
       } catch {
-        // No snapshot 7 days ago — delta display will be suppressed
         setHistoricalPairData(null)
       }
     }

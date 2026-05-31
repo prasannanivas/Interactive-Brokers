@@ -858,6 +858,43 @@ async def get_signal_changes(
     }
 
 
+@app.get("/api/signals/delta")
+async def get_signals_delta(
+    days: int = 7,
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """
+    For each symbol, return the most recent signal record at or before N days ago.
+    Used by the frontend to compute live Δ vs N-days-ago without needing daily snapshots.
+    """
+    target_time = datetime.now(timezone.utc) - timedelta(days=days)
+
+    signals_collection = get_signals_collection()
+
+    pipeline = [
+        {"$match": {"timestamp": {"$lte": target_time}}},
+        {"$sort": {"symbol": 1, "timestamp": -1}},
+        {"$group": {
+            "_id": "$symbol",
+            "buy_count": {"$first": {"$size": {"$ifNull": ["$buy_signals", []]}}},
+            "sell_count": {"$first": {"$size": {"$ifNull": ["$sell_signals", []]}}},
+            "timestamp": {"$first": "$timestamp"},
+        }},
+    ]
+
+    results = await signals_collection.aggregate(pipeline).to_list(length=None)
+
+    data = {}
+    for r in results:
+        data[r["_id"]] = {
+            "bullish": r["buy_count"],
+            "bearish": r["sell_count"],
+            "timestamp": r["timestamp"].isoformat() if r["timestamp"] else None,
+        }
+
+    return {"days": days, "target_time": target_time.isoformat(), "data": data}
+
+
 @app.get("/api/signals/recent")
 async def get_recent_signals(
     limit: int = 50,
