@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
-import { tradingAPI } from '../api/api'
+import { historyAPI } from '../api/api'
+import { getSignalCountsFromCandles } from '../utils/indicatorUtils'
 import './CurrencyMatrix.css'
 
 // ── Module-level helpers (pure, no state) ─────────────────────────────────────
@@ -116,33 +117,60 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
   const [showDelta, setShowDelta] = useState(true)
   const [historicalPairData, setHistoricalPairData] = useState(null)
 
-  // Fetch 7-days-ago signal counts on the fly (from live signals collection, no snapshot required)
+  // Compute "7 days ago" signals on the fly from price history — same approach as ChartModal volume bars.
+  // For each pair, fetch 250 daily candles, slice to the 7-days-ago candle, run daily indicators,
+  // and count buy/sell signals. No snapshot dependency.
   useEffect(() => {
-    const fetchHistoricalData = async () => {
-      try {
-        const response = await tradingAPI.getSignalsDelta(7)
-        const rawData = response.data?.data || {}
-        const histData = {}
+    if (!watchlist || watchlist.length === 0) return
 
-        Object.entries(rawData).forEach(([symbol, counts]) => {
-          const parsed = parsePairSymbol(symbol)
-          if (parsed) {
-            histData[`${parsed.base}/${parsed.quote}`] = {
-              bullish: counts.bullish || 0,
-              bearish: counts.bearish || 0,
-              neutral: 0, // neutral not stored in signals collection
-            }
+    const computeHistoricalDeltas = async () => {
+      const sevenDaysAgo = new Date()
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+      const targetDateStr = sevenDaysAgo.toISOString().split('T')[0] // 'YYYY-MM-DD'
+
+      // Fetch 250 daily bars for all watchlist symbols in parallel
+      const fetches = watchlist.map(item =>
+        historyAPI.getPriceHistory(item.symbol, 250, 'day')
+          .then(r => ({ symbol: item.symbol, candles: r.data?.candles || [] }))
+          .catch(() => ({ symbol: item.symbol, candles: [] }))
+      )
+      const results = await Promise.all(fetches)
+
+      const histData = {}
+      results.forEach(({ symbol, candles }) => {
+        if (!candles.length) return
+
+        // Sort ascending, filter out weekends (same as ChartModal)
+        const sorted = [...candles]
+          .sort((a, b) => (a.time > b.time ? 1 : -1))
+          .filter(c => {
+            const d = new Date(c.time + 'T00:00:00Z')
+            const day = d.getUTCDay()
+            return day !== 0 && day !== 6
+          })
+
+        // Slice to candles up to and including the target date
+        const cutIdx = sorted.findLastIndex(c => c.time <= targetDateStr)
+        if (cutIdx < 25) return // not enough history
+
+        const sliced = sorted.slice(0, cutIdx + 1)
+        const counts = getSignalCountsFromCandles(sliced)
+
+        const parsed = parsePairSymbol(symbol)
+        if (parsed) {
+          histData[`${parsed.base}/${parsed.quote}`] = {
+            bullish: counts.bullish,
+            bearish: counts.bearish,
+            neutral: 0,
           }
-        })
+        }
+      })
 
-        setHistoricalPairData(Object.keys(histData).length > 0 ? histData : null)
-      } catch {
-        setHistoricalPairData(null)
-      }
+      setHistoricalPairData(Object.keys(histData).length > 0 ? histData : null)
     }
 
-    fetchHistoricalData()
-  }, [])
+    computeHistoricalDeltas()
+  }, [watchlist])
 
   // Build all matrices (current + net + deltas)
   const matrixData = useMemo(() => {
