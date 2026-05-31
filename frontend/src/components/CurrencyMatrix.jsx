@@ -116,6 +116,7 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
   const [filterEmpty, setFilterEmpty] = useState(true)
   const [showDelta, setShowDelta] = useState(true)
   const [historicalPairData, setHistoricalPairData] = useState(null)
+  const [deltaLoading, setDeltaLoading] = useState(false)
 
   // Compute "7 days ago" signals on the fly from price history — same approach as ChartModal volume bars.
   // For each pair, fetch 250 daily candles, slice to the 7-days-ago candle, run daily indicators,
@@ -124,6 +125,7 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
     if (!watchlist || watchlist.length === 0) return
 
     const computeHistoricalDeltas = async () => {
+      setDeltaLoading(true)
       const sevenDaysAgo = new Date()
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
       const targetDateStr = sevenDaysAgo.toISOString().split('T')[0] // 'YYYY-MM-DD'
@@ -167,6 +169,7 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
       })
 
       setHistoricalPairData(Object.keys(histData).length > 0 ? histData : null)
+      setDeltaLoading(false)
     }
 
     computeHistoricalDeltas()
@@ -420,11 +423,11 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
               checked={showDelta}
               onChange={(e) => setShowDelta(e.target.checked)}
               className="toggle-checkbox"
-              disabled={!historicalPairData}
+              disabled={deltaLoading || !historicalPairData}
             />
             <span className="toggle-text">
               Show Δ vs 7 days ago
-              {!historicalPairData && <span className="toggle-hint"> (no snapshot available)</span>}
+              {deltaLoading && <span className="toggle-hint"> ⏳ loading...</span>}
             </span>
           </label>
         </div>
