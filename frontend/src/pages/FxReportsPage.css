@@ -1,0 +1,66 @@
+.fx-reports-page {
+  min-height: 100vh;
+  background: #0a0a0a;
+  padding: 20px;
+}
+
+.fx-reports-page-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: #1a1a1a;
+  border-radius: 12px;
+  border-bottom: 2px solid #333;
+}
+
+.fx-reports-page-header h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.fx-reports-page-header .back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.fx-reports-page-header .back-button:hover {
+  background: #333;
+  border-color: #4a9eff;
+  transform: translateX(-2px);
+}
+
+.fx-reports-page-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .fx-reports-page {
+    padding: 12px;
+  }
+
+  .fx-reports-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .fx-reports-page-header h1 {
+    font-size: 24px;
+  }
+}

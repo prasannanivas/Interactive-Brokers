@@ -10,6 +10,7 @@ Heavy operations (search, watchlist management) moved to Data Service (port 8001
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List, Dict, Optional
 import asyncio
@@ -20,7 +21,7 @@ from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from massive_monitor_v2 import MassiveMonitorV2
 from telegram_bot import TelegramBot
-from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection, get_economic_calendar_collection
+from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection, get_economic_calendar_collection, get_fx_reports_collection
 from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot, PasswordResetRequest, PasswordReset, PasswordChange, LoginHistoryResponse
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
 from state_tracker import track_and_detect_changes, INDICATOR_MAPPING
@@ -390,6 +391,56 @@ async def run_daily_signal_capture():
         traceback.print_exc()
 
 
+async def run_daily_fx_report_download():
+    """
+    Download the Scotiabank G10 FX Daily report and archive it in MongoDB.
+    This function is scheduled to run at 12:00 PM EST daily.
+    """
+    try:
+        print("\n" + "="*60)
+        print(f"🕰️  Running scheduled daily FX report download...")
+        print(f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        print("="*60)
+
+        # Import here to avoid circular imports
+        from fetch_daily_fx_report import DailyFxReportDownloader
+
+        downloader = DailyFxReportDownloader()
+        downloader.db = Database.get_db()
+        success = await downloader.run()
+
+        if success:
+            print("✓ Daily FX report download completed successfully!")
+            if telegram_bot.is_configured():
+                try:
+                    await telegram_bot.send_message(
+                        f"📄 <b>G10 FX Daily Report Downloaded</b>\n\n"
+                        f"⏰ {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}"
+                    )
+                except Exception as e:
+                    print(f"✗ Failed to send Telegram notification: {e}")
+        else:
+            print("✗ Daily FX report download failed!")
+            if telegram_bot.is_configured():
+                try:
+                    await telegram_bot.send_message(
+                        f"⚠️ <b>G10 FX Daily Report Download Failed</b>\n\n"
+                        f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}\n"
+                        f"Please check the server logs."
+                    )
+                except Exception:
+                    pass
+
+        print("="*60 + "\n")
+        return success
+
+    except Exception as e:
+        print(f"✗ Error running daily FX report download: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 @app.on_event("startup")
 async def startup_event():
     """Initialize on startup"""
@@ -463,14 +514,24 @@ async def startup_event():
             replace_existing=True
         )
         
+        # Schedule daily FX report download at 12:00 PM EST
+        scheduler.add_job(
+            run_daily_fx_report_download,
+            trigger=CronTrigger(hour=12, minute=0, timezone=est_tz),
+            id='daily_fx_report_download',
+            name='Daily FX Report Download at 12pm EST',
+            replace_existing=True
+        )
+
         # Start the scheduler
         scheduler.start()
-        
+
         # Show next run times
         next_run_signal = scheduler.get_job('daily_signal_capture').next_run_time
         next_run_data = scheduler.get_job('daily_economic_data_refresh').next_run_time
         next_run_calendar = scheduler.get_job('daily_economic_calendar_refresh').next_run_time
-        
+        next_run_fx_report = scheduler.get_job('daily_fx_report_download').next_run_time
+
         print(f"\n✓ Scheduled jobs configured")
         print(f"  • Signal Capture: Every day at 5:00 PM EST")
         print(f"    Next run: {next_run_signal.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
@@ -478,6 +539,8 @@ async def startup_event():
         print(f"    Next run: {next_run_data.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         print(f"  • Economic Calendar: Every day at 6:00 AM EST")
         print(f"    Next run: {next_run_calendar.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        print(f"  • FX Report Download: Every day at 12:00 PM EST")
+        print(f"    Next run: {next_run_fx_report.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         print()
         
     except Exception as e:
@@ -1838,6 +1901,130 @@ async def get_capture_schedule_info():
             return {
                 'scheduled': False,
                 'message': 'Daily capture is not scheduled'
+            }
+    except Exception as e:
+        return {
+            'scheduled': False,
+            'error': str(e)
+        }
+
+
+@app.get("/api/fx-reports")
+async def list_fx_reports(limit: int = 60):
+    """
+    Get the history of downloaded G10 FX Daily reports, most recent first.
+    """
+    collection = get_fx_reports_collection()
+    reports = await collection.find({}).sort("report_date", -1).limit(limit).to_list(length=limit)
+
+    for report in reports:
+        report["_id"] = str(report["_id"])
+        if "downloaded_at" in report and isinstance(report["downloaded_at"], datetime):
+            report["downloaded_at"] = report["downloaded_at"].isoformat()
+
+    return {"reports": reports, "count": len(reports)}
+
+
+@app.get("/api/fx-reports/latest")
+async def get_latest_fx_report():
+    """
+    Get metadata for the most recently downloaded G10 FX Daily report.
+    """
+    collection = get_fx_reports_collection()
+    latest = await collection.find_one({}, sort=[("report_date", -1)])
+
+    if not latest:
+        raise HTTPException(status_code=404, detail="No FX reports available yet")
+
+    latest["_id"] = str(latest["_id"])
+    if "downloaded_at" in latest and isinstance(latest["downloaded_at"], datetime):
+        latest["downloaded_at"] = latest["downloaded_at"].isoformat()
+
+    return latest
+
+
+@app.get("/api/fx-reports/{report_date}/download")
+async def download_fx_report(report_date: str):
+    """
+    Download the PDF file for a specific report date (YYYY-MM-DD).
+    """
+    collection = get_fx_reports_collection()
+    report = await collection.find_one({"report_date": report_date})
+
+    if not report:
+        raise HTTPException(status_code=404, detail=f"No FX report found for {report_date}")
+
+    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fx_reports", report["filename"])
+    if not os.path.isfile(file_path):
+        raise HTTPException(status_code=404, detail="Report file is missing on disk")
+
+    return FileResponse(file_path, media_type="application/pdf", filename=report["filename"])
+
+
+@app.get("/api/fx-reports/trigger")
+async def trigger_fx_report_download(current_user: UserResponse = Depends(get_current_user)):
+    """
+    Manually trigger a G10 FX Daily report download (authenticated).
+
+    Use this to backfill today's report or retry without waiting for the
+    scheduled 12pm EST run.
+    """
+    try:
+        print(f"\n📋 Manual FX report download triggered by user: {current_user.username}")
+
+        success = await run_daily_fx_report_download()
+
+        collection = get_fx_reports_collection()
+        latest = await collection.find_one({}, sort=[("report_date", -1)])
+
+        if success and latest:
+            return {
+                "success": True,
+                "message": "FX report download completed successfully",
+                "report": {
+                    "report_date": latest["report_date"],
+                    "filename": latest["filename"],
+                    "file_size": latest["file_size"],
+                }
+            }
+        else:
+            return {
+                "success": False,
+                "message": "Download may have failed - no report found"
+            }
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Manual FX report trigger failed: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to trigger FX report download: {str(e)}"
+        )
+
+
+@app.get("/api/fx-reports/schedule-info")
+async def get_fx_report_schedule_info():
+    """
+    Get information about the daily FX report download schedule.
+    """
+    try:
+        job = scheduler.get_job('daily_fx_report_download')
+        if job and job.next_run_time:
+            est_tz = pytz.timezone('US/Eastern')
+            next_run_est = job.next_run_time.astimezone(est_tz)
+
+            return {
+                'scheduled': True,
+                'schedule': 'Daily at 12:00 PM EST',
+                'timezone': 'US/Eastern',
+                'next_run_utc': job.next_run_time.isoformat(),
+                'next_run_est': next_run_est.strftime('%Y-%m-%d %I:%M:%S %p %Z'),
+                'job_name': job.name,
+                'job_id': job.id
+            }
+        else:
+            return {
+                'scheduled': False,
+                'message': 'Daily FX report download is not scheduled'
             }
     except Exception as e:
         return {

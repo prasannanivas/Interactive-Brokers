@@ -687,12 +687,19 @@ const Dashboard = () => {
         <div className="status-item">
           <span>Watchlist: {watchlist.length || 0} symbols</span>
         </div>
-        <button 
+        <button
           className="economic-calendar-button"
           onClick={() => navigate('/economic-calendar')}
           title="View Economic Calendar"
         >
           📅 Economic Calendar
+        </button>
+        <button
+          className="economic-calendar-button"
+          onClick={() => navigate('/fx-reports')}
+          title="View FX Reports"
+        >
+          📄 FX Reports
         </button>
       </div>
 

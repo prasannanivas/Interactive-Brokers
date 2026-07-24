@@ -126,7 +126,11 @@ class Database:
         # Economic calendar indexes
         await db.economic_calendar.create_index([('date', -1)])
         await db.economic_calendar.create_index([('country', 1), ('date', -1)])
-        await db.economic_calendar.create_index([('is_future_event', 1), ('date', 1)])        
+        await db.economic_calendar.create_index([('is_future_event', 1), ('date', 1)])
+
+        # FX reports indexes - one document per report date
+        await db.fx_reports.create_index([('report_date', -1)], unique=True)
+
         print("✓ MongoDB indexes created")
 
 
@@ -204,3 +208,8 @@ def get_data_fetch_tracker_collection():
 def get_economic_calendar_collection():
     """Get economic calendar collection"""
     return Database.get_db().economic_calendar
+
+
+def get_fx_reports_collection():
+    """Get FX reports collection"""
+    return Database.get_db().fx_reports

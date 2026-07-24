@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useAuth } from './context/AuthContext'
 import Dashboard from './pages/Dashboard'
 import EconomicCalendarPage from './pages/EconomicCalendarPage'
+import FxReportsPage from './pages/FxReportsPage'
 import Login from './pages/Login'
 import Register from './pages/Register'
 
@@ -53,6 +54,14 @@ function App() {
               <EconomicCalendarPage />
             </ProtectedRoute>
           } 
+        />
+        <Route
+          path="/fx-reports"
+          element={
+            <ProtectedRoute>
+              <FxReportsPage />
+            </ProtectedRoute>
+          }
         />
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
