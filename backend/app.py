@@ -1003,10 +1003,30 @@ async def root():
 # The following endpoints have been moved to reduce load on Signal Service:
 # - GET /api/symbols/search - Symbol search
 # - POST /api/watchlist/add - Add to watchlist
-# - DELETE /api/watchlist/remove/{symbol} - Remove from watchlist
 # - GET /api/watchlist - Get watchlist (read-only)
 # - POST /api/watchlist/scan-forex - Scan forex pairs
 #
+# NOTE: DELETE /api/watchlist/remove/{symbol} is intentionally kept HERE too
+# (not only on port 8001). This service (port 8000) runs its own independent
+# `monitor` instance with its own in-memory watchlist and its own periodic
+# save loop (monitoring_loop). Removing a symbol only on port 8001 does not
+# affect this process's in-memory copy, so monitoring_loop silently re-upserts
+# the "removed" symbol back into MongoDB on its next cycle. Removal must hit
+# both services to stick.
+@app.delete("/api/watchlist/remove/{symbol}")
+async def remove_from_watchlist_signal_service(symbol: str):
+    """Remove symbol from this service's in-memory watchlist + MongoDB"""
+    try:
+        if not monitor.is_connected():
+            raise HTTPException(status_code=503, detail="Monitor service not available")
+
+        await monitor.remove_from_watchlist(symbol)
+        return {"status": "success", "symbol": symbol}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 # Signal Service now only monitors existing watchlist and sends notifications
 # ============================================
 
