@@ -12,7 +12,7 @@ const FxReportsPage = () => {
         <button className="back-button" onClick={() => navigate('/dashboard')}>
           ← Back to Dashboard
         </button>
-        <h1>FX Reports</h1>
+        <h1>Research Center</h1>
       </div>
 
       <div className="fx-reports-page-content">

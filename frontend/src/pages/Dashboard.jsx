@@ -696,10 +696,10 @@ const Dashboard = () => {
         </button>
         <button
           className="economic-calendar-button"
-          onClick={() => navigate('/fx-reports')}
-          title="View FX Reports"
+          onClick={() => navigate('/research-center')}
+          title="View Research Center"
         >
-          📄 FX Reports
+          📄 Research Center
         </button>
       </div>
 

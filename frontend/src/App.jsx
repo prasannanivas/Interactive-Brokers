@@ -56,7 +56,7 @@ function App() {
           } 
         />
         <Route
-          path="/fx-reports"
+          path="/research-center"
           element={
             <ProtectedRoute>
               <FxReportsPage />
