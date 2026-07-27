@@ -695,20 +695,22 @@ const Dashboard = () => {
         <div className="status-item">
           <span>Watchlist: {watchlist.length || 0} symbols</span>
         </div>
-        <button
-          className="economic-calendar-button"
-          onClick={() => navigate('/economic-calendar')}
-          title="View Economic Calendar"
-        >
-          📅 Economic Calendar
-        </button>
-        <button
-          className="economic-calendar-button"
-          onClick={() => navigate('/research-center')}
-          title="View Research Center"
-        >
-          📄 Research Center
-        </button>
+        <div className="status-bar-actions">
+          <button
+            className="economic-calendar-button"
+            onClick={() => navigate('/economic-calendar')}
+            title="View Economic Calendar"
+          >
+            📅 Economic Calendar
+          </button>
+          <button
+            className="economic-calendar-button"
+            onClick={() => navigate('/research-center')}
+            title="View Research Center"
+          >
+            📄 Research Center
+          </button>
+        </div>
       </div>
 
       {/* Currency Signal Matrix */}

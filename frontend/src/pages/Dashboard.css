@@ -203,8 +203,14 @@
   background: #ef4444;
 }
 
-.economic-calendar-button {
+.status-bar-actions {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.economic-calendar-button {
   background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
   color: #ffffff;
   border: none;
