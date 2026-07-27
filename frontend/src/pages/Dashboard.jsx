@@ -647,10 +647,18 @@ const Dashboard = () => {
     return totalIndicators - buyCount - sellCount
   }
 
-  // Filter watchlist based on search
-  const filteredWatchlist = watchlist.filter(item => 
-    item.symbol.toLowerCase().includes(pairFilter.toLowerCase())
-  )
+  // Filter watchlist based on search, then sort by base currency then quote currency
+  // (matches the order IB's own FX pair list is presented in)
+  const filteredWatchlist = watchlist
+    .filter(item => item.symbol.toLowerCase().includes(pairFilter.toLowerCase()))
+    .slice()
+    .sort((a, b) => {
+      const symA = a.symbol.replace(/^C:/, '')
+      const symB = b.symbol.replace(/^C:/, '')
+      const baseA = symA.slice(0, 3), quoteA = symA.slice(3, 6)
+      const baseB = symB.slice(0, 3), quoteB = symB.slice(3, 6)
+      return baseA === baseB ? quoteA.localeCompare(quoteB) : baseA.localeCompare(baseB)
+    })
 
   const handleLogout = () => {
     logout()
