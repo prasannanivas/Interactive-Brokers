@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import {
   LineChart,
   Line,
@@ -18,7 +18,6 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   const [interestRateData, setInterestRateData] = useState([])
   const [bondSpreadData, setBondSpreadData] = useState([])
   const [ema9Data, setEma9Data] = useState([])
-  const [commonDateRange, setCommonDateRange] = useState([])
   const [loadingInterest, setLoadingInterest] = useState(true)
   const [loadingBond, setLoadingBond] = useState(true)
   const [loadingEma9, setLoadingEma9] = useState(true)
@@ -128,98 +127,40 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       .finally(() => setLoadingEma9(false))
   }
 
-  const synchronizeDataRanges = () => {
-    // Get all dates from each dataset
-    const interestDates = new Set(interestRateData.map(d => d.date))
-    const bondDates = new Set(bondSpreadData.map(d => d.date))
-    const ema9Dates = new Set(ema9Data.map(d => d.date))
-    
-    // Find common date range (dates that exist in at least one dataset)
-    const allDates = new Set([...interestDates, ...bondDates, ...ema9Dates])
-    const sortedDates = Array.from(allDates).sort()
-    
-    if (sortedDates.length === 0) return
-    
-    // Find the overlapping date range
-    const startDate = sortedDates[0]
-    const endDate = sortedDates[sortedDates.length - 1]
-    
-    console.log('Synchronizing date ranges:', {
-      startDate,
-      endDate,
-      totalDays: sortedDates.length,
-      interestRateDays: interestDates.size,
-      bondDays: bondDates.size,
-      ema9Days: ema9Dates.size
-    })
-    
-    // Align all datasets to use the common date range with forward fill
-    alignDataToDateRange(sortedDates)
-    
-    // Store the common date range
-    setCommonDateRange(sortedDates)
-  }
-
-  const alignDataToDateRange = (dateRange) => {
-    // Create maps for quick lookup
+  // Merge all three series onto one shared, sorted date axis so every chart
+  // renders off the exact same array (same length/order/index-to-date mapping).
+  // Missing values are forward-filled; dates before a series' first point stay
+  // null so recharts simply omits the line there instead of drawing a wrong value.
+  const { commonDateRange, mergedData } = useMemo(() => {
     const interestMap = new Map(interestRateData.map(d => [d.date, d]))
     const bondMap = new Map(bondSpreadData.map(d => [d.date, d]))
     const ema9Map = new Map(ema9Data.map(d => [d.date, d]))
-    
-    // Forward fill missing dates for interest rate data
-    let lastInterestData = null
-    const alignedInterestData = dateRange.map(date => {
-      if (interestMap.has(date)) {
-        lastInterestData = interestMap.get(date)
-        return lastInterestData
-      } else if (lastInterestData) {
-        return { ...lastInterestData, date }
+
+    const allDates = new Set([...interestMap.keys(), ...bondMap.keys(), ...ema9Map.keys()])
+    const sortedDates = Array.from(allDates).sort()
+
+    let lastInterest = null
+    let lastBond = null
+    let lastEma9 = null
+
+    const merged = sortedDates.map(date => {
+      if (interestMap.has(date)) lastInterest = interestMap.get(date)
+      if (bondMap.has(date)) lastBond = bondMap.get(date)
+      if (ema9Map.has(date)) lastEma9 = ema9Map.get(date)
+
+      return {
+        date,
+        baseRate: lastInterest?.baseRate ?? null,
+        quoteRate: lastInterest?.quoteRate ?? null,
+        spread10Y: lastBond?.spread10Y ?? null,
+        spread2Y: lastBond?.spread2Y ?? null,
+        price: lastEma9?.price ?? null,
+        ema9: lastEma9?.ema9 ?? null
       }
-      return null
-    }).filter(d => d !== null)
-    
-    // Forward fill missing dates for bond data
-    let lastBondData = null
-    const alignedBondData = dateRange.map(date => {
-      if (bondMap.has(date)) {
-        lastBondData = bondMap.get(date)
-        return lastBondData
-      } else if (lastBondData) {
-        return { ...lastBondData, date }
-      }
-      return null
-    }).filter(d => d !== null)
-    
-    // Forward fill missing dates for EMA9 data
-    let lastEma9Data = null
-    const alignedEma9Data = dateRange.map(date => {
-      if (ema9Map.has(date)) {
-        lastEma9Data = ema9Map.get(date)
-        return lastEma9Data
-      } else if (lastEma9Data) {
-        return { ...lastEma9Data, date }
-      }
-      return null
-    }).filter(d => d !== null)
-    
-    // Update state with aligned data
-    if (alignedInterestData.length > 0) {
-      setInterestRateData(alignedInterestData)
-    }
-    if (alignedBondData.length > 0) {
-      setBondSpreadData(alignedBondData)
-    }
-    if (alignedEma9Data.length > 0) {
-      setEma9Data(alignedEma9Data)
-    }
-    
-    console.log('Data aligned to common date range:', {
-      dateRange: dateRange.length,
-      interestRateAligned: alignedInterestData.length,
-      bondDataAligned: alignedBondData.length,
-      ema9DataAligned: alignedEma9Data.length
     })
-  }
+
+    return { commonDateRange: sortedDates, mergedData: merged }
+  }, [interestRateData, bondSpreadData, ema9Data])
 
   const filterDataByTimeframe = (data, dateField = 'date') => {
     if (!data || data.length === 0) return data
@@ -651,14 +592,14 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           </div>
         ) : (
         <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={interestRateData} syncId="comprehensiveAnalysis">
+          <LineChart data={mergedData} syncId="comprehensiveAnalysis">
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis 
               dataKey="date" 
               tickFormatter={formatDate}
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
-              interval={getTickInterval(interestRateData.length)}
+              interval={getTickInterval(mergedData.length)}
               domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']}
             />
             <YAxis 
@@ -708,14 +649,14 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           </div>
         ) : (
         <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={bondSpreadData} syncId="comprehensiveAnalysis">
+          <LineChart data={mergedData} syncId="comprehensiveAnalysis">
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis 
               dataKey="date" 
               tickFormatter={formatDate}
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
-              interval={getTickInterval(bondSpreadData.length)}
+              interval={getTickInterval(mergedData.length)}
               domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']}
             />
             <YAxis 
@@ -760,14 +701,14 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           </div>
         ) : (
         <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={ema9Data} syncId="comprehensiveAnalysis">
+          <LineChart data={mergedData} syncId="comprehensiveAnalysis">
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis 
               dataKey="date" 
               tickFormatter={formatDate}
               stroke="#6b7280"
               style={{ fontSize: '12px' }}
-              interval={getTickInterval(ema9Data.length)}
+              interval={getTickInterval(mergedData.length)}
               domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']}
             />
             <YAxis 
@@ -862,9 +803,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               </div>
             ) : (
               <ResponsiveContainer width="100%" height={280}>
-                <LineChart data={interestRateData} syncId="comprehensiveAnalysisFS">
+                <LineChart data={mergedData} syncId="comprehensiveAnalysisFS">
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(interestRateData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
+                  <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(mergedData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
                   <YAxis stroke="#6b7280" style={{ fontSize: '12px' }} label={{ value: 'Interest Rate (%)', angle: -90, position: 'insideLeft' }} />
                   <Tooltip content={<CustomTooltip title="Interest Rate" />} />
                   <Legend />
@@ -888,9 +829,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               </div>
             ) : (
               <ResponsiveContainer width="100%" height={280}>
-                <LineChart data={bondSpreadData} syncId="comprehensiveAnalysisFS">
+                <LineChart data={mergedData} syncId="comprehensiveAnalysisFS">
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(bondSpreadData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
+                  <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(mergedData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
                   <YAxis stroke="#6b7280" style={{ fontSize: '12px' }} label={{ value: 'Spread (%)', angle: -90, position: 'insideLeft' }} />
                   <Tooltip content={<CustomTooltip title="Spread" />} />
                   <Legend />
@@ -908,9 +849,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               <p className="chart-subtitle">{selectedCurrencyPair}</p>
             </div>
             <ResponsiveContainer width="100%" height={280}>
-              <LineChart data={ema9Data} syncId="comprehensiveAnalysisFS">
+              <LineChart data={mergedData} syncId="comprehensiveAnalysisFS">
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(ema9Data.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
+                <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(mergedData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
                 <YAxis stroke="#6b7280" style={{ fontSize: '12px' }} domain={['auto', 'auto']} label={{ value: 'Price', angle: -90, position: 'insideLeft' }} />
                 <Tooltip content={<CustomTooltip title="Price" />} />
                 <Legend />

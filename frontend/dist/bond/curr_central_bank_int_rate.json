@@ -1,0 +1,650 @@
+[
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-01-29T00:00:00",
+    "Value": 3.0000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-01-29T14:53:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-01-29T00:00:00",
+    "Value": 4.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-01-29T19:00:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-01-30T00:00:00",
+    "Value": 2.9000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-01-30T13:15:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-01-31T00:00:00",
+    "Value": 4.3500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2025-02-18T03:30:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-01-31T00:00:00",
+    "Value": 4.7500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-02-06T12:00:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-02-06T00:00:00",
+    "Value": 4.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-02-06T12:00:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-02-18T00:00:00",
+    "Value": 4.1000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2025-02-18T03:30:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-02-28T00:00:00",
+    "Value": 3.0000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-03-12T13:45:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-02-28T00:00:00",
+    "Value": 2.9000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-03-06T13:15:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2025-02-28T00:00:00",
+    "Value": 0.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2025-03-19T02:25:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-02-28T00:00:00",
+    "Value": 4.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-03-03T14:14:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-03-06T00:00:00",
+    "Value": 2.6500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-04-17T12:15:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-03-12T00:00:00",
+    "Value": 2.7500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-04-16T13:45:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2025-03-19T00:00:00",
+    "Value": 0.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2025-05-01T03:02:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-03-19T00:00:00",
+    "Value": 4.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-03-19T18:00:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-03-20T00:00:00",
+    "Value": 4.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-03-20T12:00:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-03-31T00:00:00",
+    "Value": 4.1000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2025-04-01T03:40:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-04-01T00:00:00",
+    "Value": 4.1000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2025-05-20T04:30:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-04-16T00:00:00",
+    "Value": 2.7500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-06-04T13:45:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-04-17T00:00:00",
+    "Value": 2.4000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-04-17T12:15:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2025-04-30T00:00:00",
+    "Value": 0.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2025-06-12T13:44:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-04-30T00:00:00",
+    "Value": 4.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-05-08T10:13:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-04-30T00:00:00",
+    "Value": 4.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-05-07T18:28:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2025-05-01T00:00:00",
+    "Value": 0.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2025-06-17T03:31:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-05-07T00:00:00",
+    "Value": 4.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-05-07T18:00:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-05-08T00:00:00",
+    "Value": 4.2500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-06-19T11:00:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-05-20T00:00:00",
+    "Value": 3.8500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2025-05-20T04:30:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-05-31T00:00:00",
+    "Value": 2.7500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-06-04T13:52:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-05-31T00:00:00",
+    "Value": 2.4000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-06-05T12:15:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-06-04T00:00:00",
+    "Value": 2.7500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-07-30T13:45:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-06-05T00:00:00",
+    "Value": 2.1500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-07-24T12:15:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2025-06-17T00:00:00",
+    "Value": 0.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2025-07-31T02:59:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-06-18T00:00:00",
+    "Value": 4.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-06-18T18:00:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-06-19T00:00:00",
+    "Value": 4.2500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-06-19T11:00:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-06-30T00:00:00",
+    "Value": 3.8500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2025-07-08T04:30:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-07-08T00:00:00",
+    "Value": 3.8500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2025-08-12T04:30:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-07-24T00:00:00",
+    "Value": 2.1500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-07-24T12:15:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-07-30T00:00:00",
+    "Value": 2.7500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-09-17T13:45:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-07-30T00:00:00",
+    "Value": 4.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-07-30T18:00:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2025-07-31T00:00:00",
+    "Value": 0.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2025-07-31T02:59:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-07-31T00:00:00",
+    "Value": 4.2500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-08-07T11:00:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-08-07T00:00:00",
+    "Value": 4.0000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-09-18T11:00:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-08-12T00:00:00",
+    "Value": 3.6000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2025-09-30T04:30:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-08-31T00:00:00",
+    "Value": 2.7500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-10-28T12:06:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-08-31T00:00:00",
+    "Value": 2.1500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-09-11T12:15:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2025-08-31T00:00:00",
+    "Value": 0.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2025-09-18T08:48:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-08-31T00:00:00",
+    "Value": 4.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-09-17T18:54:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-09-11T00:00:00",
+    "Value": 2.1500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-10-30T13:15:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-09-17T00:00:00",
+    "Value": 2.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-10-29T13:45:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-09-17T00:00:00",
+    "Value": 4.2500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-09-17T18:00:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-09-18T00:00:00",
+    "Value": 4.0000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-09-18T11:00:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2025-09-19T00:00:00",
+    "Value": 0.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2025-10-30T03:16:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-09-30T00:00:00",
+    "Value": 3.6000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2025-11-04T03:30:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-10-29T00:00:00",
+    "Value": 2.2500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-10-29T13:45:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-10-29T00:00:00",
+    "Value": 4.0000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-10-29T18:00:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2025-10-30T00:00:00",
+    "Value": 0.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2025-10-30T03:16:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-10-31T00:00:00",
+    "Value": 3.6000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2026-01-22T08:10:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-10-31T00:00:00",
+    "Value": 2.1500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-11-03T09:05:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-10-31T00:00:00",
+    "Value": 4.0000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-11-06T12:00:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-11-04T00:00:00",
+    "Value": 3.6000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2025-12-09T03:30:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-11-06T00:00:00",
+    "Value": 4.0000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-12-18T12:00:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-11-30T00:00:00",
+    "Value": 2.2500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-12-10T14:45:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-11-30T00:00:00",
+    "Value": 2.1500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-12-18T13:15:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2025-11-30T00:00:00",
+    "Value": 0.5000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2025-12-05T12:41:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-11-30T00:00:00",
+    "Value": 4.0000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-12-03T12:23:00"
+  },
+  {
+    "Country": "Australia",
+    "Category": "Interest Rate",
+    "DateTime": "2025-12-09T00:00:00",
+    "Value": 3.6000,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "RBATCTR",
+    "LastUpdate": "2025-12-09T03:30:00"
+  },
+  {
+    "Country": "Canada",
+    "Category": "Interest Rate",
+    "DateTime": "2025-12-10T00:00:00",
+    "Value": 2.2500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "CCLR",
+    "LastUpdate": "2025-12-10T14:45:00"
+  },
+  {
+    "Country": "United States",
+    "Category": "Interest Rate",
+    "DateTime": "2025-12-10T00:00:00",
+    "Value": 3.7500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "FDTR",
+    "LastUpdate": "2025-12-10T19:00:00"
+  },
+  {
+    "Country": "Germany",
+    "Category": "Interest Rate",
+    "DateTime": "2025-12-18T00:00:00",
+    "Value": 2.1500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "EURR002W",
+    "LastUpdate": "2025-12-18T13:15:00"
+  },
+  {
+    "Country": "United Kingdom",
+    "Category": "Interest Rate",
+    "DateTime": "2025-12-18T00:00:00",
+    "Value": 3.7500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "UKBRBASE",
+    "LastUpdate": "2025-12-18T12:00:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2025-12-19T00:00:00",
+    "Value": 0.7500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2026-01-23T03:09:00"
+  },
+  {
+    "Country": "Japan",
+    "Category": "Interest Rate",
+    "DateTime": "2026-01-23T00:00:00",
+    "Value": 0.7500,
+    "Frequency": "Daily",
+    "HistoricalDataSymbol": "BOJDTR",
+    "LastUpdate": "2026-01-23T03:09:00"
+  }
+]
