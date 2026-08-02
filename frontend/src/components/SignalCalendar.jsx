@@ -3,9 +3,13 @@ import { historyAPI } from '../api/api'
 import { getSignalCountsFromCandles } from '../utils/indicatorUtils'
 import './SignalCalendar.css'
 
-const WEEKDAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-// Builds a Monday-first grid of Date objects for the given month, padded
+// Max number of indicators that can vote in getSignalCountsFromCandles
+// (RSI9, EMA9, EMA20, EMA50, EMA200, MACD, MA-cross).
+const MAX_SIGNAL_COUNT = 7
+
+// Builds a Monday-first grid of day numbers for the given month, padded
 // with leading/trailing nulls so every row has exactly 7 cells.
 const buildMonthGrid = (year, month) => {
   const firstDay = new Date(Date.UTC(year, month, 1))
@@ -26,7 +30,17 @@ const toDateKey = (year, month, day) => {
   return `${year}-${mm}-${dd}`
 }
 
-const MonthGrid = ({ year, month, countsByDate, colorClass, todayKey }) => {
+// 0 -> no data, 1-4 -> intensity tier scaled against MAX_SIGNAL_COUNT
+const intensityTier = (count) => {
+  if (!count) return 0
+  const ratio = count / MAX_SIGNAL_COUNT
+  if (ratio > 0.75) return 4
+  if (ratio > 0.5) return 3
+  if (ratio > 0.25) return 2
+  return 1
+}
+
+const MonthCalendar = ({ year, month, countsByDate, tone, todayKey, onPrev, onNext, onToday, isCurrentMonth }) => {
   const cells = useMemo(() => buildMonthGrid(year, month), [year, month])
   const monthLabel = new Date(Date.UTC(year, month, 1)).toLocaleDateString('en-US', {
     month: 'long',
@@ -34,31 +48,51 @@ const MonthGrid = ({ year, month, countsByDate, colorClass, todayKey }) => {
   })
 
   return (
-    <div className="signal-month">
-      <div className="signal-month-title">{monthLabel}</div>
-      <div className="signal-month-weekdays">
-        {WEEKDAY_LABELS.map((label, i) => (
-          <span key={i}>{label}</span>
+    <div className={`signal-cal signal-cal-${tone}`}>
+      <div className="signal-cal-header">
+        <button className="signal-cal-nav" onClick={onPrev} aria-label="Previous month">‹</button>
+        <div className="signal-cal-title-group">
+          <span className="signal-cal-title">{monthLabel}</span>
+          {!isCurrentMonth && (
+            <button className="signal-cal-today" onClick={onToday}>Today</button>
+          )}
+        </div>
+        <button className="signal-cal-nav" onClick={onNext} aria-label="Next month">›</button>
+      </div>
+
+      <div className="signal-cal-weekdays">
+        {WEEKDAY_LABELS.map((label) => (
+          <span key={label}>{label}</span>
         ))}
       </div>
-      <div className="signal-month-grid">
+
+      <div className="signal-cal-grid">
         {cells.map((day, i) => {
-          if (day === null) return <div key={i} className="signal-day signal-day-empty" />
+          if (day === null) return <div key={i} className="signal-cal-day signal-cal-day-empty" />
           const dateKey = toDateKey(year, month, day)
           const count = countsByDate.get(dateKey)
+          const tier = intensityTier(count)
           const isToday = dateKey === todayKey
-          const isWeekend = new Date(Date.UTC(year, month, day)).getUTCDay() % 6 === 0
+          const isFuture = dateKey > todayKey
           return (
             <div
               key={i}
-              className={`signal-day ${count ? colorClass : ''} ${isToday ? 'signal-day-today' : ''} ${isWeekend ? 'signal-day-weekend' : ''}`}
-              title={count !== undefined ? `${dateKey}: ${count}` : dateKey}
+              className={`signal-cal-day tier-${tier} ${isToday ? 'is-today' : ''} ${isFuture ? 'is-future' : ''}`}
+              title={count !== undefined ? `${dateKey}: ${count} signal${count === 1 ? '' : 's'}` : dateKey}
             >
-              <span className="signal-day-number">{day}</span>
-              {count > 0 && <span className="signal-day-count">{count}</span>}
+              <span className="signal-cal-day-number">{day}</span>
+              {count > 0 && <span className="signal-cal-day-count">{count}</span>}
             </div>
           )
         })}
+      </div>
+
+      <div className="signal-cal-legend">
+        <span>Less</span>
+        {[0, 1, 2, 3, 4].map(tier => (
+          <span key={tier} className={`signal-cal-legend-swatch tone-${tone} tier-${tier}`} />
+        ))}
+        <span>More</span>
       </div>
     </div>
   )
@@ -66,13 +100,17 @@ const MonthGrid = ({ year, month, countsByDate, colorClass, todayKey }) => {
 
 // Minimum prior trading-day candles needed for the slowest indicator (EMA200) to be defined.
 const MIN_LOOKBACK_CANDLES = 250
-// Calendar days to fetch: ~2 months of target dates + enough lookback before the earliest one.
+// Calendar days to fetch: covers plenty of navigable history + lookback before the earliest one.
 const FETCH_DAYS = 400
 
 const SignalCalendar = ({ symbol }) => {
   const [candles, setCandles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
+  const now = new Date()
+  const [bullishCursor, setBullishCursor] = useState({ year: now.getUTCFullYear(), month: now.getUTCMonth() })
+  const [bearishCursor, setBearishCursor] = useState({ year: now.getUTCFullYear(), month: now.getUTCMonth() })
 
   useEffect(() => {
     if (!symbol) return
@@ -95,39 +133,39 @@ const SignalCalendar = ({ symbol }) => {
       .finally(() => setLoading(false))
   }, [symbol])
 
-  const { bullishCounts, bearishCounts, currentMonth, previousMonth, todayKey } = useMemo(() => {
+  // Reset both calendars back to the current month whenever the pair changes.
+  useEffect(() => {
+    const n = new Date()
+    setBullishCursor({ year: n.getUTCFullYear(), month: n.getUTCMonth() })
+    setBearishCursor({ year: n.getUTCFullYear(), month: n.getUTCMonth() })
+  }, [symbol])
+
+  const { bullishCounts, bearishCounts, todayKey } = useMemo(() => {
     const bullish = new Map()
     const bearish = new Map()
 
-    const now = new Date()
-    const current = { year: now.getUTCFullYear(), month: now.getUTCMonth() }
-    const prevDate = new Date(Date.UTC(current.year, current.month - 1, 1))
-    const previous = { year: prevDate.getUTCFullYear(), month: prevDate.getUTCMonth() }
+    candles.forEach((candle, idx) => {
+      if (idx < 25) return // not enough history for any indicator to fire
+      const sliced = candles.slice(0, idx + 1)
+      const { bullish: buy, bearish: sell } = getSignalCountsFromCandles(sliced)
+      bullish.set(candle.time, buy)
+      bearish.set(candle.time, sell)
+    })
 
-    if (candles.length > 0) {
-      // Walk every trading-day candle that falls within the previous or current month
-      // and compute its signal count from all candles up to (and including) that day.
-      const rangeStart = new Date(Date.UTC(previous.year, previous.month, 1))
-      candles.forEach((candle, idx) => {
-        const candleDate = new Date(candle.time + 'T00:00:00Z')
-        if (candleDate < rangeStart) return
-        if (idx < 25) return // not enough history for any indicator to fire
-
-        const sliced = candles.slice(0, idx + 1)
-        const { bullish: buy, bearish: sell } = getSignalCountsFromCandles(sliced)
-        bullish.set(candle.time, buy)
-        bearish.set(candle.time, sell)
-      })
-    }
-
-    return {
-      bullishCounts: bullish,
-      bearishCounts: bearish,
-      currentMonth: current,
-      previousMonth: previous,
-      todayKey: now.toISOString().split('T')[0]
-    }
+    return { bullishCounts: bullish, bearishCounts: bearish, todayKey: now.toISOString().split('T')[0] }
   }, [candles])
+
+  const shiftMonth = (setCursor, delta) => {
+    setCursor(prev => {
+      const d = new Date(Date.UTC(prev.year, prev.month + delta, 1))
+      return { year: d.getUTCFullYear(), month: d.getUTCMonth() }
+    })
+  }
+
+  const resetToToday = (setCursor) => {
+    const n = new Date()
+    setCursor({ year: n.getUTCFullYear(), month: n.getUTCMonth() })
+  }
 
   if (loading) {
     return (
@@ -152,24 +190,38 @@ const SignalCalendar = ({ symbol }) => {
     )
   }
 
+  const isCurrentBullish = bullishCursor.year === now.getUTCFullYear() && bullishCursor.month === now.getUTCMonth()
+  const isCurrentBearish = bearishCursor.year === now.getUTCFullYear() && bearishCursor.month === now.getUTCMonth()
+
   return (
     <div className="signal-calendar-section">
       <div className="chart-title">
-        <h3>🟢 Bullish Signal Calendar</h3>
-        <p className="chart-subtitle">Daily buy-signal count for {symbol}</p>
+        <h3>📅 Signal History Calendar</h3>
+        <p className="chart-subtitle">Daily signal strength for {symbol} — darker means more indicators agreed</p>
       </div>
       <div className="signal-calendar-months">
-        <MonthGrid year={previousMonth.year} month={previousMonth.month} countsByDate={bullishCounts} colorClass="signal-day-bullish" todayKey={todayKey} />
-        <MonthGrid year={currentMonth.year} month={currentMonth.month} countsByDate={bullishCounts} colorClass="signal-day-bullish" todayKey={todayKey} />
-      </div>
-
-      <div className="chart-title" style={{ marginTop: '32px' }}>
-        <h3>🔴 Bearish Signal Calendar</h3>
-        <p className="chart-subtitle">Daily sell-signal count for {symbol}</p>
-      </div>
-      <div className="signal-calendar-months">
-        <MonthGrid year={previousMonth.year} month={previousMonth.month} countsByDate={bearishCounts} colorClass="signal-day-bearish" todayKey={todayKey} />
-        <MonthGrid year={currentMonth.year} month={currentMonth.month} countsByDate={bearishCounts} colorClass="signal-day-bearish" todayKey={todayKey} />
+        <MonthCalendar
+          year={bullishCursor.year}
+          month={bullishCursor.month}
+          countsByDate={bullishCounts}
+          tone="bullish"
+          todayKey={todayKey}
+          onPrev={() => shiftMonth(setBullishCursor, -1)}
+          onNext={() => shiftMonth(setBullishCursor, 1)}
+          onToday={() => resetToToday(setBullishCursor)}
+          isCurrentMonth={isCurrentBullish}
+        />
+        <MonthCalendar
+          year={bearishCursor.year}
+          month={bearishCursor.month}
+          countsByDate={bearishCounts}
+          tone="bearish"
+          todayKey={todayKey}
+          onPrev={() => shiftMonth(setBearishCursor, -1)}
+          onNext={() => shiftMonth(setBearishCursor, 1)}
+          onToday={() => resetToToday(setBearishCursor)}
+          isCurrentMonth={isCurrentBearish}
+        />
       </div>
     </div>
   )

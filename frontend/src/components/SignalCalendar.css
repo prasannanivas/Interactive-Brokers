@@ -16,93 +16,191 @@
   }
 }
 
-.signal-month {
-  background: #f9fafb;
+/* ── Card shell ─────────────────────────────────────────────── */
+
+.signal-cal {
+  background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.signal-month-title {
-  font-size: 14px;
+.signal-cal-bullish {
+  border-top: 3px solid #10b981;
+}
+
+.signal-cal-bearish {
+  border-top: 3px solid #ef4444;
+}
+
+/* ── Header / navigation ────────────────────────────────────── */
+
+.signal-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.signal-cal-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.signal-cal-title {
+  font-size: 15px;
   font-weight: 700;
   color: #111827;
-  margin-bottom: 12px;
 }
 
-.signal-month-weekdays {
+.signal-cal-today {
+  border: none;
+  background: #eff6ff;
+  color: #3b82f6;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.signal-cal-today:hover {
+  background: #dbeafe;
+}
+
+.signal-cal-nav {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #374151;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.signal-cal-nav:hover {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+/* ── Weekday row ────────────────────────────────────────────── */
+
+.signal-cal-weekdays {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   margin-bottom: 6px;
 }
 
-.signal-month-weekdays span {
+.signal-cal-weekdays span {
   text-align: center;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
+  letter-spacing: 0.03em;
   color: #9ca3af;
+  text-transform: uppercase;
 }
 
-.signal-month-grid {
+/* ── Day grid ───────────────────────────────────────────────── */
+
+.signal-cal-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 4px;
+  gap: 5px;
 }
 
-.signal-day {
+.signal-cal-day {
   aspect-ratio: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  background: #ffffff;
-  border: 1px solid #eef0f3;
+  border-radius: 8px;
+  background: #f9fafb;
+  border: 1px solid #f0f1f3;
   font-size: 11px;
-  color: #6b7280;
+  color: #9ca3af;
+  transition: transform 0.1s ease;
 }
 
-.signal-day-empty {
+.signal-cal-day:not(.signal-cal-day-empty):hover {
+  transform: scale(1.08);
+  z-index: 1;
+}
+
+.signal-cal-day-empty {
   background: transparent;
   border: none;
 }
 
-.signal-day-number {
+.signal-cal-day-number {
   font-weight: 600;
   line-height: 1.1;
 }
 
-.signal-day-count {
-  font-size: 12px;
+.signal-cal-day-count {
+  font-size: 11px;
   font-weight: 700;
   line-height: 1.1;
 }
 
-.signal-day-today {
+.signal-cal-day.is-today {
   border: 2px solid #3b82f6;
 }
 
-.signal-day-weekend {
-  background: #f3f4f6;
-  color: #d1d5db;
+.signal-cal-day.is-future {
+  opacity: 0.4;
 }
 
-.signal-day-bullish {
-  background: #d1fae5;
-  border-color: #6ee7b7;
-  color: #065f46;
+/* ── Intensity tiers — bullish (green) ─────────────────────── */
+
+.signal-cal-bullish .signal-cal-day.tier-1 { background: #d1fae5; color: #065f46; border-color: #a7f3d0; }
+.signal-cal-bullish .signal-cal-day.tier-2 { background: #6ee7b7; color: #064e3b; border-color: #34d399; }
+.signal-cal-bullish .signal-cal-day.tier-3 { background: #34d399; color: #ffffff; border-color: #10b981; }
+.signal-cal-bullish .signal-cal-day.tier-4 { background: #059669; color: #ffffff; border-color: #047857; }
+
+/* ── Intensity tiers — bearish (red) ────────────────────────── */
+
+.signal-cal-bearish .signal-cal-day.tier-1 { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+.signal-cal-bearish .signal-cal-day.tier-2 { background: #fca5a5; color: #7f1d1d; border-color: #f87171; }
+.signal-cal-bearish .signal-cal-day.tier-3 { background: #f87171; color: #ffffff; border-color: #ef4444; }
+.signal-cal-bearish .signal-cal-day.tier-4 { background: #dc2626; color: #ffffff; border-color: #b91c1c; }
+
+/* ── Legend ─────────────────────────────────────────────────── */
+
+.signal-cal-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 12px;
+  font-size: 10px;
+  color: #9ca3af;
 }
 
-.signal-day-bullish .signal-day-count {
-  color: #047857;
+.signal-cal-legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: #f9fafb;
+  border: 1px solid #f0f1f3;
 }
 
-.signal-day-bearish {
-  background: #fee2e2;
-  border-color: #fca5a5;
-  color: #991b1b;
-}
+.signal-cal-legend-swatch.tone-bullish.tier-1 { background: #d1fae5; border-color: #a7f3d0; }
+.signal-cal-legend-swatch.tone-bullish.tier-2 { background: #6ee7b7; border-color: #34d399; }
+.signal-cal-legend-swatch.tone-bullish.tier-3 { background: #34d399; border-color: #10b981; }
+.signal-cal-legend-swatch.tone-bullish.tier-4 { background: #059669; border-color: #047857; }
 
-.signal-day-bearish .signal-day-count {
-  color: #b91c1c;
-}
+.signal-cal-legend-swatch.tone-bearish.tier-1 { background: #fee2e2; border-color: #fecaca; }
+.signal-cal-legend-swatch.tone-bearish.tier-2 { background: #fca5a5; border-color: #f87171; }
+.signal-cal-legend-swatch.tone-bearish.tier-3 { background: #f87171; border-color: #ef4444; }
+.signal-cal-legend-swatch.tone-bearish.tier-4 { background: #dc2626; border-color: #b91c1c; }
