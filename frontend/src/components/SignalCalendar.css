@@ -119,15 +119,14 @@
 }
 
 .signal-cal-day {
+  position: relative;
   aspect-ratio: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
   background: #f9fafb;
   border: 1px solid #f0f1f3;
-  font-size: 11px;
   color: #9ca3af;
   transition: transform 0.1s ease;
 }
@@ -143,14 +142,19 @@
 }
 
 .signal-cal-day-number {
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  font-size: 9px;
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1;
+  opacity: 0.75;
 }
 
 .signal-cal-day-count {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1;
 }
 
 .signal-cal-day.is-today {
