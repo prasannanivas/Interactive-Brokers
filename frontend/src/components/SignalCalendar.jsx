@@ -67,7 +67,7 @@ const MonthGrid = ({ year, month, countsByDate, colorClass, todayKey }) => {
 // Minimum prior trading-day candles needed for the slowest indicator (EMA200) to be defined.
 const MIN_LOOKBACK_CANDLES = 250
 // Calendar days to fetch: ~2 months of target dates + enough lookback before the earliest one.
-const FETCH_DAYS = 450
+const FETCH_DAYS = 400
 
 const SignalCalendar = ({ symbol }) => {
   const [candles, setCandles] = useState([])
@@ -78,7 +78,9 @@ const SignalCalendar = ({ symbol }) => {
     if (!symbol) return
     setLoading(true)
     setError(null)
-    historyAPI.getPriceHistory(symbol, FETCH_DAYS, 'day')
+    // Polygon ticker format for forex pairs
+    const ticker = symbol.startsWith('C:') ? symbol : `C:${symbol}`
+    historyAPI.getPriceHistory(ticker, FETCH_DAYS, 'day')
       .then(res => {
         const raw = res.data?.candles || []
         const sorted = [...raw]
