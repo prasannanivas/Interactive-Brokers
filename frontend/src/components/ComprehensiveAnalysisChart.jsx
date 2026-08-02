@@ -11,6 +11,7 @@ import {
 } from 'recharts'
 import TimeframeSelector from './TimeframeSelector'
 import FullscreenChartModal from './FullscreenChartModal'
+import SignalCalendar from './SignalCalendar'
 import { bondAPI, historyAPI } from '../api/api'
 import './ComprehensiveAnalysisChart.css'
 
@@ -777,6 +778,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           </div>
         </div>
       </div>
+
+      {/* Daily Signal Calendar (current + previous month, bullish & bearish) */}
+      <SignalCalendar symbol={selectedCurrencyPair} />
 
       {/* Fullscreen Modal */}
       <FullscreenChartModal

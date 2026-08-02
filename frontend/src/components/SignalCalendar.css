@@ -1,0 +1,103 @@
+.signal-calendar-section {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 2px solid #e5e7eb;
+}
+
+.signal-calendar-months {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 720px) {
+  .signal-calendar-months {
+    grid-template-columns: 1fr;
+  }
+}
+
+.signal-month {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.signal-month-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.signal-month-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin-bottom: 6px;
+}
+
+.signal-month-weekdays span {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+.signal-month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.signal-day {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: #ffffff;
+  border: 1px solid #eef0f3;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.signal-day-empty {
+  background: transparent;
+  border: none;
+}
+
+.signal-day-number {
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.signal-day-count {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.signal-day-today {
+  border: 2px solid #3b82f6;
+}
+
+.signal-day-bullish {
+  background: #d1fae5;
+  border-color: #6ee7b7;
+  color: #065f46;
+}
+
+.signal-day-bullish .signal-day-count {
+  color: #047857;
+}
+
+.signal-day-bearish {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+.signal-day-bearish .signal-day-count {
+  color: #b91c1c;
+}
