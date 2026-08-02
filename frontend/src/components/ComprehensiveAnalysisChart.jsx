@@ -12,6 +12,7 @@ import {
 import TimeframeSelector from './TimeframeSelector'
 import FullscreenChartModal from './FullscreenChartModal'
 import SignalCalendar from './SignalCalendar'
+import PairEconomicCalendar from './PairEconomicCalendar'
 import { bondAPI, historyAPI } from '../api/api'
 import './ComprehensiveAnalysisChart.css'
 
@@ -781,6 +782,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
       {/* Daily Signal Calendar (current + previous month, bullish & bearish) */}
       <SignalCalendar symbol={selectedCurrencyPair} />
+
+      {/* Upcoming central bank events for this pair's two currencies */}
+      <PairEconomicCalendar baseCountry={mapping.base.name} quoteCountry={mapping.quote.name} />
 
       {/* Fullscreen Modal */}
       <FullscreenChartModal
