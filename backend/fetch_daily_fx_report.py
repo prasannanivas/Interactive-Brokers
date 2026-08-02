@@ -5,6 +5,7 @@ copy to disk, and records metadata in MongoDB so the frontend can list the
 history and serve individual reports.
 """
 
+import hashlib
 import os
 import requests
 from datetime import datetime
@@ -45,7 +46,15 @@ class DailyFxReportDownloader:
             print("✓ MongoDB connection closed")
 
     async def run(self):
-        """Download today's report and store it. Returns True on success."""
+        """
+        Download today's report and store it.
+
+        Returns:
+            'downloaded' - a new report for today was saved
+            'stale'      - the source URL hasn't been updated yet (still serving
+                           a previous day's PDF) — caller should retry later
+            'failed'     - request/content error — caller should retry later
+        """
         report_date = datetime.now(self.est_tz).strftime('%Y-%m-%d')
         filename = f"G10_FX_Daily_{report_date.replace('-', '_')}.pdf"
 
@@ -59,12 +68,23 @@ class DailyFxReportDownloader:
 
             if response.status_code != 200 or not response.content:
                 print(f"  ⚠ Download failed: HTTP {response.status_code}")
-                return False
+                return 'failed'
 
             content_type = response.headers.get('content-type', '')
             if 'pdf' not in content_type.lower():
                 print(f"  ⚠ Unexpected content-type: {content_type}")
-                return False
+                return 'failed'
+
+            content_hash = hashlib.sha256(response.content).hexdigest()
+
+            # The source URL is static (no date in it) — if Scotiabank hasn't
+            # published today's edition yet, it keeps serving the last one.
+            # Compare against the most recently archived report's hash so we
+            # don't mistake yesterday's PDF for today's.
+            last_report = await self.db.fx_reports.find_one({}, sort=[('report_date', -1)])
+            if last_report and last_report.get('content_hash') == content_hash and last_report.get('report_date') != report_date:
+                print(f"  ⏳ Source still serving the {last_report['report_date']} report — not updated yet")
+                return 'stale'
 
             os.makedirs(REPORTS_DIR, exist_ok=True)
             file_path = os.path.join(REPORTS_DIR, filename)
@@ -80,6 +100,7 @@ class DailyFxReportDownloader:
                 'source_url': REPORT_URL,
                 'filename': filename,
                 'file_size': file_size,
+                'content_hash': content_hash,
                 'downloaded_at': datetime.now(pytz.utc),
             }
 
@@ -89,11 +110,11 @@ class DailyFxReportDownloader:
                 upsert=True
             )
             print(f"  ✓ Metadata saved for {report_date}")
-            return True
+            return 'downloaded'
 
         except Exception as e:
             print(f"  ❌ Error downloading FX report: {e}")
-            return False
+            return 'failed'
 
 
 async def main():

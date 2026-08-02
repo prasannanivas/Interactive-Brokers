@@ -394,12 +394,24 @@ async def run_daily_signal_capture():
 async def run_daily_fx_report_download():
     """
     Download the Scotiabank G10 FX Daily report and archive it in MongoDB.
-    This function is scheduled to run at 12:00 PM EST daily.
+
+    The source URL has no fixed publish time and no date in it, so this is
+    scheduled to run every 15 minutes from 7am-6pm EST (see scheduler setup)
+    rather than once at a guessed time. It short-circuits once today's report
+    is already archived, and otherwise keeps retrying — a single missed
+    fixed-time pull used to mean losing that day's report entirely.
     """
     try:
+        est_tz = pytz.timezone('US/Eastern')
+        report_date = datetime.now(est_tz).strftime('%Y-%m-%d')
+
+        collection = get_fx_reports_collection()
+        if await collection.find_one({'report_date': report_date}):
+            return  # already archived for today, nothing to do
+
         print("\n" + "="*60)
-        print(f"🕰️  Running scheduled daily FX report download...")
-        print(f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        print(f"🕰️  Checking for today's FX report...")
+        print(f"Time: {datetime.now(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         print("="*60)
 
         # Import here to avoid circular imports
@@ -407,38 +419,43 @@ async def run_daily_fx_report_download():
 
         downloader = DailyFxReportDownloader()
         downloader.db = Database.get_db()
-        success = await downloader.run()
+        result = await downloader.run()
 
-        if success:
+        if result == 'downloaded':
             print("✓ Daily FX report download completed successfully!")
             if telegram_bot.is_configured():
                 try:
                     await telegram_bot.send_message(
                         f"📄 <b>G10 FX Daily Report Downloaded</b>\n\n"
-                        f"⏰ {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}"
+                        f"⏰ {datetime.now(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}"
                     )
                 except Exception as e:
                     print(f"✗ Failed to send Telegram notification: {e}")
+        elif result == 'stale':
+            print("⏳ Report not yet published — will check again in 15 minutes")
         else:
-            print("✗ Daily FX report download failed!")
-            if telegram_bot.is_configured():
+            print("✗ Daily FX report download failed — will retry in 15 minutes")
+            # Only alert once per day (on the last poll of the window) so a
+            # transient failure early in the day doesn't spam every 15 minutes.
+            now_est = datetime.now(est_tz)
+            if now_est.hour == 17 and now_est.minute == 45 and telegram_bot.is_configured():
                 try:
                     await telegram_bot.send_message(
-                        f"⚠️ <b>G10 FX Daily Report Download Failed</b>\n\n"
-                        f"Time: {datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %I:%M:%S %p %Z')}\n"
-                        f"Please check the server logs."
+                        f"⚠️ <b>G10 FX Daily Report Not Available Today</b>\n\n"
+                        f"Time: {now_est.strftime('%Y-%m-%d %I:%M:%S %p %Z')}\n"
+                        f"Checked every 15 minutes since 7am EST with no success. Please check the server logs."
                     )
                 except Exception:
                     pass
 
         print("="*60 + "\n")
-        return success
+        return result
 
     except Exception as e:
         print(f"✗ Error running daily FX report download: {e}")
         import traceback
         traceback.print_exc()
-        return False
+        return 'failed'
 
 
 @app.on_event("startup")
@@ -514,12 +531,15 @@ async def startup_event():
             replace_existing=True
         )
         
-        # Schedule daily FX report download at 12:00 PM EST
+        # Poll for the daily FX report every 15 minutes from 7am-6pm EST.
+        # The source has no fixed/known publish time, so a single fixed-time
+        # pull risked permanently missing a day if the report went up late.
+        # run_daily_fx_report_download() no-ops once today's report is archived.
         scheduler.add_job(
             run_daily_fx_report_download,
-            trigger=CronTrigger(hour=12, minute=0, timezone=est_tz),
+            trigger=CronTrigger(hour='7-17', minute='*/15', timezone=est_tz),
             id='daily_fx_report_download',
-            name='Daily FX Report Download at 12pm EST',
+            name='FX Report Poll every 15min, 7am-6pm EST',
             replace_existing=True
         )
 
@@ -539,8 +559,8 @@ async def startup_event():
         print(f"    Next run: {next_run_data.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         print(f"  • Economic Calendar: Every day at 6:00 AM EST")
         print(f"    Next run: {next_run_calendar.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
-        print(f"  • FX Report Download: Every day at 12:00 PM EST")
-        print(f"    Next run: {next_run_fx_report.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        print(f"  • FX Report Poll: Every 15 min, 7:00 AM-6:00 PM EST")
+        print(f"    Next check: {next_run_fx_report.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         print()
         
     except Exception as e:
@@ -1987,17 +2007,20 @@ async def trigger_fx_report_download(current_user: UserResponse = Depends(get_cu
     Manually trigger a G10 FX Daily report download (authenticated).
 
     Use this to backfill today's report or retry without waiting for the
-    scheduled 12pm EST run.
+    next scheduled poll.
     """
     try:
         print(f"\n📋 Manual FX report download triggered by user: {current_user.username}")
 
-        success = await run_daily_fx_report_download()
+        est_tz = pytz.timezone('US/Eastern')
+        today = datetime.now(est_tz).strftime('%Y-%m-%d')
+
+        await run_daily_fx_report_download()
 
         collection = get_fx_reports_collection()
         latest = await collection.find_one({}, sort=[("report_date", -1)])
 
-        if success and latest:
+        if latest and latest.get("report_date") == today:
             return {
                 "success": True,
                 "message": "FX report download completed successfully",
@@ -2010,7 +2033,7 @@ async def trigger_fx_report_download(current_user: UserResponse = Depends(get_cu
         else:
             return {
                 "success": False,
-                "message": "Download may have failed - no report found"
+                "message": "Today's report is not available yet - the source may not have published it"
             }
     except Exception as e:
         logger = logging.getLogger(__name__)
@@ -2034,7 +2057,7 @@ async def get_fx_report_schedule_info():
 
             return {
                 'scheduled': True,
-                'schedule': 'Daily at 12:00 PM EST',
+                'schedule': 'Every 15 minutes, 7:00 AM-6:00 PM EST',
                 'timezone': 'US/Eastern',
                 'next_run_utc': job.next_run_time.isoformat(),
                 'next_run_est': next_run_est.strftime('%Y-%m-%d %I:%M:%S %p %Z'),
