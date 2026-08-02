@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { tradingAPI } from '../api/api'
+import { historyAPI } from '../api/api'
+import { getSignalCountsFromCandles } from '../utils/indicatorUtils'
 import './SignalCalendar.css'
 
 const WEEKDAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
@@ -46,11 +47,12 @@ const MonthGrid = ({ year, month, countsByDate, colorClass, todayKey }) => {
           const dateKey = toDateKey(year, month, day)
           const count = countsByDate.get(dateKey)
           const isToday = dateKey === todayKey
+          const isWeekend = new Date(Date.UTC(year, month, day)).getUTCDay() % 6 === 0
           return (
             <div
               key={i}
-              className={`signal-day ${count ? colorClass : ''} ${isToday ? 'signal-day-today' : ''}`}
-              title={count ? `${dateKey}: ${count}` : dateKey}
+              className={`signal-day ${count ? colorClass : ''} ${isToday ? 'signal-day-today' : ''} ${isWeekend ? 'signal-day-weekend' : ''}`}
+              title={count !== undefined ? `${dateKey}: ${count}` : dateKey}
             >
               <span className="signal-day-number">{day}</span>
               {count > 0 && <span className="signal-day-count">{count}</span>}
@@ -62,8 +64,13 @@ const MonthGrid = ({ year, month, countsByDate, colorClass, todayKey }) => {
   )
 }
 
+// Minimum prior trading-day candles needed for the slowest indicator (EMA200) to be defined.
+const MIN_LOOKBACK_CANDLES = 250
+// Calendar days to fetch: ~2 months of target dates + enough lookback before the earliest one.
+const FETCH_DAYS = 450
+
 const SignalCalendar = ({ symbol }) => {
-  const [days, setDays] = useState([])
+  const [candles, setCandles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -71,9 +78,18 @@ const SignalCalendar = ({ symbol }) => {
     if (!symbol) return
     setLoading(true)
     setError(null)
-    tradingAPI.getDailySnapshotsBySymbol(symbol, 62)
-      .then(res => setDays(res.data?.days || []))
-      .catch(() => setError('Signal history not available'))
+    historyAPI.getPriceHistory(symbol, FETCH_DAYS, 'day')
+      .then(res => {
+        const raw = res.data?.candles || []
+        const sorted = [...raw]
+          .sort((a, b) => (a.time > b.time ? 1 : -1))
+          .filter(c => {
+            const day = new Date(c.time + 'T00:00:00Z').getUTCDay()
+            return day !== 0 && day !== 6
+          })
+        setCandles(sorted)
+      })
+      .catch(() => setError('Price history not available'))
       .finally(() => setLoading(false))
   }, [symbol])
 
@@ -81,15 +97,26 @@ const SignalCalendar = ({ symbol }) => {
     const bullish = new Map()
     const bearish = new Map()
 
-    days.forEach(d => {
-      if (d.signal_type === 'BULLISH') bullish.set(d.date, d.buy_signals)
-      else if (d.signal_type === 'BEARISH') bearish.set(d.date, d.sell_signals)
-    })
-
     const now = new Date()
     const current = { year: now.getUTCFullYear(), month: now.getUTCMonth() }
     const prevDate = new Date(Date.UTC(current.year, current.month - 1, 1))
     const previous = { year: prevDate.getUTCFullYear(), month: prevDate.getUTCMonth() }
+
+    if (candles.length > 0) {
+      // Walk every trading-day candle that falls within the previous or current month
+      // and compute its signal count from all candles up to (and including) that day.
+      const rangeStart = new Date(Date.UTC(previous.year, previous.month, 1))
+      candles.forEach((candle, idx) => {
+        const candleDate = new Date(candle.time + 'T00:00:00Z')
+        if (candleDate < rangeStart) return
+        if (idx < 25) return // not enough history for any indicator to fire
+
+        const sliced = candles.slice(0, idx + 1)
+        const { bullish: buy, bearish: sell } = getSignalCountsFromCandles(sliced)
+        bullish.set(candle.time, buy)
+        bearish.set(candle.time, sell)
+      })
+    }
 
     return {
       bullishCounts: bullish,
@@ -98,7 +125,7 @@ const SignalCalendar = ({ symbol }) => {
       previousMonth: previous,
       todayKey: now.toISOString().split('T')[0]
     }
-  }, [days])
+  }, [candles])
 
   if (loading) {
     return (
@@ -112,12 +139,12 @@ const SignalCalendar = ({ symbol }) => {
     )
   }
 
-  if (error) {
+  if (error || candles.length < MIN_LOOKBACK_CANDLES) {
     return (
       <div className="signal-calendar-section">
         <div className="data-not-available">
           <p>📅 DATA NOT AVAILABLE</p>
-          <p className="unavailable-subtitle">{error}</p>
+          <p className="unavailable-subtitle">{error || 'Not enough price history to compute signal history'}</p>
         </div>
       </div>
     )

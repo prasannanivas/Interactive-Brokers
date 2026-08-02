@@ -1671,66 +1671,6 @@ async def get_daily_snapshots(
         )
 
 
-@app.get("/api/signals/daily-snapshots/by-symbol/{symbol}")
-async def get_daily_snapshots_by_symbol(
-    symbol: str,
-    days: int = 60
-):
-    """
-    Get per-day BULLISH/BEARISH signal counts for a single symbol,
-    for populating a calendar-style heatmap (e.g. current + previous month).
-
-    Path params:
-        symbol: Watchlist symbol, e.g. USDCAD
-
-    Query params:
-        days: Number of days back to retrieve (default: 60)
-
-    Returns:
-        List of {date, signal_type, buy_signals, sell_signals, signal_strength}
-        one entry per day the symbol appeared in that day's snapshot.
-    """
-    try:
-        days = min(days, 365)
-        end_date = datetime.now(timezone.utc)
-        start_date = end_date - timedelta(days=days)
-
-        collection = get_daily_signal_snapshots_collection()
-        cursor = collection.find(
-            {
-                'snapshot_date': {'$gte': start_date, '$lte': end_date},
-                'signals.symbol': symbol
-            },
-            {'snapshot_date': 1, 'signals.$': 1}
-        ).sort('snapshot_date', 1)
-
-        results = []
-        async for doc in cursor:
-            symbol_signal = (doc.get('signals') or [None])[0]
-            if not symbol_signal:
-                continue
-            results.append({
-                'date': doc['snapshot_date'].strftime('%Y-%m-%d'),
-                'signal_type': symbol_signal.get('signal_type'),
-                'signal_strength': symbol_signal.get('signal_strength'),
-                'buy_signals': len(symbol_signal.get('buy_signals') or []),
-                'sell_signals': len(symbol_signal.get('sell_signals') or [])
-            })
-
-        return {
-            'symbol': symbol,
-            'days': results,
-            'count': len(results)
-        }
-    except Exception as e:
-        logger = logging.getLogger(__name__)
-        logger.error(f"Failed to fetch daily snapshots for symbol {symbol}: {e}")
-        raise HTTPException(
-            status_code=500,
-            detail=f"Failed to fetch daily snapshots for symbol: {str(e)}"
-        )
-
-
 @app.get("/api/signals/daily-snapshots/latest")
 async def get_latest_snapshot():
     """
