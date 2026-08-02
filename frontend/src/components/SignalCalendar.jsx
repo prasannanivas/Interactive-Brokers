@@ -114,12 +114,22 @@ const SignalCalendar = ({ symbol }) => {
 
   useEffect(() => {
     if (!symbol) return
+    let cancelled = false
     setLoading(true)
     setError(null)
+
     // Polygon ticker format for forex pairs
     const ticker = symbol.startsWith('C:') ? symbol : `C:${symbol}`
-    historyAPI.getPriceHistory(ticker, FETCH_DAYS, 'day')
-      .then(res => {
+
+    // This is a large live fetch (400 days) that can occasionally exceed the
+    // backend's fetch timeout on slower/higher-latency connections. Retry a
+    // couple of times before surfacing an error, instead of failing on the
+    // first hiccup.
+    const MAX_ATTEMPTS = 3
+    const fetchWithRetry = async (attempt = 1) => {
+      try {
+        const res = await historyAPI.getPriceHistory(ticker, FETCH_DAYS, 'day')
+        if (cancelled) return
         const raw = res.data?.candles || []
         const sorted = [...raw]
           .sort((a, b) => (a.time > b.time ? 1 : -1))
@@ -128,9 +138,21 @@ const SignalCalendar = ({ symbol }) => {
             return day !== 0 && day !== 6
           })
         setCandles(sorted)
-      })
-      .catch(() => setError('Price history not available'))
-      .finally(() => setLoading(false))
+        setLoading(false)
+      } catch (err) {
+        if (cancelled) return
+        console.error(`SignalCalendar: price history fetch failed for ${ticker} (attempt ${attempt}/${MAX_ATTEMPTS})`, err)
+        if (attempt < MAX_ATTEMPTS) {
+          setTimeout(() => fetchWithRetry(attempt + 1), 1500 * attempt)
+        } else {
+          setError('Price history not available')
+          setLoading(false)
+        }
+      }
+    }
+
+    fetchWithRetry()
+    return () => { cancelled = true }
   }, [symbol])
 
   // Reset both calendars back to the current month whenever the pair changes.

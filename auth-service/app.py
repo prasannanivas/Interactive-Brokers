@@ -538,9 +538,13 @@ async def get_price_history(
         # Fetch historical data with timeout and timespan
         fetch_start = time.time()
         try:
+            # Larger day-count requests (e.g. the signal calendar's 400-day pull)
+            # need more headroom on slower/higher-latency connections than the
+            # default hourly/short-range charts.
+            fetch_timeout = 60.0 if days > 200 else 30.0
             df = await asyncio.wait_for(
                 history_monitor._fetch_historical_data(symbol, days=days, timespan=timespan),
-                timeout=30.0  # 30 second timeout
+                timeout=fetch_timeout
             )
             fetch_time = time.time() - fetch_start
             print(f"⏱️  [FETCH] API data fetch: {fetch_time:.2f}s")
