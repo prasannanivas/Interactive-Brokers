@@ -19,6 +19,14 @@ const formatSize = (bytes) => {
   return kb > 1024 ? `${(kb / 1024).toFixed(1)} MB` : `${Math.round(kb)} KB`;
 };
 
+// The download job keeps running every day, but there's no FX report on
+// weekends (markets are closed) — hide any weekend-dated entries from the UI
+// rather than touching the backend schedule.
+const isWeekend = (dateStr) => {
+  const day = new Date(dateStr + 'T00:00:00Z').getUTCDay();
+  return day === 0 || day === 6;
+};
+
 const FxReports = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +42,8 @@ const FxReports = () => {
       const response = await fetch(`${API_URL}/api/fx-reports?limit=90`);
       if (!response.ok) throw new Error('Failed to load FX reports');
       const json = await response.json();
-      setReports(json.reports || []);
+      const weekdayReports = (json.reports || []).filter(r => !isWeekend(r.report_date));
+      setReports(weekdayReports);
       setError(null);
     } catch (err) {
       console.error('Error loading FX reports:', err);
