@@ -559,12 +559,14 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
   const CustomTooltip = ({ active, payload, label, title }) => {
     if (active && payload && payload.length) {
-      // Interest Rate chart has exactly two series (base/quote rate) — show
-      // their delta alongside the individual values.
+      // Interest Rate and Spread charts both plot exactly two series — show
+      // their delta alongside the individual values. (Price/EMA9 chart has
+      // two series too but a delta between price and its own EMA isn't a
+      // meaningful "Delta" in the same sense, so it's excluded.)
       const isRate = title.includes('Rate')
-      const delta = isRate && payload.length === 2 && Number.isFinite(payload[0]?.value) && Number.isFinite(payload[1]?.value)
-        ? payload[0].value - payload[1].value
-        : null
+      const showDelta = (isRate || title === 'Spread') && payload.length === 2
+        && Number.isFinite(payload[0]?.value) && Number.isFinite(payload[1]?.value)
+      const delta = showDelta ? payload[0].value - payload[1].value : null
 
       return (
         <div className="custom-tooltip">
