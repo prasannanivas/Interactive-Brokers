@@ -16,6 +16,28 @@ import PairEconomicCalendar from './PairEconomicCalendar'
 import { bondAPI, historyAPI } from '../api/api'
 import './ComprehensiveAnalysisChart.css'
 
+// Compact current/min/max delta readout shown under the Interest Rate and
+// Bond Spread charts. `stats` is { current, min, max } in percentage points.
+const DeltaStatsBar = ({ label, stats }) => {
+  const fmt = (v) => `${v >= 0 ? '+' : ''}${v.toFixed(2)}%`
+  return (
+    <div className="delta-stats-bar">
+      <span className="delta-stats-item delta-stats-current">
+        <span className="delta-stats-label">{label}:</span>
+        <span className={`delta-stats-value ${stats.current >= 0 ? 'positive' : 'negative'}`}>{fmt(stats.current)}</span>
+      </span>
+      <span className="delta-stats-item">
+        <span className="delta-stats-label">Min:</span>
+        <span className="delta-stats-value">{fmt(stats.min)}</span>
+      </span>
+      <span className="delta-stats-item">
+        <span className="delta-stats-label">Max:</span>
+        <span className="delta-stats-value">{fmt(stats.max)}</span>
+      </span>
+    </div>
+  )
+}
+
 const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchlist }) => {
   const [interestRateData, setInterestRateData] = useState([])
   const [bondSpreadData, setBondSpreadData] = useState([])
@@ -163,6 +185,31 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
     return { commonDateRange: sortedDates, mergedData: merged }
   }, [interestRateData, bondSpreadData, ema9Data])
+
+  // Current/min/max delta (base - quote) over the selected timeframe, for the
+  // Interest Rate and Bond Spread charts. Bond spreads are already base-quote
+  // deltas at the source, so the "delta" there is the value itself.
+  const deltaStats = (rows, key) => {
+    const deltas = rows
+      .map(r => r[key])
+      .filter(v => v !== null && v !== undefined && Number.isFinite(v))
+    if (deltas.length === 0) return null
+    return {
+      current: deltas[deltas.length - 1],
+      min: Math.min(...deltas),
+      max: Math.max(...deltas)
+    }
+  }
+
+  const interestRateDelta = useMemo(() => {
+    const withDelta = mergedData
+      .filter(r => r.baseRate !== null && r.quoteRate !== null)
+      .map(r => ({ delta: r.baseRate - r.quoteRate }))
+    return deltaStats(withDelta, 'delta')
+  }, [mergedData])
+
+  const spread10YStats = useMemo(() => deltaStats(mergedData, 'spread10Y'), [mergedData])
+  const spread2YStats = useMemo(() => deltaStats(mergedData, 'spread2Y'), [mergedData])
 
   const filterDataByTimeframe = (data, dateField = 'date') => {
     if (!data || data.length === 0) return data
@@ -581,6 +628,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           <h3>🏦 Interest Rate Comparison</h3>
           <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
         </div>
+        {!loadingInterest && dataAvailability.interestRates && interestRateDelta && (
+          <DeltaStatsBar label="Delta" stats={interestRateDelta} />
+        )}
         {loadingInterest ? (
           <div className="chart-skeleton">
             <div className="skeleton-shimmer" />
@@ -638,6 +688,12 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           <h3>📈 Bond Yield Spread</h3>
           <p className="chart-subtitle">Difference between {mapping.base.name} and {mapping.quote.name}</p>
         </div>
+        {!loadingBond && dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
+          <div className="delta-stats-row">
+            {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} />}
+            {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} />}
+          </div>
+        )}
         {loadingBond ? (
           <div className="chart-skeleton">
             <div className="skeleton-shimmer" />
@@ -804,6 +860,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               <h3>🏦 Interest Rate Comparison</h3>
               <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
             </div>
+            {dataAvailability.interestRates && interestRateDelta && (
+              <DeltaStatsBar label="Delta" stats={interestRateDelta} />
+            )}
             {!dataAvailability.interestRates ? (
               <div className="data-not-available">
                 <p>📊 DATA NOT AVAILABLE</p>
@@ -830,6 +889,12 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               <h3>📈 Bond Yield Spread</h3>
               <p className="chart-subtitle">Difference between {mapping.base.name} and {mapping.quote.name}</p>
             </div>
+            {dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
+              <div className="delta-stats-row">
+                {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} />}
+                {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} />}
+              </div>
+            )}
             {!dataAvailability.bondYields ? (
               <div className="data-not-available">
                 <p>📊 DATA NOT AVAILABLE</p>

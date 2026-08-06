@@ -106,6 +106,60 @@
   font-weight: 500;
 }
 
+.delta-stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.delta-stats-row .delta-stats-bar {
+  margin-bottom: 0;
+}
+
+.delta-stats-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.delta-stats-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+}
+
+.delta-stats-current .delta-stats-label,
+.delta-stats-current .delta-stats-value {
+  font-size: 13px;
+}
+
+.delta-stats-label {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.delta-stats-value {
+  font-weight: 700;
+  color: #111827;
+  font-variant-numeric: tabular-nums;
+}
+
+.delta-stats-value.positive {
+  color: #10b981;
+}
+
+.delta-stats-value.negative {
+  color: #ef4444;
+}
+
 .custom-tooltip {
   background: rgba(255, 255, 255, 0.98);
   border: 2px solid #e5e7eb;
