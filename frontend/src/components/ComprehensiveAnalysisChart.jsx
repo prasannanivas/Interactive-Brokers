@@ -843,13 +843,13 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               <>
                 <div className="summary-item">
                   <span className="label">10Y Spread:</span>
-                  <span className={`value ${parseFloat(bondSpreadData[bondSpreadData.length - 1].spread10Y) > 0 ? 'positive' : 'negative'}`}>
+                  <span className="value" style={{ color: '#3b82f6' }}>
                     {bondSpreadData[bondSpreadData.length - 1].spread10Y}%
                   </span>
                 </div>
                 <div className="summary-item">
                   <span className="label">2Y Spread:</span>
-                  <span className={`value ${parseFloat(bondSpreadData[bondSpreadData.length - 1].spread2Y) > 0 ? 'positive' : 'negative'}`}>
+                  <span className="value" style={{ color: '#ef4444' }}>
                     {bondSpreadData[bondSpreadData.length - 1].spread2Y}%
                   </span>
                 </div>
