@@ -17,7 +17,15 @@ import { bondAPI, historyAPI } from '../api/api'
 import './ComprehensiveAnalysisChart.css'
 
 // Compact current/min/max delta readout shown under the Interest Rate and
-// Bond Spread charts. `stats` is { current, min, max } in percentage points.
+// Bond Spread charts. `stats` is { current, min, minDate, max, maxDate }.
+const formatShortDate = (dateStr) => {
+  if (!dateStr) return ''
+  // dateStr is a plain 'YYYY-MM-DD' — format directly, no timezone conversion
+  const [y, m, d] = dateStr.split('-')
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  return `${MONTHS[parseInt(m, 10) - 1]} ${parseInt(d, 10)}, ${y}`
+}
+
 const DeltaStatsBar = ({ label, stats }) => {
   const fmt = (v) => `${v >= 0 ? '+' : ''}${v.toFixed(2)}%`
   return (
@@ -26,13 +34,15 @@ const DeltaStatsBar = ({ label, stats }) => {
         <span className="delta-stats-label">{label}:</span>
         <span className={`delta-stats-value ${stats.current >= 0 ? 'positive' : 'negative'}`}>{fmt(stats.current)}</span>
       </span>
-      <span className="delta-stats-item">
+      <span className="delta-stats-item" title={formatShortDate(stats.minDate)}>
         <span className="delta-stats-label">Min:</span>
         <span className="delta-stats-value">{fmt(stats.min)}</span>
+        <span className="delta-stats-date">({formatShortDate(stats.minDate)})</span>
       </span>
-      <span className="delta-stats-item">
+      <span className="delta-stats-item" title={formatShortDate(stats.maxDate)}>
         <span className="delta-stats-label">Max:</span>
         <span className="delta-stats-value">{fmt(stats.max)}</span>
+        <span className="delta-stats-date">({formatShortDate(stats.maxDate)})</span>
       </span>
     </div>
   )
@@ -188,23 +198,34 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
   // Current/min/max delta (base - quote) over the selected timeframe, for the
   // Interest Rate and Bond Spread charts. Bond spreads are already base-quote
-  // deltas at the source, so the "delta" there is the value itself.
+  // deltas at the source, so the "delta" there is the value itself. Tracks
+  // the date each min/max occurred on, not just the value.
   const deltaStats = (rows, key) => {
-    const deltas = rows
-      .map(r => r[key])
-      .filter(v => v !== null && v !== undefined && Number.isFinite(v))
-    if (deltas.length === 0) return null
+    const points = rows
+      .map(r => ({ value: r[key], date: r.date }))
+      .filter(p => p.value !== null && p.value !== undefined && Number.isFinite(p.value))
+    if (points.length === 0) return null
+
+    let minPoint = points[0]
+    let maxPoint = points[0]
+    for (const p of points) {
+      if (p.value < minPoint.value) minPoint = p
+      if (p.value > maxPoint.value) maxPoint = p
+    }
+
     return {
-      current: deltas[deltas.length - 1],
-      min: Math.min(...deltas),
-      max: Math.max(...deltas)
+      current: points[points.length - 1].value,
+      min: minPoint.value,
+      minDate: minPoint.date,
+      max: maxPoint.value,
+      maxDate: maxPoint.date
     }
   }
 
   const interestRateDelta = useMemo(() => {
     const withDelta = mergedData
       .filter(r => r.baseRate !== null && r.quoteRate !== null)
-      .map(r => ({ delta: r.baseRate - r.quoteRate }))
+      .map(r => ({ date: r.date, delta: r.baseRate - r.quoteRate }))
     return deltaStats(withDelta, 'delta')
   }, [mergedData])
 
@@ -538,14 +559,26 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
   const CustomTooltip = ({ active, payload, label, title }) => {
     if (active && payload && payload.length) {
+      // Interest Rate chart has exactly two series (base/quote rate) — show
+      // their delta alongside the individual values.
+      const isRate = title.includes('Rate')
+      const delta = isRate && payload.length === 2 && Number.isFinite(payload[0]?.value) && Number.isFinite(payload[1]?.value)
+        ? payload[0].value - payload[1].value
+        : null
+
       return (
         <div className="custom-tooltip">
           <p className="label">{`${formatFullDate(label)}`}</p>
           {payload.map((entry, index) => (
             <p key={index} style={{ color: entry.color }}>
-              {`${entry.name}: ${entry.value}${title.includes('Rate') ? '%' : ''}`}
+              {`${entry.name}: ${entry.value}${isRate ? '%' : ''}`}
             </p>
           ))}
+          {delta !== null && (
+            <p className="custom-tooltip-delta">
+              {`Delta: ${delta >= 0 ? '+' : ''}${delta.toFixed(2)}%`}
+            </p>
+          )}
         </div>
       )
     }

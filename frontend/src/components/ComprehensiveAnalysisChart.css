@@ -152,6 +152,12 @@
   font-variant-numeric: tabular-nums;
 }
 
+.delta-stats-date {
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
 .delta-stats-value.positive {
   color: #10b981;
 }
@@ -181,6 +187,14 @@
   margin: 4px 0;
   font-size: 12px;
   font-weight: 500;
+}
+
+.custom-tooltip-delta {
+  margin-top: 6px !important;
+  padding-top: 6px;
+  border-top: 1px dashed #e5e7eb;
+  color: #111827 !important;
+  font-weight: 700 !important;
 }
 
 .analysis-summary {
