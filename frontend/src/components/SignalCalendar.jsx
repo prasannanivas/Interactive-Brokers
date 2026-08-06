@@ -44,7 +44,8 @@ const MonthCalendar = ({ year, month, countsByDate, tone, todayKey, onPrev, onNe
   const cells = useMemo(() => buildMonthGrid(year, month), [year, month])
   const monthLabel = new Date(Date.UTC(year, month, 1)).toLocaleDateString('en-US', {
     month: 'long',
-    year: 'numeric'
+    year: 'numeric',
+    timeZone: 'UTC'
   })
 
   return (

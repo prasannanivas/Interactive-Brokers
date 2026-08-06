@@ -30,18 +30,16 @@ const getImportanceColor = (importance) => {
 }
 
 const formatDayLabel = (dateStr) => {
-  const date = new Date(dateStr)
-  const today = new Date()
-  const tomorrow = new Date(today)
-  tomorrow.setDate(tomorrow.getDate() + 1)
+  // dateStr is a plain 'YYYY-MM-DD' — compare calendar dates as strings so
+  // this doesn't drift by a day for users outside UTC.
+  const todayStr = new Date().toLocaleDateString('en-CA', { timeZone: 'UTC' })
+  const tomorrowDate = new Date()
+  tomorrowDate.setUTCDate(tomorrowDate.getUTCDate() + 1)
+  const tomorrowStr = tomorrowDate.toLocaleDateString('en-CA', { timeZone: 'UTC' })
 
-  today.setHours(0, 0, 0, 0)
-  tomorrow.setHours(0, 0, 0, 0)
-  date.setHours(0, 0, 0, 0)
-
-  if (date.getTime() === today.getTime()) return 'Today'
-  if (date.getTime() === tomorrow.getTime()) return 'Tomorrow'
-  return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+  if (dateStr === todayStr) return 'Today'
+  if (dateStr === tomorrowStr) return 'Tomorrow'
+  return new Date(dateStr).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' })
 }
 
 const PairEconomicCalendar = ({ baseCountry, quoteCountry }) => {
