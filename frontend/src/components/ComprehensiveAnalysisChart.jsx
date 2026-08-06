@@ -26,13 +26,13 @@ const formatShortDate = (dateStr) => {
   return `${MONTHS[parseInt(m, 10) - 1]} ${parseInt(d, 10)}, ${y}`
 }
 
-const DeltaStatsBar = ({ label, stats }) => {
+const DeltaStatsBar = ({ label, stats, deltaColor }) => {
   const fmt = (v) => `${v >= 0 ? '+' : ''}${v.toFixed(2)}%`
   return (
     <div className="delta-stats-bar">
-      <span className="delta-stats-item delta-stats-current">
+      <span className="delta-stats-item">
         <span className="delta-stats-label">{label}:</span>
-        <span className={`delta-stats-value ${stats.current >= 0 ? 'positive' : 'negative'}`}>{fmt(stats.current)}</span>
+        <span className="delta-stats-value" style={{ color: deltaColor }}>{fmt(stats.current)}</span>
       </span>
       <span className="delta-stats-item" title={formatShortDate(stats.minDate)}>
         <span className="delta-stats-label">Min:</span>
@@ -664,7 +664,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
         </div>
         {!loadingInterest && dataAvailability.interestRates && interestRateDelta && (
-          <DeltaStatsBar label="Delta" stats={interestRateDelta} />
+          <DeltaStatsBar label="Delta" stats={interestRateDelta} deltaColor="#111827" />
         )}
         {loadingInterest ? (
           <div className="chart-skeleton">
@@ -725,8 +725,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         </div>
         {!loadingBond && dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
           <div className="delta-stats-row">
-            {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} />}
-            {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} />}
+            {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="#3b82f6" />}
+            {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} deltaColor="#ef4444" />}
           </div>
         )}
         {loadingBond ? (
@@ -896,7 +896,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
             </div>
             {dataAvailability.interestRates && interestRateDelta && (
-              <DeltaStatsBar label="Delta" stats={interestRateDelta} />
+              <DeltaStatsBar label="Delta" stats={interestRateDelta} deltaColor="#111827" />
             )}
             {!dataAvailability.interestRates ? (
               <div className="data-not-available">
@@ -926,8 +926,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             </div>
             {dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
               <div className="delta-stats-row">
-                {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} />}
-                {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} />}
+                {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="#3b82f6" />}
+                {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} deltaColor="#ef4444" />}
               </div>
             )}
             {!dataAvailability.bondYields ? (

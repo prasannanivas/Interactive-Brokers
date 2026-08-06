@@ -136,11 +136,6 @@
   font-size: 12px;
 }
 
-.delta-stats-current .delta-stats-label,
-.delta-stats-current .delta-stats-value {
-  font-size: 13px;
-}
-
 .delta-stats-label {
   color: #6b7280;
   font-weight: 500;
@@ -156,14 +151,6 @@
   font-size: 11px;
   color: #9ca3af;
   font-weight: 500;
-}
-
-.delta-stats-value.positive {
-  color: #10b981;
-}
-
-.delta-stats-value.negative {
-  color: #ef4444;
 }
 
 .custom-tooltip {
