@@ -72,11 +72,16 @@ const FxReports = () => {
   }
 
   const [latest, ...history] = reports;
+  // report_date is stamped in US/Eastern on the backend — compare "today" in
+  // the same timezone, not the viewer's local time, so the label doesn't
+  // flip incorrectly for users outside EST around midnight.
+  const todayEstStr = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+  const isLatestToday = latest.report_date === todayEstStr;
 
   return (
     <div className="fx-reports">
       <div className="fx-reports-latest">
-        <div className="fx-reports-latest-label">Today's Report</div>
+        <div className="fx-reports-latest-label">{isLatestToday ? "Today's Report" : 'Latest Report'}</div>
         <div className="fx-reports-latest-card">
           <div className="fx-reports-latest-info">
             <div className="fx-reports-latest-title">Scotiabank G10 FX Daily</div>
