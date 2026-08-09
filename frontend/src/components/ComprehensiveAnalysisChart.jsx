@@ -234,14 +234,24 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
   const filterDataByTimeframe = (data, dateField = 'date') => {
     if (!data || data.length === 0) return data
-    
+
     const now = new Date()
     const cutoffDate = new Date(now.getTime() - (timeframe * 24 * 60 * 60 * 1000))
-    
-    return data.filter(item => {
-      const itemDate = new Date(item[dateField])
-      return itemDate >= cutoffDate
-    }).sort((a, b) => new Date(a[dateField]) - new Date(b[dateField]))
+
+    const sorted = [...data].sort((a, b) => new Date(a[dateField]) - new Date(b[dateField]))
+    const inWindow = sorted.filter(item => new Date(item[dateField]) >= cutoffDate)
+
+    // Rate-change data is sparse (values only recorded on days they actually
+    // changed), so the first in-window row can land weeks/months after the
+    // window's start, leaving the chart blank until then. If the last known
+    // value before the window started still applies, carry it forward to the
+    // window's start date instead of leaving a gap.
+    const lastBeforeWindow = [...sorted].reverse().find(item => new Date(item[dateField]) < cutoffDate)
+    if (lastBeforeWindow && (inWindow.length === 0 || new Date(inWindow[0][dateField]) > cutoffDate)) {
+      inWindow.unshift({ ...lastBeforeWindow, [dateField]: cutoffDate.toISOString().split('T')[0] })
+    }
+
+    return inWindow
   }
 
   const loadInterestRates = async (mapping) => {
