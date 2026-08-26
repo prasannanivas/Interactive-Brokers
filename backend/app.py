@@ -1718,11 +1718,15 @@ async def get_daily_snapshots_by_symbol(
         end_date = datetime.now(timezone.utc)
         start_date = end_date - timedelta(days=days)
 
+        # Watchlist/snapshot symbols are stored with Polygon's forex prefix
+        # (e.g. "C:USDCAD"), but callers may pass the bare pair — normalize.
+        lookup_symbol = symbol if symbol.startswith('C:') else f'C:{symbol}'
+
         collection = get_daily_signal_snapshots_collection()
         cursor = collection.find(
             {
                 'snapshot_date': {'$gte': start_date, '$lte': end_date},
-                'signals.symbol': symbol
+                'signals.symbol': lookup_symbol
             },
             {'snapshot_date': 1, 'signals.$': 1}
         ).sort('snapshot_date', 1)
@@ -1741,7 +1745,7 @@ async def get_daily_snapshots_by_symbol(
             })
 
         return {
-            'symbol': symbol,
+            'symbol': lookup_symbol,
             'days': results,
             'count': len(results)
         }
