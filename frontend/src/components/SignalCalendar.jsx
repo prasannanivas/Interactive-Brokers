@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { historyAPI } from '../api/api'
-import { getSignalCountsFromCandles } from '../utils/indicatorUtils'
+import { tradingAPI } from '../api/api'
 import './SignalCalendar.css'
 
 const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-// Max number of indicators that can vote in getSignalCountsFromCandles
-// (RSI9, EMA9, EMA20, EMA50, EMA200, MACD, MA-cross).
-const MAX_SIGNAL_COUNT = 7
+// Upper bound for the intensity scale. The live engine (indicator_calculator.py)
+// can cast up to ~10 votes (RSI, EMA9/20/50/200, MA-cross, MACD, Bollinger,
+// plus hourly/weekly variants), though not all fire every day. This is just
+// for shading depth, not a hard cap on the count shown.
+const MAX_SIGNAL_COUNT = 10
 
 // Builds a Monday-first grid of day numbers for the given month, padded
 // with leading/trailing nulls so every row has exactly 7 cells.
@@ -99,13 +100,11 @@ const MonthCalendar = ({ year, month, countsByDate, tone, todayKey, onPrev, onNe
   )
 }
 
-// Minimum prior trading-day candles needed for the slowest indicator (EMA200) to be defined.
-const MIN_LOOKBACK_CANDLES = 250
-// Calendar days to fetch: covers plenty of navigable history + lookback before the earliest one.
-const FETCH_DAYS = 400
+// How far back to pull daily snapshots for the navigable history.
+const FETCH_DAYS = 90
 
 const SignalCalendar = ({ symbol }) => {
-  const [candles, setCandles] = useState([])
+  const [days, setDays] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -119,40 +118,19 @@ const SignalCalendar = ({ symbol }) => {
     setLoading(true)
     setError(null)
 
-    // Polygon ticker format for forex pairs
-    const ticker = symbol.startsWith('C:') ? symbol : `C:${symbol}`
-
-    // This is a large live fetch (400 days) that can occasionally exceed the
-    // backend's fetch timeout on slower/higher-latency connections. Retry a
-    // couple of times before surfacing an error, instead of failing on the
-    // first hiccup.
-    const MAX_ATTEMPTS = 3
-    const fetchWithRetry = async (attempt = 1) => {
-      try {
-        const res = await historyAPI.getPriceHistory(ticker, FETCH_DAYS, 'day')
+    tradingAPI.getDailySnapshotsBySymbol(symbol, FETCH_DAYS)
+      .then(res => {
         if (cancelled) return
-        const raw = res.data?.candles || []
-        const sorted = [...raw]
-          .sort((a, b) => (a.time > b.time ? 1 : -1))
-          .filter(c => {
-            const day = new Date(c.time + 'T00:00:00Z').getUTCDay()
-            return day !== 0 && day !== 6
-          })
-        setCandles(sorted)
+        setDays(res.data?.days || [])
         setLoading(false)
-      } catch (err) {
+      })
+      .catch(err => {
         if (cancelled) return
-        console.error(`SignalCalendar: price history fetch failed for ${ticker} (attempt ${attempt}/${MAX_ATTEMPTS})`, err)
-        if (attempt < MAX_ATTEMPTS) {
-          setTimeout(() => fetchWithRetry(attempt + 1), 1500 * attempt)
-        } else {
-          setError('Price history not available')
-          setLoading(false)
-        }
-      }
-    }
+        console.error(`SignalCalendar: daily snapshot fetch failed for ${symbol}`, err)
+        setError('Signal history not available')
+        setLoading(false)
+      })
 
-    fetchWithRetry()
     return () => { cancelled = true }
   }, [symbol])
 
@@ -163,20 +141,21 @@ const SignalCalendar = ({ symbol }) => {
     setBearishCursor({ year: n.getUTCFullYear(), month: n.getUTCMonth() })
   }, [symbol])
 
+  // Same source as the live Currency Signal Matrix — each day's snapshot was
+  // captured from that day's watchlist buy_signals/sell_signals arrays, not
+  // recomputed here, so a given day's count always matches what the Matrix
+  // showed on that day.
   const { bullishCounts, bearishCounts, todayKey } = useMemo(() => {
     const bullish = new Map()
     const bearish = new Map()
 
-    candles.forEach((candle, idx) => {
-      if (idx < 25) return // not enough history for any indicator to fire
-      const sliced = candles.slice(0, idx + 1)
-      const { bullish: buy, bearish: sell } = getSignalCountsFromCandles(sliced)
-      bullish.set(candle.time, buy)
-      bearish.set(candle.time, sell)
+    days.forEach(d => {
+      if (d.signal_type === 'BULLISH') bullish.set(d.date, d.buy_signals)
+      else if (d.signal_type === 'BEARISH') bearish.set(d.date, d.sell_signals)
     })
 
     return { bullishCounts: bullish, bearishCounts: bearish, todayKey: now.toISOString().split('T')[0] }
-  }, [candles])
+  }, [days])
 
   const shiftMonth = (setCursor, delta) => {
     setCursor(prev => {
@@ -202,12 +181,12 @@ const SignalCalendar = ({ symbol }) => {
     )
   }
 
-  if (error || candles.length < MIN_LOOKBACK_CANDLES) {
+  if (error || days.length === 0) {
     return (
       <div className="signal-calendar-section">
         <div className="data-not-available">
           <p>📅 DATA NOT AVAILABLE</p>
-          <p className="unavailable-subtitle">{error || 'Not enough price history to compute signal history'}</p>
+          <p className="unavailable-subtitle">{error || 'No signal history captured yet for this pair'}</p>
         </div>
       </div>
     )
