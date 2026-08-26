@@ -144,14 +144,17 @@ const SignalCalendar = ({ symbol }) => {
   // Same source as the live Currency Signal Matrix — each day's snapshot was
   // captured from that day's watchlist buy_signals/sell_signals arrays, not
   // recomputed here, so a given day's count always matches what the Matrix
-  // showed on that day.
+  // showed on that day. Plot buy/sell counts independently (like the Matrix
+  // does), not gated by the day's overall net signal_type classification —
+  // a day can have real buy_signals even if sell_signals outnumbered them
+  // and the day was archived as BEARISH overall.
   const { bullishCounts, bearishCounts, todayKey } = useMemo(() => {
     const bullish = new Map()
     const bearish = new Map()
 
     days.forEach(d => {
-      if (d.signal_type === 'BULLISH') bullish.set(d.date, d.buy_signals)
-      else if (d.signal_type === 'BEARISH') bearish.set(d.date, d.sell_signals)
+      bullish.set(d.date, d.buy_signals)
+      bearish.set(d.date, d.sell_signals)
     })
 
     return { bullishCounts: bullish, bearishCounts: bearish, todayKey: now.toISOString().split('T')[0] }
