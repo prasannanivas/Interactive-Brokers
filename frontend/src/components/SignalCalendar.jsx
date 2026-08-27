@@ -32,6 +32,21 @@ const toDateKey = (year, month, day) => {
   return `${year}-${mm}-${dd}`
 }
 
+// "Today" per the trading day's own clock (US/Eastern), not the viewer's
+// local timezone or UTC — a viewer east of New York (India, UK, etc.) can
+// have already rolled into the next UTC/local calendar day while it's still
+// "yesterday" in EST, which was shifting this calendar a day ahead.
+const getTodayEST = () => {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/New_York',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).formatToParts(new Date())
+  const get = (type) => parts.find(p => p.type === type).value
+  return { year: parseInt(get('year'), 10), month: parseInt(get('month'), 10) - 1, day: parseInt(get('day'), 10) }
+}
+
 // 0 -> no data, 1-4 -> intensity tier scaled against MAX_SIGNAL_COUNT
 const intensityTier = (count) => {
   if (!count) return 0
@@ -124,9 +139,9 @@ const SignalCalendar = ({ symbol, watchlist }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  const now = new Date()
-  const [bullishCursor, setBullishCursor] = useState({ year: now.getUTCFullYear(), month: now.getUTCMonth() })
-  const [bearishCursor, setBearishCursor] = useState({ year: now.getUTCFullYear(), month: now.getUTCMonth() })
+  const todayEST = getTodayEST()
+  const [bullishCursor, setBullishCursor] = useState({ year: todayEST.year, month: todayEST.month })
+  const [bearishCursor, setBearishCursor] = useState({ year: todayEST.year, month: todayEST.month })
 
   useEffect(() => {
     if (!symbol) return
@@ -160,12 +175,12 @@ const SignalCalendar = ({ symbol, watchlist }) => {
 
   // Reset both calendars back to the current month whenever the pair changes.
   useEffect(() => {
-    const n = new Date()
-    setBullishCursor({ year: n.getUTCFullYear(), month: n.getUTCMonth() })
-    setBearishCursor({ year: n.getUTCFullYear(), month: n.getUTCMonth() })
+    const t = getTodayEST()
+    setBullishCursor({ year: t.year, month: t.month })
+    setBearishCursor({ year: t.year, month: t.month })
   }, [symbol])
 
-  const todayKey = now.toISOString().split('T')[0]
+  const todayKey = toDateKey(todayEST.year, todayEST.month, todayEST.day)
 
   // Live watchlist item for this pair — used for "today" so it matches the
   // Matrix exactly, instead of the on-the-fly candle approximation.
@@ -226,8 +241,8 @@ const SignalCalendar = ({ symbol, watchlist }) => {
   }
 
   const resetToToday = (setCursor) => {
-    const n = new Date()
-    setCursor({ year: n.getUTCFullYear(), month: n.getUTCMonth() })
+    const t = getTodayEST()
+    setCursor({ year: t.year, month: t.month })
   }
 
   if (loading) {
@@ -253,8 +268,8 @@ const SignalCalendar = ({ symbol, watchlist }) => {
     )
   }
 
-  const isCurrentBullish = bullishCursor.year === now.getUTCFullYear() && bullishCursor.month === now.getUTCMonth()
-  const isCurrentBearish = bearishCursor.year === now.getUTCFullYear() && bearishCursor.month === now.getUTCMonth()
+  const isCurrentBullish = bullishCursor.year === todayEST.year && bullishCursor.month === todayEST.month
+  const isCurrentBearish = bearishCursor.year === todayEST.year && bearishCursor.month === todayEST.month
 
   return (
     <div className="signal-calendar-section">
