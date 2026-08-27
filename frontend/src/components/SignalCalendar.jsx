@@ -1,14 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { tradingAPI } from '../api/api'
+import { historyAPI } from '../api/api'
+import { getSignalNamesFromCandles } from '../utils/indicatorUtils'
 import './SignalCalendar.css'
 
 const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-// Upper bound for the intensity scale. The live engine (indicator_calculator.py)
-// can cast up to ~10 votes (RSI, EMA9/20/50/200, MA-cross, MACD, Bollinger,
-// plus hourly/weekly variants), though not all fire every day. This is just
-// for shading depth, not a hard cap on the count shown.
-const MAX_SIGNAL_COUNT = 10
+// Upper bound for the intensity scale. getSignalNamesFromCandles casts at
+// most 7 votes (RSI9, EMA9/20/50/200, MACD, MA-cross). Today's live watchlist
+// count can occasionally exceed this (it draws on more indicators including
+// hourly/weekly ones) — that's fine, this is just shading depth, not a cap.
+const MAX_SIGNAL_COUNT = 7
 
 // Builds a Monday-first grid of day numbers for the given month, padded
 // with leading/trailing nulls so every row has exactly 7 cells.
@@ -41,13 +42,8 @@ const intensityTier = (count) => {
   return 1
 }
 
-// Turns an indicator code like "EMA_200_Daily" into "EMA 200 (Daily)"
-const formatIndicatorName = (code) => {
-  const parts = code.split('_')
-  const timeframe = parts[parts.length - 1]
-  const rest = parts.slice(0, -1).join(' ')
-  return `${rest} (${timeframe})`
-}
+// Turns an indicator code like "EMA_200" or "MA_Crossover" into "EMA 200" / "MA Crossover"
+const formatIndicatorName = (code) => code.split('_').join(' ')
 
 const buildTooltip = (dateKey, signals) => {
   if (signals === undefined) return dateKey
@@ -116,11 +112,15 @@ const MonthCalendar = ({ year, month, signalsByDate, tone, todayKey, onPrev, onN
   )
 }
 
-// How far back to pull daily snapshots for the navigable history.
-const FETCH_DAYS = 90
-
-const SignalCalendar = ({ symbol }) => {
-  const [days, setDays] = useState([])
+// Calendar days of daily candles to fetch: enough lookback for EMA200 to be
+// defined even on the earliest day a user might navigate back to.
+const FETCH_DAYS = 450
+// Same technique CurrencyMatrix.jsx already uses for its "Δ vs 7 days ago"
+// feature — recompute a past day's signals on the fly from candles, rather
+// than depending on a once-daily snapshot archive. Today reads live from the
+// watchlist instead, so it always matches the Matrix exactly right now.
+const SignalCalendar = ({ symbol, watchlist }) => {
+  const [candles, setCandles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -134,16 +134,24 @@ const SignalCalendar = ({ symbol }) => {
     setLoading(true)
     setError(null)
 
-    tradingAPI.getDailySnapshotsBySymbol(symbol, FETCH_DAYS)
+    const ticker = symbol.startsWith('C:') ? symbol : `C:${symbol}`
+    historyAPI.getPriceHistory(ticker, FETCH_DAYS, 'day')
       .then(res => {
         if (cancelled) return
-        setDays(res.data?.days || [])
+        const raw = res.data?.candles || []
+        const sorted = [...raw]
+          .sort((a, b) => (a.time > b.time ? 1 : -1))
+          .filter(c => {
+            const day = new Date(c.time + 'T00:00:00Z').getUTCDay()
+            return day !== 0 && day !== 6
+          })
+        setCandles(sorted)
         setLoading(false)
       })
       .catch(err => {
         if (cancelled) return
-        console.error(`SignalCalendar: daily snapshot fetch failed for ${symbol}`, err)
-        setError('Signal history not available')
+        console.error(`SignalCalendar: price history fetch failed for ${ticker}`, err)
+        setError('Price history not available')
         setLoading(false)
       })
 
@@ -157,26 +165,58 @@ const SignalCalendar = ({ symbol }) => {
     setBearishCursor({ year: n.getUTCFullYear(), month: n.getUTCMonth() })
   }, [symbol])
 
-  // Same source as the live Currency Signal Matrix — each day's snapshot was
-  // captured from that day's watchlist buy_signals/sell_signals arrays, not
-  // recomputed here, so a given day's count always matches what the Matrix
-  // showed AT CAPTURE TIME (5pm EST) that day. Plot buy/sell lists
-  // independently (like the Matrix does), not gated by the day's overall net
-  // signal_type classification — a day can have real buy_signals even if
-  // sell_signals outnumbered them and the day was archived as BEARISH overall.
-  const { bullishSignals, bearishSignals, todayKey, latestCaptureDate } = useMemo(() => {
+  const todayKey = now.toISOString().split('T')[0]
+
+  // Live watchlist item for this pair — used for "today" so it matches the
+  // Matrix exactly, instead of the on-the-fly candle approximation.
+  const liveItem = useMemo(() => {
+    if (!watchlist) return null
+    const bare = symbol.startsWith('C:') ? symbol.slice(2) : symbol
+    return watchlist.find(item => {
+      const itemBare = item.symbol?.startsWith('C:') ? item.symbol.slice(2) : item.symbol
+      return itemBare === bare
+    }) || null
+  }, [watchlist, symbol])
+
+  // Compute signal names for every day across both visible months (the two
+  // calendars can be navigated independently). Cheap to recompute per month
+  // since it's ~30 candle slices, not the whole fetched range.
+  const computeMonthSignals = (year, month) => {
     const bullish = new Map()
     const bearish = new Map()
+    if (candles.length === 0) return { bullish, bearish }
 
-    days.forEach(d => {
-      bullish.set(d.date, d.buy_signals)
-      bearish.set(d.date, d.sell_signals)
-    })
+    const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate()
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dateKey = toDateKey(year, month, day)
+      if (dateKey > todayKey) continue // future day, nothing to show
 
-    const latest = days.length > 0 ? days[days.length - 1].date : null
+      if (dateKey === todayKey && liveItem) {
+        bullish.set(dateKey, liveItem.buy_signals || [])
+        bearish.set(dateKey, liveItem.sell_signals || [])
+        continue
+      }
 
-    return { bullishSignals: bullish, bearishSignals: bearish, todayKey: now.toISOString().split('T')[0], latestCaptureDate: latest }
-  }, [days])
+      const idx = candles.findIndex(c => c.time === dateKey)
+      if (idx < 25) continue // no candle that day (weekend/holiday) or not enough lookback
+
+      const sliced = candles.slice(0, idx + 1)
+      const { buy, sell } = getSignalNamesFromCandles(sliced)
+      bullish.set(dateKey, buy)
+      bearish.set(dateKey, sell)
+    }
+
+    return { bullish, bearish }
+  }
+
+  const bullishMonthSignals = useMemo(
+    () => computeMonthSignals(bullishCursor.year, bullishCursor.month).bullish,
+    [candles, liveItem, bullishCursor.year, bullishCursor.month, todayKey]
+  )
+  const bearishMonthSignals = useMemo(
+    () => computeMonthSignals(bearishCursor.year, bearishCursor.month).bearish,
+    [candles, liveItem, bearishCursor.year, bearishCursor.month, todayKey]
+  )
 
   const shiftMonth = (setCursor, delta) => {
     setCursor(prev => {
@@ -202,12 +242,12 @@ const SignalCalendar = ({ symbol }) => {
     )
   }
 
-  if (error || days.length === 0) {
+  if (error || candles.length === 0) {
     return (
       <div className="signal-calendar-section">
         <div className="data-not-available">
           <p>📅 DATA NOT AVAILABLE</p>
-          <p className="unavailable-subtitle">{error || 'No signal history captured yet for this pair'}</p>
+          <p className="unavailable-subtitle">{error || 'No price history available for this pair'}</p>
         </div>
       </div>
     )
@@ -220,18 +260,13 @@ const SignalCalendar = ({ symbol }) => {
     <div className="signal-calendar-section">
       <div className="chart-title">
         <h3>📅 Signal History Calendar</h3>
-        <p className="chart-subtitle">Daily signal strength for {symbol} — darker means more indicators agreed. Hover a day to see which indicators fired.</p>
-        {latestCaptureDate && latestCaptureDate !== todayKey && (
-          <p className="signal-cal-stale-note">
-            ⓘ Captured once daily at 5pm EST — most recent capture is {latestCaptureDate}, not live. It will not match the Matrix's real-time count right now.
-          </p>
-        )}
+        <p className="chart-subtitle">Daily signal strength for {symbol} — darker means more indicators agreed. Today is live; past days are computed from price history. Hover a day to see which indicators fired.</p>
       </div>
       <div className="signal-calendar-months">
         <MonthCalendar
           year={bullishCursor.year}
           month={bullishCursor.month}
-          signalsByDate={bullishSignals}
+          signalsByDate={bullishMonthSignals}
           tone="bullish"
           todayKey={todayKey}
           onPrev={() => shiftMonth(setBullishCursor, -1)}
@@ -242,7 +277,7 @@ const SignalCalendar = ({ symbol }) => {
         <MonthCalendar
           year={bearishCursor.year}
           month={bearishCursor.month}
-          signalsByDate={bearishSignals}
+          signalsByDate={bearishMonthSignals}
           tone="bearish"
           todayKey={todayKey}
           onPrev={() => shiftMonth(setBearishCursor, -1)}

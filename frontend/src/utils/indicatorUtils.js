@@ -139,3 +139,64 @@ export const getSignalCountsFromCandles = (candles) => {
 
   return { bullish: buy, bearish: sell }
 }
+
+/**
+ * Same computation as getSignalCountsFromCandles, but returns which named
+ * indicators fired on each side instead of just the counts — used where the
+ * caller needs to show the individual signals (e.g. a hover tooltip), not
+ * just a number. Keep this in sync with getSignalCountsFromCandles above.
+ */
+export const getSignalNamesFromCandles = (candles) => {
+  if (!candles || candles.length < 25) return { buy: [], sell: [] }
+
+  const closes = candles.map(c => c.close)
+  const n = closes.length
+  const price = closes[n - 1]  // last candle = target date
+
+  const rsi9     = calculateRSI(closes, 9)
+  const ema9     = calculateEMA(closes, 9)
+  const ema20    = calculateEMA(closes, 20)
+  const ema50    = calculateEMA(closes, 50)
+  const ema200   = calculateEMA(closes, 200)
+  const macd     = calculateMACD(closes, 12, 26, 9)
+  const maCross  = calculateMACross(closes, 9, 21)
+
+  const buy = [], sell = []
+  const vote = (name, isBuy) => (isBuy ? buy : sell).push(name)
+
+  const ci = n - 1
+  if (ci >= 9) {
+    const rsi = rsi9[ci - 9]
+    if (Number.isFinite(rsi)) {
+      if (rsi < 30) vote('RSI_9', true)
+      else if (rsi > 70) vote('RSI_9', false)
+    }
+  }
+  if (ci >= 8) {
+    const ema = ema9[ci - 8]
+    if (Number.isFinite(ema)) vote('EMA_9', price > ema)
+  }
+  if (ci >= 19) {
+    const ema = ema20[ci - 19]
+    if (Number.isFinite(ema)) vote('EMA_20', price > ema)
+  }
+  if (ci >= 49) {
+    const ema = ema50[ci - 49]
+    if (Number.isFinite(ema)) vote('EMA_50', price > ema)
+  }
+  if (ci >= 199) {
+    const ema = ema200[ci - 199]
+    if (Number.isFinite(ema)) vote('EMA_200', price > ema)
+  }
+  if (ci >= 33) {
+    const hist = macd.histogram[ci - 33]
+    if (Number.isFinite(hist)) vote('MACD', hist > 0)
+  }
+  if (ci >= 20) {
+    const short = maCross.shortMA[ci - 8]
+    const long  = maCross.longMA[ci - 20]
+    if (Number.isFinite(short) && Number.isFinite(long)) vote('MA_Crossover', short > long)
+  }
+
+  return { buy, sell }
+}

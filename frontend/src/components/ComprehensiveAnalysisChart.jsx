@@ -889,7 +889,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       </div>
 
       {/* Daily Signal Calendar (current + previous month, bullish & bearish) */}
-      <SignalCalendar symbol={selectedCurrencyPair} />
+      <SignalCalendar symbol={selectedCurrencyPair} watchlist={watchlist} />
 
       {/* Upcoming central bank events for this pair's two currencies */}
       <PairEconomicCalendar baseCountry={mapping.base.name} quoteCountry={mapping.quote.name} />
