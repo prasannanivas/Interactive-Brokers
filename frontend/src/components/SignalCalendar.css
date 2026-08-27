@@ -132,8 +132,11 @@
 }
 
 .signal-cal-day:not(.signal-cal-day-empty):hover {
-  transform: scale(1.08);
+  /* No transform here: scaling on hover shifts the element under the cursor
+     mid-hover, which resets/confuses the native title tooltip's timer in
+     some browsers and can prevent it from ever appearing. */
   z-index: 1;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
 }
 
 .signal-cal-day-empty {

@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { historyAPI } from '../api/api'
-import { getSignalCountsFromCandles } from '../utils/indicatorUtils'
+import { getSignalNamesFromCandles } from '../utils/indicatorUtils'
 import './CurrencyMatrix.css'
 
 // ── Module-level helpers (pure, no state) ─────────────────────────────────────
@@ -67,7 +67,7 @@ const parsePairSymbol = (rawSymbol) => {
 
 // ── HeatmapCell sub-component ─────────────────────────────────────────────────
 
-const HeatmapCell = ({ value, type, delta, showDelta, isNull, onClick, title }) => {
+const HeatmapCell = ({ value, type, delta, showDelta, isNull, onClick, title, deltaTitle }) => {
   let deltaColor = '#6b7280'
   let deltaText = ''
 
@@ -92,6 +92,7 @@ const HeatmapCell = ({ value, type, delta, showDelta, isNull, onClick, title }) 
       {isNull ? '—' : value}
       {showDelta && !isNull && deltaText && (
         <span
+          title={deltaTitle || undefined}
           style={{
             position: 'absolute',
             bottom: '1px',
@@ -100,7 +101,7 @@ const HeatmapCell = ({ value, type, delta, showDelta, isNull, onClick, title }) 
             fontWeight: 'normal',
             lineHeight: 1,
             color: deltaColor,
-            pointerEvents: 'none',
+            cursor: deltaTitle ? 'help' : 'inherit',
           }}
         >
           {deltaText}
@@ -156,14 +157,16 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
         if (cutIdx < 25) return // not enough history
 
         const sliced = sorted.slice(0, cutIdx + 1)
-        const counts = getSignalCountsFromCandles(sliced)
+        const { buy, sell } = getSignalNamesFromCandles(sliced)
 
         const parsed = parsePairSymbol(symbol)
         if (parsed) {
           histData[`${parsed.base}/${parsed.quote}`] = {
-            bullish: counts.bullish,
-            bearish: counts.bearish,
+            bullish: buy.length,
+            bearish: sell.length,
             neutral: 0,
+            bullishNames: buy,
+            bearishNames: sell,
           }
         }
       })
@@ -193,6 +196,8 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
           bearish: item.sell_signals?.length || 0,
           neutral: countNeutralSignals(item),
           originalSymbol: item.symbol,
+          bullishNames: item.buy_signals || [],
+          bearishNames: item.sell_signals || [],
         }
       }
     })
@@ -351,7 +356,66 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
     rowCurrencies, colCurrencies,
     bullishMatrix, bearishMatrix, neutralMatrix, netMatrix,
     bullishDelta, bearishDelta, neutralDelta, netDelta,
+    pairData,
   } = matrixData
+
+  // Human-readable label for an indicator code, whichever engine produced it
+  // (live: e.g. "EMA_9_Daily"; JS week-ago estimate: e.g. "EMA_9").
+  const formatIndicatorLabel = (code) => code.split('_').join(' ')
+
+  // The live engine names things like "EMA_9_Daily"/"EMA_100_Hourly" while the
+  // week-ago JS estimate only knows "EMA_9" (no timeframe suffix) — strip the
+  // trailing timeframe so the same underlying indicator lines up for diffing.
+  const TIMEFRAME_SUFFIXES = ['_Daily', '_Hourly', '_Weekly']
+  const normalizeIndicatorName = (code) => {
+    const suffix = TIMEFRAME_SUFFIXES.find(s => code.endsWith(s))
+    return suffix ? code.slice(0, -suffix.length) : code
+  }
+
+  const buildDeltaTooltip = (pairSymbol, type) => {
+    if (type !== 'bullish' && type !== 'bearish') return null
+    const now = pairData[pairSymbol]
+    const hist = historicalPairData?.[pairSymbol]
+    if (!now || !hist) return null
+
+    const nowNames = type === 'bullish' ? now.bullishNames : now.bearishNames
+    const histNames = type === 'bullish' ? hist.bullishNames : hist.bearishNames
+    if (!nowNames || !histNames) return null
+
+    // Diff by normalized name — only indicators the week-ago estimate can
+    // even recognize (EMA9/20/50/200, MACD, MA_Crossover, RSI_9) take part;
+    // live-only indicators (hourly/weekly ones) have no week-ago counterpart
+    // to compare against and are listed separately, not silently dropped.
+    const histSet = new Set(histNames.map(normalizeIndicatorName))
+    const nowSet = new Set(nowNames.map(normalizeIndicatorName))
+    const recognizedByEstimate = new Set(['EMA_9', 'EMA_20', 'EMA_50', 'EMA_200', 'MACD', 'MA_Crossover', 'RSI_9'])
+
+    const added = nowNames.filter(n => recognizedByEstimate.has(normalizeIndicatorName(n)) && !histSet.has(normalizeIndicatorName(n)))
+    const removed = histNames.filter(n => recognizedByEstimate.has(normalizeIndicatorName(n)) && !nowSet.has(normalizeIndicatorName(n)))
+    const unmatched = nowNames.filter(n => !recognizedByEstimate.has(normalizeIndicatorName(n)))
+
+    const lines = [`${pairSymbol} — ${type} signals, change vs 7 days ago:`]
+    lines.push(added.length ? `+ Turned on: ${added.map(formatIndicatorLabel).join(', ')}` : '+ Turned on: none')
+    lines.push(removed.length ? `− Turned off: ${removed.map(formatIndicatorLabel).join(', ')}` : '− Turned off: none')
+    if (unmatched.length) {
+      lines.push('', `Also active now (no week-ago estimate available): ${unmatched.map(formatIndicatorLabel).join(', ')}`)
+    }
+
+    return lines.join('\n')
+  }
+
+  // Itemized tooltip for the main cell body — which specific indicators make
+  // up this count, not just the number.
+  const buildCellTooltip = (pairSymbol, type, value, typeLabel) => {
+    const base = `${pairSymbol}: ${value} ${typeLabel.toLowerCase()} signal${value !== 1 ? 's' : ''}`
+    if (type !== 'bullish' && type !== 'bearish') return base
+
+    const now = pairData[pairSymbol]
+    const names = type === 'bullish' ? now?.bullishNames : now?.bearishNames
+    if (!names || names.length === 0) return base
+
+    return [base + ':', ...names.map(n => `  • ${formatIndicatorLabel(n)}`)].join('\n')
+  }
 
   const renderMatrix = (matrix, type, title, emoji, deltaMatrix) => (
     <div className="matrix-panel">
@@ -387,8 +451,9 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
                       title={
                         isNull
                           ? `${baseCurrency} (same currency)`
-                          : `${pairSymbol}: ${value} ${title.toLowerCase()} signal${value !== 1 ? 's' : ''}`
+                          : buildCellTooltip(pairSymbol, type, value, title)
                       }
+                      deltaTitle={!isNull ? buildDeltaTooltip(pairSymbol, type) : null}
                     />
                   )
                 })}
