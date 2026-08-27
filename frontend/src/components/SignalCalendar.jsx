@@ -41,7 +41,22 @@ const intensityTier = (count) => {
   return 1
 }
 
-const MonthCalendar = ({ year, month, countsByDate, tone, todayKey, onPrev, onNext, onToday, isCurrentMonth }) => {
+// Turns an indicator code like "EMA_200_Daily" into "EMA 200 (Daily)"
+const formatIndicatorName = (code) => {
+  const parts = code.split('_')
+  const timeframe = parts[parts.length - 1]
+  const rest = parts.slice(0, -1).join(' ')
+  return `${rest} (${timeframe})`
+}
+
+const buildTooltip = (dateKey, signals) => {
+  if (signals === undefined) return dateKey
+  if (signals.length === 0) return `${dateKey}: no signals`
+  const lines = signals.map(s => `  • ${formatIndicatorName(s)}`)
+  return [`${dateKey} (${signals.length}):`, ...lines].join('\n')
+}
+
+const MonthCalendar = ({ year, month, signalsByDate, tone, todayKey, onPrev, onNext, onToday, isCurrentMonth }) => {
   const cells = useMemo(() => buildMonthGrid(year, month), [year, month])
   const monthLabel = new Date(Date.UTC(year, month, 1)).toLocaleDateString('en-US', {
     month: 'long',
@@ -72,7 +87,8 @@ const MonthCalendar = ({ year, month, countsByDate, tone, todayKey, onPrev, onNe
         {cells.map((day, i) => {
           if (day === null) return <div key={i} className="signal-cal-day signal-cal-day-empty" />
           const dateKey = toDateKey(year, month, day)
-          const count = countsByDate.get(dateKey)
+          const signals = signalsByDate.get(dateKey)
+          const count = signals?.length
           const tier = intensityTier(count)
           const isToday = dateKey === todayKey
           const isFuture = dateKey > todayKey
@@ -80,7 +96,7 @@ const MonthCalendar = ({ year, month, countsByDate, tone, todayKey, onPrev, onNe
             <div
               key={i}
               className={`signal-cal-day tier-${tier} ${isToday ? 'is-today' : ''} ${isFuture ? 'is-future' : ''}`}
-              title={count !== undefined ? `${dateKey}: ${count} signal${count === 1 ? '' : 's'}` : dateKey}
+              title={buildTooltip(dateKey, signals)}
             >
               <span className="signal-cal-day-number">{day}</span>
               {count > 0 && <span className="signal-cal-day-count">{count}</span>}
@@ -144,11 +160,11 @@ const SignalCalendar = ({ symbol }) => {
   // Same source as the live Currency Signal Matrix — each day's snapshot was
   // captured from that day's watchlist buy_signals/sell_signals arrays, not
   // recomputed here, so a given day's count always matches what the Matrix
-  // showed on that day. Plot buy/sell counts independently (like the Matrix
-  // does), not gated by the day's overall net signal_type classification —
-  // a day can have real buy_signals even if sell_signals outnumbered them
-  // and the day was archived as BEARISH overall.
-  const { bullishCounts, bearishCounts, todayKey } = useMemo(() => {
+  // showed AT CAPTURE TIME (5pm EST) that day. Plot buy/sell lists
+  // independently (like the Matrix does), not gated by the day's overall net
+  // signal_type classification — a day can have real buy_signals even if
+  // sell_signals outnumbered them and the day was archived as BEARISH overall.
+  const { bullishSignals, bearishSignals, todayKey, latestCaptureDate } = useMemo(() => {
     const bullish = new Map()
     const bearish = new Map()
 
@@ -157,7 +173,9 @@ const SignalCalendar = ({ symbol }) => {
       bearish.set(d.date, d.sell_signals)
     })
 
-    return { bullishCounts: bullish, bearishCounts: bearish, todayKey: now.toISOString().split('T')[0] }
+    const latest = days.length > 0 ? days[days.length - 1].date : null
+
+    return { bullishSignals: bullish, bearishSignals: bearish, todayKey: now.toISOString().split('T')[0], latestCaptureDate: latest }
   }, [days])
 
   const shiftMonth = (setCursor, delta) => {
@@ -202,13 +220,18 @@ const SignalCalendar = ({ symbol }) => {
     <div className="signal-calendar-section">
       <div className="chart-title">
         <h3>📅 Signal History Calendar</h3>
-        <p className="chart-subtitle">Daily signal strength for {symbol} — darker means more indicators agreed</p>
+        <p className="chart-subtitle">Daily signal strength for {symbol} — darker means more indicators agreed. Hover a day to see which indicators fired.</p>
+        {latestCaptureDate && latestCaptureDate !== todayKey && (
+          <p className="signal-cal-stale-note">
+            ⓘ Captured once daily at 5pm EST — most recent capture is {latestCaptureDate}, not live. It will not match the Matrix's real-time count right now.
+          </p>
+        )}
       </div>
       <div className="signal-calendar-months">
         <MonthCalendar
           year={bullishCursor.year}
           month={bullishCursor.month}
-          countsByDate={bullishCounts}
+          signalsByDate={bullishSignals}
           tone="bullish"
           todayKey={todayKey}
           onPrev={() => shiftMonth(setBullishCursor, -1)}
@@ -219,7 +242,7 @@ const SignalCalendar = ({ symbol }) => {
         <MonthCalendar
           year={bearishCursor.year}
           month={bearishCursor.month}
-          countsByDate={bearishCounts}
+          signalsByDate={bearishSignals}
           tone="bearish"
           todayKey={todayKey}
           onPrev={() => shiftMonth(setBearishCursor, -1)}

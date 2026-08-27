@@ -1224,15 +1224,20 @@ async def get_bond_yields(
         
         # Fetch matching documents
         cursor = collection.find(query)
-        
-        # Calculate cutoff date
-        cutoff_date = datetime.now() - timedelta(days=days)
-        
+
+        # Anchor the cutoff to UTC midnight "today" rather than the exact
+        # current instant — otherwise the server's time-of-day pushes the
+        # cutoff partway into the intended start day, excluding that day's
+        # midnight-stamped record and shifting the visible start of the data
+        # forward by a day.
+        today_utc_midnight = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+        cutoff_date = (today_utc_midnight - timedelta(days=days)).replace(tzinfo=None)
+
         results = []
         async for doc in cursor:
             # Get the data array from document
             data_array = doc.get('data', [])
-            
+
             # Filter by date and transform to original format
             for data_point in data_array:
                 if data_point.get('date_obj') and data_point['date_obj'] >= cutoff_date:
@@ -1311,15 +1316,20 @@ async def get_interest_rates_from_db(
         
         # Fetch matching documents
         cursor = collection.find(query)
-        
-        # Calculate cutoff date
-        cutoff_date = datetime.now() - timedelta(days=days)
-        
+
+        # Anchor the cutoff to UTC midnight "today" rather than the exact
+        # current instant — otherwise the server's time-of-day pushes the
+        # cutoff partway into the intended start day, excluding that day's
+        # midnight-stamped record and shifting the visible start of the data
+        # forward by a day.
+        today_utc_midnight = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+        cutoff_date = (today_utc_midnight - timedelta(days=days)).replace(tzinfo=None)
+
         results = []
         async for doc in cursor:
             # Get the data array from document
             data_array = doc.get('data', [])
-            
+
             # Filter by date and transform to original format
             for data_point in data_array:
                 if data_point.get('date_obj') and data_point['date_obj'] >= cutoff_date:
@@ -1736,12 +1746,14 @@ async def get_daily_snapshots_by_symbol(
             symbol_signal = (doc.get('signals') or [None])[0]
             if not symbol_signal:
                 continue
+            buy_signals = symbol_signal.get('buy_signals') or []
+            sell_signals = symbol_signal.get('sell_signals') or []
             results.append({
                 'date': doc['snapshot_date'].strftime('%Y-%m-%d'),
                 'signal_type': symbol_signal.get('signal_type'),
                 'signal_strength': symbol_signal.get('signal_strength'),
-                'buy_signals': len(symbol_signal.get('buy_signals') or []),
-                'sell_signals': len(symbol_signal.get('sell_signals') or [])
+                'buy_signals': buy_signals,
+                'sell_signals': sell_signals
             })
 
         return {

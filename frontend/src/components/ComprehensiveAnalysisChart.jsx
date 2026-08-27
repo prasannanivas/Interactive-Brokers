@@ -235,8 +235,15 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   const filterDataByTimeframe = (data, dateField = 'date') => {
     if (!data || data.length === 0) return data
 
+    // Anchor the cutoff to UTC midnight "today" (matching how date fields are
+    // stored as plain 'YYYY-MM-DD' strings elsewhere) instead of the exact
+    // current instant — otherwise the cutoff's time-of-day/timezone can push
+    // it past the intended start date, excluding that day's row and shifting
+    // the visible start of the chart by a day depending on the viewer's
+    // local timezone and time of day.
     const now = new Date()
-    const cutoffDate = new Date(now.getTime() - (timeframe * 24 * 60 * 60 * 1000))
+    const todayUTCMidnight = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())
+    const cutoffDate = new Date(todayUTCMidnight - (timeframe * 24 * 60 * 60 * 1000))
 
     const sorted = [...data].sort((a, b) => new Date(a[dateField]) - new Date(b[dateField]))
     const inWindow = sorted.filter(item => new Date(item[dateField]) >= cutoffDate)
