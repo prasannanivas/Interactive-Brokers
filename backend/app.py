@@ -21,6 +21,7 @@ from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from massive_monitor_v2 import MassiveMonitorV2
 from telegram_bot import TelegramBot
+from ma_cross_alerts import MACrossAlerter, get_recent_alerts
 from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection, get_economic_calendar_collection, get_fx_reports_collection
 from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot, PasswordResetRequest, PasswordReset, PasswordChange, LoginHistoryResponse
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
@@ -38,6 +39,7 @@ load_dotenv()
 # Monitor now uses MongoDB for watchlist storage (use_db=True by default)
 monitor = MassiveMonitorV2(api_key=os.getenv('MASSIVE_API_KEY'), use_db=True)
 telegram_bot = TelegramBot()
+ma_cross_alerter = MACrossAlerter(telegram_bot)
 active_websockets: List[WebSocket] = []
 
 # Track previous indicator and position states (loaded from DB on startup)
@@ -1082,6 +1084,39 @@ async def get_telegram_status():
         "configured": telegram_bot.is_configured(),
         "chat_id": telegram_bot.chat_id if telegram_bot.is_configured() else None
     }
+
+
+@app.get("/api/ma-cross-alerts")
+async def get_ma_cross_alerts(limit: int = 50):
+    """Recent MA Cross (EMA9/EMA21) alerts, newest first"""
+    try:
+        return {"alerts": await get_recent_alerts(min(max(limit, 1), 500))}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/ma-cross-alerts/test")
+async def test_ma_cross_alert_channels():
+    """Send a test MA Cross alert to Telegram and the dashboard"""
+    results = {}
+    if telegram_bot.is_configured():
+        try:
+            await telegram_bot.send_message("🧪 <b>MA Cross alert test</b> - Telegram channel working")
+            results['telegram'] = 'sent'
+        except Exception as e:
+            results['telegram'] = f'failed: {e}'
+    else:
+        results['telegram'] = 'not configured'
+    await broadcast_update({
+        "type": "ma_cross_alert",
+        "data": [{
+            "symbol": "TEST", "direction": "BUY", "cross_date": datetime.now().strftime('%Y-%m-%d'),
+            "price": None, "fast_ema": None, "slow_ema": None, "test": True,
+            "timestamp": datetime.now().isoformat()
+        }]
+    })
+    results['dashboard'] = 'broadcast'
+    return results
 
 
 @app.get("/api/bond/interest-rates")
@@ -2140,6 +2175,17 @@ async def monitoring_loop():
                         "type": "update",
                         "data": updates
                     })
+
+                    # Key signal: MA Cross (EMA9/EMA21) - alert immediately on a new cross
+                    try:
+                        new_cross_alerts = await ma_cross_alerter.process(updates.get('symbols', []))
+                        if new_cross_alerts:
+                            await broadcast_update({
+                                "type": "ma_cross_alert",
+                                "data": new_cross_alerts
+                            })
+                    except Exception as e:
+                        print(f"✗ MA Cross alert processing failed: {e}")
 
                     # Track state changes and send Telegram notifications
                     if telegram_bot.is_configured():

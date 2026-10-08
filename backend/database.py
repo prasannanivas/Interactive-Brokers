@@ -131,6 +131,10 @@ class Database:
         # FX reports indexes - one document per report date
         await db.fx_reports.create_index([('report_date', -1)], unique=True)
 
+        # MA Cross (EMA9/EMA21) alerts - one alert per symbol+direction+cross bar
+        await db.ma_cross_alerts.create_index([('symbol', 1), ('direction', 1), ('cross_date', 1)], unique=True)
+        await db.ma_cross_alerts.create_index([('timestamp', -1)])
+
         print("✓ MongoDB indexes created")
 
 
@@ -213,3 +217,8 @@ def get_economic_calendar_collection():
 def get_fx_reports_collection():
     """Get FX reports collection"""
     return Database.get_db().fx_reports
+
+
+def get_ma_cross_alerts_collection():
+    """Get MA Cross (EMA9/EMA21) alerts collection"""
+    return Database.get_db().ma_cross_alerts

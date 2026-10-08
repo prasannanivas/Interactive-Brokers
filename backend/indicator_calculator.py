@@ -151,35 +151,54 @@ class IndicatorCalculator:
     @staticmethod
     def calculate_ma_crossover(prices: pd.Series) -> Dict:
         """
-        Calculate MA Crossover (9-day EMA vs 21-day EMA)
-        
+        Calculate MA Cross (EMA 9, EMA 21)
+
+        Signal is the current state: EMA9 > EMA21 = BUY, EMA9 < EMA21 = SELL.
+        Also reports the most recent cross (direction, bar date, bars since) so
+        callers can alert the moment a new cross happens.
+
         Returns:
-            dict with fast_ema, slow_ema, signal
+            dict with fast_ema, slow_ema, signal, crossed, last_cross_direction,
+            last_cross_date, bars_since_cross
         """
-        if len(prices) < 21:
+        if len(prices) < 22:
             return None
-        
+
         fast_ema = IndicatorCalculator.calculate_ema(prices, 9)
         slow_ema = IndicatorCalculator.calculate_ema(prices, 21)
-        
+
         fast_value = fast_ema.iloc[-1]
         slow_value = slow_ema.iloc[-1]
-        
-        fast_prev = fast_ema.iloc[-2] if len(fast_ema) > 1 else fast_value
-        slow_prev = slow_ema.iloc[-2] if len(slow_ema) > 1 else slow_value
-        
-        # Determine signal based on crossover
+
         signal = None
-        if fast_prev <= slow_prev and fast_value > slow_value:
-            signal = "BUY"  # Fast crossed above slow
-        elif fast_prev >= slow_prev and fast_value < slow_value:
-            signal = "SELL"  # Fast crossed below slow
-        
+        if fast_value > slow_value:
+            signal = "BUY"
+        elif fast_value < slow_value:
+            signal = "SELL"
+
+        # Walk back to find the most recent bar where the EMA9/EMA21 relation flipped
+        diff = (fast_ema - slow_ema).dropna()
+        side = diff.apply(lambda d: 1 if d > 0 else (-1 if d < 0 else 0))
+        last_cross_direction = None
+        last_cross_date = None
+        bars_since_cross = None
+        for i in range(len(side) - 1, 0, -1):
+            if side.iloc[i] != 0 and side.iloc[i - 1] != side.iloc[i]:
+                last_cross_direction = "BUY" if side.iloc[i] > 0 else "SELL"
+                idx = side.index[i]
+                last_cross_date = idx.strftime('%Y-%m-%d') if hasattr(idx, 'strftime') else str(idx)
+                bars_since_cross = len(side) - 1 - i
+                break
+
         return {
             'fast_ema': round(float(fast_value), 6),
             'slow_ema': round(float(slow_value), 6),
             'signal': signal,
-            'signal_timestamp': datetime.now() if signal else None
+            'signal_timestamp': datetime.now() if signal else None,
+            'crossed': bars_since_cross == 0,
+            'last_cross_direction': last_cross_direction,
+            'last_cross_date': last_cross_date,
+            'bars_since_cross': bars_since_cross
         }
     
     @staticmethod
