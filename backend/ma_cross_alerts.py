@@ -73,12 +73,19 @@ class MACrossAlerter:
         self.telegram_bot = telegram_bot
 
     async def _record_if_new(self, alert: dict) -> bool:
-        """Insert alert; returns False if this cross was already alerted"""
+        """Insert alert; returns False if this cross was already alerted.
+        A cross whose Telegram send failed earlier is retried once Telegram is configured."""
         try:
             await get_ma_cross_alerts_collection().insert_one(dict(alert))
             return True
         except DuplicateKeyError:
-            return False
+            if not self.telegram_bot.is_configured():
+                return False
+            existing = await get_ma_cross_alerts_collection().find_one(
+                {'symbol': alert['symbol'], 'direction': alert['direction'], 'cross_date': alert['cross_date']},
+                {'telegram_sent': 1}
+            )
+            return bool(existing) and existing.get('telegram_sent') is False
 
     async def process(self, symbols: List[dict]) -> List[dict]:
         """Detect new crosses in a batch of symbol updates, notify, and return new alerts"""
