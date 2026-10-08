@@ -710,9 +710,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     return { macd: macdLine, signal: signalLine, histogram }
   }
 
+  // MA Cross (EMA 9, EMA 21): EMA9 > EMA21 = buy, EMA9 < EMA21 = sell
   const calculateMACross = (prices, shortPeriod, longPeriod) => {
-    const shortMA = calculateSMA(prices, shortPeriod)
-    const longMA = calculateSMA(prices, longPeriod)
+    const shortMA = calculateEMA(prices, shortPeriod)
+    const longMA = calculateEMA(prices, longPeriod)
     
     const offset = longPeriod - shortPeriod
     const currentShort = shortMA[shortMA.length - 1]
@@ -797,7 +798,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           const hist = macdHist[ci - 33]
           if (Number.isFinite(hist)) { hist > 0 ? buyCount++ : sellCount++ }
         }
-        // MA Cross SMA9 vs SMA21: shortMAArr[i] → candle i+8, longMAArr[i] → candle i+20
+        // MA Cross EMA9 vs EMA21: shortMAArr[i] → candle i+8, longMAArr[i] → candle i+20
         if (ci >= 20) {
           const short = shortMAArr[ci - 8]
           const long  = longMAArr[ci - 20]
@@ -842,7 +843,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           const hist = macdHist[ci - 33]
           if (Number.isFinite(hist)) { hist > 0 ? buyCount++ : sellCount++ }
         }
-        // MA Cross SMA9 vs SMA21: shortMAArr[i] → candle i+8, longMAArr[i] → candle i+20
+        // MA Cross EMA9 vs EMA21: shortMAArr[i] → candle i+8, longMAArr[i] → candle i+20
         if (ci >= 20) {
           const short = shortMAArr[ci - 8]
           const long  = longMAArr[ci - 20]
@@ -983,11 +984,37 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     // Debug: Log first few candle timestamps
     candleSeries.setData(candles)
 
-    // Add signal markers if not in volume mode
-    if (!showVolumeMode && signalMarkers && signalMarkers.length > 0) {
-      // Individual Marker Mode - Show each signal as an arrow
-      console.log('🎯 Adding individual signal markers:', signalMarkers)
-      candleSeries.setMarkers(signalMarkers)
+    // MA Cross (EMA 9, EMA 21) arrows: green up = EMA9 crossed above EMA21 (buy),
+    // red down = EMA9 crossed below EMA21 (sell)
+    const maCrossMarkers = []
+    if (visibleIndicators.maCross && indicators.maCross?.data?.shortMA && indicators.maCross?.data?.longMA) {
+      const { shortMA, longMA } = indicators.maCross.data
+      const shortStart = candles.length - shortMA.length
+      const longStart = candles.length - longMA.length
+      let prevSide = 0
+      for (let ci = longStart; ci < candles.length; ci++) {
+        const s = shortMA[ci - shortStart]
+        const l = longMA[ci - longStart]
+        if (!Number.isFinite(s) || !Number.isFinite(l)) continue
+        const side = s > l ? 1 : s < l ? -1 : 0
+        if (side !== 0 && prevSide !== 0 && side !== prevSide) {
+          maCrossMarkers.push(side > 0
+            ? { time: candles[ci].time, position: 'belowBar', color: '#22c55e', shape: 'arrowUp', text: 'BUY', size: 2 }
+            : { time: candles[ci].time, position: 'aboveBar', color: '#ef4444', shape: 'arrowDown', text: 'SELL', size: 2 })
+        }
+        if (side !== 0) prevSide = side
+      }
+    }
+
+    // Add signal markers if not in volume mode, plus MA Cross arrows
+    const showSignalMarkers = !showVolumeMode && signalMarkers && signalMarkers.length > 0
+    if (showSignalMarkers || maCrossMarkers.length > 0) {
+      const toTs = (t) => typeof t === 'number' ? t
+        : typeof t === 'string' ? Date.parse(t) / 1000
+        : Date.UTC(t.year, t.month - 1, t.day) / 1000
+      const allMarkers = [...(showSignalMarkers ? signalMarkers : []), ...maCrossMarkers]
+        .sort((a, b) => toTs(a.time) - toTs(b.time))
+      candleSeries.setMarkers(allMarkers)
     }
 
     // Add volume histogram bars if in volume mode (not for hourly)
@@ -1163,6 +1190,27 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         lastValueVisible: false,
       })
       ema9Series.setData(safeMap(indicators.ema9.data, ema9StartIndex))
+    }
+
+    // Add MA Cross lines (Daily): EMA 9 fast (green) and EMA 21 slow (red)
+    if (visibleIndicators.maCross && indicators.maCross?.data?.shortMA && indicators.maCross?.data?.longMA) {
+      const { shortMA, longMA } = indicators.maCross.data
+      const fastSeries = chart.addLineSeries({
+        color: '#22c55e',
+        lineWidth: 2,
+        priceLineVisible: false,
+        lastValueVisible: false,
+        title: 'EMA9',
+      })
+      fastSeries.setData(safeMap(shortMA, candles.length - shortMA.length))
+      const slowSeries = chart.addLineSeries({
+        color: '#f87171',
+        lineWidth: 2,
+        priceLineVisible: false,
+        lastValueVisible: false,
+        title: 'EMA21',
+      })
+      slowSeries.setData(safeMap(longMA, candles.length - longMA.length))
     }
 
     // Add EMA 20 (Daily or Weekly)
@@ -1768,8 +1816,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                           onChange={() => toggleIndicator('maCross')}
                         />
                         <span className="toggle-label">
-                          <span className="toggle-color" style={{ background: '#14b8a6' }}></span>
-                          MA Crossover
+                          <span className="toggle-color" style={{ background: 'linear-gradient(90deg, #22c55e 50%, #f87171 50%)' }}></span>
+                          MA Cross (EMA 9, EMA 21)
                         </span>
                       </label>
 

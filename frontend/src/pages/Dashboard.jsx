@@ -12,6 +12,7 @@ import ComprehensiveAnalysisChart from '../components/ComprehensiveAnalysisChart
 import DailySignalVolumeChart from '../components/DailySignalVolumeChart'
 import ErrorBoundary from '../components/ErrorBoundary'
 import LoginHistory from '../components/LoginHistory'
+import MACrossAlertBanner from '../components/MACrossAlertBanner'
 import './Dashboard.css'
 
 const Dashboard = () => {
@@ -71,6 +72,7 @@ const Dashboard = () => {
   const [loadingInterestRates, setLoadingInterestRates] = useState(false)
   const [selectedCurrencyPair, setSelectedCurrencyPair] = useState('USDCAD')
   const [showLoginHistory, setShowLoginHistory] = useState(false)
+  const [liveMACrossAlerts, setLiveMACrossAlerts] = useState([]) // MA Cross alerts pushed over WebSocket
   const wsRef = useRef(null)
 
   // Column configuration - all available columns
@@ -210,6 +212,8 @@ const Dashboard = () => {
         const message = JSON.parse(event.data)
         if (message.type === 'update') {
           loadWatchlist()
+        } else if (message.type === 'ma_cross_alert') {
+          setLiveMACrossAlerts(message.data || [])
         }
       } catch (err) {
         console.error('WebSocket message parse error:', err)
@@ -712,6 +716,9 @@ const Dashboard = () => {
           </button>
         </div>
       </div>
+
+      {/* MA Cross (EMA 9, EMA 21) alerts - key buy/sell signal */}
+      <MACrossAlertBanner liveAlerts={liveMACrossAlerts} onOpenChart={openChartModal} />
 
       {/* Currency Signal Matrix */}
       <CurrencyMatrix watchlist={watchlist} onPairClick={openChartWithSignals} />
@@ -1400,16 +1407,24 @@ const Dashboard = () => {
                                 Fast: {item.daily_indicators.ma_crossover.fast_ema?.toFixed(5)}<br/>
                                 Slow: {item.daily_indicators.ma_crossover.slow_ema?.toFixed(5)}
                               </div>
-                              {item.daily_indicators.ma_crossover.signal ? (
-                                <>
-                                  <span className={`signal-badge-mini ${item.daily_indicators.ma_crossover.signal === 'BUY' ? 'buy' : 'sell'}`}>
-                                    {item.daily_indicators.ma_crossover.signal}
-                                  </span>
-                                  {item.daily_indicators.ma_crossover.signal_timestamp && (
-                                    <div className="signal-time">{formatSignalTime(item.daily_indicators.ma_crossover.signal_timestamp)}</div>
-                                  )}
-                                </>
-                              ) : (
+                              {item.daily_indicators.ma_crossover.signal ? (() => {
+                                const mac = item.daily_indicators.ma_crossover
+                                const dir = mac.signal === 'BUY' ? 'buy' : 'sell'
+                                const fresh = mac.bars_since_cross != null && mac.bars_since_cross <= 1
+                                return (
+                                  <div className={fresh ? `ma-cross-cell-fresh ${dir}` : ''} title={fresh ? 'New EMA 9 / EMA 21 cross' : undefined}>
+                                    <span className={`ma-cross-cell-arrow ${dir}`}>{dir === 'buy' ? '▲' : '▼'}</span>
+                                    <span className={`signal-badge-mini ${dir}`}>
+                                      {mac.signal}
+                                    </span>
+                                    {mac.last_cross_date ? (
+                                      <div className="signal-time">Crossed {mac.last_cross_date}</div>
+                                    ) : mac.signal_timestamp && (
+                                      <div className="signal-time">{formatSignalTime(mac.signal_timestamp)}</div>
+                                    )}
+                                  </div>
+                                )
+                              })() : (
                                 <span className="signal-badge-mini neutral">Neutral</span>
                               )}
                             </>

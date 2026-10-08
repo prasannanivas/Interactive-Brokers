@@ -57,9 +57,10 @@ export const calculateMACD = (prices, fastPeriod, slowPeriod, signalPeriod) => {
   return { macd: macdLine, signal: signalLine, histogram }
 }
 
+// MA Cross (EMA 9, EMA 21): EMA arrays start at candle period-1, same offsets as SMA
 export const calculateMACross = (prices, shortPeriod, longPeriod) => {
-  const shortMA = calculateSMA(prices, shortPeriod)
-  const longMA = calculateSMA(prices, longPeriod)
+  const shortMA = calculateEMA(prices, shortPeriod)
+  const longMA = calculateEMA(prices, longPeriod)
   const currentShort = shortMA[shortMA.length - 1]
   const currentLong = longMA[longMA.length - 1]
   const prevShort = shortMA[shortMA.length - 2]
@@ -128,7 +129,7 @@ export const getSignalCountsFromCandles = (candles) => {
     const hist = macd.histogram[ci - 33]
     if (Number.isFinite(hist)) { hist > 0 ? buy++ : sell++ }
   }
-  // MA Cross SMA9 vs SMA21
+  // MA Cross EMA9 vs EMA21
   if (ci >= 20) {
     const short = maCross.shortMA[ci - 8]
     const long  = maCross.longMA[ci - 20]
