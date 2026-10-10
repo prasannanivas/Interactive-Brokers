@@ -14,6 +14,11 @@ from models import UserInDB, UserResponse
 import os
 import hashlib
 from bson import ObjectId
+from dotenv import load_dotenv
+
+# Load backend/.env here so every service importing this module (signal service on 8000,
+# auth service on 8001) signs and verifies tokens with the same secret, whatever the import order.
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
 
 
 # Security configuration
@@ -87,7 +92,8 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         subject: str = payload.get("sub")
         if subject is None:
             raise credentials_exception
-    except JWTError:
+    except JWTError as e:
+        print(f"✗ Auth: token rejected ({e})")
         raise credentials_exception
 
     # Signal service tokens carry the email in "sub"; auth service tokens carry the user id
@@ -97,8 +103,9 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         user = await users_collection.find_one({"_id": ObjectId(subject)})
 
     if user is None:
+        print(f"✗ Auth: no user found for token subject {subject}")
         raise credentials_exception
-    
+
     if not user.get("is_active", True):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
