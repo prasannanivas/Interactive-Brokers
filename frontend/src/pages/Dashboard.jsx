@@ -680,6 +680,9 @@ const Dashboard = () => {
           <button className="login-history-btn" onClick={() => setShowLoginHistory(true)} title="View Login History">
             📋 History
           </button>
+          <button className="login-history-btn" onClick={() => navigate('/settings')} title="Notification settings">
+            ⚙️ Settings
+          </button>
           <span className="user-info">👤 {user?.username || user?.email}</span>
           <button className="logout-button" onClick={handleLogout}>
             🚪 Logout

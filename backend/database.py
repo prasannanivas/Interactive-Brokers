@@ -135,6 +135,9 @@ class Database:
         await db.ma_cross_alerts.create_index([('symbol', 1), ('direction', 1), ('cross_date', 1)], unique=True)
         await db.ma_cross_alerts.create_index([('timestamp', -1)])
 
+        # Per-user notification settings (Telegram bot token + chat id)
+        await db.user_notification_settings.create_index([('user_id', 1)], unique=True)
+
         print("✓ MongoDB indexes created")
 
 
@@ -222,3 +225,8 @@ def get_fx_reports_collection():
 def get_ma_cross_alerts_collection():
     """Get MA Cross (EMA9/EMA21) alerts collection"""
     return Database.get_db().ma_cross_alerts
+
+
+def get_user_notification_settings_collection():
+    """Get per-user notification settings collection (Telegram bot token + chat id)"""
+    return Database.get_db().user_notification_settings

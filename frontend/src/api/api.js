@@ -98,6 +98,15 @@ export const tradingAPI = {
   getMACrossAlerts: (limit = 50) => tradingApi.get(`/api/ma-cross-alerts?limit=${limit}`),
 }
 
+// Settings API - per-user Telegram bot for alerts (signal service, requires login)
+export const settingsAPI = {
+  getTelegram: () => tradingApi.get('/api/settings/telegram'),
+  saveTelegram: (data) => tradingApi.put('/api/settings/telegram', data),
+  deleteTelegram: () => tradingApi.delete('/api/settings/telegram'),
+  testTelegram: (data) => tradingApi.post('/api/settings/telegram/test', data),
+  detectTelegramChat: (data) => tradingApi.post('/api/settings/telegram/detect-chat', data),
+}
+
 // Data API - uses data service (port 8001) - watchlist and search operations
 export const dataAPI = {
   searchSymbols: (query) => authApi.get(`/api/symbols/search?query=${query}`),

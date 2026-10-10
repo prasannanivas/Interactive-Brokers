@@ -2,7 +2,8 @@
 MA Cross (EMA 9, EMA 21) Alerts
 Key buy/sell signal - notifies immediately when EMA9 crosses EMA21 on the daily chart.
 
-Notifies via Telegram (uses the existing TelegramBot) and the dashboard WebSocket.
+Notifies via Telegram - the server bot from .env (if configured) plus every user who
+connected their own bot on the Settings page - and the dashboard WebSocket.
 
 Each cross is alerted once per symbol + direction + cross bar date (deduped in MongoDB),
 so restarts and repeated monitoring cycles do not re-send the same alert.
@@ -14,6 +15,7 @@ from typing import List, Optional
 from pymongo.errors import DuplicateKeyError
 
 from database import get_ma_cross_alerts_collection
+from user_telegram import list_ma_cross_recipients, send_telegram
 
 # A cross on the live bar or the bar just closed is considered "new".
 # (1 also catches a cross completed on the prior daily close, e.g. right after a restart.)
@@ -72,14 +74,14 @@ class MACrossAlerter:
     def __init__(self, telegram_bot):
         self.telegram_bot = telegram_bot
 
-    async def _record_if_new(self, alert: dict) -> bool:
+    async def _record_if_new(self, alert: dict, has_channels: bool) -> bool:
         """Insert alert; returns False if this cross was already alerted.
-        A cross whose Telegram send failed earlier is retried once Telegram is configured."""
+        A cross whose Telegram send failed earlier is retried once a Telegram channel works."""
         try:
             await get_ma_cross_alerts_collection().insert_one(dict(alert))
             return True
         except DuplicateKeyError:
-            if not self.telegram_bot.is_configured():
+            if not has_channels:
                 return False
             existing = await get_ma_cross_alerts_collection().find_one(
                 {'symbol': alert['symbol'], 'direction': alert['direction'], 'cross_date': alert['cross_date']},
@@ -90,25 +92,45 @@ class MACrossAlerter:
     async def process(self, symbols: List[dict]) -> List[dict]:
         """Detect new crosses in a batch of symbol updates, notify, and return new alerts"""
         new_alerts = []
+        recipients = None  # users' own bots, loaded only when a cross is detected
         for symbol_data in symbols:
             alert = detect_ma_cross(symbol_data)
-            if not alert or not await self._record_if_new(alert):
+            if not alert:
+                continue
+            if recipients is None:
+                try:
+                    recipients = await list_ma_cross_recipients()
+                except Exception as e:
+                    print(f"✗ Failed to load MA Cross recipients: {e}")
+                    recipients = []
+            has_channels = self.telegram_bot.is_configured() or len(recipients) > 0
+            if not await self._record_if_new(alert, has_channels):
                 continue
 
             print(f"🚨 MA CROSS {alert['direction']}: {alert['symbol']} (cross bar {alert['cross_date']})")
-            telegram_sent = False
+            message = format_telegram(alert)
+            delivered = 0
             if self.telegram_bot.is_configured():
                 try:
-                    await self.telegram_bot.send_message(format_telegram(alert))
-                    telegram_sent = True
+                    await self.telegram_bot.send_message(message)
+                    delivered += 1
                 except Exception as e:
                     print(f"✗ MA Cross Telegram alert failed: {e}")
 
+            for r in recipients:
+                ok, err = await send_telegram(r['telegram_bot_token'], r['telegram_chat_id'], message)
+                if ok:
+                    delivered += 1
+                else:
+                    print(f"✗ MA Cross Telegram alert to {r.get('email')} failed: {err}")
+
+            telegram_sent = delivered > 0
             alert['telegram_sent'] = telegram_sent
+            alert['telegram_deliveries'] = delivered
             try:
                 await get_ma_cross_alerts_collection().update_one(
                     {'symbol': alert['symbol'], 'direction': alert['direction'], 'cross_date': alert['cross_date']},
-                    {'$set': {'telegram_sent': telegram_sent}}
+                    {'$set': {'telegram_sent': telegram_sent, 'telegram_deliveries': delivered}}
                 )
             except Exception:
                 pass

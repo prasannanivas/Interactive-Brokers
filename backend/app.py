@@ -22,6 +22,7 @@ from dotenv import load_dotenv
 from massive_monitor_v2 import MassiveMonitorV2
 from telegram_bot import TelegramBot
 from ma_cross_alerts import MACrossAlerter, get_recent_alerts
+from user_telegram import mask_token, telegram_call, send_telegram, get_user_settings, save_user_settings, delete_user_settings
 from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection, get_economic_calendar_collection, get_fx_reports_collection
 from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot, PasswordResetRequest, PasswordReset, PasswordChange, LoginHistoryResponse
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
@@ -1084,6 +1085,142 @@ async def get_telegram_status():
         "configured": telegram_bot.is_configured(),
         "chat_id": telegram_bot.chat_id if telegram_bot.is_configured() else None
     }
+
+
+# ============================================
+# USER SETTINGS - personal Telegram bot for alerts
+# ============================================
+
+class UserTelegramSettings(BaseModel):
+    bot_token: Optional[str] = None   # blank = keep the saved token
+    chat_id: Optional[str] = None
+    enabled: bool = True
+    ma_cross_alerts: bool = True
+
+
+class UserTelegramTest(BaseModel):
+    bot_token: Optional[str] = None   # blank = use the saved token
+    chat_id: Optional[str] = None     # blank = use the saved chat id
+
+
+def _settings_response(doc: Optional[dict]) -> dict:
+    doc = doc or {}
+    return {
+        "configured": bool(doc.get('telegram_bot_token') and doc.get('telegram_chat_id')),
+        "bot_token_masked": mask_token(doc.get('telegram_bot_token')),
+        "chat_id": doc.get('telegram_chat_id'),
+        "bot_username": doc.get('bot_username'),
+        "enabled": doc.get('telegram_enabled', False),
+        "ma_cross_alerts": doc.get('ma_cross_alerts', True),
+        "last_test_ok": doc.get('last_test_ok'),
+        "last_test_at": doc.get('last_test_at').isoformat() if doc.get('last_test_at') else None,
+        "updated_at": doc.get('updated_at').isoformat() if doc.get('updated_at') else None,
+    }
+
+
+@app.get("/api/settings/telegram")
+async def get_my_telegram_settings(current_user: UserResponse = Depends(get_current_user)):
+    """Current user's Telegram settings (token is masked)"""
+    return _settings_response(await get_user_settings(current_user.id))
+
+
+@app.put("/api/settings/telegram")
+async def save_my_telegram_settings(settings: UserTelegramSettings, current_user: UserResponse = Depends(get_current_user)):
+    """Save the current user's Telegram bot token / chat id. The token is verified with Telegram first."""
+    existing = await get_user_settings(current_user.id) or {}
+    token = (settings.bot_token or '').strip() or existing.get('telegram_bot_token')
+    chat_id = (settings.chat_id or '').strip() or None
+
+    if not token:
+        raise HTTPException(status_code=400, detail="Enter your bot token from @BotFather.")
+    if not chat_id:
+        raise HTTPException(status_code=400, detail="Enter your Chat ID (use 'Detect my Chat ID').")
+
+    ok, result = await telegram_call(token, 'getMe')
+    if not ok:
+        raise HTTPException(status_code=400, detail=result['error'])
+
+    await save_user_settings(current_user.id, current_user.email, {
+        'telegram_bot_token': token,
+        'telegram_chat_id': chat_id,
+        'bot_username': result.get('username'),
+        'telegram_enabled': settings.enabled,
+        'ma_cross_alerts': settings.ma_cross_alerts,
+    })
+    return _settings_response(await get_user_settings(current_user.id))
+
+
+@app.delete("/api/settings/telegram")
+async def delete_my_telegram_settings(current_user: UserResponse = Depends(get_current_user)):
+    """Disconnect the current user's Telegram bot"""
+    await delete_user_settings(current_user.id)
+    return _settings_response(None)
+
+
+@app.post("/api/settings/telegram/test")
+async def test_my_telegram_connection(body: UserTelegramTest, current_user: UserResponse = Depends(get_current_user)):
+    """Step-by-step connection test: check the token, then send a test message to the chat"""
+    existing = await get_user_settings(current_user.id) or {}
+    token = (body.bot_token or '').strip() or existing.get('telegram_bot_token')
+    chat_id = (body.chat_id or '').strip() or existing.get('telegram_chat_id')
+    steps = []
+
+    if not token:
+        return {"ok": False, "steps": [{"step": "Bot token", "ok": False, "message": "Enter your bot token from @BotFather."}]}
+
+    ok, result = await telegram_call(token, 'getMe')
+    if not ok:
+        steps.append({"step": "Bot token", "ok": False, "message": result['error']})
+        return {"ok": False, "steps": steps}
+    bot_username = result.get('username')
+    steps.append({"step": "Bot token", "ok": True, "message": f"Token is valid - connected to @{bot_username}"})
+
+    if not chat_id:
+        steps.append({"step": "Chat ID", "ok": False, "message": "Enter your Chat ID (use 'Detect my Chat ID')."})
+        return {"ok": False, "steps": steps, "bot_username": bot_username}
+
+    sent, err = await send_telegram(token, chat_id, (
+        "✅ <b>Trading Signal Monitor connected!</b>\n\n"
+        f"Hi {current_user.username}, this chat will receive 🚨 MA Cross (EMA 9 / EMA 21) "
+        "BUY 🟢⬆️ and SELL 🔴⬇️ alerts the moment they happen."
+    ))
+    if sent:
+        steps.append({"step": "Send test message", "ok": True, "message": "Test message sent - check your Telegram."})
+    else:
+        steps.append({"step": "Send test message", "ok": False, "message": err})
+
+    # Remember the result if this is the saved configuration
+    if existing and token == existing.get('telegram_bot_token') and chat_id == existing.get('telegram_chat_id'):
+        await save_user_settings(current_user.id, current_user.email, {'last_test_ok': sent, 'last_test_at': datetime.utcnow()})
+
+    return {"ok": sent, "steps": steps, "bot_username": bot_username}
+
+
+@app.post("/api/settings/telegram/detect-chat")
+async def detect_my_telegram_chat(body: UserTelegramTest, current_user: UserResponse = Depends(get_current_user)):
+    """Find chats that recently messaged the bot, so the user doesn't have to look up their Chat ID"""
+    existing = await get_user_settings(current_user.id) or {}
+    token = (body.bot_token or '').strip() or existing.get('telegram_bot_token')
+    if not token:
+        raise HTTPException(status_code=400, detail="Enter your bot token first.")
+
+    ok, result = await telegram_call(token, 'getUpdates', {'limit': 100, 'allowed_updates': ['message', 'channel_post', 'my_chat_member']})
+    if not ok:
+        raise HTTPException(status_code=400, detail=result['error'])
+
+    chats = {}
+    for update in result or []:
+        for key in ('message', 'channel_post', 'edited_message', 'my_chat_member'):
+            chat = (update.get(key) or {}).get('chat')
+            if chat:
+                name = chat.get('title') or ' '.join(filter(None, [chat.get('first_name'), chat.get('last_name')])) or chat.get('username') or str(chat['id'])
+                chats[str(chat['id'])] = {
+                    "chat_id": str(chat['id']),
+                    "name": name,
+                    "username": chat.get('username'),
+                    "type": chat.get('type'),
+                }
+    return {"chats": list(chats.values())}
 
 
 @app.get("/api/ma-cross-alerts")
