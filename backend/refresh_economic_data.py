@@ -1,6 +1,6 @@
 """
 Manual Economic Data Refresh Script
-Fetches bond yields, generates 2Y data, and fetches interest rates
+Fetches bond yields and interest rates
 
 This script can be run manually or is automatically scheduled in app.py to run daily at 5 AM EST
 
@@ -23,7 +23,7 @@ def main():
     
     # Step 1: Fetch bond data (10Y yields)
     print("\n" + "=" * 70)
-    print("📈 STEP 1/3: Fetching Bond Yields (10Y)")
+    print("📈 STEP 1/2: Fetching Bond Yields (10Y)")
     print("=" * 70)
     
     script1 = os.path.join(base_path, 'fetch_bond_data_tradingeconomics.py')
@@ -35,23 +35,12 @@ def main():
     
     print("\n✓ Bond yields fetched successfully")
     
-    # Step 2: Generate 2Y data from 10Y
+    # 2Y yields are no longer synthesized from 10Y (that produced fake data).
+    # Real 2Y yields are fetched by ticker in fetch_incremental_bond_data.py.
+
+    # Step 2: Fetch interest rates
     print("\n" + "=" * 70)
-    print("📉 STEP 2/3: Generating 2Y Bond Data from 10Y")
-    print("=" * 70)
-    
-    script2 = os.path.join(base_path, 'generate_2y_from_10y.py')
-    result2 = subprocess.run([sys.executable, script2])
-    
-    if result2.returncode != 0:
-        print("\n✗ 2Y generation FAILED!")
-        return False
-    
-    print("\n✓ 2Y data generated successfully")
-    
-    # Step 3: Fetch interest rates
-    print("\n" + "=" * 70)
-    print("🏦 STEP 3/3: Fetching Interest Rates")
+    print("🏦 STEP 2/2: Fetching Interest Rates")
     print("=" * 70)
     
     script3 = os.path.join(base_path, 'fetch_interest_rates_tradingeconomics.py')
@@ -71,7 +60,7 @@ def main():
     print()
     print("Data updated:")
     print("  ✓ Bond yields (10Y) - US, UK, Germany, Japan, Canada, Australia")
-    print("  ✓ Bond yields (2Y) - Generated from 10Y with realistic spreads")
+    print("  ✓ Bond yields (2Y) - not generated here (real 2Y comes from fetch_incremental_bond_data.py)")
     print("  ✓ Interest rates - Central bank policy rates")
     print()
     print("Files location:")

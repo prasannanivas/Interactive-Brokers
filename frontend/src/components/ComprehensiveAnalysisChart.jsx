@@ -265,8 +265,9 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     try {
       console.log('📊 Loading interest rates from MongoDB for:', mapping.base.name, 'and', mapping.quote.name)
       
-      // Fetch interest rate data from MongoDB API (all history, 0 = no limit)
-      const response = await bondAPI.getInterestRates(0)
+      // Only the two countries for this pair, over the selected timeframe (the server also
+      // includes the last rate before the window so the step line starts at the right level)
+      const response = await bondAPI.getInterestRates(timeframe, [mapping.base.name, mapping.quote.name])
       const allData = response.data || []
       
       // Filter data for the two countries we need

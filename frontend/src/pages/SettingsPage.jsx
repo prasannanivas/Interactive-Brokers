@@ -3,6 +3,20 @@ import { useNavigate } from 'react-router-dom'
 import { settingsAPI } from '../api/api'
 import './SettingsPage.css'
 
+const KIND_LABELS = {
+  ma_cross: '🚨 MA Cross alert',
+  test_alert: '🧪 Test alert',
+  connection_test: '🔌 Connection test',
+  command_reply: '🤖 Command reply',
+}
+
+const formatMs = (ms) => {
+  if (ms == null) return '-'
+  if (ms < 1000) return `${ms} ms`
+  if (ms < 60000) return `${(ms / 1000).toFixed(1)} s`
+  return `${(ms / 60000).toFixed(1)} min`
+}
+
 const errorText = (err, fallback) => err?.response?.data?.detail || err?.message || fallback
 
 const SettingsPage = () => {
@@ -19,6 +33,8 @@ const SettingsPage = () => {
   const [testResult, setTestResult] = useState(null)
   const [detectedChats, setDetectedChats] = useState(null)
   const [showGuide, setShowGuide] = useState(false)
+  const [history, setHistory] = useState([])
+  const [historyLoading, setHistoryLoading] = useState(false)
 
   const applySettings = (s) => {
     setSaved(s)
@@ -29,7 +45,20 @@ const SettingsPage = () => {
     setShowGuide(!s.configured)
   }
 
+  const loadHistory = async () => {
+    setHistoryLoading(true)
+    try {
+      const res = await settingsAPI.getTelegramHistory(50)
+      setHistory(res.data.messages || [])
+    } catch (err) {
+      console.error('Failed to load Telegram history:', err)
+    } finally {
+      setHistoryLoading(false)
+    }
+  }
+
   useEffect(() => {
+    loadHistory()
     settingsAPI.getTelegram()
       .then(res => applySettings(res.data))
       .catch(err => {
@@ -62,6 +91,7 @@ const SettingsPage = () => {
     try {
       const res = await settingsAPI.testTelegram({ bot_token: botToken.trim() || null, chat_id: chatId.trim() || null })
       setTestResult(res.data)
+      loadHistory()
     } catch (err) {
       setTestResult({ ok: false, steps: [{ step: 'Connection', ok: false, message: errorText(err, 'Test failed') }] })
     } finally {
@@ -78,6 +108,19 @@ const SettingsPage = () => {
       if (chats.length === 1) setChatId(chats[0].chat_id)
     } catch (err) {
       setMessage({ type: 'error', text: errorText(err, 'Could not detect chats') })
+    } finally {
+      setBusy(null)
+    }
+  }
+
+  const handleTestAlert = async () => {
+    setBusy('alert'); setMessage(null)
+    try {
+      const res = await settingsAPI.sendTestAlert()
+      setMessage({ type: 'success', text: `Test alert delivered in ${res.data.delay_ms} ms (Telegram API ${res.data.telegram_ms} ms). Check your Telegram.` })
+      loadHistory()
+    } catch (err) {
+      setMessage({ type: 'error', text: errorText(err, 'Failed to send test alert') })
     } finally {
       setBusy(null)
     }
@@ -292,6 +335,12 @@ const SettingsPage = () => {
                     {busy === 'save' ? 'Saving…' : '💾 Save'}
                   </button>
                   {saved?.configured && (
+                    <button className="settings-btn secondary" onClick={handleTestAlert} disabled={busy !== null} type="button"
+                      title="Send a sample MA Cross alert to your saved chat and measure delivery time">
+                      {busy === 'alert' ? 'Sending…' : '🚨 Send test alert'}
+                    </button>
+                  )}
+                  {saved?.configured && (
                     <button className="settings-btn danger" onClick={handleDisconnect} disabled={busy !== null} type="button">
                       Disconnect
                     </button>
@@ -324,6 +373,80 @@ const SettingsPage = () => {
                 )}
               </div>
             </>
+          )}
+        </div>
+
+        <div className="settings-card">
+          <div className="settings-card-header">
+            <div>
+              <h2>🤖 Bot commands</h2>
+              <p className="settings-subtitle">Send these to your bot in Telegram. It replies within a few seconds.</p>
+            </div>
+          </div>
+          <table className="guide-table commands-table">
+            <tbody>
+              <tr><td><code>/start</code> or <code>/help</code></td><td>Welcome message with your Chat ID and whether this chat is linked</td></tr>
+              <tr><td><code>/status</code></td><td>How many pairs are BUY vs SELL on EMA 9 / EMA 21, and crosses in the last 3 bars</td></tr>
+              <tr><td><code>/last</code></td><td>The 5 most recent MA Cross alerts</td></tr>
+              <tr><td><code>/test</code></td><td>Sends a sample alert and tells you how long delivery took</td></tr>
+              <tr><td><code>/id</code></td><td>Shows this chat's Chat ID</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="settings-card">
+          <div className="settings-card-header">
+            <div>
+              <h2>📜 Message history</h2>
+              <p className="settings-subtitle">
+                Every message sent to your Telegram. <strong>Delay</strong> is the time from the moment the server
+                detected the cross until Telegram confirmed delivery.
+              </p>
+            </div>
+            <button className="settings-btn secondary" onClick={loadHistory} disabled={historyLoading} type="button">
+              {historyLoading ? 'Loading…' : '↻ Refresh'}
+            </button>
+          </div>
+          {history.length === 0 ? (
+            <p className="settings-meta">No messages yet. Use Test Connection, Send test alert, or send /test to your bot.</p>
+          ) : (
+            <div className="history-scroll">
+              <table className="history-table">
+                <thead>
+                  <tr>
+                    <th>Sent</th>
+                    <th>Type</th>
+                    <th>Signal</th>
+                    <th>Delay</th>
+                    <th>Telegram API</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {history.map((m, i) => (
+                    <tr key={i}>
+                      <td>{m.sent_at ? new Date(m.sent_at).toLocaleString() : '-'}</td>
+                      <td>{KIND_LABELS[m.kind] || m.kind}</td>
+                      <td>
+                        {m.symbol ? (
+                          <span className={m.direction === 'BUY' ? 'hist-buy' : 'hist-sell'}>
+                            {m.direction === 'BUY' ? '▲' : '▼'} {m.symbol.replace('C:', '')} {m.direction}
+                            {m.cross_date && <span className="hist-sub"> · bar {m.cross_date}</span>}
+                          </span>
+                        ) : '-'}
+                      </td>
+                      <td>{formatMs(m.delay_ms)}</td>
+                      <td>{formatMs(m.telegram_ms)}</td>
+                      <td>
+                        {m.ok
+                          ? <span className="hist-ok">✅ Delivered</span>
+                          : <span className="hist-fail">❌ {m.error || 'Failed'}</span>}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>

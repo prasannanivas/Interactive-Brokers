@@ -363,6 +363,57 @@
   color: #6b7280;
 }
 
+.settings-content > .settings-card + .settings-card {
+  margin-top: 20px;
+}
+
+.commands-table {
+  font-size: 14px;
+  color: #d1d5db;
+}
+
+.commands-table td:first-child {
+  color: #e5e7eb;
+  white-space: nowrap;
+}
+
+.history-scroll {
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.history-table th {
+  text-align: left;
+  color: #9ca3af;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-bottom: 1px solid #333;
+  white-space: nowrap;
+}
+
+.history-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #222;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.history-table td:last-child {
+  white-space: normal;
+  min-width: 160px;
+}
+
+.hist-buy { color: #4ade80; font-weight: 600; }
+.hist-sell { color: #f87171; font-weight: 600; }
+.hist-sub { color: #9ca3af; font-weight: 400; }
+.hist-ok { color: #86efac; }
+.hist-fail { color: #fca5a5; }
+
 @media (max-width: 768px) {
   .settings-page {
     padding: 12px;

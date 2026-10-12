@@ -10,10 +10,14 @@ Heavy operations (search, watchlist management) moved to Data Service (port 8001
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
+from response_cache import cached, invalidate as invalidate_cache
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+from fastapi.security import HTTPAuthorizationCredentials
 from typing import List, Dict, Optional
 import asyncio
+import aiohttp
 import json
 import os
 import logging
@@ -22,7 +26,9 @@ from dotenv import load_dotenv
 from massive_monitor_v2 import MassiveMonitorV2
 from telegram_bot import TelegramBot
 from ma_cross_alerts import MACrossAlerter, get_recent_alerts
-from user_telegram import mask_token, telegram_call, send_telegram, get_user_settings, save_user_settings, delete_user_settings
+from user_telegram import mask_token, telegram_call, send_and_log, get_user_settings, save_user_settings, delete_user_settings, get_message_history, get_seen_chats, bot_id_from_token
+from telegram_commands import TelegramCommandPoller
+from ma_cross_alerts import format_telegram
 from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection, get_economic_calendar_collection, get_fx_reports_collection
 from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot, PasswordResetRequest, PasswordReset, PasswordChange, LoginHistoryResponse
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
@@ -41,6 +47,7 @@ load_dotenv()
 monitor = MassiveMonitorV2(api_key=os.getenv('MASSIVE_API_KEY'), use_db=True)
 telegram_bot = TelegramBot()
 ma_cross_alerter = MACrossAlerter(telegram_bot)
+telegram_command_poller = TelegramCommandPoller(telegram_bot, lambda: monitor.watchlist)
 active_websockets: List[WebSocket] = []
 
 # Track previous indicator and position states (loaded from DB on startup)
@@ -209,7 +216,9 @@ async def run_daily_economic_data_refresh():
         
         if success:
             print("\n✓ Economic data refresh completed successfully!")
-            
+            invalidate_cache('bond-yields')
+            invalidate_cache('interest-rates')
+
             # Send Telegram notification if configured
             if telegram_bot.is_configured():
                 try:
@@ -297,6 +306,7 @@ async def run_daily_economic_calendar_refresh():
 
         if success:
             print("\n✓ Economic calendar refresh completed successfully!")
+            invalidate_cache('economic-calendar')
             if telegram_bot.is_configured():
                 try:
                     await telegram_bot.send_message(
@@ -473,6 +483,9 @@ async def startup_event():
     if bot_token and chat_id:
         telegram_bot.configure(bot_token, chat_id)
         print("✓ Telegram bot configured")
+
+    # Reply to /start, /status, /last, /test on every connected bot
+    asyncio.create_task(telegram_command_poller.run())
     
     success = await monitor.connect()
     if success:
@@ -600,6 +613,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Compress JSON responses (bond / rate / calendar payloads shrink ~80-90%)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # Global instances (already defined above)
 # monitor = IBMonitor()
@@ -1103,6 +1119,36 @@ class UserTelegramTest(BaseModel):
     chat_id: Optional[str] = None     # blank = use the saved chat id
 
 
+AUTH_SERVICE_URL = os.getenv('AUTH_SERVICE_URL', 'http://127.0.0.1:8001')
+
+
+async def get_settings_user(request: Request) -> UserResponse:
+    """Logged-in user for the Settings page. Verifies the login token here first; if this service
+    doesn't accept it (e.g. it was issued by the auth service with a different key), asks the
+    auth service that issued it to confirm who the user is."""
+    auth_header = request.headers.get('Authorization', '')
+    if not auth_header.startswith('Bearer '):
+        raise HTTPException(status_code=401, detail="You are not logged in. Log out, log back in and try again.")
+    token = auth_header.split(' ', 1)[1].strip()
+
+    try:
+        return await get_current_user(HTTPAuthorizationCredentials(scheme='Bearer', credentials=token))
+    except HTTPException:
+        pass
+
+    try:
+        timeout = aiohttp.ClientTimeout(total=10)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            async with session.get(f"{AUTH_SERVICE_URL}/auth/me", headers={'Authorization': f'Bearer {token}'}) as resp:
+                if resp.status == 200:
+                    return UserResponse(**(await resp.json()))
+                print(f"✗ Settings auth: auth service rejected token too ({resp.status}: {(await resp.text())[:200]})")
+    except Exception as e:
+        print(f"✗ Settings auth: could not reach auth service at {AUTH_SERVICE_URL}: {e}")
+
+    raise HTTPException(status_code=401, detail="Your login session was not accepted. Log out, log back in and try again.")
+
+
 def _settings_response(doc: Optional[dict]) -> dict:
     doc = doc or {}
     return {
@@ -1119,13 +1165,13 @@ def _settings_response(doc: Optional[dict]) -> dict:
 
 
 @app.get("/api/settings/telegram")
-async def get_my_telegram_settings(current_user: UserResponse = Depends(get_current_user)):
+async def get_my_telegram_settings(current_user: UserResponse = Depends(get_settings_user)):
     """Current user's Telegram settings (token is masked)"""
     return _settings_response(await get_user_settings(current_user.id))
 
 
 @app.put("/api/settings/telegram")
-async def save_my_telegram_settings(settings: UserTelegramSettings, current_user: UserResponse = Depends(get_current_user)):
+async def save_my_telegram_settings(settings: UserTelegramSettings, current_user: UserResponse = Depends(get_settings_user)):
     """Save the current user's Telegram bot token / chat id. The token is verified with Telegram first."""
     existing = await get_user_settings(current_user.id) or {}
     token = (settings.bot_token or '').strip() or existing.get('telegram_bot_token')
@@ -1151,14 +1197,14 @@ async def save_my_telegram_settings(settings: UserTelegramSettings, current_user
 
 
 @app.delete("/api/settings/telegram")
-async def delete_my_telegram_settings(current_user: UserResponse = Depends(get_current_user)):
+async def delete_my_telegram_settings(current_user: UserResponse = Depends(get_settings_user)):
     """Disconnect the current user's Telegram bot"""
     await delete_user_settings(current_user.id)
     return _settings_response(None)
 
 
 @app.post("/api/settings/telegram/test")
-async def test_my_telegram_connection(body: UserTelegramTest, current_user: UserResponse = Depends(get_current_user)):
+async def test_my_telegram_connection(body: UserTelegramTest, current_user: UserResponse = Depends(get_settings_user)):
     """Step-by-step connection test: check the token, then send a test message to the chat"""
     existing = await get_user_settings(current_user.id) or {}
     token = (body.bot_token or '').strip() or existing.get('telegram_bot_token')
@@ -1179,13 +1225,14 @@ async def test_my_telegram_connection(body: UserTelegramTest, current_user: User
         steps.append({"step": "Chat ID", "ok": False, "message": "Enter your Chat ID (use 'Detect my Chat ID')."})
         return {"ok": False, "steps": steps, "bot_username": bot_username}
 
-    sent, err = await send_telegram(token, chat_id, (
+    sent, err, record = await send_and_log(token, chat_id, (
         "✅ <b>Trading Signal Monitor connected!</b>\n\n"
         f"Hi {current_user.username}, this chat will receive 🚨 MA Cross (EMA 9 / EMA 21) "
-        "BUY 🟢⬆️ and SELL 🔴⬇️ alerts the moment they happen."
-    ))
+        "BUY 🟢⬆️ and SELL 🔴⬇️ alerts the moment they happen.\n\n"
+        "Send /help to see the bot commands."
+    ), kind='connection_test', user_id=current_user.id, email=current_user.email)
     if sent:
-        steps.append({"step": "Send test message", "ok": True, "message": "Test message sent - check your Telegram."})
+        steps.append({"step": "Send test message", "ok": True, "message": f"Test message sent in {record['telegram_ms']} ms - check your Telegram."})
     else:
         steps.append({"step": "Send test message", "ok": False, "message": err})
 
@@ -1197,18 +1244,22 @@ async def test_my_telegram_connection(body: UserTelegramTest, current_user: User
 
 
 @app.post("/api/settings/telegram/detect-chat")
-async def detect_my_telegram_chat(body: UserTelegramTest, current_user: UserResponse = Depends(get_current_user)):
+async def detect_my_telegram_chat(body: UserTelegramTest, current_user: UserResponse = Depends(get_settings_user)):
     """Find chats that recently messaged the bot, so the user doesn't have to look up their Chat ID"""
     existing = await get_user_settings(current_user.id) or {}
     token = (body.bot_token or '').strip() or existing.get('telegram_bot_token')
     if not token:
         raise HTTPException(status_code=400, detail="Enter your bot token first.")
 
+    # Chats already seen by the command listener (it consumes the bot's pending messages)
+    chats = {c['chat_id']: c for c in await get_seen_chats(bot_id_from_token(token))}
+
     ok, result = await telegram_call(token, 'getUpdates', {'limit': 100, 'allowed_updates': ['message', 'channel_post', 'my_chat_member']})
     if not ok:
+        if chats:
+            return {"chats": list(chats.values())}
         raise HTTPException(status_code=400, detail=result['error'])
 
-    chats = {}
     for update in result or []:
         for key in ('message', 'channel_post', 'edited_message', 'my_chat_member'):
             chat = (update.get(key) or {}).get('chat')
@@ -1221,6 +1272,34 @@ async def detect_my_telegram_chat(body: UserTelegramTest, current_user: UserResp
                     "type": chat.get('type'),
                 }
     return {"chats": list(chats.values())}
+
+
+@app.post("/api/settings/telegram/test-alert")
+async def send_my_test_alert(current_user: UserResponse = Depends(get_settings_user)):
+    """Send a sample MA Cross alert to the saved bot/chat and report delivery timing"""
+    existing = await get_user_settings(current_user.id) or {}
+    token, chat_id = existing.get('telegram_bot_token'), existing.get('telegram_chat_id')
+    if not token or not chat_id:
+        raise HTTPException(status_code=400, detail="Save your bot token and Chat ID first.")
+
+    detected_at = datetime.now().isoformat()
+    sample = {
+        'symbol': 'C:USDCAD', 'direction': 'BUY', 'cross_date': datetime.now().strftime('%Y-%m-%d'),
+        'price': 1.42820, 'fast_ema': 1.41250, 'slow_ema': 1.40500, 'timestamp': detected_at,
+    }
+    sent, err, record = await send_and_log(
+        token, chat_id, "🧪 <b>TEST ALERT - not a real signal</b>\n\n" + format_telegram(sample),
+        kind='test_alert', user_id=current_user.id, email=current_user.email,
+        detected_at=detected_at, symbol='TEST', direction='BUY', cross_date=sample['cross_date'])
+    if not sent:
+        raise HTTPException(status_code=400, detail=err)
+    return {"ok": True, "delay_ms": record['delay_ms'], "telegram_ms": record['telegram_ms']}
+
+
+@app.get("/api/settings/telegram/history")
+async def get_my_telegram_history(limit: int = 50, current_user: UserResponse = Depends(get_settings_user)):
+    """Messages sent to the current user's Telegram, newest first, with timing"""
+    return {"messages": await get_message_history(current_user.id, min(max(limit, 1), 500))}
 
 
 @app.get("/api/ma-cross-alerts")
@@ -1257,14 +1336,16 @@ async def test_ma_cross_alert_channels():
 
 
 @app.get("/api/bond/interest-rates")
-async def get_interest_rates(use_cache: bool = True, days: int = 0):
+async def get_interest_rates(use_cache: bool = True, days: int = 0, countries: Optional[str] = None):
     """
     Get central bank policy rates from MongoDB
-    
+
     Query params:
         use_cache: Not used (kept for backward compatibility)
-        days: Number of days of history (0 = all data, default: 0)
-    
+        days: Number of days of history (0 = all data, default: 0). The last rate before the
+              window is included too, so a step chart starts at the right level.
+        countries: Comma-separated country names to return (default: all)
+
     Returns:
         List of interest rate data matching the format:
         [{
@@ -1277,41 +1358,10 @@ async def get_interest_rates(use_cache: bool = True, days: int = 0):
             "LastUpdate": str
         }]
     """
+    country_list = sorted({c.strip() for c in countries.split(',') if c.strip()}) if countries else None
     try:
-        # Fetch from MongoDB instead of BIS API
-        collection = get_interest_rates_collection()
-        
-        # Calculate cutoff date if days parameter is provided
-        cutoff_date = None
-        if days > 0:
-            cutoff_date = datetime.now() - timedelta(days=days)
-        
-        results = []
-        async for doc in collection.find({}):
-            # Get the data array from document
-            data_array = doc.get('data', [])
-            
-            # Return all historical data points (or filtered by date)
-            for data_point in data_array:
-                # Filter by date if cutoff_date is set
-                if cutoff_date and data_point.get('date_obj') and data_point['date_obj'] < cutoff_date:
-                    continue
-                    
-                results.append({
-                    'Country': doc.get('country', ''),
-                    'Category': doc.get('category', 'Interest Rate'),
-                    'DateTime': data_point.get('date_time', ''),
-                    'Value': data_point.get('value', 0),
-                    'Frequency': doc.get('frequency', 'Daily'),
-                    'HistoricalDataSymbol': doc.get('historical_data_symbol', ''),
-                    'LastUpdate': data_point.get('last_update', '')
-                })
-        
-        # Sort by DateTime (most recent first)
-        results = sorted(results, key=lambda x: x['DateTime'], reverse=True)
-        
-        return results
-        
+        return await cached(('interest-rates', days, tuple(country_list or ())), 600,
+                            lambda: _load_interest_rates(days, country_list))
     except Exception as e:
         logger = logging.getLogger(__name__)
         logger.error(f"Failed to fetch interest rates from MongoDB: {e}")
@@ -1319,6 +1369,43 @@ async def get_interest_rates(use_cache: bool = True, days: int = 0):
             status_code=500,
             detail=f"Failed to fetch interest rate data: {str(e)}"
         )
+
+
+async def _load_interest_rates(days: int, country_list: Optional[List[str]]) -> List[dict]:
+    collection = get_interest_rates_collection()
+
+    # Calculate cutoff date if days parameter is provided
+    cutoff_date = None
+    if days > 0:
+        cutoff_date = datetime.now() - timedelta(days=days)
+
+    results = []
+    query = {'country': {'$in': country_list}} if country_list else {}
+    async for doc in collection.find(query):
+        # Get the data array from document
+        data_array = doc.get('data', [])
+
+        # Keep the latest point before the window so the rate level at the window start is known
+        if cutoff_date:
+            before = [p for p in data_array if p.get('date_obj') and p['date_obj'] < cutoff_date]
+            in_window = [p for p in data_array if not p.get('date_obj') or p['date_obj'] >= cutoff_date]
+            data_array = ([max(before, key=lambda p: p['date_obj'])] if before else []) + in_window
+
+        for data_point in data_array:
+            results.append({
+                'Country': doc.get('country', ''),
+                'Category': doc.get('category', 'Interest Rate'),
+                'DateTime': data_point.get('date_time', ''),
+                'Value': data_point.get('value', 0),
+                'Frequency': doc.get('frequency', 'Daily'),
+                'HistoricalDataSymbol': doc.get('historical_data_symbol', ''),
+                'LastUpdate': data_point.get('last_update', '')
+            })
+    
+    # Sort by DateTime (most recent first)
+    results = sorted(results, key=lambda x: x['DateTime'], reverse=True)
+
+    return results
 
 
 @app.get("/api/bond/interest-rates/{ref_area}")
@@ -1385,51 +1472,8 @@ async def get_bond_yields(
         List of bond yield records with OHLC data in original JSON format
     """
     try:
-        collection = get_bond_yields_collection()
-        
-        # Build query for documents
-        query = {}
-        if country:
-            query['country'] = country
-        if maturity:
-            query['maturity'] = maturity
-        
-        # Fetch matching documents
-        cursor = collection.find(query)
-
-        # Anchor the cutoff to UTC midnight "today" rather than the exact
-        # current instant — otherwise the server's time-of-day pushes the
-        # cutoff partway into the intended start day, excluding that day's
-        # midnight-stamped record and shifting the visible start of the data
-        # forward by a day.
-        today_utc_midnight = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
-        cutoff_date = (today_utc_midnight - timedelta(days=days)).replace(tzinfo=None)
-
-        results = []
-        async for doc in cursor:
-            # Get the data array from document
-            data_array = doc.get('data', [])
-
-            # Filter by date and transform to original format
-            for data_point in data_array:
-                if data_point.get('date_obj') and data_point['date_obj'] >= cutoff_date:
-                    results.append({
-                        'Symbol': doc.get('symbol', ''),
-                        'Date': data_point.get('date', ''),
-                        'Open': data_point.get('open', 0),
-                        'High': data_point.get('high', 0),
-                        'Low': data_point.get('low', 0),
-                        'Close': data_point.get('close', 0)
-                    })
-            
-            if len(results) >= limit:
-                break
-        
-        # Sort by most recent first and apply limit
-        results = sorted(results, key=lambda x: x['Date'], reverse=True)[:limit]
-        
-        return results
-        
+        return await cached(('bond-yields', country, maturity, days, limit), 600,
+                            lambda: _load_bond_yields(country, maturity, days, limit))
     except Exception as e:
         logger = logging.getLogger(__name__)
         logger.error(f"Failed to fetch bond yields: {e}")
@@ -1437,6 +1481,51 @@ async def get_bond_yields(
             status_code=500,
             detail=f"Failed to fetch bond yields from database: {str(e)}"
         )
+
+
+async def _load_bond_yields(country: Optional[str], maturity: Optional[str], days: int, limit: int) -> List[dict]:
+    collection = get_bond_yields_collection()
+
+    query = {}
+    if country:
+        query['country'] = country
+    if maturity:
+        query['maturity'] = maturity
+
+    # Anchor the cutoff to UTC midnight "today" rather than the exact
+    # current instant - otherwise the server's time-of-day pushes the
+    # cutoff partway into the intended start day, excluding that day's
+    # midnight-stamped record and shifting the visible start of the data
+    # forward by a day.
+    today_utc_midnight = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    cutoff_date = (today_utc_midnight - timedelta(days=days)).replace(tzinfo=None)
+
+    # Let MongoDB return only the points inside the window (series hold up to ~10,000 days)
+    pipeline = [
+        {'$match': query},
+        {'$project': {
+            'symbol': 1,
+            'data': {'$filter': {'input': '$data', 'as': 'p', 'cond': {'$gte': ['$$p.date_obj', cutoff_date]}}}
+        }}
+    ]
+
+    results = []
+    async for doc in collection.aggregate(pipeline):
+        for data_point in doc.get('data') or []:
+            results.append({
+                'Symbol': doc.get('symbol', ''),
+                'Date': data_point.get('date', ''),
+                'Open': data_point.get('open', 0),
+                'High': data_point.get('high', 0),
+                'Low': data_point.get('low', 0),
+                'Close': data_point.get('close', 0)
+            })
+        if len(results) >= limit:
+            break
+
+    # Sort by most recent first and apply limit
+    results = sorted(results, key=lambda x: x['Date'], reverse=True)[:limit]
+    return results
 
 
 @app.get("/api/bond/yields/{country}")
@@ -1634,7 +1723,7 @@ async def check_bond_data_freshness():
         }
         
         # Check bond yields
-        cursor = bond_collection.find({})
+        cursor = bond_collection.find({}, {'country': 1, 'maturity': 1, 'last_available_date': 1})
         oldest_bond_date = None
         async for doc in cursor:
             country = doc.get('country')
@@ -1661,7 +1750,7 @@ async def check_bond_data_freshness():
                     oldest_bond_date = last_date_obj
         
         # Check interest rates
-        cursor = ir_collection.find({})
+        cursor = ir_collection.find({}, {'country': 1, 'last_available_date': 1})
         oldest_ir_date = None
         async for doc in cursor:
             country = doc.get('country')
@@ -1781,19 +1870,20 @@ async def get_economic_calendar(
             query['importance'] = importance
 
         collection = get_economic_calendar_collection()
-        cursor = collection.find(query, {'_id': 0}).sort('date', 1)
 
-        events = []
-        async for doc in cursor:
-            # Serialize datetime to ISO string for JSON
-            doc['date'] = doc['date'].strftime('%Y-%m-%dT%H:%M:%S') if isinstance(doc.get('date'), datetime) else doc.get('date')
-            doc['updated_at'] = doc['updated_at'].isoformat() if isinstance(doc.get('updated_at'), datetime) else doc.get('updated_at')
-            events.append(doc)
+        async def load_events():
+            events = []
+            async for doc in collection.find(query, {'_id': 0}).sort('date', 1):
+                # Serialize datetime to ISO string for JSON
+                doc['date'] = doc['date'].strftime('%Y-%m-%dT%H:%M:%S') if isinstance(doc.get('date'), datetime) else doc.get('date')
+                doc['updated_at'] = doc['updated_at'].isoformat() if isinstance(doc.get('updated_at'), datetime) else doc.get('updated_at')
+                events.append(doc)
+            return {
+                'total': len(events),
+                'events': events
+            }
 
-        return {
-            'total': len(events),
-            'events': events
-        }
+        return await cached(('economic-calendar', days_past, days_future, country, importance), 300, load_events)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch economic calendar: {str(e)}")

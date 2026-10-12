@@ -33,6 +33,32 @@ COUNTRIES = {
     'Australia': {'api_name': 'Australia', 'symbol_10y': 'GAGB10:IND', 'symbol_2y': 'GAGB2:IND'}
 }
 
+# Bond yield tickers on Trading Economics (verified against /markets/bond).
+# Fetched by ticker from /markets/historical/{symbol} - the country "government bond 2y"
+# indicator endpoint returns no data, which is why 2Y yields stopped updating.
+# None = Trading Economics has no such bond for that country.
+BOND_SYMBOLS = {
+    'United States':  {'10y': 'USGG10YR:IND',  '2y': 'USGG2YR:IND'},
+    'Canada':         {'10y': 'GCAN10YR:IND',  '2y': 'GCAN2Y:IND'},
+    'Euro Area':      {'10y': 'GDBR10:IND',    '2y': 'GDBR2:IND'},     # Germany as Euro Area benchmark
+    'Japan':          {'10y': 'GJGB10:IND',    '2y': 'GJGB2Y:IND'},
+    'United Kingdom': {'10y': 'GUKG10:IND',    '2y': 'GUKG2:IND'},
+    'Australia':      {'10y': 'GACGB10:IND',   '2y': 'GACGB2Y:IND'},
+    'China':          {'10y': 'GCNY10YR:GOV',  '2y': 'GCNY2Y:GOV'},
+    'Czech Republic': {'10y': 'CZGB10YR:GOV',  '2y': None},
+    'Denmark':        {'10y': 'GDGB10YR:GOV',  '2y': 'GDGB2YR:GOV'},
+    'Hong Kong':      {'10y': 'GHKGB10Y:GOV',  '2y': None},
+    'Hungary':        {'10y': 'GHGB10YR:GOV',  '2y': None},
+    'Israel':         {'10y': 'GISR10YR:GOV',  '2y': None},
+    'Mexico':         {'10y': 'GMXN10YR:IND',  '2y': None},
+    'New Zealand':    {'10y': 'GNZGB10:IND',   '2y': 'GNZGB2:GOV'},
+    'Norway':         {'10y': 'GNOR10YR:GOV',  '2y': None},
+    'Russia':         {'10y': 'RUGE10Y:GOV',   '2y': 'RUGE2Y:GOV'},
+    'Singapore':      {'10y': 'MASB10Y:GOV',   '2y': 'SGPGB2:GOV'},
+    'Sweden':         {'10y': 'GSGB10YR:GOV',  '2y': 'GSGB2YR:GOV'},
+    'Switzerland':    {'10y': 'GSWISS10:IND',  '2y': 'GSWISS2:GOV'},
+}
+
 
 def parse_date_dd_mm_yyyy(date_str):
     """Parse date string in DD/MM/YYYY format"""
@@ -56,35 +82,32 @@ def parse_date_iso(date_str):
             return None
 
 
-def fetch_bond_data_from_te(country, api_country, maturity, start_date, end_date):
+def fetch_bond_data_from_te(country, symbol, maturity, start_date, end_date):
     """
-    Fetch bond yield data from Trading Economics API
+    Fetch daily bond yield OHLC from Trading Economics by ticker (/markets/historical/{symbol})
     
     Args:
         country: Display country name (e.g., United States)
-        api_country: API country name (e.g., United States or Germany for Euro Area)
+        symbol: Trading Economics ticker (e.g., USGG2YR:IND)
         maturity: Bond maturity (10y or 2y)
         start_date: Start date (datetime object)
         end_date: End date (datetime object)
     
     Returns:
-        List of records in format: [{Date, Open, High, Low, Close}, ...]
+        List of records: [{date (DD/MM/YYYY), date_obj, open, high, low, close}, ...] oldest first
     """
     try:
-        # Format dates as YYYY-MM-DD
         start_str = start_date.strftime('%Y-%m-%d')
         end_str = end_date.strftime('%Y-%m-%d')
-        
-        # Construct URL using country and indicator
-        country_encoded = api_country.replace(' ', '%20')
-        url = f"{TE_BASE_URL}/historical/country/{country_encoded}/indicator/government%20bond%20{maturity}"
+        url = f"{TE_BASE_URL}/markets/historical/{symbol}"
         params = {
             'c': TE_API_KEY,
             'd1': start_str,
-            'd2': end_str
+            'd2': end_str,
+            'f': 'json'
         }
         
-        print(f"  📡 Fetching {country} {maturity.upper()} from {start_str} to {end_str}...")
+        print(f"  📡 Fetching {country} {maturity.upper()} ({symbol}) from {start_str} to {end_str}...")
         
         response = requests.get(url, params=params, timeout=30)
         
@@ -92,35 +115,27 @@ def fetch_bond_data_from_te(country, api_country, maturity, start_date, end_date
             data = response.json()
             print(f"  📦 API returned {len(data)} total records")
             
-            # Transform to our format AND filter by date range
             records = []
             for item in data:
-                date = item.get('DateTime', '')
-                if not date:
+                dt = parse_date_dd_mm_yyyy(item.get('Date', ''))
+                if not dt:
                     continue
-                
-                # Parse date and convert to DD/MM/YYYY
-                try:
-                    dt = datetime.fromisoformat(date.split('T')[0])
-                    
-                    # CRITICAL: Only include records in our requested date range
-                    if dt < start_date or dt > end_date:
-                        continue
-                    
-                    date_str = dt.strftime('%d/%m/%Y')
-                except:
+                # Only include records in our requested date range
+                if dt < start_date.replace(hour=0, minute=0, second=0, microsecond=0) or dt > end_date:
                     continue
-                
-                value = float(item.get('Value', 0))
+                close = item.get('Close')
+                if close is None:
+                    continue
                 records.append({
-                    'date': date_str,
+                    'date': dt.strftime('%d/%m/%Y'),
                     'date_obj': dt,
-                    'open': value,
-                    'high': value,
-                    'low': value,
-                    'close': value
+                    'open': float(item.get('Open') if item.get('Open') is not None else close),
+                    'high': float(item.get('High') if item.get('High') is not None else close),
+                    'low': float(item.get('Low') if item.get('Low') is not None else close),
+                    'close': float(close)
                 })
             
+            records.sort(key=lambda r: r['date_obj'])
             print(f"  ✓ Filtered to {len(records)} records in date range {start_str} to {end_str}")
             return records
             
@@ -214,10 +229,11 @@ def update_bond_yields(db):
     bond_collection = db.bond_yields
     total_new_records = 0
     
-    for country, info in COUNTRIES.items():
-        api_country = info['api_name']
-        
+    for country, symbols in BOND_SYMBOLS.items():
         for maturity in ['10y', '2y']:
+            symbol = symbols.get(maturity)
+            if not symbol:
+                continue  # Trading Economics has no such bond for this country
             print(f"\n📊 Checking {country} {maturity.upper()} bonds...")
             
             # Get current document
@@ -244,7 +260,7 @@ def update_bond_yields(db):
             print(f"  📅 Fetching from: {start_date.strftime('%d/%m/%Y')} to {today.strftime('%d/%m/%Y')}")
             
             # Fetch new data from Trading Economics
-            new_records = fetch_bond_data_from_te(country, api_country, maturity, start_date, today)
+            new_records = fetch_bond_data_from_te(country, symbol, maturity, start_date, today)
             
             if not new_records:
                 print(f"  ℹ No new data available")
@@ -257,13 +273,14 @@ def update_bond_yields(db):
                     {
                         '$push': {'data': {'$each': new_records}},
                         '$set': {
+                            'symbol': symbol,
                             'last_available_date': max(new_records, key=lambda x: x['date_obj'])['date_obj'],
                             'last_updated': datetime.now(),
                             'record_count': doc['record_count'] + len(new_records)
                         }
                     }
                 )
-                
+
                 if result.modified_count > 0:
                     total_new_records += len(new_records)
                     new_last_date = max(new_records, key=lambda x: x['date_obj'])['date_obj']
@@ -360,8 +377,79 @@ def update_interest_rates(db):
     return total_new_records
 
 
+def rebuild_bond_yields(db, maturities, apply=False):
+    """
+    Replace stored bond yield history with real data fetched by ticker.
+    Used once to remove the synthetic 2Y series (10Y minus a fixed spread, from generate_2y_from_10y.py)
+    and to refill series that stopped updating. Dry run unless apply=True.
+    Countries with no such bond on Trading Economics get their (synthetic) document removed.
+    """
+    print("\n" + "=" * 80)
+    print(f"REBUILDING BOND YIELDS ({', '.join(m.upper() for m in maturities)}) - {'APPLY' if apply else 'DRY RUN'}")
+    print("=" * 80)
+
+    bond_collection = db.bond_yields
+    today = datetime.now()
+
+    for country, symbols in BOND_SYMBOLS.items():
+        for maturity in maturities:
+            symbol = symbols.get(maturity)
+            doc = bond_collection.find_one({'country': country, 'maturity': maturity}, {'data': 0})
+
+            if not symbol:
+                if doc:
+                    print(f"\n🗑  {country} {maturity.upper()}: no such bond on Trading Economics - "
+                          f"{'removing' if apply else 'would remove'} {doc.get('record_count', 0)} stored (synthetic) records")
+                    if apply:
+                        bond_collection.delete_one({'country': country, 'maturity': maturity})
+                continue
+
+            # Full history - Trading Economics returns at most the latest 10,000 daily records
+            start_date = datetime(1980, 1, 1)
+
+            print(f"\n📊 {country} {maturity.upper()}")
+            records = fetch_bond_data_from_te(country, symbol, maturity, start_date, today)
+            if not records:
+                print(f"  ⚠ Nothing returned - keeping existing data")
+                time.sleep(1)
+                continue
+
+            old = f"{doc.get('record_count', 0)} records, symbol {doc.get('symbol')}, last {doc.get('last_available_date')}" if doc else "none"
+            print(f"  existing: {old}")
+            print(f"  real:     {len(records)} records {records[0]['date']} -> {records[-1]['date']}, "
+                  f"last close {records[-1]['close']}")
+
+            if apply:
+                bond_collection.replace_one(
+                    {'country': country, 'maturity': maturity},
+                    {
+                        'country': country,
+                        'symbol': symbol,
+                        'maturity': maturity,
+                        'last_available_date': records[-1]['date_obj'],
+                        'last_updated': datetime.now(),
+                        'record_count': len(records),
+                        'source': 'tradingeconomics markets/historical',
+                        'data': records
+                    },
+                    upsert=True
+                )
+                print(f"  ✅ Replaced")
+
+            time.sleep(1)
+
+    if not apply:
+        print("\nDry run only - nothing was changed. Re-run with --apply to write these changes.")
+
+
 def main():
     """Main incremental update function"""
+    import argparse
+    parser = argparse.ArgumentParser(description="Incremental bond yield and interest rate update")
+    parser.add_argument('--rebuild', choices=['2y', '10y', 'all'],
+                        help="Replace stored bond history with real data by ticker (dry run unless --apply)")
+    parser.add_argument('--apply', action='store_true', help="Write the --rebuild changes")
+    args = parser.parse_args()
     print("\n" + "=" * 80)
     print("INCREMENTAL DATA UPDATE: Fetch only missing dates")
     print("=" * 80)
@@ -382,7 +470,12 @@ def main():
         print(f"✓ Connected to MongoDB")
         
         db = client[MONGODB_DB_NAME]
-        
+
+        if args.rebuild:
+            maturities = ['10y', '2y'] if args.rebuild == 'all' else [args.rebuild]
+            rebuild_bond_yields(db, maturities, apply=args.apply)
+            return
+
         # Update bond yields (incremental)
         bonds_added = update_bond_yields(db)
         

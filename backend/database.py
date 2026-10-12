@@ -138,6 +138,13 @@ class Database:
         # Per-user notification settings (Telegram bot token + chat id)
         await db.user_notification_settings.create_index([('user_id', 1)], unique=True)
 
+        # Telegram message history (timing of every alert / reply sent)
+        await db.telegram_messages.create_index([('user_id', 1), ('sent_at', -1)])
+        await db.telegram_messages.create_index([('sent_at', -1)])
+
+        # Chats that messaged each bot (so 'Detect my Chat ID' still works while the bot is being polled)
+        await db.telegram_seen_chats.create_index([('bot_id', 1), ('chat_id', 1)], unique=True)
+
         print("✓ MongoDB indexes created")
 
 
@@ -230,3 +237,13 @@ def get_ma_cross_alerts_collection():
 def get_user_notification_settings_collection():
     """Get per-user notification settings collection (Telegram bot token + chat id)"""
     return Database.get_db().user_notification_settings
+
+
+def get_telegram_messages_collection():
+    """Get Telegram message history collection"""
+    return Database.get_db().telegram_messages
+
+
+def get_telegram_seen_chats_collection():
+    """Get collection of chats that messaged each Telegram bot"""
+    return Database.get_db().telegram_seen_chats

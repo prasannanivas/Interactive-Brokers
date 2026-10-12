@@ -122,6 +122,10 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
   // Compute "7 days ago" signals on the fly from price history — same approach as ChartModal volume bars.
   // For each pair, fetch 250 daily candles, slice to the 7-days-ago candle, run daily indicators,
   // and count buy/sell signals. No snapshot dependency.
+  // Re-run only when the set of pairs changes - the watchlist object is replaced on every
+  // live update, which used to refetch 250 days of candles for every pair each time.
+  const symbolsKey = (watchlist || []).map(item => item.symbol).sort().join(',')
+
   useEffect(() => {
     if (!watchlist || watchlist.length === 0) return
 
@@ -176,7 +180,7 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
     }
 
     computeHistoricalDeltas()
-  }, [watchlist])
+  }, [symbolsKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Build all matrices (current + net + deltas)
   const matrixData = useMemo(() => {

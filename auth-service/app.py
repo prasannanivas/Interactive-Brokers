@@ -15,6 +15,7 @@ Note: This service handles read-only data queries, while the Signal Processing
 
 from fastapi import FastAPI, HTTPException, Depends, Request, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from datetime import datetime, timedelta
 from typing import Optional
@@ -36,6 +37,7 @@ from models import (
     UserCreate, UserLogin, UserResponse, Token,
     LoginHistory, APICallLog, SignalLog, WatchlistChange, WatchlistItem
 )
+from response_cache import cached
 from auth import (
     verify_password, get_password_hash, create_access_token,
     get_current_user, get_optional_user, record_login_history
@@ -66,6 +68,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Compress JSON responses (price history, watchlist)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 security = HTTPBearer()
 
@@ -498,8 +503,23 @@ async def get_watchlist_changes(
     }
 
 
+# Price candles change slowly relative to page loads; several dashboard sections
+# request the same symbol, so cache per (symbol, days, timespan).
+PRICE_CACHE_TTL = {'minute': 30, 'hour': 120, 'day': 300, 'week': 900, 'month': 1800}
+
+
 @app.get("/api/history/price-data/{symbol}")
 async def get_price_history(
+    symbol: str,
+    days: int = 30,
+    timespan: str = 'hour'
+):
+    """Historical OHLCV candles for a symbol (cached briefly, see PRICE_CACHE_TTL)"""
+    return await cached(('price-data', symbol, days, timespan), PRICE_CACHE_TTL.get(timespan, 120),
+                        lambda: _fetch_price_history(symbol, days, timespan))
+
+
+async def _fetch_price_history(
     symbol: str,
     days: int = 30,
     timespan: str = 'hour'

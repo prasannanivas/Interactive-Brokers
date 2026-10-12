@@ -15,7 +15,7 @@ from typing import List, Optional
 from pymongo.errors import DuplicateKeyError
 
 from database import get_ma_cross_alerts_collection
-from user_telegram import list_ma_cross_recipients, send_telegram
+from user_telegram import list_ma_cross_recipients, send_and_log
 
 # A cross on the live bar or the bar just closed is considered "new".
 # (1 also catches a cross completed on the prior daily close, e.g. right after a restart.)
@@ -109,16 +109,20 @@ class MACrossAlerter:
 
             print(f"🚨 MA CROSS {alert['direction']}: {alert['symbol']} (cross bar {alert['cross_date']})")
             message = format_telegram(alert)
+            timing = {'kind': 'ma_cross', 'detected_at': alert['timestamp'], 'symbol': alert['symbol'],
+                      'direction': alert['direction'], 'cross_date': alert['cross_date']}
             delivered = 0
             if self.telegram_bot.is_configured():
-                try:
-                    await self.telegram_bot.send_message(message)
+                ok, err, _ = await send_and_log(self.telegram_bot.bot_token, self.telegram_bot.chat_id, message,
+                                                user_id='server', **timing)
+                if ok:
                     delivered += 1
-                except Exception as e:
-                    print(f"✗ MA Cross Telegram alert failed: {e}")
+                else:
+                    print(f"✗ MA Cross Telegram alert failed: {err}")
 
             for r in recipients:
-                ok, err = await send_telegram(r['telegram_bot_token'], r['telegram_chat_id'], message)
+                ok, err, _ = await send_and_log(r['telegram_bot_token'], r['telegram_chat_id'], message,
+                                                user_id=r.get('user_id'), email=r.get('email'), **timing)
                 if ok:
                     delivered += 1
                 else:

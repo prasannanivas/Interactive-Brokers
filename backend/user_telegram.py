@@ -5,11 +5,12 @@ and receive MA Cross (EMA 9, EMA 21) alerts there.
 """
 
 from datetime import datetime
+import time
 from typing import List, Optional, Tuple
 
 import aiohttp
 
-from database import get_user_notification_settings_collection
+from database import get_user_notification_settings_collection, get_telegram_messages_collection, get_telegram_seen_chats_collection
 
 TELEGRAM_API = "https://api.telegram.org/bot{token}/{method}"
 
@@ -99,3 +100,73 @@ async def list_ma_cross_recipients() -> List[dict]:
         'telegram_chat_id': {'$nin': [None, '']}
     })
     return [doc async for doc in cursor]
+
+
+def bot_id_from_token(token: Optional[str]) -> Optional[str]:
+    return token.split(':', 1)[0] if token and ':' in token else None
+
+
+async def send_and_log(token: str, chat_id: str, text: str, *, kind: str, user_id: Optional[str] = None,
+                       email: Optional[str] = None, detected_at: Optional[str] = None,
+                       symbol: Optional[str] = None, direction: Optional[str] = None,
+                       cross_date: Optional[str] = None) -> Tuple[bool, Optional[str], dict]:
+    """Send a Telegram message and store it in the history with timing.
+    detected_at: server-local ISO time the event was detected (for detection -> delivery delay)."""
+    started = time.perf_counter()
+    ok, err = await send_telegram(token, chat_id, text)
+    telegram_ms = int((time.perf_counter() - started) * 1000)
+    now_local = datetime.now()
+
+    delay_ms = None
+    if detected_at:
+        try:
+            delay_ms = int((now_local - datetime.fromisoformat(detected_at)).total_seconds() * 1000)
+        except Exception:
+            pass
+
+    record = {
+        'user_id': user_id,
+        'email': email,
+        'bot_id': bot_id_from_token(token),
+        'chat_id': str(chat_id),
+        'kind': kind,                      # ma_cross | test_alert | command_reply | connection_test
+        'symbol': symbol,
+        'direction': direction,
+        'cross_date': cross_date,
+        'detected_at': detected_at,
+        'sent_at': datetime.utcnow(),
+        'telegram_ms': telegram_ms,        # Telegram API round trip
+        'delay_ms': delay_ms,              # detected -> confirmed delivered
+        'ok': ok,
+        'error': err,
+        'preview': text[:300],
+    }
+    try:
+        await get_telegram_messages_collection().insert_one(dict(record))
+    except Exception as e:
+        print(f"✗ Failed to log Telegram message: {e}")
+    return ok, err, record
+
+
+async def get_message_history(user_id: str, limit: int = 50) -> List[dict]:
+    cursor = get_telegram_messages_collection().find({'user_id': user_id}, {'_id': 0}).sort('sent_at', -1).limit(limit)
+    rows = []
+    async for doc in cursor:
+        if isinstance(doc.get('sent_at'), datetime):
+            doc['sent_at'] = doc['sent_at'].isoformat() + 'Z'
+        rows.append(doc)
+    return rows
+
+
+async def record_seen_chat(bot_id: str, chat: dict):
+    name = chat.get('title') or ' '.join(filter(None, [chat.get('first_name'), chat.get('last_name')])) or chat.get('username') or str(chat['id'])
+    await get_telegram_seen_chats_collection().update_one(
+        {'bot_id': bot_id, 'chat_id': str(chat['id'])},
+        {'$set': {'name': name, 'username': chat.get('username'), 'type': chat.get('type'), 'last_seen': datetime.utcnow()}},
+        upsert=True
+    )
+
+
+async def get_seen_chats(bot_id: str) -> List[dict]:
+    cursor = get_telegram_seen_chats_collection().find({'bot_id': bot_id}, {'_id': 0}).sort('last_seen', -1).limit(20)
+    return [{'chat_id': d['chat_id'], 'name': d.get('name'), 'username': d.get('username'), 'type': d.get('type')} async for d in cursor]

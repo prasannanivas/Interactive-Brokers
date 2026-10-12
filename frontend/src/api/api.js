@@ -105,6 +105,8 @@ export const settingsAPI = {
   deleteTelegram: () => tradingApi.delete('/api/settings/telegram'),
   testTelegram: (data) => tradingApi.post('/api/settings/telegram/test', data),
   detectTelegramChat: (data) => tradingApi.post('/api/settings/telegram/detect-chat', data),
+  sendTestAlert: () => tradingApi.post('/api/settings/telegram/test-alert'),
+  getTelegramHistory: (limit = 50) => tradingApi.get(`/api/settings/telegram/history?limit=${limit}`),
 }
 
 // Data API - uses data service (port 8001) - watchlist and search operations
@@ -133,7 +135,9 @@ export const backtestingAPI = {
 
 // Bond/Interest Rate API - uses trading service (port 8000)
 export const bondAPI = {
-  getInterestRates: (days = 0) => tradingApi.get('/api/bond/interest-rates', { params: { days } }),
+  // countries: optional array of country names - only fetch what the chart needs
+  getInterestRates: (days = 0, countries = null) =>
+    tradingApi.get('/api/bond/interest-rates', { params: countries ? { days, countries: countries.join(',') } : { days } }),
   
   getHistoricalRates: (refArea, days = 365) => 
     tradingApi.get(`/api/bond/interest-rates/${refArea}?days=${days}`),

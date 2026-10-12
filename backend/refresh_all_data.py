@@ -200,32 +200,6 @@ def convert_bond_data_to_ohlc(data):
     
     return ohlc_data
 
-def generate_2y_from_10y(country, data_10y):
-    """Generate 2Y bond data from 10Y data using realistic spread"""
-    
-    if not data_10y:
-        return []
-    
-    spread = YIELD_SPREAD_CONFIG.get(country, 0.3)
-    data_2y = []
-    
-    for record in data_10y:
-        # Calculate 2Y values with spread (2Y = 10Y - spread)
-        open_2y = round(max(0.01, record['open'] - spread), 5)
-        high_2y = round(max(0.01, record['high'] - spread + 0.02), 5)  # Slight variation
-        low_2y = round(max(0.01, record['low'] - spread - 0.02), 5)
-        close_2y = round(max(0.01, record['close'] - spread), 5)
-        
-        data_2y.append({
-            'date': record['date'],
-            'open': open_2y,
-            'high': high_2y,
-            'low': low_2y,
-            'close': close_2y
-        })
-    
-    return data_2y
-
 def save_bond_data(country, data_10y, data_2y):
     """Save bond yield data to individual and combined files"""
     
@@ -430,12 +404,9 @@ def main():
             # Convert to OHLC
             data_10y = convert_bond_data_to_ohlc(raw_10y)
             
-            # Generate 2Y data from 10Y (since 2Y is not available in API)
+            # 2Y yields are no longer synthesized from 10Y (that produced fake data).
+            # Real 2Y yields are fetched by ticker in fetch_incremental_bond_data.py.
             data_2y = []
-            if data_10y:
-                print(f"  📊 Generating 2Y data from {len(data_10y)} days of 10Y data...")
-                data_2y = generate_2y_from_10y(country, data_10y)
-                print(f"  ✓ Generated {len(data_2y)} days of 2Y data (spread: -{YIELD_SPREAD_CONFIG.get(country, 0.3)}%)")
             
             print(f"  📊 Final: {len(data_10y)} days (10Y), {len(data_2y)} days (2Y)")
             

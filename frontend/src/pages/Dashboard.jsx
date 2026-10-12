@@ -13,13 +13,19 @@ import DailySignalVolumeChart from '../components/DailySignalVolumeChart'
 import ErrorBoundary from '../components/ErrorBoundary'
 import LoginHistory from '../components/LoginHistory'
 import MACrossAlertBanner from '../components/MACrossAlertBanner'
+import { SectionLoader, LazySection } from '../components/SectionLoader'
 import './Dashboard.css'
+
+// Legacy stacked charts (interest rate / correlation / bond yields) were hidden with display:none
+// but still mounted and fetched their data on every load. Flip to true to bring them back.
+const SHOW_LEGACY_STACKED_CHARTS = false
 
 const Dashboard = () => {
   const navigate = useNavigate()
   const { logout, user } = useAuth()
   const [status, setStatus] = useState({})
   const [watchlist, setWatchlist] = useState([])
+  const [watchlistLoaded, setWatchlistLoaded] = useState(false) // first load finished (success or error)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [showSearchResults, setShowSearchResults] = useState(false)
@@ -136,16 +142,20 @@ const Dashboard = () => {
   useEffect(() => {
     loadStatus()
     loadWatchlist()
-    loadInterestRates()
     connectWebSocket()
 
     const statusInterval = setInterval(loadStatus, 10000)
-    // Refresh interest rates every 30 minutes
-    const interestRateInterval = setInterval(loadInterestRates, 30 * 60 * 1000)
+    // Interest rates (~3.5 MB) are only needed by the legacy stacked charts
+    let interestRateInterval = null
+    if (SHOW_LEGACY_STACKED_CHARTS) {
+      loadInterestRates()
+      // Refresh interest rates every 30 minutes
+      interestRateInterval = setInterval(loadInterestRates, 30 * 60 * 1000)
+    }
 
     return () => {
       clearInterval(statusInterval)
-      clearInterval(interestRateInterval)
+      if (interestRateInterval) clearInterval(interestRateInterval)
       if (wsRef.current) {
         wsRef.current.close()
       }
@@ -181,6 +191,8 @@ const Dashboard = () => {
       setWatchlist(watchlistData)
     } catch (error) {
       console.error('❌ Failed to load watchlist:', error)
+    } finally {
+      setWatchlistLoaded(true)
     }
   }
 
@@ -724,7 +736,11 @@ const Dashboard = () => {
       <MACrossAlertBanner liveAlerts={liveMACrossAlerts} onOpenChart={openChartModal} />
 
       {/* Currency Signal Matrix */}
-      <CurrencyMatrix watchlist={watchlist} onPairClick={openChartWithSignals} />
+      {watchlistLoaded ? (
+        <CurrencyMatrix watchlist={watchlist} onPairClick={openChartWithSignals} />
+      ) : (
+        <SectionLoader variant="matrix" title="📊 Currency Signal Matrix" label="Loading signal matrix…" />
+      )}
 
       {/* Daily Signal Volume Chart - NEW! Shows Bullish/Neutral/Bearish from daily snapshots */}
       {/* <div style={{ marginTop: '20px', marginBottom: '20px' }}>
@@ -734,16 +750,20 @@ const Dashboard = () => {
       </div> */}
 
       {/* Comprehensive Analysis Chart - New TradingView-style Layout */}
-      <ErrorBoundary>
-        <ComprehensiveAnalysisChart 
-          selectedCurrencyPair={selectedCurrencyPair}
-          onPairChange={setSelectedCurrencyPair}
-          watchlist={watchlist}
-        />
-      </ErrorBoundary>
+      {/* Loads when scrolled near - its bond, rate, price and calendar requests wait until then */}
+      <LazySection placeholder={<SectionLoader variant="chart" title="📊 Comprehensive Currency Analysis" label="Loading analysis charts…" height={420} />}>
+        <ErrorBoundary>
+          <ComprehensiveAnalysisChart 
+            selectedCurrencyPair={selectedCurrencyPair}
+            onPairChange={setSelectedCurrencyPair}
+            watchlist={watchlist}
+          />
+        </ErrorBoundary>
+      </LazySection>
 
-      {/* Stacked Charts Section - Original Charts (Can be toggled/hidden) */}
-      <div className="stacked-charts-container" style={{ display: 'none' }}>
+      {/* Stacked Charts Section - Original Charts (toggle with SHOW_LEGACY_STACKED_CHARTS) */}
+      {SHOW_LEGACY_STACKED_CHARTS && (
+      <div className="stacked-charts-container">
         {/* Interest Rate Chart */}
         <div className="stacked-chart-item">
           <InterestRateChart 
@@ -768,12 +788,13 @@ const Dashboard = () => {
         {/* Bond Yields Chart */}
         <div className="stacked-chart-item">
           <ErrorBoundary>
-            <BondYieldsChart 
+            <BondYieldsChart
               selectedCurrencyPair={selectedCurrencyPair}
             />
           </ErrorBoundary>
         </div>
       </div>
+      )}
 
       <div className="dashboard-grid">
         <div className="panel">
@@ -856,7 +877,9 @@ const Dashboard = () => {
             </div>
           )}
 
-          {watchlist.length === 0 ? (
+          {!watchlistLoaded ? (
+            <SectionLoader variant="table" label="Loading watchlist…" embedded />
+          ) : watchlist.length === 0 ? (
             <div className="empty-state">
               <div className="empty-icon">📭</div>
               <p>No symbols in watchlist</p>

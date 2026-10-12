@@ -205,6 +205,8 @@ const SignalCalendar = ({ symbol, watchlist }) => {
     for (let day = 1; day <= daysInMonth; day++) {
       const dateKey = toDateKey(year, month, day)
       if (dateKey > todayKey) continue // future day, nothing to show
+      const weekday = new Date(Date.UTC(year, month, day)).getUTCDay()
+      if (weekday === 0 || weekday === 6) continue // no trading on Sat/Sun, including a live "today"
 
       if (dateKey === todayKey && liveItem) {
         bullish.set(dateKey, liveItem.buy_signals || [])
