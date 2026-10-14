@@ -16,15 +16,22 @@ const displaySymbol = (s) => (s || '').replace('C:', '')
 // EMA 100 (Hourly); RSI, EMA 9/20/50/200, MA Cross, MACD (Daily); Bollinger, EMA 20 (Weekly)
 const TOTAL_INDICATORS = 10
 
-// Server stores detection time in UTC without a zone suffix; show it in the viewer's local time
+// Server stores detection time in UTC without a zone suffix; always show it in US Eastern
+// (EDT/EST), the same clock the trading day and the Telegram alerts use
+const EASTERN_FORMAT = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'America/New_York',
+  year: 'numeric', month: '2-digit', day: '2-digit',
+  hour: '2-digit', minute: '2-digit', second: '2-digit',
+  hourCycle: 'h23', timeZoneName: 'short',
+})
+
 const formatDetectedAt = (timestamp) => {
   if (!timestamp) return null
   const iso = /[zZ]|[+-]\d\d:?\d\d$/.test(timestamp) ? timestamp : `${timestamp}Z`
   const d = new Date(iso)
   if (isNaN(d.getTime())) return null
-  const pad = (n) => String(n).padStart(2, '0')
-  const tz = d.toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ').pop()
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} ${tz}`
+  const p = Object.fromEntries(EASTERN_FORMAT.formatToParts(d).map(x => [x.type, x.value]))
+  return `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}:${p.second} ${p.timeZoneName}`
 }
 
 // Counts recorded when the cross was detected; older alerts fall back to the pair's current counts
