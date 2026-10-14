@@ -733,7 +733,7 @@ const Dashboard = () => {
       </div>
 
       {/* MA Cross (EMA 9, EMA 21) alerts - key buy/sell signal */}
-      <MACrossAlertBanner liveAlerts={liveMACrossAlerts} onOpenChart={openChartModal} />
+      <MACrossAlertBanner liveAlerts={liveMACrossAlerts} onOpenChart={openChartModal} watchlist={watchlist} />
 
       {/* Currency Signal Matrix */}
       {watchlistLoaded ? (

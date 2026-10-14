@@ -104,13 +104,48 @@
 }
 
 .ma-cross-detail {
-  flex: 1;
+  flex: 0 1 auto;
   min-width: 180px;
 }
+
+/* Bullish / bearish / neutral counts, centered in the row */
+.ma-cross-counts {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ma-cross-count {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.ma-cross-count.bullish { color: #047857; border-color: #a7f3d0; }
+.ma-cross-count.bearish { color: #b91c1c; border-color: #fecaca; }
+.ma-cross-count.neutral { color: #4b5563; border-color: #e5e7eb; }
+
+.ma-cross-item.flash .ma-cross-count { color: #1f2937; }
 
 .ma-cross-date {
   font-size: 12px;
   opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .ma-cross-counts {
+    justify-content: flex-start;
+    flex-basis: 100%;
+    order: 5;
+  }
 }
 
 .ma-cross-dismiss {

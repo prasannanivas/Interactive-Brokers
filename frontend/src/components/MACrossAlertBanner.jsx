@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { tradingAPI } from '../api/api'
 import './MACrossAlertBanner.css'
 
@@ -12,6 +12,31 @@ const DISMISSED_KEY = 'maCrossDismissed'
 
 const alertKey = (a) => `${a.symbol}|${a.direction}|${a.cross_date}`
 const displaySymbol = (s) => (s || '').replace('C:', '')
+
+// EMA 100 (Hourly); RSI, EMA 9/20/50/200, MA Cross, MACD (Daily); Bollinger, EMA 20 (Weekly)
+const TOTAL_INDICATORS = 10
+
+// Server stores detection time in UTC without a zone suffix; show it in the viewer's local time
+const formatDetectedAt = (timestamp) => {
+  if (!timestamp) return null
+  const iso = /[zZ]|[+-]\d\d:?\d\d$/.test(timestamp) ? timestamp : `${timestamp}Z`
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return null
+  const pad = (n) => String(n).padStart(2, '0')
+  const tz = d.toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ').pop()
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} ${tz}`
+}
+
+// Counts recorded when the cross was detected; older alerts fall back to the pair's current counts
+const signalCounts = (alert, item) => {
+  if (alert.bullish_count != null) {
+    return { bullish: alert.bullish_count, bearish: alert.bearish_count, neutral: alert.neutral_count, live: false }
+  }
+  if (!item) return null
+  const bullish = item.buy_signals?.length || 0
+  const bearish = item.sell_signals?.length || 0
+  return { bullish, bearish, neutral: Math.max(TOTAL_INDICATORS - bullish - bearish, 0), live: true }
+}
 
 const loadDismissed = () => {
   try { return new Set(JSON.parse(localStorage.getItem(DISMISSED_KEY) || '[]')) } catch { return new Set() }
@@ -56,7 +81,11 @@ const notifyDesktop = (a) => {
   } catch { /* notifications unavailable */ }
 }
 
-const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart }) => {
+const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) => {
+  const watchlistBySymbol = useMemo(
+    () => Object.fromEntries((watchlist || []).map(item => [item.symbol, item])),
+    [watchlist]
+  )
   const [alerts, setAlerts] = useState([])
   const [dismissed, setDismissed] = useState(loadDismissed)
   const [freshKeys, setFreshKeys] = useState(new Set())
@@ -165,7 +194,21 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart }) => {
                   EMA 9 crossed {isBuy ? 'above' : 'below'} EMA 21
                   {a.price ? ` @ ${Number(a.price).toFixed(5)}` : ''}
                 </span>
-                <span className="ma-cross-date">{a.cross_date}</span>
+                {(() => {
+                  const counts = signalCounts(a, watchlistBySymbol[a.symbol])
+                  if (!counts) return null
+                  return (
+                    <span className="ma-cross-counts"
+                      title={counts.live ? 'Current signal counts for this pair' : 'Signal counts when the cross was detected'}>
+                      <span className="ma-cross-count bullish">🟢 {counts.bullish} Bullish</span>
+                      <span className="ma-cross-count bearish">🔴 {counts.bearish} Bearish</span>
+                      <span className="ma-cross-count neutral">⚪ {counts.neutral} Neutral</span>
+                    </span>
+                  )
+                })()}
+                <span className="ma-cross-date" title={`Cross bar (daily candle): ${a.cross_date}`}>
+                  {formatDetectedAt(a.timestamp) || a.cross_date}
+                </span>
                 <button className="ma-cross-dismiss" onClick={() => dismiss(a)} title="Dismiss">✕</button>
               </div>
             )

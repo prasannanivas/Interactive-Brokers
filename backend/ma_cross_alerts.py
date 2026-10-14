@@ -9,9 +9,10 @@ Each cross is alerted once per symbol + direction + cross bar date (deduped in M
 so restarts and repeated monitoring cycles do not re-send the same alert.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 
+import pytz
 from pymongo.errors import DuplicateKeyError
 
 from database import get_ma_cross_alerts_collection
@@ -20,6 +21,9 @@ from user_telegram import list_ma_cross_recipients, send_and_log
 # A cross on the live bar or the bar just closed is considered "new".
 # (1 also catches a cross completed on the prior daily close, e.g. right after a restart.)
 MAX_BARS_SINCE_CROSS = 1
+
+# EMA 100 (Hourly); RSI, EMA 9/20/50/200, MA Cross, MACD (Daily); Bollinger, EMA 20 (Weekly)
+TOTAL_INDICATORS = 10
 
 
 def detect_ma_cross(symbol_data: dict) -> Optional[dict]:
@@ -38,6 +42,8 @@ def detect_ma_cross(symbol_data: dict) -> Optional[dict]:
     if ma.get('signal') != direction:
         return None
 
+    bullish = len(symbol_data.get('buy_signals') or [])
+    bearish = len(symbol_data.get('sell_signals') or [])
     return {
         'symbol': symbol_data.get('symbol'),
         'direction': direction,
@@ -46,6 +52,10 @@ def detect_ma_cross(symbol_data: dict) -> Optional[dict]:
         'fast_ema': ma.get('fast_ema'),
         'slow_ema': ma.get('slow_ema'),
         'bars_since_cross': bars_since,
+        # Pair's overall signal picture at the moment of the cross (10 indicators tracked)
+        'bullish_count': bullish,
+        'bearish_count': bearish,
+        'neutral_count': max(TOTAL_INDICATORS - bullish - bearish, 0),
         'timestamp': datetime.now().isoformat()
     }
 
@@ -60,13 +70,20 @@ def format_telegram(alert: dict) -> str:
     rel = 'EMA 9 crossed ABOVE EMA 21' if is_buy else 'EMA 9 crossed BELOW EMA 21'
     price = alert.get('price')
     price_str = f"{price:.5f}" if isinstance(price, (int, float)) else 'N/A'
+    counts = ''
+    if alert.get('bullish_count') is not None:
+        counts = (f"📊 {alert['bullish_count']} Bullish | {alert['bearish_count']} Bearish | "
+                  f"{alert['neutral_count']} Neutral\n")
+    now_utc = datetime.now(timezone.utc)
+    now_et = now_utc.astimezone(pytz.timezone('US/Eastern'))
     return (
         f"🚨 <b>MA CROSS {alert['direction']}</b> {arrow}\n\n"
         f"<b>{_display_symbol(alert['symbol'])}</b> @ {price_str}\n"
         f"{rel} (Daily)\n"
         f"EMA 9: {alert.get('fast_ema')}  |  EMA 21: {alert.get('slow_ema')}\n"
+        f"{counts}"
         f"📅 Cross bar: {alert['cross_date']}\n"
-        f"⏰ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        f"⏰ {now_et.strftime('%Y-%m-%d %H:%M:%S %Z')} ({now_utc.strftime('%H:%M:%S')} UTC)"
     )
 
 
