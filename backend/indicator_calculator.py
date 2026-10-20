@@ -287,9 +287,17 @@ class IndicatorCalculator:
         """
         if daily_data is None or len(daily_data) == 0:
             return None
-        
+
+        # Forex reopens Sunday evening, so the data feed returns short Sunday (and occasional
+        # Saturday) daily bars. Drop them - the dashboard chart does too - otherwise the extra
+        # bars shift every EMA and the MA Cross fires a day or two away from the chart's arrow.
+        if isinstance(daily_data.index, pd.DatetimeIndex):
+            daily_data = daily_data[daily_data.index.dayofweek < 5]
+            if len(daily_data) == 0:
+                return None
+
         closes = daily_data['close']
-        
+
         indicators = {
             'rsi_9': IndicatorCalculator.calculate_rsi(closes, 9),
             'ema_9': IndicatorCalculator.calculate_ema_indicator(closes, 9, current_price),

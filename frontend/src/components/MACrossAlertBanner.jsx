@@ -213,8 +213,10 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
                     </span>
                   )
                 })()}
-                <span className="ma-cross-date" title={`Cross bar (daily candle): ${a.cross_date}`}>
-                  {formatDetectedAt(a.timestamp) || a.cross_date}
+                <span className="ma-cross-date"
+                  title="Daily candles are UTC days, so a candle starts at 8 PM EDT (7 PM EST) the evening before its date">
+                  <span className="ma-cross-bar">Chart bar {a.cross_date}</span>
+                  <span>Detected {formatDetectedAt(a.timestamp) || '-'}</span>
                 </span>
                 <button className="ma-cross-dismiss" onClick={() => dismiss(a)} title="Dismiss">✕</button>
               </div>
