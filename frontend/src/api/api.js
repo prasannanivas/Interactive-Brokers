@@ -109,6 +109,12 @@ export const settingsAPI = {
   getTelegramHistory: (limit = 50) => tradingApi.get(`/api/settings/telegram/history?limit=${limit}`),
 }
 
+// Backtest API - MA Cross EMA fast/slow grid search per pair (signal service)
+export const backtestAPI = {
+  runMACross: ({ symbol, years = 3, costBps = 1.0, testFraction = 0.3 }) =>
+    tradingApi.post('/api/backtest/ma-cross', { symbol, years, cost_bps: costBps, test_fraction: testFraction }, { timeout: 120000 }),
+}
+
 // Data API - uses data service (port 8001) - watchlist and search operations
 export const dataAPI = {
   searchSymbols: (query) => authApi.get(`/api/symbols/search?query=${query}`),

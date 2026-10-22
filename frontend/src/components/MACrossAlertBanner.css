@@ -37,10 +37,51 @@
   font-size: 13px;
 }
 
+.ma-cross-banner-summary {
+  margin-left: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.ma-cross-sum-buy { color: #047857; font-weight: 600; }
+.ma-cross-sum-sell { color: #b91c1c; font-weight: 600; }
+
+/* Scrollable 7-day list */
 .ma-cross-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-height: 460px;
+  overflow-y: auto;
+  padding-right: 6px;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.ma-cross-list:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.ma-cross-list::-webkit-scrollbar { width: 8px; }
+.ma-cross-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+
+/* Day divider - stays pinned while scrolling through that day */
+.ma-cross-day {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #6b7280;
+  padding: 6px 2px 4px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .ma-cross-item {

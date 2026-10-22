@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard'
 import EconomicCalendarPage from './pages/EconomicCalendarPage'
 import FxReportsPage from './pages/FxReportsPage'
 import SettingsPage from './pages/SettingsPage'
+import BacktestPage from './pages/BacktestPage'
 import Login from './pages/Login'
 import Register from './pages/Register'
 
@@ -61,6 +62,14 @@ function App() {
           element={
             <ProtectedRoute>
               <FxReportsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/backtest"
+          element={
+            <ProtectedRoute>
+              <BacktestPage />
             </ProtectedRoute>
           }
         />

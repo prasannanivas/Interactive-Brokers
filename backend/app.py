@@ -29,6 +29,7 @@ from ma_cross_alerts import MACrossAlerter, get_recent_alerts
 from user_telegram import mask_token, telegram_call, send_and_log, get_user_settings, save_user_settings, delete_user_settings, get_message_history, get_seen_chats, bot_id_from_token
 from telegram_commands import TelegramCommandPoller
 from ma_cross_alerts import format_telegram
+from backtest import fetch_daily_closes, run_backtest
 from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection, get_economic_calendar_collection, get_fx_reports_collection
 from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot, PasswordResetRequest, PasswordReset, PasswordChange, LoginHistoryResponse
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
@@ -1300,6 +1301,42 @@ async def send_my_test_alert(current_user: UserResponse = Depends(get_settings_u
 async def get_my_telegram_history(limit: int = 50, current_user: UserResponse = Depends(get_settings_user)):
     """Messages sent to the current user's Telegram, newest first, with timing"""
     return {"messages": await get_message_history(current_user.id, min(max(limit, 1), 500))}
+
+
+# ============================================
+# BACKTEST - optimal EMA fast/slow per pair
+# ============================================
+
+class MACrossBacktestRequest(BaseModel):
+    symbol: str
+    years: int = 3
+    cost_bps: float = 1.0          # per side, per position change
+    test_fraction: float = 0.3     # last part of history held out for out-of-sample results
+
+
+@app.post("/api/backtest/ma-cross")
+async def backtest_ma_cross(req: MACrossBacktestRequest):
+    """Grid-search EMA fast (3-20) / slow (10-60) crossovers for one pair; ranked on train Sharpe, judged on test"""
+    if not monitor.is_connected() or not monitor.client:
+        raise HTTPException(status_code=503, detail="Market data API not connected")
+    years = min(max(req.years, 1), 10)
+    cost_bps = min(max(req.cost_bps, 0.0), 50.0)
+    test_fraction = min(max(req.test_fraction, 0.1), 0.5)
+    loop = asyncio.get_running_loop()
+
+    async def load_closes():
+        return await loop.run_in_executor(None, fetch_daily_closes, monitor.client, req.symbol, years)
+
+    async def compute():
+        closes = await cached(('bt-closes', req.symbol, years), 1800, load_closes)
+        if closes is None or len(closes) == 0:
+            raise HTTPException(status_code=404, detail=f"No daily price history for {req.symbol}")
+        try:
+            return await loop.run_in_executor(None, run_backtest, req.symbol, closes, cost_bps, test_fraction)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+
+    return await cached(('bt-result', req.symbol, years, cost_bps, test_fraction), 1800, compute)
 
 
 @app.get("/api/ma-cross-alerts")

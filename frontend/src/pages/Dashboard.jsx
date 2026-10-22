@@ -692,6 +692,9 @@ const Dashboard = () => {
           <button className="login-history-btn" onClick={() => setShowLoginHistory(true)} title="View Login History">
             📋 History
           </button>
+          <button className="login-history-btn" onClick={() => navigate('/backtest')} title="Backtest MA Cross settings per pair">
+            🧪 Backtest
+          </button>
           <button className="login-history-btn" onClick={() => navigate('/settings')} title="Notification settings">
             ⚙️ Settings
           </button>

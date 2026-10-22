@@ -7,7 +7,9 @@ import './MACrossAlertBanner.css'
 // notification the moment a new cross arrives (via WebSocket push or polling).
 
 const POLL_MS = 30000
-const RECENT_DAYS = 2
+const RECENT_DAYS = 7    // how far back the scrollable list goes
+const ANNOUNCE_DAYS = 2  // only chime / notify for crosses this recent
+const FETCH_LIMIT = 300  // enough alerts to cover the 7-day window
 const DISMISSED_KEY = 'maCrossDismissed'
 
 const alertKey = (a) => `${a.symbol}|${a.direction}|${a.cross_date}`
@@ -52,10 +54,19 @@ const saveDismissed = (set) => {
   try { localStorage.setItem(DISMISSED_KEY, JSON.stringify([...set].slice(-200))) } catch { /* storage unavailable */ }
 }
 
-const isRecent = (crossDate) => {
+const isWithinDays = (crossDate, days) => {
   const d = Date.parse(crossDate)
   if (isNaN(d)) return true
-  return (Date.now() - d) / 86400000 <= RECENT_DAYS
+  return (Date.now() - d) / 86400000 <= days
+}
+
+const isRecent = (crossDate) => isWithinDays(crossDate, RECENT_DAYS)
+
+// 'Tue, Oct 20' for the day dividers (cross_date is the chart's daily bar, YYYY-MM-DD)
+const formatBarDay = (crossDate) => {
+  const d = new Date(`${crossDate}T00:00:00Z`)
+  if (isNaN(d.getTime())) return crossDate
+  return d.toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'short', month: 'short', day: 'numeric' })
 }
 
 const playChime = (isBuy) => {
@@ -112,12 +123,14 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
     setAlerts(prev => {
       const map = new Map(prev.map(a => [alertKey(a), a]))
       incoming.forEach(a => map.set(alertKey(a), a))
-      return [...map.values()].sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp)))
+      // Newest chart bar first, then newest detection - keeps each day's rows together under one divider
+      return [...map.values()].sort((a, b) =>
+        String(b.cross_date).localeCompare(String(a.cross_date)) || String(b.timestamp).localeCompare(String(a.timestamp)))
     })
 
     // Don't ring for alerts that already existed when the page loaded
     if (!firstLoad || announce) {
-      const toAnnounce = newOnes.filter(a => isRecent(a.cross_date))
+      const toAnnounce = newOnes.filter(a => isWithinDays(a.cross_date, ANNOUNCE_DAYS))
       if (toAnnounce.length > 0) {
         playChime(toAnnounce[0].direction === 'BUY')
         toAnnounce.forEach(notifyDesktop)
@@ -128,7 +141,7 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
 
   const fetchAlerts = async () => {
     try {
-      const res = await tradingAPI.getMACrossAlerts(50)
+      const res = await tradingAPI.getMACrossAlerts(FETCH_LIMIT)
       ingest(res.data?.alerts || [], false)
     } catch (e) {
       console.error('Failed to load MA Cross alerts:', e)
@@ -164,12 +177,24 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
   }
 
   const visible = alerts.filter(a => isRecent(a.cross_date) && !dismissed.has(alertKey(a)))
-  if (visible.length === 0 && notifPermission !== 'default') return null
+  const buyCount = visible.filter(a => a.direction === 'BUY').length
+  const sellCount = visible.length - buyCount
 
   return (
     <div className="ma-cross-banner">
       <div className="ma-cross-banner-header">
-        <span className="ma-cross-banner-title">🚨 MA Cross (EMA 9, EMA 21) Alerts</span>
+        <span className="ma-cross-banner-title">
+          🚨 MA Cross (EMA 9, EMA 21) Alerts
+          <span className="ma-cross-banner-summary">
+            Last {RECENT_DAYS} days · {visible.length} signal{visible.length === 1 ? '' : 's'}
+            {visible.length > 0 && (
+              <>
+                {' '}(<span className="ma-cross-sum-buy">▲ {buyCount} BUY</span>
+                {' · '}<span className="ma-cross-sum-sell">▼ {sellCount} SELL</span>)
+              </>
+            )}
+          </span>
+        </span>
         {notifPermission === 'default' && (
           <button className="ma-cross-enable-btn" onClick={enableNotifications}>
             🔔 Enable desktop alerts
@@ -177,15 +202,17 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
         )}
       </div>
       {visible.length === 0 ? (
-        <div className="ma-cross-empty">No new crosses. You'll be alerted here the moment EMA 9 crosses EMA 21.</div>
+        <div className="ma-cross-empty">No crosses in the last {RECENT_DAYS} days. You'll be alerted here the moment EMA 9 crosses EMA 21.</div>
       ) : (
-        <div className="ma-cross-list">
-          {visible.map(a => {
+        <div className="ma-cross-list" tabIndex={0} aria-label={`MA Cross signals, last ${RECENT_DAYS} days`}>
+          {visible.map((a, i) => {
             const isBuy = a.direction === 'BUY'
             const key = alertKey(a)
+            const newDay = i === 0 || visible[i - 1].cross_date !== a.cross_date
             return (
+              <React.Fragment key={key}>
+              {newDay && <div className="ma-cross-day">{formatBarDay(a.cross_date)}</div>}
               <div
-                key={key}
                 className={`ma-cross-item ${isBuy ? 'buy' : 'sell'} ${freshKeys.has(key) ? 'flash' : ''}`}
               >
                 <span className="ma-cross-arrow">{isBuy ? '▲' : '▼'}</span>
@@ -220,6 +247,7 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
                 </span>
                 <button className="ma-cross-dismiss" onClick={() => dismiss(a)} title="Dismiss">✕</button>
               </div>
+              </React.Fragment>
             )
           })}
         </div>
