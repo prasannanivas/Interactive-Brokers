@@ -29,20 +29,37 @@ TOP_N = 10
 EQUITY_POINTS = 400            # downsample equity curves for the chart
 
 
-def fetch_daily_closes(client, symbol: str, years: int) -> pd.Series:
-    """Daily closes from the market data API (blocking - run in an executor). Weekends dropped."""
+def fetch_daily_bars(client, symbol: str, years: int) -> pd.DataFrame:
+    """Daily OHLC from the market data API (blocking - run in an executor). Weekends dropped."""
     end = datetime.utcnow()
     start = end - timedelta(days=int(years * 365.25) + 120)  # + warm-up for the slowest EMA
     rows = []
     for agg in client.list_aggs(ticker=symbol, multiplier=1, timespan="day",
                                 from_=start.strftime('%Y-%m-%d'), to=end.strftime('%Y-%m-%d'),
                                 adjusted=True, sort="asc", limit=50000):
-        rows.append((agg.timestamp, agg.close))
+        rows.append({'t': agg.timestamp, 'open': agg.open, 'high': agg.high, 'low': agg.low, 'close': agg.close})
     if not rows:
-        return pd.Series(dtype=float)
-    s = pd.Series([r[1] for r in rows], index=pd.to_datetime([r[0] for r in rows], unit='ms'))
-    s = s[~s.index.duplicated(keep='last')].sort_index()
-    return s[s.index.dayofweek < 5].astype(float)
+        return pd.DataFrame(columns=['open', 'high', 'low', 'close'])
+    df = pd.DataFrame(rows)
+    df.index = pd.to_datetime(df.pop('t'), unit='ms')
+    df = df[~df.index.duplicated(keep='last')].sort_index()
+    return df[df.index.dayofweek < 5].astype(float)
+
+
+def fetch_daily_closes(client, symbol: str, years: int) -> pd.Series:
+    """Daily closes only (weekends dropped)."""
+    return fetch_daily_bars(client, symbol, years)['close']
+
+
+def _bar_close_et(day: pd.Timestamp) -> str:
+    """Daily candles are UTC days, so a candle closes at the next midnight UTC (8 PM EDT / 7 PM EST)."""
+    close_utc = (pd.Timestamp(day.date()) + pd.Timedelta(days=1)).tz_localize('UTC')
+    return close_utc.tz_convert('America/New_York').strftime('%Y-%m-%d %H:%M %Z')
+
+
+def _pip_size(symbol: str, price: float) -> float:
+    """0.01 for JPY-quoted and other high-priced pairs (e.g. EUR/HUF), else 0.0001."""
+    return 0.01 if symbol.upper().endswith('JPY') or price >= 20 else 0.0001
 
 
 def _ema(closes: np.ndarray, period: int) -> np.ndarray:
@@ -94,8 +111,14 @@ def _downsample(idx: np.ndarray, n: int) -> np.ndarray:
     return idx[np.unique(pick)]
 
 
-def run_backtest(symbol: str, closes: pd.Series, cost_bps: float = 1.0, test_fraction: float = 0.3) -> Dict:
-    """Grid-search EMA fast/slow combos on one pair's daily closes."""
+def run_backtest(symbol: str, closes, cost_bps: float = 1.0, test_fraction: float = 0.3) -> Dict:
+    """Grid-search EMA fast/slow combos on one pair's daily data (closes Series or OHLC DataFrame)."""
+    if isinstance(closes, pd.DataFrame):
+        bars = closes
+        closes = bars['close']
+        highs, lows = bars['high'].values, bars['low'].values
+    else:
+        highs = lows = closes.values
     max_slow = max(SLOW_RANGE)
     if len(closes) < max_slow + 120:
         raise ValueError(f"Not enough daily history for {symbol} ({len(closes)} bars)")
@@ -167,6 +190,68 @@ def run_backtest(symbol: str, closes: pd.Series, cost_bps: float = 1.0, test_fra
     best = with_full(best)
     baseline = with_full(baseline)
 
+    def trade_list(fast: int, slow: int) -> List[Dict]:
+        """Every trade inside the evaluation window. A trade is a run of one position (long/short);
+        it is entered at the close before its first day and exited at the close of its last day.
+        Costs: one side on entry + one side on exit (a flip closes one trade and opens the next)."""
+        strat, held = simulate(fast, slow)
+        a0 = start + 1
+        seg = held[a0:end]
+        if len(seg) == 0:
+            return []
+        starts = np.flatnonzero(np.concatenate([[True], seg[1:] != seg[:-1]])) + a0
+        bounds = list(starts) + [end]
+        trades, equity = [], 1.0
+        for n, (a, b) in enumerate(zip(bounds[:-1], bounds[1:]), start=1):
+            side = held[a]
+            if side == 0:
+                continue
+            last = b - 1
+            entry_i = a - 1                   # signal confirmed on this bar's close -> entry
+            entry_px, exit_px = float(c[entry_i]), float(c[last])
+            gross = float(np.prod(1 + side * ret[a:b]) - 1)
+            is_open = b == end
+            sides_paid = 1 if is_open else 2
+            net = (1 + gross) * (1 - cost * sides_paid) - 1
+            equity *= 1 + net
+            pip = _pip_size(symbol, entry_px)
+            hi, lo = float(np.max(highs[a:b])), float(np.min(lows[a:b]))
+            if side > 0:
+                mfe, mae = hi / entry_px - 1, lo / entry_px - 1
+            else:
+                mfe, mae = entry_px / lo - 1, entry_px / hi - 1
+            first_in_window = a == a0 and held[a0 - 1] == side   # position carried in from before the window
+            trades.append({
+                'n': n,
+                'direction': 'LONG' if side > 0 else 'SHORT',
+                'signal': ('Already in position at window start' if first_in_window
+                           else 'Golden cross (EMA fast above slow)' if side > 0 else 'Death cross (EMA fast below slow)'),
+                'entry_date': dates[entry_i].strftime('%Y-%m-%d'),
+                'entry_time_et': _bar_close_et(dates[entry_i]),
+                'entry_price': entry_px,
+                'entry_ema_fast': float(emas[fast][entry_i]),
+                'entry_ema_slow': float(emas[slow][entry_i]),
+                'exit_date': dates[last].strftime('%Y-%m-%d'),
+                'exit_time_et': None if is_open else _bar_close_et(dates[last]),
+                'exit_price': exit_px,
+                'exit_ema_fast': float(emas[fast][last]),
+                'exit_ema_slow': float(emas[slow][last]),
+                'exit_reason': 'Still open - marked at latest price' if is_open else ('Death cross - reversed to SHORT' if side > 0 else 'Golden cross - reversed to LONG'),
+                'days': int(b - a),
+                'calendar_days': int((dates[last] - dates[entry_i]).days),
+                'pips': float(side * (exit_px - entry_px) / pip),
+                'pip_size': pip,
+                'gross_return': gross,
+                'cost': cost * sides_paid,
+                'net_return': float(net),
+                'mfe': float(mfe),
+                'mae': float(mae),
+                'equity_after': float(equity),
+                'period': 'test' if a >= split else 'train',
+                'status': 'open' if is_open else 'closed',
+            })
+        return trades
+
     # Equity curves (best vs baseline vs buy & hold), downsampled for the chart
     b_strat, _ = simulate(best['fast'], best['slow'])
     base_strat, _ = simulate(*BASELINE)
@@ -189,6 +274,10 @@ def run_backtest(symbol: str, closes: pd.Series, cost_bps: float = 1.0, test_fra
         'best': best,
         'baseline': baseline,
         'beats_baseline_out_of_sample': (best['test']['sharpe'] or 0) > (baseline['test']['sharpe'] or 0),
+        'trades': {
+            'best': trade_list(best['fast'], best['slow']),
+            'baseline': trade_list(*BASELINE),
+        },
         'top': [{'fast': x['fast'], 'slow': x['slow'], 'train': x['train'], 'test': x['test']} for x in ranked[:TOP_N]],
         'heatmap': {'fast': fasts, 'slow': slows, 'train_sharpe': train_grid, 'test_sharpe': test_grid},
         'equity': {

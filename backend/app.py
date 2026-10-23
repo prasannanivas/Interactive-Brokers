@@ -29,7 +29,7 @@ from ma_cross_alerts import MACrossAlerter, get_recent_alerts
 from user_telegram import mask_token, telegram_call, send_and_log, get_user_settings, save_user_settings, delete_user_settings, get_message_history, get_seen_chats, bot_id_from_token
 from telegram_commands import TelegramCommandPoller
 from ma_cross_alerts import format_telegram
-from backtest import fetch_daily_closes, run_backtest
+from backtest import fetch_daily_bars, run_backtest
 from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection, get_economic_calendar_collection, get_fx_reports_collection
 from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot, PasswordResetRequest, PasswordReset, PasswordChange, LoginHistoryResponse
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
@@ -1325,10 +1325,10 @@ async def backtest_ma_cross(req: MACrossBacktestRequest):
     loop = asyncio.get_running_loop()
 
     async def load_closes():
-        return await loop.run_in_executor(None, fetch_daily_closes, monitor.client, req.symbol, years)
+        return await loop.run_in_executor(None, fetch_daily_bars, monitor.client, req.symbol, years)
 
     async def compute():
-        closes = await cached(('bt-closes', req.symbol, years), 1800, load_closes)
+        closes = await cached(('bt-bars', req.symbol, years), 1800, load_closes)
         if closes is None or len(closes) == 0:
             raise HTTPException(status_code=404, detail=f"No daily price history for {req.symbol}")
         try:

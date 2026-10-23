@@ -128,6 +128,50 @@ const EquityChart = ({ result }) => {
   )
 }
 
+// ── CSV export ────────────────────────────────────────────────────────────────
+const downloadCsv = (filename, header, rows) => {
+  const esc = (v) => {
+    if (v == null) return ''
+    const str = String(v)
+    return /[",\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str
+  }
+  const csv = [header, ...rows].map(r => r.map(esc).join(',')).join('\n')
+  const blob = new Blob([csv], { type: 'text/csv' })
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(blob)
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(a.href)
+}
+
+const TRADE_HEADER = [
+  'Pair', 'Strategy', 'Trade #', 'Direction', 'Signal',
+  'Entry date', 'Entry time (ET)', 'Entry price', 'EMA fast at entry', 'EMA slow at entry',
+  'Exit date', 'Exit time (ET)', 'Exit price', 'EMA fast at exit', 'EMA slow at exit', 'Exit reason',
+  'Trading days held', 'Calendar days held', 'Pips', 'Pip size',
+  'Gross return %', 'Cost %', 'Net return %', 'Best point during trade % (MFE)', 'Worst point during trade % (MAE)',
+  'Equity after (start = 1)', 'Period', 'Status', 'Cost bps per side',
+]
+
+const p3 = (v) => (v == null ? '' : (v * 100).toFixed(3))
+const px = (v) => (v == null ? '' : Number(v.toPrecision(8)))
+
+// One row per trade; which = 'best' | 'baseline'
+const tradeRows = (r, which) => {
+  const combo = which === 'best' ? r.best : r.baseline
+  const label = `EMA ${combo.fast}/${combo.slow}${which === 'baseline' ? ' (current)' : ' (best)'}`
+  return (r.trades?.[which] || []).map(t => [
+    displaySymbol(r.symbol), label, t.n, t.direction, t.signal,
+    t.entry_date, t.entry_time_et, px(t.entry_price), px(t.entry_ema_fast), px(t.entry_ema_slow),
+    t.exit_date, t.exit_time_et ?? '', px(t.exit_price), px(t.exit_ema_fast), px(t.exit_ema_slow), t.exit_reason,
+    t.days, t.calendar_days, t.pips?.toFixed(1), t.pip_size,
+    p3(t.gross_return), p3(t.cost), p3(t.net_return), p3(t.mfe), p3(t.mae),
+    t.equity_after?.toFixed(5), t.period === 'test' ? 'out-of-sample' : 'train', t.status, r.cost_bps,
+  ])
+}
+
+const today = () => new Date().toISOString().slice(0, 10)
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 const BacktestPage = () => {
   const navigate = useNavigate()
@@ -240,6 +284,16 @@ const BacktestPage = () => {
     URL.revokeObjectURL(a.href)
   }
 
+  const exportPairTrades = (r, which) => {
+    const combo = which === 'best' ? r.best : r.baseline
+    downloadCsv(`trades-${displaySymbol(r.symbol)}-ema${combo.fast}-${combo.slow}-${today()}.csv`, TRADE_HEADER, tradeRows(r, which))
+  }
+
+  const exportAllTrades = () => {
+    const all = rows.flatMap(({ r }) => [...tradeRows(r, 'best'), ...tradeRows(r, 'baseline')])
+    downloadCsv(`ma-cross-trades-all-pairs-${today()}.csv`, TRADE_HEADER, all)
+  }
+
   const visiblePairs = pairs.filter(p => p.toLowerCase().includes(pairFilter.toLowerCase()))
   const activeResult = active ? results[active] : null
 
@@ -324,7 +378,11 @@ const BacktestPage = () => {
           <div><span className="bt-stat">{summary.beats}/{summary.count}</span><span className="bt-stat-label">beat EMA 9/21 out-of-sample</span></div>
           <div><span className="bt-stat">{num(summary.medBest)}</span><span className="bt-stat-label">median test Sharpe, optimised</span></div>
           <div><span className="bt-stat">{num(summary.medBase)}</span><span className="bt-stat-label">median test Sharpe, EMA 9/21</span></div>
-          <button className="bt-export" onClick={exportCsv}>⬇ Export CSV</button>
+          <span className="bt-export-group">
+            <button className="bt-export" onClick={exportCsv}>⬇ Results CSV</button>
+            <button className="bt-export" onClick={exportAllTrades}
+              title="Every trade for each pair's best combo and for EMA 9/21">⬇ All trades CSV</button>
+          </span>
         </div>
       )}
 
@@ -387,6 +445,14 @@ const BacktestPage = () => {
             <h2>{displaySymbol(activeResult.symbol)} · best EMA {activeResult.best.fast}/{activeResult.best.slow}</h2>
             <span className="bt-muted">
               {activeResult.start_date} → {activeResult.end_date} · out-of-sample from {activeResult.split_date} · {activeResult.cost_bps} bps per side
+            </span>
+            <span className="bt-export-group bt-detail-exports">
+              <button className="bt-export" onClick={() => exportPairTrades(activeResult, 'best')}>
+                ⬇ Trades: EMA {activeResult.best.fast}/{activeResult.best.slow} ({activeResult.trades?.best?.length ?? 0})
+              </button>
+              <button className="bt-export" onClick={() => exportPairTrades(activeResult, 'baseline')}>
+                ⬇ Trades: EMA 9/21 ({activeResult.trades?.baseline?.length ?? 0})
+              </button>
             </span>
           </div>
 
