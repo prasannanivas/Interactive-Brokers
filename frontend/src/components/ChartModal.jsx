@@ -4,6 +4,7 @@ import { historyAPI } from '../api/api'
 import axios from 'axios'
 import FullscreenChartModal from './FullscreenChartModal'
 import './ChartModal.css'
+import { ChartCandlestick, ChartColumn, ChartColumnBig, ChartColumnStacked, Clock, MapPin, SlidersHorizontal, TriangleAlert, X } from 'lucide-react'
 
 const API_URL = import.meta.env.VITE_TRADING_API_URL || 'http://167.172.215.78:8000'
 
@@ -1454,19 +1455,19 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       <div className="chart-modal">
         <div className="chart-modal-header">
           <div className="chart-modal-title">
-            <h2>📊 Technical Analysis</h2>
+            <h2><ChartCandlestick size={18} /> Technical Analysis</h2>
             <span className="chart-symbol-badge">{symbol}</span>
             <span className="chart-timeframe-badge">{getTimeframeLabel()}</span>
           </div>
           <button className="chart-modal-close" onClick={onClose}>
-            ×
+            <X size={20} />
           </button>
         </div>
 
         <div className="chart-modal-body">
           {/* Timeframe Selector */}
           <div className="timeframe-selector">
-            <div className="timeframe-label">📅 Timeframe</div>
+            <div className="timeframe-label"><Clock size={14} /> Timeframe</div>
             <div className="timeframe-buttons">
               <button 
                 className={`timeframe-btn ${timeframe === 'hourly' ? 'active' : ''}`}
@@ -1496,7 +1497,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
             </div>
           ) : error ? (
             <div className="chart-error">
-              <div className="chart-error-icon">⚠️</div>
+              <div className="chart-error-icon"><TriangleAlert size={36} strokeWidth={1.5} /></div>
               <p>{error}</p>
             </div>
           ) : (
@@ -1537,7 +1538,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   borderRadius: '8px'
                 }}>
                   <span style={{ color: '#d1d5db', fontSize: '14px', fontWeight: '500' }}>
-                    📊 Signal Display:
+                    Signal Display:
                   </span>
                   {timeframe !== 'hourly' && (
                   <button
@@ -1554,7 +1555,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                       transition: 'all 0.2s'
                     }}
                   >
-                    📊 Volume Bars
+                    <ChartColumn size={14} /> Volume Bars
                   </button>
                   )}
                   <button
@@ -1571,7 +1572,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                       transition: 'all 0.2s'
                     }}
                   >
-                    📍 Individual Signals
+                    <MapPin size={14} /> Individual Signals
                   </button>
                 </div>
 
@@ -1589,7 +1590,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                     borderRadius: '8px'
                   }}>
                     <span style={{ color: '#d1d5db', fontSize: '14px', fontWeight: '500' }}>
-                      📊 Volume Style:
+                      Volume Style:
                     </span>
                     <button
                       onClick={() => setVolumeBarMode('stacked')}
@@ -1605,7 +1606,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         transition: 'all 0.2s'
                       }}
                     >
-                      📊 Total Signal
+                      <ChartColumnStacked size={14} /> Total Signal
                     </button>
                     <button
                       onClick={() => setVolumeBarMode('individual')}
@@ -1621,7 +1622,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         transition: 'all 0.2s'
                       }}
                     >
-                      📊 Net Signal
+                      <ChartColumnBig size={14} /> Net Signal
                     </button>
                   </div>
                 )}
@@ -1641,12 +1642,12 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   marginBottom: '16px'
                 }}>
                   <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#d1d5db' }}>
-                    📊 Daily Signal Volume - {volumeBarMode === 'stacked' ? `${stackedVolumeData?.bullish?.length || 0} Days` : `${dailySnapshotVolume.length} Days`}
+                    <ChartColumn size={14} /> Daily Signal Volume - {volumeBarMode === 'stacked' ? `${stackedVolumeData?.bullish?.length || 0} Days` : `${dailySnapshotVolume.length} Days`}
                   </div>
                   <div style={{ fontSize: '12px', color: '#9ca3af' }}>
                     {volumeBarMode === 'stacked' 
-                      ? 'Total Signal bars show signal counts: 🟢 Bullish | ⚪ Neutral | 🔴 Bearish'
-                      : 'Net Signal bars show signal strength by type: 🟢 Bullish | ⚪ Neutral | 🔴 Bearish'}
+                      ? <>Total Signal bars show signal counts: <span className="dot dot-bull" /> Bullish · <span className="dot dot-neutral" /> Neutral · <span className="dot dot-bear" /> Bearish</>
+                      : <>Net Signal bars show signal strength by type: <span className="dot dot-bull" /> Bullish · <span className="dot dot-neutral" /> Neutral · <span className="dot dot-bear" /> Bearish</>}
                   </div>
                 </div>
               )}
@@ -1661,7 +1662,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   marginBottom: '16px'
                 }}>
                   <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#d1d5db' }}>
-                    📍 {signalMarkers.length} Signal{signalMarkers.length !== 1 ? 's' : ''} Marked on Chart
+                    <MapPin size={14} /> {signalMarkers.length} Signal{signalMarkers.length !== 1 ? 's' : ''} Marked on Chart
                   </div>
                   <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
                     {signalMarkers.map((marker, idx) => (
@@ -1698,7 +1699,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
               {/* Indicator Toggle Checkboxes - Show only relevant indicators for timeframe */}
               <div className="indicator-toggles">
                 <div className="toggle-header">
-                  <span className="toggle-title">📊 {timeframe.charAt(0).toUpperCase() + timeframe.slice(1)} Indicators</span>
+                  <span className="toggle-title"><SlidersHorizontal size={14} /> {timeframe.charAt(0).toUpperCase() + timeframe.slice(1)} Indicators</span>
                   <span className="toggle-subtitle">Available for this timeframe</span>
                 </div>
                 <div className="toggle-grid">

@@ -12,6 +12,7 @@ import {
 } from 'recharts'
 import axios from 'axios'
 import FullscreenChartModal from './FullscreenChartModal'
+import { CircleHelp, Info, MoveRight, TrendingDown, TrendingUp } from 'lucide-react'
 
 // Use environment variable or default to production URL
 const API_URL = import.meta.env.VITE_TRADING_API_URL || 'http://167.172.215.78:8000'
@@ -133,13 +134,13 @@ const DailySignalVolumeChart = ({ days = 30 }) => {
   const getTrendEmoji = (trend) => {
     switch (trend) {
       case 'INCREASINGLY_BULLISH':
-        return '📈'
+        return <TrendingUp size={20} />
       case 'INCREASINGLY_BEARISH':
-        return '📉'
+        return <TrendingDown size={20} />
       case 'STABLE':
-        return '➡️'
+        return <MoveRight size={20} />
       default:
-        return '❓'
+        return <CircleHelp size={20} />
     }
   }
 
@@ -283,7 +284,7 @@ const DailySignalVolumeChart = ({ days = 30 }) => {
       <div className="mt-4 pt-4 border-t border-gray-700">
         <div className="flex items-center justify-between text-xs text-gray-400">
           <span>
-            📊 Showing {data.length} days of data
+            <Info size={14} /> Showing {data.length} days of data
           </span>
           <span>
             Last updated: {data[data.length - 1]?.fullDate || 'N/A'}

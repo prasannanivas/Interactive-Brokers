@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { tradingAPI } from '../api/api'
 import './PairEconomicCalendar.css'
+import { CalendarX, Landmark } from 'lucide-react'
 
 // Keyword match for "main central bank events" — rate decisions plus the
 // events that typically accompany a decision day (press conference, rate
@@ -88,7 +89,7 @@ const PairEconomicCalendar = ({ baseCountry, quoteCountry }) => {
     return (
       <div className="pair-econ-calendar">
         <div className="data-not-available">
-          <p>📅 DATA NOT AVAILABLE</p>
+          <p><CalendarX size={16} /> DATA NOT AVAILABLE</p>
           <p className="unavailable-subtitle">{error}</p>
         </div>
       </div>
@@ -98,7 +99,7 @@ const PairEconomicCalendar = ({ baseCountry, quoteCountry }) => {
   return (
     <div className="pair-econ-calendar">
       <div className="chart-title">
-        <h3>🏛️ Upcoming Central Bank Events</h3>
+        <h3><Landmark size={16} /> Upcoming Central Bank Events</h3>
         <p className="chart-subtitle">{baseCountry} &amp; {quoteCountry} — next 30 days</p>
       </div>
 

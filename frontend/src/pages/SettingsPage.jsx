@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { settingsAPI } from '../api/api'
 import './SettingsPage.css'
+import { ArrowLeft, BellRing, Bot, ChevronDown, ChevronRight, CircleCheck, CircleX, Eye, EyeOff, History, Lock, Megaphone, PlugZap, RefreshCw, Save, Search, Send, UserRound, Users } from 'lucide-react'
 
 const KIND_LABELS = {
-  ma_cross: '🚨 MA Cross alert',
-  test_alert: '🧪 Test alert',
-  connection_test: '🔌 Connection test',
-  command_reply: '🤖 Command reply',
+  ma_cross: 'MA Cross alert',
+  test_alert: 'Test alert',
+  connection_test: 'Connection test',
+  command_reply: 'Command reply',
 }
 
 const formatMs = (ms) => {
@@ -151,7 +152,7 @@ const SettingsPage = () => {
     <div className="settings-page">
       <div className="settings-page-header">
         <button className="back-button" onClick={() => navigate('/dashboard')}>
-          ← Back to Dashboard
+          <ArrowLeft size={15} /> Back to Dashboard
         </button>
         <h1>Settings</h1>
       </div>
@@ -160,9 +161,9 @@ const SettingsPage = () => {
         <div className="settings-card">
           <div className="settings-card-header">
             <div>
-              <h2>📲 Telegram Alerts</h2>
+              <h2><Send size={18} /> Telegram Alerts</h2>
               <p className="settings-subtitle">
-                Get an instant message on your phone when EMA 9 crosses EMA 21 (MA Cross BUY 🟢 / SELL 🔴).
+                Get an instant message on your phone when EMA 9 crosses EMA 21 (MA Cross BUY / SELL).
                 Use your own Telegram bot so the alerts come straight to you.
               </p>
             </div>
@@ -174,7 +175,7 @@ const SettingsPage = () => {
           ) : (
             <>
               <button className="guide-toggle" onClick={() => setShowGuide(v => !v)}>
-                {showGuide ? '▾' : '▸'} How to set up your Telegram bot (about 3 minutes)
+                {showGuide ? <ChevronDown size={15} /> : <ChevronRight size={15} />} How to set up your Telegram bot (about 3 minutes)
               </button>
 
               {showGuide && (
@@ -209,7 +210,7 @@ const SettingsPage = () => {
                     <li>
                       <strong>Find your Chat ID.</strong>
                       <p>
-                        Click <em>🔍 Detect my Chat ID</em> below and pick your name. If nothing shows up, send your bot
+                        Click <em>Detect my Chat ID</em> below and pick your name. If nothing shows up, send your bot
                         another message and try again. You can also message{' '}
                         <a href="https://t.me/userinfobot" target="_blank" rel="noreferrer">@userinfobot</a>, which replies
                         with your ID.
@@ -218,8 +219,8 @@ const SettingsPage = () => {
                     <li>
                       <strong>Test, then save.</strong>
                       <p>
-                        Click <em>🧪 Test Connection</em>. You should get a "connected" message in Telegram within a few
-                        seconds. Then click <em>💾 Save</em>.
+                        Click <em>Test Connection</em>. You should get a "connected" message in Telegram within a few
+                        seconds. Then click <em>Save</em>.
                       </p>
                     </li>
                   </ol>
@@ -246,7 +247,7 @@ const SettingsPage = () => {
                   </details>
 
                   <p className="guide-security">
-                    🔒 Your token is stored on our server and used only to send you alerts. Never share it with anyone else.
+                    <Lock size={13} /> Your token is stored on our server and used only to send you alerts. Never share it with anyone else.
                     If it leaks, send <code>/revoke</code> to @BotFather to get a new one.
                   </p>
                 </div>
@@ -266,7 +267,7 @@ const SettingsPage = () => {
                     spellCheck={false}
                   />
                   <button className="settings-btn secondary" onClick={() => setShowToken(v => !v)} type="button">
-                    {showToken ? '🙈 Hide' : '👁 Show'}
+                    {showToken ? <><EyeOff size={14} /> Hide</> : <><Eye size={14} /> Show</>}
                   </button>
                 </div>
 
@@ -289,7 +290,7 @@ const SettingsPage = () => {
                     type="button"
                     title={hasToken ? 'Find chats that messaged your bot' : 'Enter your bot token first'}
                   >
-                    {busy === 'detect' ? 'Detecting…' : '🔍 Detect my Chat ID'}
+                    {busy === 'detect' ? 'Detecting…' : <><Search size={14} /> Detect my Chat ID</>}
                   </button>
                 </div>
 
@@ -307,7 +308,7 @@ const SettingsPage = () => {
                             className={`detected-chat ${chatId === c.chat_id ? 'selected' : ''}`}
                             onClick={() => setChatId(c.chat_id)}
                           >
-                            <span>{c.type === 'private' ? '👤' : c.type === 'channel' ? '📢' : '👥'} {c.name}{c.username ? ` (@${c.username})` : ''}</span>
+                            <span>{c.type === 'private' ? <UserRound size={14} /> : c.type === 'channel' ? <Megaphone size={14} /> : <Users size={14} />} {c.name}{c.username ? ` (@${c.username})` : ''}</span>
                             <code>{c.chat_id}</code>
                           </button>
                         ))}
@@ -323,21 +324,21 @@ const SettingsPage = () => {
                   </label>
                   <label className="settings-check">
                     <input type="checkbox" checked={maCrossAlerts} onChange={e => setMaCrossAlerts(e.target.checked)} disabled={!enabled} />
-                    MA Cross (EMA 9 / EMA 21) BUY 🟢 and SELL 🔴 alerts
+                    MA Cross (EMA 9 / EMA 21) BUY and SELL alerts
                   </label>
                 </div>
 
                 <div className="settings-actions">
                   <button className="settings-btn secondary" onClick={handleTest} disabled={!hasToken || busy !== null} type="button">
-                    {busy === 'test' ? 'Testing…' : '🧪 Test Connection'}
+                    {busy === 'test' ? 'Testing…' : <><PlugZap size={14} /> Test Connection</>}
                   </button>
                   <button className="settings-btn primary" onClick={handleSave} disabled={!hasToken || !chatId.trim() || busy !== null} type="button">
-                    {busy === 'save' ? 'Saving…' : '💾 Save'}
+                    {busy === 'save' ? 'Saving…' : <><Save size={14} /> Save</>}
                   </button>
                   {saved?.configured && (
                     <button className="settings-btn secondary" onClick={handleTestAlert} disabled={busy !== null} type="button"
                       title="Send a sample MA Cross alert to your saved chat and measure delivery time">
-                      {busy === 'alert' ? 'Sending…' : '🚨 Send test alert'}
+                      {busy === 'alert' ? 'Sending…' : <><BellRing size={14} /> Send test alert</>}
                     </button>
                   )}
                   {saved?.configured && (
@@ -350,17 +351,17 @@ const SettingsPage = () => {
                 {testResult && (
                   <div className={`test-result ${testResult.ok ? 'ok' : 'fail'}`}>
                     <div className="test-result-title">
-                      {testResult.ok ? '✅ Connection works' : '❌ Connection test failed'}
+                      {testResult.ok ? <><CircleCheck size={16} /> Connection works</> : <><CircleX size={16} /> Connection test failed</>}
                     </div>
                     <ul>
                       {testResult.steps.map((s, i) => (
                         <li key={i}>
-                          <span>{s.ok ? '✅' : '❌'}</span>
+                          <span>{s.ok ? <CircleCheck size={15} className="ok-icon" /> : <CircleX size={15} className="fail-icon" />}</span>
                           <strong>{s.step}:</strong> {s.message}
                         </li>
                       ))}
                     </ul>
-                    {testResult.ok && !saved?.configured && <p>Click <strong>💾 Save</strong> to start receiving alerts.</p>}
+                    {testResult.ok && !saved?.configured && <p>Click <strong>Save</strong> to start receiving alerts.</p>}
                   </div>
                 )}
 
@@ -379,7 +380,7 @@ const SettingsPage = () => {
         <div className="settings-card">
           <div className="settings-card-header">
             <div>
-              <h2>🤖 Bot commands</h2>
+              <h2><Bot size={18} /> Bot commands</h2>
               <p className="settings-subtitle">Send these to your bot in Telegram. It replies within a few seconds.</p>
             </div>
           </div>
@@ -397,14 +398,14 @@ const SettingsPage = () => {
         <div className="settings-card">
           <div className="settings-card-header">
             <div>
-              <h2>📜 Message history</h2>
+              <h2><History size={18} /> Message history</h2>
               <p className="settings-subtitle">
                 Every message sent to your Telegram. <strong>Delay</strong> is the time from the moment the server
                 detected the cross until Telegram confirmed delivery.
               </p>
             </div>
             <button className="settings-btn secondary" onClick={loadHistory} disabled={historyLoading} type="button">
-              {historyLoading ? 'Loading…' : '↻ Refresh'}
+              {historyLoading ? 'Loading…' : <><RefreshCw size={14} /> Refresh</>}
             </button>
           </div>
           {history.length === 0 ? (
@@ -439,8 +440,8 @@ const SettingsPage = () => {
                       <td>{formatMs(m.telegram_ms)}</td>
                       <td>
                         {m.ok
-                          ? <span className="hist-ok">✅ Delivered</span>
-                          : <span className="hist-fail">❌ {m.error || 'Failed'}</span>}
+                          ? <span className="hist-ok"><CircleCheck size={14} /> Delivered</span>
+                          : <span className="hist-fail"><CircleX size={14} /> {m.error || 'Failed'}</span>}
                       </td>
                     </tr>
                   ))}

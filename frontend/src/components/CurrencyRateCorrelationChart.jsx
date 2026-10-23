@@ -489,7 +489,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
           {data.hasRateChange && (
             <div className="tooltip-rate-changes">
               <hr style={{ margin: '8px 0', border: '1px solid #4b5563' }} />
-              <p className="tooltip-section-title">📊 Rate Changes:</p>
+              <p className="tooltip-section-title">Rate Changes:</p>
               {data.rateChangeInfo.map((change, idx) => (
                 <p key={idx} className={`tooltip-rate-change ${change.change > 0 ? 'rate-increase' : 'rate-decrease'}`}>
                   {change.country}: {change.change > 0 ? '+' : ''}{change.change.toFixed(2)}% → {change.rate}%

@@ -6,6 +6,7 @@ import {
 import { backtestAPI, dataAPI } from '../api/api'
 import { SectionLoader } from '../components/SectionLoader'
 import './BacktestPage.css'
+import { ArrowLeft, Download, FlaskConical, Star } from 'lucide-react'
 
 const CONCURRENCY = 3
 const SERIES = { best: '#2a78d6', baseline: '#eb6834', hold: '#898781' }
@@ -78,7 +79,7 @@ const SharpeHeatmap = ({ result, which }) => {
               const other = (which === 'test' ? result.heatmap.train_sharpe : result.heatmap.test_sharpe)[hover.fi][hover.si]
               return <span className="bt-tooltip-muted">{which === 'test' ? 'Train' : 'Test'} Sharpe {num(other)}</span>
             })()}
-            {isBest(hover.f, hover.s) && <span className="bt-tooltip-muted">★ Selected best</span>}
+            {isBest(hover.f, hover.s) && <span className="bt-tooltip-muted"><Star size={11} fill="currentColor" /> Selected best</span>}
             {isBase(hover.f, hover.s) && <span className="bt-tooltip-muted">Current alert setting</span>}
           </div>
         )}
@@ -300,9 +301,9 @@ const BacktestPage = () => {
   return (
     <div className="bt-page">
       <div className="bt-header">
-        <button className="bt-back" onClick={() => navigate('/dashboard')}>← Back to Dashboard</button>
+        <button className="bt-back" onClick={() => navigate('/dashboard')}><ArrowLeft size={15} /> Back to Dashboard</button>
         <div>
-          <h1>🧪 MA Cross Backtest</h1>
+          <h1><FlaskConical size={24} /> MA Cross Backtest</h1>
           <p>Find the EMA fast/slow combination with the best risk-adjusted return for each pair, and check it against the current EMA 9/21.</p>
         </div>
       </div>
@@ -350,7 +351,7 @@ const BacktestPage = () => {
               </select>
             </div>
             <button className="bt-run" onClick={run} disabled={running || selected.size === 0}>
-              {running ? `Running… ${progress.done}/${progress.total}` : `▶ Run backtest (${selected.size} pair${selected.size === 1 ? '' : 's'})`}
+              {running ? `Running… ${progress.done}/${progress.total}` : `Run backtest (${selected.size} pair${selected.size === 1 ? '' : 's'})`}
             </button>
             {running && (
               <div className="bt-progress" role="progressbar" aria-valuenow={progress.done} aria-valuemax={progress.total}>
@@ -379,9 +380,9 @@ const BacktestPage = () => {
           <div><span className="bt-stat">{num(summary.medBest)}</span><span className="bt-stat-label">median test Sharpe, optimised</span></div>
           <div><span className="bt-stat">{num(summary.medBase)}</span><span className="bt-stat-label">median test Sharpe, EMA 9/21</span></div>
           <span className="bt-export-group">
-            <button className="bt-export" onClick={exportCsv}>⬇ Results CSV</button>
+            <button className="bt-export" onClick={exportCsv}><Download size={14} /> Results CSV</button>
             <button className="bt-export" onClick={exportAllTrades}
-              title="Every trade for each pair's best combo and for EMA 9/21">⬇ All trades CSV</button>
+              title="Every trade for each pair's best combo and for EMA 9/21"><Download size={14} /> All trades CSV</button>
           </span>
         </div>
       )}
@@ -448,10 +449,10 @@ const BacktestPage = () => {
             </span>
             <span className="bt-export-group bt-detail-exports">
               <button className="bt-export" onClick={() => exportPairTrades(activeResult, 'best')}>
-                ⬇ Trades: EMA {activeResult.best.fast}/{activeResult.best.slow} ({activeResult.trades?.best?.length ?? 0})
+                <Download size={14} /> Trades: EMA {activeResult.best.fast}/{activeResult.best.slow} ({activeResult.trades?.best?.length ?? 0})
               </button>
               <button className="bt-export" onClick={() => exportPairTrades(activeResult, 'baseline')}>
-                ⬇ Trades: EMA 9/21 ({activeResult.trades?.baseline?.length ?? 0})
+                <Download size={14} /> Trades: EMA 9/21 ({activeResult.trades?.baseline?.length ?? 0})
               </button>
             </span>
           </div>

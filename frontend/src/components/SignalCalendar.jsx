@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { historyAPI } from '../api/api'
 import { getSignalNamesFromCandles } from '../utils/indicatorUtils'
 import './SignalCalendar.css'
+import { CalendarDays, CalendarX } from 'lucide-react'
 
 const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
@@ -263,7 +264,7 @@ const SignalCalendar = ({ symbol, watchlist }) => {
     return (
       <div className="signal-calendar-section">
         <div className="data-not-available">
-          <p>📅 DATA NOT AVAILABLE</p>
+          <p><CalendarX size={16} /> DATA NOT AVAILABLE</p>
           <p className="unavailable-subtitle">{error || 'No price history available for this pair'}</p>
         </div>
       </div>
@@ -276,7 +277,7 @@ const SignalCalendar = ({ symbol, watchlist }) => {
   return (
     <div className="signal-calendar-section">
       <div className="chart-title">
-        <h3>📅 Signal History Calendar</h3>
+        <h3><CalendarDays size={16} /> Signal History Calendar</h3>
         <p className="chart-subtitle">Daily signal strength for {symbol} — darker means more indicators agreed. Today is live; past days are computed from price history. Hover a day to see which indicators fired.</p>
       </div>
       <div className="signal-calendar-months">

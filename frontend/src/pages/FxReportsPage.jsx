@@ -2,6 +2,7 @@ import React from 'react';
 import FxReports from '../components/FxReports';
 import { useNavigate } from 'react-router-dom';
 import './FxReportsPage.css';
+import { ArrowLeft } from 'lucide-react'
 
 const FxReportsPage = () => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const FxReportsPage = () => {
     <div className="fx-reports-page">
       <div className="fx-reports-page-header">
         <button className="back-button" onClick={() => navigate('/dashboard')}>
-          ← Back to Dashboard
+          <ArrowLeft size={15} /> Back to Dashboard
         </button>
         <h1>Research Center</h1>
       </div>

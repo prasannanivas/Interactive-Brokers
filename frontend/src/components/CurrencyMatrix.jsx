@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react'
 import { historyAPI } from '../api/api'
 import { getSignalNamesFromCandles } from '../utils/indicatorUtils'
 import './CurrencyMatrix.css'
+import { Grid3x3, LoaderCircle, Scale } from 'lucide-react'
 
 // ── Module-level helpers (pure, no state) ─────────────────────────────────────
 
@@ -421,9 +422,9 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
     return [base + ':', ...names.map(n => `  • ${formatIndicatorLabel(n)}`)].join('\n')
   }
 
-  const renderMatrix = (matrix, type, title, emoji, deltaMatrix) => (
+  const renderMatrix = (matrix, type, title, icon, deltaMatrix) => (
     <div className="matrix-panel">
-      <h3 className="matrix-title">{emoji} {title}</h3>
+      <h3 className="matrix-title">{icon} {title}</h3>
       <div className="matrix-table-wrapper">
         <table className="currency-matrix-table">
           <thead>
@@ -472,7 +473,7 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
   return (
     <div className="currency-matrix-container">
       <div className="matrix-header">
-        <h2>📊 Currency Signal Matrix</h2>
+        <h2><Grid3x3 size={18} /> Currency Signal Matrix</h2>
         <p className="matrix-description">
           Heatmap showing signal counts for each currency pair. Darker colors indicate more signals.
         </p>
@@ -496,17 +497,17 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
             />
             <span className="toggle-text">
               Show Δ vs 7 days ago
-              {deltaLoading && <span className="toggle-hint"> ⏳ loading...</span>}
+              {deltaLoading && <span className="toggle-hint"> <LoaderCircle size={12} className="spin" /> loading…</span>}
             </span>
           </label>
         </div>
       </div>
 
       <div className="matrices-grid">
-        {renderMatrix(bullishMatrix, 'bullish', 'Bullish Signals', '🟢', bullishDelta)}
-        {renderMatrix(bearishMatrix, 'bearish', 'Bearish Signals', '🔴', bearishDelta)}
-        {renderMatrix(neutralMatrix, 'neutral', 'Neutral Signals', '⚪', neutralDelta)}
-        {renderMatrix(netMatrix, 'net', 'Net Signal (Bullish − Bearish)', '📊', netDelta)}
+        {renderMatrix(bullishMatrix, 'bullish', 'Bullish Signals', <span className="dot dot-bull" />, bullishDelta)}
+        {renderMatrix(bearishMatrix, 'bearish', 'Bearish Signals', <span className="dot dot-bear" />, bearishDelta)}
+        {renderMatrix(neutralMatrix, 'neutral', 'Neutral Signals', <span className="dot dot-neutral" />, neutralDelta)}
+        {renderMatrix(netMatrix, 'net', 'Net Signal (Bullish − Bearish)', <Scale size={16} />, netDelta)}
       </div>
     </div>
   )

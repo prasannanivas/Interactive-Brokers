@@ -1,5 +1,6 @@
 import React from 'react'
 import './ErrorBoundary.css'
+import { RefreshCw, RotateCcw, TriangleAlert } from 'lucide-react'
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class ErrorBoundary extends React.Component {
       return (
         <div className="error-boundary">
           <div className="error-boundary-content">
-            <h2>🔧 Something went wrong</h2>
+            <h2><TriangleAlert size={20} /> Something went wrong</h2>
             <p>An error occurred while rendering this component.</p>
             
             {process.env.NODE_ENV === 'development' && this.state.error && (
@@ -50,13 +51,13 @@ class ErrorBoundary extends React.Component {
                 onClick={this.handleRetry}
                 className="retry-button"
               >
-                🔄 Try Again
+                <RotateCcw size={15} /> Try Again
               </button>
               <button 
                 onClick={() => window.location.reload()}
                 className="reload-button"
               >
-                🔃 Reload Page
+                <RefreshCw size={15} /> Reload Page
               </button>
             </div>
           </div>

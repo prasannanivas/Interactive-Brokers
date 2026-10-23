@@ -34,3 +34,31 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+/* Lucide icons: sit on the text baseline next to labels */
+.lucide {
+  vertical-align: -0.15em;
+  flex-shrink: 0;
+}
+
+.lucide.spin {
+  animation: lucide-spin 1s linear infinite;
+}
+
+@keyframes lucide-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Signal status dots (replace coloured emoji circles) */
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  vertical-align: 0.05em;
+  flex-shrink: 0;
+}
+
+.dot-bull { background: #16a34a; }
+.dot-bear { background: #dc2626; }
+.dot-neutral { background: #9ca3af; }

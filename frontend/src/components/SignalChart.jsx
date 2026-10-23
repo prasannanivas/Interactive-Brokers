@@ -152,11 +152,11 @@ const SignalChart = ({ signalHistory, symbol }) => {
             <span className="stat-value">{stats.totalSignals}</span>
           </div>
           <div className="stat-item buy">
-            <span className="stat-label">🟢 Buy Signals:</span>
+            <span className="stat-label"><span className="dot dot-bull" /> Buy Signals:</span>
             <span className="stat-value">{stats.buySignals}</span>
           </div>
           <div className="stat-item sell">
-            <span className="stat-label">🔴 Sell Signals:</span>
+            <span className="stat-label"><span className="dot dot-bear" /> Sell Signals:</span>
             <span className="stat-value">{stats.sellSignals}</span>
           </div>
           <div className="stat-item">

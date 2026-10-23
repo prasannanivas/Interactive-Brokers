@@ -15,6 +15,7 @@ import SignalCalendar from './SignalCalendar'
 import PairEconomicCalendar from './PairEconomicCalendar'
 import { bondAPI, historyAPI } from '../api/api'
 import './ComprehensiveAnalysisChart.css'
+import { Activity, ArrowLeftRight, ChartNoAxesColumn, ChartNoAxesCombined, Landmark, TrendingUp, TriangleAlert } from 'lucide-react'
 
 // Compact current/min/max delta readout shown under the Interest Rate and
 // Bond Spread charts. `stats` is { current, min, minDate, max, maxDate }.
@@ -627,7 +628,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
     <div className="comprehensive-chart-container">
       {/* Header with pair selector */}
       <div className="chart-header">
-        <h2>📊 Comprehensive Currency Analysis</h2>
+        <h2><ChartNoAxesCombined size={18} /> Comprehensive Currency Analysis</h2>
         <div className="pair-selector">
           <button 
             className="zoom-chart-btn"
@@ -670,7 +671,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
       {error && (
         <div className="chart-error" style={{ margin: '0 0 16px 0' }}>
-          <p>⚠️ {error}</p>
+          <p><TriangleAlert size={16} /> {error}</p>
           <button onClick={loadAllData} className="retry-btn">Retry</button>
         </div>
       )}
@@ -678,7 +679,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       {/* 1. Interest Rate Comparison Chart */}
       <div className="chart-section">
         <div className="chart-title">
-          <h3>🏦 Interest Rate Comparison</h3>
+          <h3><Landmark size={16} /> Interest Rate Comparison</h3>
           <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
         </div>
         {!loadingInterest && dataAvailability.interestRates && interestRateDelta && (
@@ -692,7 +693,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           </div>
         ) : !dataAvailability.interestRates ? (
           <div className="data-not-available">
-            <p>📊 DATA NOT AVAILABLE</p>
+            <p><ChartNoAxesColumn size={16} /> DATA NOT AVAILABLE</p>
             <p className="unavailable-subtitle">Interest rate data not available for this currency pair</p>
           </div>
         ) : (
@@ -738,7 +739,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       {/* 2. Bond Yield Spread Chart */}
       <div className="chart-section">
         <div className="chart-title">
-          <h3>📈 Bond Yield Spread</h3>
+          <h3><TrendingUp size={16} /> Bond Yield Spread</h3>
           <p className="chart-subtitle">Difference between {mapping.base.name} and {mapping.quote.name}</p>
         </div>
         {!loadingBond && dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
@@ -755,7 +756,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           </div>
         ) : !dataAvailability.bondYields ? (
           <div className="data-not-available">
-            <p>📊 DATA NOT AVAILABLE</p>
+            <p><ChartNoAxesColumn size={16} /> DATA NOT AVAILABLE</p>
             <p className="unavailable-subtitle">Bond yield data not available for this currency pair</p>
           </div>
         ) : (
@@ -801,7 +802,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       {/* 3. EMA9 & Price Chart */}
       <div className="chart-section">
         <div className="chart-title">
-          <h3>💱 Price & EMA 9 (Daily)</h3>
+          <h3><ArrowLeftRight size={16} /> Price & EMA 9 (Daily)</h3>
           <p className="chart-subtitle">{selectedCurrencyPair}</p>
         </div>
         {loadingEma9 ? (
@@ -855,7 +856,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
       {/* Analysis Summary */}
       <div className="analysis-summary">
         <div className="summary-card">
-          <h4>📊 Current Spread Analysis</h4>
+          <h4><Activity size={15} /> Current Spread Analysis</h4>
           <div className="summary-content">
             {bondSpreadData.length > 0 && (
               <>
@@ -910,7 +911,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           {/* 1. Interest Rate Comparison */}
           <div className="chart-section">
             <div className="chart-title">
-              <h3>🏦 Interest Rate Comparison</h3>
+              <h3><Landmark size={16} /> Interest Rate Comparison</h3>
               <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
             </div>
             {dataAvailability.interestRates && interestRateDelta && (
@@ -918,7 +919,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             )}
             {!dataAvailability.interestRates ? (
               <div className="data-not-available">
-                <p>📊 DATA NOT AVAILABLE</p>
+                <p><ChartNoAxesColumn size={16} /> DATA NOT AVAILABLE</p>
                 <p className="unavailable-subtitle">Interest rate data not available for this currency pair</p>
               </div>
             ) : (
@@ -939,7 +940,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           {/* 2. Bond Yield Spread */}
           <div className="chart-section">
             <div className="chart-title">
-              <h3>📈 Bond Yield Spread</h3>
+              <h3><TrendingUp size={16} /> Bond Yield Spread</h3>
               <p className="chart-subtitle">Difference between {mapping.base.name} and {mapping.quote.name}</p>
             </div>
             {dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
@@ -950,7 +951,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             )}
             {!dataAvailability.bondYields ? (
               <div className="data-not-available">
-                <p>📊 DATA NOT AVAILABLE</p>
+                <p><ChartNoAxesColumn size={16} /> DATA NOT AVAILABLE</p>
                 <p className="unavailable-subtitle">Bond yield data not available for this currency pair</p>
               </div>
             ) : (
@@ -971,7 +972,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           {/* 3. Price & EMA 9 */}
           <div className="chart-section">
             <div className="chart-title">
-              <h3>💱 Price & EMA 9 (Daily)</h3>
+              <h3><ArrowLeftRight size={16} /> Price & EMA 9 (Daily)</h3>
               <p className="chart-subtitle">{selectedCurrencyPair}</p>
             </div>
             <ResponsiveContainer width="100%" height={280}>

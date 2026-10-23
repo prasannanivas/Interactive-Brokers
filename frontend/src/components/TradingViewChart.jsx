@@ -3,6 +3,7 @@ import { createChart } from 'lightweight-charts'
 import { historyAPI } from '../api/api'
 import FullscreenChartModal from './FullscreenChartModal'
 import './TradingViewChart.css'
+import { Lightbulb, TriangleAlert } from 'lucide-react'
 
 const TradingViewChart = ({ symbol, signalHistory }) => {
   const chartContainerRef = useRef(null)
@@ -313,11 +314,11 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
             </span>
           </div>
           <div className="stat-group buy">
-            <span className="stat-label">🟢 Buy:</span>
+            <span className="stat-label"><span className="dot dot-bull" /> Buy:</span>
             <span className="stat-value">{stats.buySignals}</span>
           </div>
           <div className="stat-group sell">
-            <span className="stat-label">🔴 Sell:</span>
+            <span className="stat-label"><span className="dot dot-bear" /> Sell:</span>
             <span className="stat-value">{stats.sellSignals}</span>
           </div>
           {!isFullscreen && (
@@ -373,7 +374,7 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
 
       {stats && !loading && !error && (
         <div className="chart-info">
-          <p>💡 <strong>Live Data from Massive API:</strong> Real candlesticks with buy/sell signals. Drag to pan, scroll to zoom</p>
+          <p><Lightbulb size={14} /> <strong>Live Data from Massive API:</strong> Real candlesticks with buy/sell signals. Drag to pan, scroll to zoom</p>
         </div>
       )}
     </>
@@ -392,7 +393,7 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
       {/* Error State */}
       {error && !loading && (
         <div className="chart-error">
-          <p>⚠️ {error}</p>
+          <p><TriangleAlert size={16} /> {error}</p>
           <p style={{ fontSize: '0.85rem', color: '#9ca3af', marginTop: '10px' }}>
             Check browser console for details
           </p>

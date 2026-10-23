@@ -2,6 +2,7 @@ import React from 'react';
 import EconomicCalendar from '../components/EconomicCalendar';
 import { useNavigate } from 'react-router-dom';
 import './EconomicCalendarPage.css';
+import { ArrowLeft } from 'lucide-react'
 
 const EconomicCalendarPage = () => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const EconomicCalendarPage = () => {
     <div className="economic-calendar-page">
       <div className="calendar-page-header">
         <button className="back-button" onClick={() => navigate('/dashboard')}>
-          ← Back to Dashboard
+          <ArrowLeft size={15} /> Back to Dashboard
         </button>
         <h1>Economic Calendar</h1>
       </div>

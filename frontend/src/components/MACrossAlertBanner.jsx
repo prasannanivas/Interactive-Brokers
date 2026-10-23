@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { tradingAPI } from '../api/api'
 import './MACrossAlertBanner.css'
+import { Bell, BellRing, X } from 'lucide-react'
 
 // MA Cross (EMA 9, EMA 21) - key buy/sell signal.
 // Shows a flashing banner for recent crosses, plays a sound and raises a desktop
@@ -184,7 +185,7 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
     <div className="ma-cross-banner">
       <div className="ma-cross-banner-header">
         <span className="ma-cross-banner-title">
-          🚨 MA Cross (EMA 9, EMA 21) Alerts
+          <BellRing size={16} /> MA Cross (EMA 9, EMA 21) Alerts
           <span className="ma-cross-banner-summary">
             Last {RECENT_DAYS} days · {visible.length} signal{visible.length === 1 ? '' : 's'}
             {visible.length > 0 && (
@@ -197,7 +198,7 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
         </span>
         {notifPermission === 'default' && (
           <button className="ma-cross-enable-btn" onClick={enableNotifications}>
-            🔔 Enable desktop alerts
+            <Bell size={14} /> Enable desktop alerts
           </button>
         )}
       </div>
@@ -234,9 +235,9 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
                   return (
                     <span className="ma-cross-counts"
                       title={counts.live ? 'Current signal counts for this pair' : 'Signal counts when the cross was detected'}>
-                      <span className="ma-cross-count bullish">🟢 {counts.bullish} Bullish</span>
-                      <span className="ma-cross-count bearish">🔴 {counts.bearish} Bearish</span>
-                      <span className="ma-cross-count neutral">⚪ {counts.neutral} Neutral</span>
+                      <span className="ma-cross-count bullish"><span className="dot dot-bull" /> {counts.bullish} Bullish</span>
+                      <span className="ma-cross-count bearish"><span className="dot dot-bear" /> {counts.bearish} Bearish</span>
+                      <span className="ma-cross-count neutral"><span className="dot dot-neutral" /> {counts.neutral} Neutral</span>
                     </span>
                   )
                 })()}
@@ -245,7 +246,7 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
                   <span className="ma-cross-bar">Chart bar {a.cross_date}</span>
                   <span>Detected {formatDetectedAt(a.timestamp) || '-'}</span>
                 </span>
-                <button className="ma-cross-dismiss" onClick={() => dismiss(a)} title="Dismiss">✕</button>
+                <button className="ma-cross-dismiss" onClick={() => dismiss(a)} title="Dismiss"><X size={14} /></button>
               </div>
               </React.Fragment>
             )

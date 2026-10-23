@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { authAPI } from '../api/api'
 import './LoginHistory.css'
+import { CircleCheck, CircleX, Globe, LogOut, RefreshCw, ShieldCheck, UserRound, X } from 'lucide-react'
 
 const LoginHistory = ({ onClose }) => {
   const [history, setHistory] = useState([])
@@ -104,7 +105,7 @@ const LoginHistory = ({ onClose }) => {
           key = getDateKey(getRecordTime(record))
           break
         case 'success':
-          key = record.success ? '✅ Successful' : '❌ Failed'
+          key = record.success ? 'Successful' : 'Failed'
           break
         case 'ip':
           key = record.ip_address || 'Unknown IP'
@@ -136,10 +137,10 @@ const LoginHistory = ({ onClose }) => {
       <div className="login-history-modal">
         <div className="login-history-header">
           <div>
-            <h2>🔐 Login History - All Users</h2>
+            <h2><ShieldCheck size={18} /> Login History - All Users</h2>
             <p>Track all account activity across the system</p>
           </div>
-          <button className="close-button" onClick={onClose}>✕</button>
+          <button className="close-button" onClick={onClose}><X size={18} /></button>
         </div>
 
         {/* Stats Summary */}
@@ -199,7 +200,7 @@ const LoginHistory = ({ onClose }) => {
           </div>
 
           <button className="refresh-button" onClick={loadHistory}>
-            🔄 Refresh
+            <RefreshCw size={14} /> Refresh
           </button>
         </div>
 
@@ -228,16 +229,16 @@ const LoginHistory = ({ onClose }) => {
                       className={`history-item ${record.success ? 'success' : 'failed'}`}
                     >
                       <div className="history-icon">
-                        {record.event_type === 'logout' ? '🚪' : (record.success ? '✅' : '❌')}
+                        {record.event_type === 'logout' ? <LogOut size={18} /> : (record.success ? <CircleCheck size={18} /> : <CircleX size={18} />)}
                       </div>
                       <div className="history-details">
                         <div className="history-time">
-                          {formatDate(getRecordTime(record))}{record.event_type === 'logout' && ' 🔴'}
+                          {formatDate(getRecordTime(record))}
                         </div>
                         <div className="history-info">
-                          <span className="history-email">👤 {record.email}</span>
+                          <span className="history-email"><UserRound size={13} /> {record.email}</span>
                           {record.ip_address && (
-                            <span className="history-ip">📍 {record.ip_address}</span>
+                            <span className="history-ip"><Globe size={13} /> {record.ip_address}</span>
                           )}
                         </div>
                         {record.user_agent && (
