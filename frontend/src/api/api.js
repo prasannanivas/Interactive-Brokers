@@ -151,6 +151,14 @@ export const bondAPI = {
   // Bond yields from MongoDB
   getBondYields: (country, maturity, days = 365) => 
     tradingApi.get('/api/bond/yields', { params: { country, maturity, days } }),
+
+  // Candles for several series with a chosen period and candle size (incl. intraday)
+  // series: [['United States', '10y'], ['Canada', '10y'], ...]
+  getBondSeries: (series, range, interval) =>
+    tradingApi.get('/api/bond/series', {
+      params: { series: series.map(([c, m]) => `${c}:${m}`).join(','), range, interval },
+      timeout: 90000,
+    }),
   
   getBondYieldsByCountry: (country, maturity, days = 365) => 
     tradingApi.get(`/api/bond/yields/${country}`, { params: { maturity, days } }),

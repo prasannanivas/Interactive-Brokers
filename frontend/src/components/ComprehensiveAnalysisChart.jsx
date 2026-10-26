@@ -13,6 +13,7 @@ import TimeframeSelector from './TimeframeSelector'
 import FullscreenChartModal from './FullscreenChartModal'
 import SignalCalendar from './SignalCalendar'
 import PairEconomicCalendar from './PairEconomicCalendar'
+import { BondRangeToolbar, BondSpreadCustomChart } from './BondSpreadAdvanced'
 import { bondAPI, historyAPI } from '../api/api'
 import './ComprehensiveAnalysisChart.css'
 import { Activity, ArrowLeftRight, ChartNoAxesColumn, ChartNoAxesCombined, Landmark, TrendingUp, TriangleAlert } from 'lucide-react'
@@ -59,6 +60,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
   const loading = loadingInterest || loadingBond || loadingEma9
   const [error, setError] = useState(null)
   const [timeframe, setTimeframe] = useState(365)
+  // Bond Yield section's own period / candle size (null = follow the page timeframe, synced with other charts)
+  const [bondView, setBondView] = useState(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [dataAvailability, setDataAvailability] = useState({
     interestRates: true,
@@ -742,6 +745,12 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           <h3><TrendingUp size={16} /> Bond Yield Spread</h3>
           <p className="chart-subtitle">Difference between {mapping.base.name} and {mapping.quote.name}</p>
         </div>
+        <BondRangeToolbar value={bondView} onChange={setBondView} />
+        {bondView ? (
+          <BondSpreadCustomChart baseCountry={mapping.base.name} quoteCountry={mapping.quote.name} view={bondView} height={250} />
+        ) : (
+        <>
+
         {!loadingBond && dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
           <div className="delta-stats-row">
             {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="#3b82f6" />}
@@ -796,6 +805,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             />
           </LineChart>
         </ResponsiveContainer>
+        )}
+        </>
         )}
       </div>
 
@@ -943,6 +954,12 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               <h3><TrendingUp size={16} /> Bond Yield Spread</h3>
               <p className="chart-subtitle">Difference between {mapping.base.name} and {mapping.quote.name}</p>
             </div>
+            <BondRangeToolbar value={bondView} onChange={setBondView} />
+            {bondView ? (
+              <BondSpreadCustomChart baseCountry={mapping.base.name} quoteCountry={mapping.quote.name} view={bondView} height={280} />
+            ) : (
+            <>
+
             {dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
               <div className="delta-stats-row">
                 {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="#3b82f6" />}
@@ -966,6 +983,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
                   <Line type="monotone" dataKey="spread2Y" name="2Y Bond Spread" stroke="#ef4444" strokeWidth={2} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
+            )}
+            </>
             )}
           </div>
 

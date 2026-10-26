@@ -30,6 +30,8 @@ from user_telegram import mask_token, telegram_call, send_and_log, get_user_sett
 from telegram_commands import TelegramCommandPoller
 from ma_cross_alerts import format_telegram
 from backtest import fetch_daily_bars, run_backtest
+from on_demand_refresh import ensure_bond_fresh, ensure_interest_rates_fresh
+from bond_series import get_bond_series, ensure_intraday_indexes, ALLOWED as BOND_SERIES_ALLOWED, INTRADAY_REFRESH_MINUTES
 from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection, get_economic_calendar_collection, get_fx_reports_collection
 from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot, PasswordResetRequest, PasswordReset, PasswordChange, LoginHistoryResponse
 from auth import get_password_hash, verify_password, create_access_token, get_current_user, get_optional_user, record_login_history
@@ -477,6 +479,10 @@ async def startup_event():
     """Initialize on startup"""
     # Connect to MongoDB
     await Database.connect_db()
+    try:
+        await ensure_intraday_indexes()
+    except Exception as e:
+        print(f"✗ Failed to create intraday bond indexes: {e}")
     
     # Configure Telegram bot from environment variables
     bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
@@ -531,13 +537,17 @@ async def startup_event():
         )
         
         # Schedule daily economic data refresh at 5:00 AM EST
-        scheduler.add_job(
-            run_daily_economic_data_refresh,
-            trigger=CronTrigger(hour=5, minute=0, timezone=est_tz),
-            id='daily_economic_data_refresh',
-            name='Daily Economic Data Refresh at 5am EST',
-            replace_existing=True
-        )
+        # Bond yields / interest rates are refreshed on demand when the dashboard views them
+        # (on_demand_refresh.py) to stay within the Trading Economics monthly quota.
+        # Set SCHEDULED_ECONOMIC_REFRESH=true to bring back the 5 AM full refresh.
+        if os.getenv('SCHEDULED_ECONOMIC_REFRESH', 'false').lower() == 'true':
+            scheduler.add_job(
+                run_daily_economic_data_refresh,
+                trigger=CronTrigger(hour=5, minute=0, timezone=est_tz),
+                id='daily_economic_data_refresh',
+                name='Daily Economic Data Refresh at 5am EST',
+                replace_existing=True
+            )
 
         # Schedule daily economic calendar refresh at 6:00 AM EST
         scheduler.add_job(
@@ -565,15 +575,18 @@ async def startup_event():
 
         # Show next run times
         next_run_signal = scheduler.get_job('daily_signal_capture').next_run_time
-        next_run_data = scheduler.get_job('daily_economic_data_refresh').next_run_time
+        data_job = scheduler.get_job('daily_economic_data_refresh')
         next_run_calendar = scheduler.get_job('daily_economic_calendar_refresh').next_run_time
         next_run_fx_report = scheduler.get_job('daily_fx_report_download').next_run_time
 
         print(f"\n✓ Scheduled jobs configured")
         print(f"  • Signal Capture: Every day at 5:00 PM EST")
         print(f"    Next run: {next_run_signal.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
-        print(f"  • Economic Data: Every day at 5:00 AM EST")
-        print(f"    Next run: {next_run_data.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        if data_job:
+            print(f"  • Economic Data: Every day at 5:00 AM EST")
+            print(f"    Next run: {data_job.next_run_time.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        else:
+            print(f"  • Economic Data: on demand (fetched when the dashboard views a series, then cached in MongoDB)")
         print(f"  • Economic Calendar: Every day at 6:00 AM EST")
         print(f"    Next run: {next_run_calendar.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         print(f"  • FX Report Poll: Every 15 min, 7:00 AM-6:00 PM EST")
@@ -1304,6 +1317,41 @@ async def get_my_telegram_history(limit: int = 50, current_user: UserResponse = 
 
 
 # ============================================
+# BOND SERIES - selectable period and candle size (incl. intraday)
+# ============================================
+
+@app.get("/api/bond/series")
+async def get_bond_series_endpoint(series: str, range: str = '1Y', interval: str = '1d'):
+    """
+    Bond yield candles for several series at once.
+      series:   comma-separated "Country:maturity", e.g. "United States:10y,Canada:10y,United States:2y,Canada:2y"
+      range:    1D 1W 1M 3M 6M 1Y 5Y 10Y 25Y 50Y ALL
+      interval: 1m 5m 15m 1h (intraday) | 1d 1w 1M
+    Daily/weekly/monthly come from stored history; intraday is fetched on view (one request for all
+    series) and stored, refreshed at most every INTRADAY_REFRESH_MINUTES.
+    """
+    pairs = []
+    for item in series.split(','):
+        if ':' in item:
+            country, maturity = item.rsplit(':', 1)
+            if country.strip() and maturity.strip():
+                pairs.append((country.strip(), maturity.strip().lower()))
+    if not pairs or len(pairs) > 8:
+        raise HTTPException(status_code=400, detail="Pass 1-8 series as Country:maturity")
+    try:
+        return await get_bond_series(pairs, range, interval)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/api/bond/series/options")
+async def get_bond_series_options():
+    """Periods and the candle sizes offered for each"""
+    return {'ranges': list(BOND_SERIES_ALLOWED.keys()), 'allowed': BOND_SERIES_ALLOWED,
+            'intraday_refresh_minutes': INTRADAY_REFRESH_MINUTES}
+
+
+# ============================================
 # BACKTEST - optimal EMA fast/slow per pair
 # ============================================
 
@@ -1396,6 +1444,8 @@ async def get_interest_rates(use_cache: bool = True, days: int = 0, countries: O
         }]
     """
     country_list = sorted({c.strip() for c in countries.split(',') if c.strip()}) if countries else None
+    if country_list:
+        await ensure_interest_rates_fresh(country_list)
     try:
         return await cached(('interest-rates', days, tuple(country_list or ())), 600,
                             lambda: _load_interest_rates(days, country_list))
@@ -1508,6 +1558,8 @@ async def get_bond_yields(
     Returns:
         List of bond yield records with OHLC data in original JSON format
     """
+    if country and maturity:
+        await ensure_bond_fresh(country, maturity)
     try:
         return await cached(('bond-yields', country, maturity, days, limit), 600,
                             lambda: _load_bond_yields(country, maturity, days, limit))
