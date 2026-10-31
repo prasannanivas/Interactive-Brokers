@@ -106,6 +106,9 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
     [watchlist]
   )
   const [alerts, setAlerts] = useState([])
+  // null = loaded OK; otherwise why the alerts couldn't be loaded (never show 'no crosses' on a failure)
+  const [loadError, setLoadError] = useState(null)
+  const [loadedOnce, setLoadedOnce] = useState(false)
   const [dismissed, setDismissed] = useState(loadDismissed)
   const [freshKeys, setFreshKeys] = useState(new Set())
   const [notifPermission, setNotifPermission] = useState(
@@ -144,8 +147,13 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
     try {
       const res = await tradingAPI.getMACrossAlerts(FETCH_LIMIT)
       ingest(res.data?.alerts || [], false)
+      setLoadError(null)
+      setLoadedOnce(true)
     } catch (e) {
       console.error('Failed to load MA Cross alerts:', e)
+      setLoadError(e.response
+        ? `Signal service error (${e.response.status}).`
+        : "Can't reach the signal service - it may be down or restarting.")
     }
   }
 
@@ -187,7 +195,7 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
         <span className="ma-cross-banner-title">
           <BellRing size={16} /> MA Cross (EMA 9, EMA 21) Alerts
           <span className="ma-cross-banner-summary">
-            Last {RECENT_DAYS} days · {visible.length} signal{visible.length === 1 ? '' : 's'}
+            {loadError && !loadedOnce ? `Last ${RECENT_DAYS} days · unavailable` : <>Last {RECENT_DAYS} days · {visible.length} signal{visible.length === 1 ? '' : 's'}</>}
             {visible.length > 0 && (
               <>
                 {' '}(<span className="ma-cross-sum-buy">▲ {buyCount} BUY</span>
@@ -202,7 +210,15 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
           </button>
         )}
       </div>
-      {visible.length === 0 ? (
+      {loadError && (
+        <div className="ma-cross-error" role="alert">
+          ⚠️ Couldn't load MA Cross alerts. {loadError} Retrying every {POLL_MS / 1000}s
+          {loadedOnce ? ' - showing the last alerts that loaded.' : '.'}
+        </div>
+      )}
+      {loadError && !loadedOnce ? null : !loadedOnce ? (
+        <div className="ma-cross-empty">Loading alerts…</div>
+      ) : visible.length === 0 ? (
         <div className="ma-cross-empty">No crosses in the last {RECENT_DAYS} days. You'll be alerted here the moment EMA 9 crosses EMA 21.</div>
       ) : (
         <div className="ma-cross-list" tabIndex={0} aria-label={`MA Cross signals, last ${RECENT_DAYS} days`}>

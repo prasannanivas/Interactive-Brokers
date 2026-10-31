@@ -220,3 +220,13 @@
 
 .ma-cross-cell-arrow.buy { color: #16a34a; }
 .ma-cross-cell-arrow.sell { color: #dc2626; }
+
+.ma-cross-error {
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #fffbeb;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+  font-size: 13px;
+}
