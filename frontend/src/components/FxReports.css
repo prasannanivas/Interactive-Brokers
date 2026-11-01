@@ -5,23 +5,22 @@
 }
 
 .fx-reports-status {
-  color: #aaa;
+  color: var(--text-3);
   padding: 24px;
   text-align: center;
-  background: #1a1a1a;
-  border-radius: 12px;
+  background: var(--paper-2);
+  border-radius: var(--radius-lg);
 }
 
 .fx-reports-error {
-  color: #ff6b6b;
+  color: var(--bear);
 }
 
 .fx-reports-latest-label,
 .fx-reports-history-label {
-  color: #888;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  color: var(--text);
+  font-size: var(--fs-md);
+  font-weight: 600;
   margin-bottom: 8px;
 }
 
@@ -29,33 +28,33 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 12px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   padding: 20px 24px;
 }
 
 .fx-reports-latest-title {
-  color: #fff;
+  color: var(--text);
   font-size: 18px;
   font-weight: 600;
 }
 
 .fx-reports-latest-date {
-  color: #ccc;
+  color: var(--text-2);
   font-size: 14px;
   margin-top: 4px;
 }
 
 .fx-reports-latest-meta {
-  color: #777;
+  color: var(--text-3);
   font-size: 12px;
   margin-top: 4px;
 }
 
 .fx-reports-open-button {
-  background: #4a9eff;
-  color: #fff;
+  background: var(--ink);
+  color: var(--on-ink);
   border: none;
   padding: 10px 20px;
   border-radius: 8px;
@@ -66,16 +65,16 @@
 }
 
 .fx-reports-open-button:hover {
-  background: #3a8eef;
+  background: var(--ink);
 }
 
 .fx-reports-history-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 12px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
@@ -84,7 +83,7 @@
   align-items: center;
   gap: 16px;
   padding: 12px 20px;
-  border-bottom: 1px solid #262626;
+  border-bottom: 1px solid var(--line);
 }
 
 .fx-reports-history-item:last-child {
@@ -92,18 +91,18 @@
 }
 
 .fx-reports-history-date {
-  color: #eee;
+  color: var(--text-2);
   font-size: 14px;
   flex: 1;
 }
 
 .fx-reports-history-meta {
-  color: #777;
+  color: var(--text-3);
   font-size: 12px;
 }
 
 .fx-reports-history-link {
-  color: #4a9eff;
+  color: var(--info);
   font-size: 13px;
   text-decoration: none;
   font-weight: 500;

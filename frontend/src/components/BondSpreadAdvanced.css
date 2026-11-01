@@ -9,27 +9,27 @@
 .bond-chip,
 .bond-range,
 .bond-interval-btn {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 6px;
   padding: 4px 10px;
   font-size: 12px;
-  color: #4b5563;
+  color: var(--text-2);
   cursor: pointer;
   line-height: 1.4;
 }
 
 .bond-chip.on {
-  background: #111827;
-  border-color: #111827;
-  color: #ffffff;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--on-ink);
 }
 
 .bond-ranges {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 2px;
-  background: #f3f4f6;
+  background: var(--paper-2);
   border-radius: 8px;
   padding: 2px;
 }
@@ -41,19 +41,19 @@
   font-variant-numeric: tabular-nums;
 }
 
-.bond-range:hover { color: #111827; }
+.bond-range:hover { color: var(--text); }
 
 .bond-range.on {
-  background: #ffffff;
-  color: #2563eb;
+  background: var(--paper);
+  color: var(--info);
   font-weight: 700;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 2px rgba(28, 42, 38, 0.08);
 }
 
 .bond-interval { position: relative; }
 
 .bond-interval-btn { font-weight: 600; min-width: 96px; text-align: left; }
-.bond-interval-btn.muted { color: #9ca3af; cursor: not-allowed; }
+.bond-interval-btn.muted { color: var(--text-3); cursor: not-allowed; }
 
 .bond-interval-menu {
   position: absolute;
@@ -61,10 +61,10 @@
   left: 0;
   z-index: 20;
   min-width: 150px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 24px rgba(28, 42, 38, 0.12);
   padding: 4px 0;
 }
 
@@ -73,8 +73,8 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  color: #6b7280;
-  background: #f3f4f6;
+  color: var(--text-2);
+  background: var(--paper-2);
   padding: 5px 12px;
 }
 
@@ -86,13 +86,13 @@
   border: none;
   padding: 7px 14px;
   font-size: 13px;
-  color: #1f2937;
+  color: var(--text);
   cursor: pointer;
 }
 
-.bond-interval-item:hover:not(:disabled) { background: #eff6ff; }
-.bond-interval-item.on { background: #2563eb; color: #ffffff; }
-.bond-interval-item:disabled { color: #c3c2b7; cursor: not-allowed; }
+.bond-interval-item:hover:not(:disabled) { background: var(--paper-2); }
+.bond-interval-item.on { background: var(--ink); color: var(--on-ink); }
+.bond-interval-item:disabled { color: var(--text-3); cursor: not-allowed; }
 
 .bond-empty {
   display: flex;
@@ -102,18 +102,18 @@
   gap: 8px;
   text-align: center;
   padding: 24px;
-  border: 1px dashed #d1d5db;
+  border: 1px dashed var(--line-strong);
   border-radius: 8px;
-  background: #f9fafb;
-  color: #4b5563;
+  background: var(--paper);
+  color: var(--text-2);
   font-size: 13px;
 }
 
-.bond-empty strong { color: #1f2937; font-size: 14px; }
+.bond-empty strong { color: var(--text); font-size: 14px; }
 .bond-empty span { max-width: 560px; line-height: 1.5; }
 
 .bond-footnote {
   margin: 6px 0 0;
   font-size: 11px;
-  color: #6b7280;
+  color: var(--text-2);
 }

@@ -7,27 +7,26 @@
 
 .timeframe-btn {
   padding: 6px 14px;
-  border: 1px solid #4b5563;
-  background: #1f2937;
-  color: #d1d5db;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--text-2);
   border-radius: 6px;
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
 }
 
 .timeframe-btn:hover {
-  background: #374151;
-  border-color: #6b7280;
+  background: var(--paper-3);
+  border-color: var(--ink);
 }
 
 .timeframe-btn.active {
-  background: #3b82f6;
-  border-color: #3b82f6;
-  color: white;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--on-ink);
 }
 
 .timeframe-btn:active {
-  transform: scale(0.95);
 }

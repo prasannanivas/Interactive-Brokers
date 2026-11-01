@@ -27,20 +27,21 @@ const countNeutralSignals = (item) => {
 }
 
 const getHeatmapColor = (count, type) => {
-  if (count === null) return '#f3f4f6'
-  if (count === 0) return '#ffffff'
+  if (count === null) return 'var(--paper-3)'
+  if (count === 0) return 'var(--paper)'
 
   const maxIntensity = 10
-  const absCount = Math.abs(count)
-  const intensity = Math.min(absCount / maxIntensity, 1)
+  const intensity = Math.min(Math.abs(count) / maxIntensity, 1)
+
+  // Ramp from paper toward the bull / bear / neutral ink, capped so cell text stays legible in both themes
+  const mix = (ink) => `color-mix(in srgb, ${ink} ${Math.round(intensity * 55)}%, var(--paper))`
 
   if (type === 'bullish' || (type === 'net' && count > 0)) {
-    return `rgb(${Math.round(16 + (234 * (1 - intensity)))}, ${Math.round(185 + (70 * (1 - intensity)))}, ${Math.round(129 + (115 * (1 - intensity)))})`
+    return mix('var(--bull)')
   } else if (type === 'bearish' || (type === 'net' && count < 0)) {
-    return `rgb(${Math.round(254 - (intensity * 34))}, ${Math.round(226 - (intensity * 188))}, ${Math.round(226 - (intensity * 188))})`
+    return mix('var(--bear)')
   } else {
-    const grayValue = Math.round(156 - (intensity * 80))
-    return `rgb(${grayValue}, ${grayValue + 10}, ${grayValue + 20})`
+    return mix('var(--text-3)')
   }
 }
 
@@ -69,13 +70,13 @@ const parsePairSymbol = (rawSymbol) => {
 // ── HeatmapCell sub-component ─────────────────────────────────────────────────
 
 const HeatmapCell = ({ value, type, delta, showDelta, isNull, onClick, title, deltaTitle }) => {
-  let deltaColor = '#6b7280'
+  let deltaColor = 'var(--text-3)'
   let deltaText = ''
 
   if (!isNull && delta !== null && delta !== undefined) {
-    if (delta > 0)      { deltaColor = '#16a34a'; deltaText = `+${delta}` }
-    else if (delta < 0) { deltaColor = '#dc2626'; deltaText = `${delta}` }
-    else                { deltaColor = '#9ca3af'; deltaText = '±0' }
+    if (delta > 0)      { deltaColor = 'var(--bull-strong)'; deltaText = `+${delta}` }
+    else if (delta < 0) { deltaColor = 'var(--bear-strong)'; deltaText = `${delta}` }
+    else                { deltaColor = 'var(--text-3)'; deltaText = '±0' }
   }
 
   return (
@@ -431,14 +432,14 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
             <tr>
               <th className="matrix-corner">Quote →<br />Base ↓</th>
               {colCurrencies.map(currency => (
-                <th key={currency} className="matrix-header-cell">{currency}</th>
+                <th key={currency} className={`matrix-header-cell ink-${currency.toLowerCase()}`}>{currency}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {rowCurrencies.map((baseCurrency, rowIndex) => (
               <tr key={baseCurrency}>
-                <th className="matrix-row-header">{baseCurrency}</th>
+                <th className={`matrix-row-header ink-${baseCurrency.toLowerCase()}`}>{baseCurrency}</th>
                 {colCurrencies.map((quoteCurrency, colIndex) => {
                   const value = matrix[rowIndex][colIndex]
                   const isNull = value === null

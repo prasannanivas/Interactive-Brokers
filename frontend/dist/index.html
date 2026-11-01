@@ -4,8 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trading Monitor</title>
-    <script type="module" crossorigin src="/assets/index-aQlKY8T1.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BpFlEQdK.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <meta name="theme-color" content="#1c2a26" />
+    <script>
+      // Apply the saved theme before first paint (see src/theme.js)
+      (function () {
+        var pref = 'system';
+        try { pref = localStorage.getItem('theme-preference') || 'system'; } catch (e) {}
+        var dark = pref === 'dark' || (pref === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-4pfLJAKW.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CL8rRPkZ.css">
   </head>
   <body>
     <div id="root"></div>

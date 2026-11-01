@@ -230,23 +230,23 @@ const DailySignalVolumeChart = ({ days = 30 }) => {
           data={data}
           margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#1c2a26" />
           <XAxis
             dataKey="date"
-            stroke="#9CA3AF"
+            stroke="#63716b"
             angle={-45}
             textAnchor="end"
             height={80}
-            tick={{ fill: '#9CA3AF', fontSize: 12 }}
+            tick={{ fill: '#b9c1b6', fontSize: 12 }}
           />
           <YAxis
-            stroke="#9CA3AF"
-            tick={{ fill: '#9CA3AF' }}
+            stroke="#63716b"
+            tick={{ fill: '#b9c1b6' }}
             label={{
               value: 'Number of Symbols',
               angle: -90,
               position: 'insideLeft',
-              style: { fill: '#9CA3AF' }
+              style: { fill: '#b9c1b6' }
             }}
           />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255, 255, 255, 0.1)' }} />
@@ -259,21 +259,21 @@ const DailySignalVolumeChart = ({ days = 30 }) => {
           <Bar
             dataKey="bullish"
             stackId="a"
-            fill="#10B981"
+            fill="#16794a"
             name="Bullish"
             radius={[0, 0, 0, 0]}
           />
           <Bar
             dataKey="neutral"
             stackId="a"
-            fill="#9CA3AF"
+            fill="#b9c1b6"
             name="Neutral"
             radius={[0, 0, 0, 0]}
           />
           <Bar
             dataKey="bearish"
             stackId="a"
-            fill="#EF4444"
+            fill="#b4232a"
             name="Bearish"
             radius={[8, 8, 0, 0]}
           />

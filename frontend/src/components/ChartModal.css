@@ -4,12 +4,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(28, 42, 38, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(4px);
   animation: fadeIn 0.2s ease-in;
 }
 
@@ -23,15 +22,15 @@
 }
 
 .chart-modal {
-  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-  border-radius: 16px;
+  background: var(--paper);
+  border-radius: var(--radius-lg);
   padding: 0;
   width: 95%;
   max-width: 1400px;
   max-height: 95vh;
   overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(28, 42, 38, 0.5);
+  border: 1px solid rgba(47, 95, 158, 0.2);
   animation: slideUp 0.3s ease-out;
 }
 
@@ -51,8 +50,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 30px;
-  border-bottom: 1px solid rgba(75, 85, 99, 0.3);
-  background: rgba(31, 41, 55, 0.8);
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
 }
 
 .chart-modal-title {
@@ -64,13 +63,13 @@
 .chart-modal-title h2 {
   font-size: 24px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   margin: 0;
 }
 
 .chart-symbol-badge {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
+  background: var(--ink);
+  color: var(--on-ink);
   padding: 6px 14px;
   border-radius: 8px;
   font-size: 14px;
@@ -79,8 +78,8 @@
 }
 
 .chart-timeframe-badge {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
+  background: var(--bull);
+  color: var(--on-ink);
   padding: 6px 14px;
   border-radius: 8px;
   font-size: 14px;
@@ -89,9 +88,9 @@
 }
 
 .chart-modal-close {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #ef4444;
+  background: rgba(180, 35, 42, 0.1);
+  border: 1px solid rgba(180, 35, 42, 0.3);
+  color: var(--bear);
   width: 36px;
   height: 36px;
   border-radius: 8px;
@@ -100,12 +99,11 @@
   justify-content: center;
   cursor: pointer;
   font-size: 24px;
-  transition: all 0.2s;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
 }
 
 .chart-modal-close:hover {
-  background: rgba(239, 68, 68, 0.2);
-  transform: scale(1.05);
+  background: rgba(180, 35, 42, 0.2);
 }
 
 .chart-modal-body {
@@ -115,9 +113,9 @@
 }
 
 .timeframe-selector {
-  background: rgba(31, 41, 55, 0.4);
-  border: 1px solid rgba(75, 85, 99, 0.3);
-  border-radius: 12px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   padding: 20px;
   margin-bottom: 20px;
   display: flex;
@@ -128,7 +126,7 @@
 .timeframe-label {
   font-size: 16px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
 }
 
 .timeframe-buttons {
@@ -137,28 +135,27 @@
 }
 
 .timeframe-btn {
-  background: rgba(31, 41, 55, 0.6);
-  border: 1px solid rgba(75, 85, 99, 0.3);
-  color: #d1d5db;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--text-2);
   padding: 10px 24px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
 }
 
 .timeframe-btn:hover {
-  background: rgba(59, 130, 246, 0.2);
-  border-color: rgba(59, 130, 246, 0.5);
-  transform: translateY(-1px);
+  background: rgba(47, 95, 158, 0.2);
+  border-color: rgba(47, 95, 158, 0.5);
 }
 
 .timeframe-btn.active {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  border-color: #3b82f6;
-  color: white;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--on-ink);
+  box-shadow: 0 4px 12px rgba(28, 42, 38, 0.4);
 }
 
 .chart-loading {
@@ -167,14 +164,14 @@
   align-items: center;
   justify-content: center;
   padding: 80px 20px;
-  color: #9ca3af;
+  color: var(--text-3);
 }
 
 .chart-loading-spinner {
   width: 48px;
   height: 48px;
-  border: 4px solid rgba(59, 130, 246, 0.2);
-  border-top-color: #3b82f6;
+  border: 4px solid rgba(47, 95, 158, 0.2);
+  border-top-color: var(--ink);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin-bottom: 16px;
@@ -189,7 +186,7 @@
 .chart-error {
   text-align: center;
   padding: 60px 20px;
-  color: #ef4444;
+  color: var(--bear);
 }
 
 .chart-error-icon {
@@ -203,17 +200,17 @@
 }
 
 .chart-container-wrapper {
-  background: #1f2937;
-  border-radius: 12px;
+  background: var(--paper);
+  border-radius: var(--radius-lg);
   padding: 20px;
   margin-bottom: 20px;
-  border: 1px solid rgba(75, 85, 99, 0.3);
+  border: 1px solid var(--line);
 }
 
 .chart-label {
   font-size: 14px;
   font-weight: 600;
-  color: #9ca3af;
+  color: var(--text-3);
   margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -232,17 +229,16 @@
 }
 
 .indicator-card {
-  background: rgba(31, 41, 55, 0.6);
-  border: 1px solid rgba(75, 85, 99, 0.3);
-  border-radius: 12px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   padding: 16px;
-  transition: all 0.2s;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
 }
 
 .indicator-card:hover {
-  border-color: rgba(59, 130, 246, 0.5);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+  border-color: rgba(47, 95, 158, 0.5);
+  box-shadow: 0 4px 12px rgba(28, 42, 38, 0.1);
 }
 
 .indicator-card-header {
@@ -255,7 +251,7 @@
 .indicator-name {
   font-size: 14px;
   font-weight: 600;
-  color: #9ca3af;
+  color: var(--text-3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -263,7 +259,7 @@
 .indicator-card .indicator-value {
   font-size: 18px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
 }
 
 .indicator-signal {
@@ -277,21 +273,21 @@
 }
 
 .indicator-signal.buy {
-  background: rgba(16, 185, 129, 0.2);
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(22, 121, 74, 0.2);
+  color: var(--bull);
+  border: 1px solid rgba(22, 121, 74, 0.3);
 }
 
 .indicator-signal.sell {
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(180, 35, 42, 0.2);
+  color: var(--bear);
+  border: 1px solid rgba(180, 35, 42, 0.3);
 }
 
 .indicator-signal.neutral {
-  background: rgba(156, 163, 175, 0.2);
-  color: #9ca3af;
-  border: 1px solid rgba(156, 163, 175, 0.3);
+  background: rgba(28, 42, 38, 0.06);
+  color: var(--text-3);
+  border: 1px solid var(--line);
 }
 
 .chart-info-grid {
@@ -300,9 +296,9 @@
   gap: 12px;
   margin-top: 20px;
   padding: 20px;
-  background: rgba(31, 41, 55, 0.4);
-  border-radius: 12px;
-  border: 1px solid rgba(75, 85, 99, 0.2);
+  background: var(--paper-2);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
 }
 
 .chart-info-item {
@@ -313,7 +309,7 @@
 
 .chart-info-label {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--text-3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -321,13 +317,13 @@
 .chart-info-value {
   font-size: 16px;
   font-weight: 600;
-  color: #fff;
+  color: var(--text);
 }
 
 .indicator-toggles {
-  background: rgba(31, 41, 55, 0.4);
-  border: 1px solid rgba(75, 85, 99, 0.3);
-  border-radius: 12px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   padding: 20px;
   margin: 20px 0;
 }
@@ -342,12 +338,12 @@
 .toggle-title {
   font-size: 16px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
 }
 
 .toggle-subtitle {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--text-3);
 }
 
 .toggle-grid {
@@ -361,17 +357,16 @@
   align-items: center;
   gap: 10px;
   padding: 12px 16px;
-  background: rgba(31, 41, 55, 0.6);
-  border: 1px solid rgba(75, 85, 99, 0.3);
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
 }
 
 .toggle-item:hover {
-  background: rgba(31, 41, 55, 0.9);
-  border-color: rgba(59, 130, 246, 0.5);
-  transform: translateY(-1px);
+  background: var(--paper-3);
+  border-color: rgba(47, 95, 158, 0.5);
 }
 
 .toggle-item input[type="checkbox"] {
@@ -387,7 +382,7 @@
   gap: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: #d1d5db;
+  color: var(--text-2);
   user-select: none;
 }
 
@@ -399,11 +394,11 @@
 }
 
 .price-change.positive {
-  color: #10b981;
+  color: var(--bull);
 }
 
 .price-change.negative {
-  color: #ef4444;
+  color: var(--bear);
 }
 
 /* Scrollbar styling */
@@ -412,14 +407,14 @@
 }
 
 .chart-modal-body::-webkit-scrollbar-track {
-  background: rgba(17, 24, 39, 0.5);
+  background: transparent;
 }
 
 .chart-modal-body::-webkit-scrollbar-thumb {
-  background: rgba(75, 85, 99, 0.5);
+  background: var(--line-strong);
   border-radius: 4px;
 }
 
 .chart-modal-body::-webkit-scrollbar-thumb:hover {
-  background: rgba(75, 85, 99, 0.7);
+  background: var(--text-3);
 }

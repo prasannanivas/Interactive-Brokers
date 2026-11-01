@@ -1,6 +1,6 @@
 .fx-reports-page {
   min-height: 100vh;
-  background: #0a0a0a;
+  background: var(--paper-2);
   padding: 20px;
 }
 
@@ -10,15 +10,15 @@
   gap: 24px;
   margin-bottom: 24px;
   padding: 20px;
-  background: #1a1a1a;
-  border-radius: 12px;
-  border-bottom: 2px solid #333;
+  background: var(--paper-2);
+  border-radius: var(--radius-lg);
+  border-bottom: 2px solid var(--line);
 }
 
 .fx-reports-page-header h1 {
   margin: 0;
   font-size: 32px;
-  color: #fff;
+  color: var(--text);
   font-weight: 600;
 }
 
@@ -26,21 +26,20 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #2a2a2a;
-  color: #fff;
-  border: 1px solid #444;
+  background: var(--paper);
+  color: var(--text);
+  border: 1px solid var(--line);
   padding: 10px 20px;
   border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
   font-weight: 500;
 }
 
 .fx-reports-page-header .back-button:hover {
-  background: #333;
-  border-color: #4a9eff;
-  transform: translateX(-2px);
+  background: var(--paper-3);
+  border-color: var(--ink);
 }
 
 .fx-reports-page-content {

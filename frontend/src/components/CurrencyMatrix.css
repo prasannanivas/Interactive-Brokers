@@ -1,50 +1,59 @@
-/* Currency Matrix Styles */
+/* Currency Matrix: heads carry each currency's banknote ink */
 .currency-matrix-container {
-  background: white;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  margin-bottom: 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px 20px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
 }
 
 .matrix-header {
-  margin-bottom: 24px;
-  text-align: center;
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
 }
 
 .matrix-header h2 {
-  margin: 0 0 8px 0;
-  font-size: 24px;
-  font-weight: 700;
-  color: #1f2937;
+  margin: 0;
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.matrix-header h2 .lucide {
+  color: var(--text-3);
 }
 
 .matrix-description {
-  margin: 0 0 16px 0;
-  font-size: 14px;
-  color: #6b7280;
+  margin: 0;
+  flex-basis: 100%;
+  font-size: var(--fs-sm);
+  color: var(--text-3);
 }
 
 .matrix-filter-toggle {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-top: 12px;
 }
 
 /* Row of toggle controls */
 .matrix-controls {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
   flex-wrap: wrap;
-  margin-top: 12px;
 }
 
 .toggle-hint {
-  font-size: 12px;
-  color: #9ca3af;
+  font-size: var(--fs-xs);
+  color: var(--text-3);
   font-weight: 400;
 }
 
@@ -67,178 +76,205 @@
 }
 
 .toggle-checkbox {
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
   cursor: pointer;
-  accent-color: #3b82f6;
+  accent-color: var(--ink);
 }
 
 .toggle-text {
-  font-size: 14px;
-  color: #374151;
+  font-size: var(--fs-sm);
+  color: var(--text-2);
   font-weight: 500;
 }
 
 .toggle-label:hover .toggle-text {
-  color: #1f2937;
+  color: var(--text);
 }
 
 .matrix-empty {
   text-align: center;
-  padding: 60px 20px;
-  color: #9ca3af;
-  font-size: 16px;
-  background: #f9fafb;
-  border-radius: 12px;
-  border: 2px dashed #e5e7eb;
+  padding: 48px 20px;
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  background: var(--paper-2);
+  border-radius: var(--radius);
+  border: 1px dashed var(--line-strong);
 }
 
 .matrices-grid {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin-bottom: 24px;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
 .matrix-panel {
-  background: #f9fafb;
-  border-radius: 12px;
-  padding: 16px;
-  border: 1px solid #e5e7eb;
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: 12px;
+  border: 1px solid var(--line);
 }
 
 .matrix-title {
-  margin: 0 0 16px 0;
-  font-size: 18px;
-  font-weight: 700;
-  color: #1f2937;
-  text-align: center;
+  margin: 0 0 10px 2px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .matrix-table-wrapper {
   overflow-x: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-sm);
 }
 
 .currency-matrix-table {
   width: 100%;
-  border-collapse: collapse;
-  background: white;
-  font-size: 13px;
+  border-collapse: separate;
+  border-spacing: 2px;
+  background: var(--paper);
+  font-size: var(--fs-sm);
 }
 
 .matrix-corner {
-  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-  color: white;
-  font-weight: 700;
-  padding: 12px 8px;
+  background: var(--paper);
+  color: var(--text-3);
+  font-weight: 600;
+  padding: 6px;
   text-align: center;
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1.3;
   position: sticky;
   left: 0;
   top: 0;
   z-index: 3;
-  border: 1px solid #4b5563;
+}
+
+.matrix-header-cell,
+.matrix-row-header {
+  --ink-cur: var(--cur-other);
+  background: var(--paper);
+  color: var(--text);
+  font-weight: 700;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.05em;
+  text-align: center;
+  position: sticky;
 }
 
 .matrix-header-cell {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
-  font-weight: 700;
-  padding: 12px 8px;
-  text-align: center;
-  font-size: 12px;
-  position: sticky;
+  padding: 6px 4px 9px;
   top: 0;
   z-index: 2;
-  border: 1px solid #2563eb;
+  box-shadow: inset 0 -4px 0 var(--ink-cur);
 }
 
 .matrix-row-header {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
-  font-weight: 700;
-  padding: 12px 12px;
-  text-align: center;
-  font-size: 12px;
-  position: sticky;
+  padding: 6px 10px 6px 12px;
   left: 0;
   z-index: 1;
-  border: 1px solid #059669;
+  box-shadow: inset 4px 0 0 var(--ink-cur);
 }
 
+.ink-usd { --ink-cur: var(--cur-usd); }
+.ink-eur { --ink-cur: var(--cur-eur); }
+.ink-gbp { --ink-cur: var(--cur-gbp); }
+.ink-jpy { --ink-cur: var(--cur-jpy); }
+.ink-aud { --ink-cur: var(--cur-aud); }
+.ink-cad { --ink-cur: var(--cur-cad); }
+.ink-chf { --ink-cur: var(--cur-chf); }
+.ink-nzd { --ink-cur: var(--cur-nzd); }
+.ink-sek { --ink-cur: var(--cur-sek); }
+.ink-nok { --ink-cur: var(--cur-nok); }
+.ink-dkk { --ink-cur: var(--cur-dkk); }
+.ink-ils { --ink-cur: var(--cur-ils); }
+.ink-cnh { --ink-cur: var(--cur-cnh); }
+.ink-cny { --ink-cur: var(--cur-cny); }
+.ink-czk { --ink-cur: var(--cur-czk); }
+.ink-hkd { --ink-cur: var(--cur-hkd); }
+.ink-huf { --ink-cur: var(--cur-huf); }
+.ink-mxn { --ink-cur: var(--cur-mxn); }
+.ink-rub { --ink-cur: var(--cur-rub); }
+.ink-sgd { --ink-cur: var(--cur-sgd); }
+.ink-zar { --ink-cur: var(--cur-zar); }
+.ink-pln { --ink-cur: var(--cur-pln); }
+.ink-try { --ink-cur: var(--cur-try); }
+.ink-inr { --ink-cur: var(--cur-inr); }
+
 .matrix-cell {
-  padding: 12px;
+  padding: 8px;
   text-align: center;
-  border: 1px solid #e5e7eb;
-  transition: all 0.2s;
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 0 1px rgba(28, 42, 38, 0.06);
+  transition: box-shadow 0.12s var(--ease);
   cursor: pointer;
-  font-size: 14px;
-  min-width: 50px;
-  height: 50px;
+  font-size: var(--fs-sm);
+  min-width: 44px;
+  height: 40px;
 }
 
 .matrix-cell:hover:not(.diagonal) {
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 0 0 2px var(--ink);
   z-index: 10;
-  border: 2px solid #3b82f6;
 }
 
 .matrix-cell.diagonal {
-  background: #f3f4f6 !important;
-  color: #9ca3af;
-  cursor: not-allowed;
+  background: transparent !important;
+  color: var(--line-strong);
+  box-shadow: none;
+  cursor: default;
   font-weight: normal;
 }
 
 .matrix-legend {
-  margin-top: 12px;
+  margin-top: 10px;
   display: flex;
-  justify-content: center;
-  gap: 16px;
+  justify-content: flex-start;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .legend-item {
-  font-size: 11px;
-  color: #6b7280;
-  padding: 4px 8px;
-  background: white;
-  border-radius: 4px;
-  border: 1px solid #e5e7eb;
+  font-size: var(--fs-xs);
+  color: var(--text-2);
+  padding: 3px 8px;
+  background: var(--paper-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-soft);
 }
 
 .matrix-insights {
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid #bfdbfe;
+  background: var(--paper-2);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  border: 1px solid var(--line-soft);
 }
 
 .matrix-insights h4 {
-  margin: 0 0 12px 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: #1e3a8a;
+  margin: 0 0 8px 0;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text);
 }
 
 .matrix-insights ul {
   margin: 0;
-  padding-left: 20px;
-  color: #1e40af;
+  padding-left: 18px;
+  color: var(--text-2);
 }
 
 .matrix-insights li {
-  margin-bottom: 6px;
-  font-size: 13px;
+  margin-bottom: 4px;
+  font-size: var(--fs-sm);
   line-height: 1.5;
 }
 
 .matrix-insights strong {
-  color: #1e3a8a;
+  color: var(--text);
   font-weight: 600;
 }
 
@@ -251,27 +287,25 @@
 
 @media (max-width: 768px) {
   .currency-matrix-container {
-    padding: 16px;
-  }
-
-  .matrix-panel {
     padding: 12px;
   }
 
+  .matrix-panel {
+    padding: 8px;
+  }
+
   .currency-matrix-table {
-    font-size: 11px;
+    font-size: var(--fs-xs);
   }
 
   .matrix-cell {
-    padding: 8px;
-    min-width: 40px;
-    height: 40px;
-    font-size: 12px;
+    padding: 6px;
+    min-width: 36px;
+    height: 34px;
   }
 
   .matrix-header-cell,
   .matrix-row-header {
-    padding: 8px 4px;
-    font-size: 11px;
+    padding: 6px 4px;
   }
 }

@@ -1,0 +1,63 @@
+/* Segmented light / dark / system switch. Sits on the ink band or on paper. */
+.theme-toggle {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--radius);
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+}
+
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 26px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: background-color 0.15s var(--ease), color 0.15s var(--ease);
+}
+
+.theme-toggle-btn .lucide {
+  vertical-align: 0;
+}
+
+.theme-toggle-btn:hover {
+  color: var(--text);
+}
+
+.theme-toggle-btn.active {
+  background: var(--paper);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* On the header band */
+.theme-toggle.on-band {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.theme-toggle.on-band .theme-toggle-btn {
+  color: var(--on-band-2);
+}
+
+.theme-toggle.on-band .theme-toggle-btn:hover {
+  color: var(--on-band);
+}
+
+.theme-toggle.on-band .theme-toggle-btn.active {
+  background: var(--band-2);
+  color: var(--on-band);
+  box-shadow: none;
+}
+
+/* In a page header row: push to the far end */
+.page-theme-toggle {
+  margin-left: auto;
+  flex-shrink: 0;
+}

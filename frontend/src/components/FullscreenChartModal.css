@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(28, 42, 38, 0.95);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,11 +24,11 @@
 .fullscreen-chart-container {
   width: 95vw;
   height: 95vh;
-  background: #1a1d29;
-  border-radius: 12px;
+  background: var(--paper);
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 32px rgba(28, 42, 38, 0.5);
   animation: slideUp 0.3s ease-out;
 }
 
@@ -48,14 +48,14 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: linear-gradient(to bottom, #1f2330, #1a1d29);
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
 }
 
 .fullscreen-chart-title {
   font-size: 20px;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text);
   margin: 0;
   letter-spacing: 0.5px;
 }
@@ -63,23 +63,21 @@
 .fullscreen-close-btn {
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: var(--text);
   cursor: pointer;
   padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
 }
 
 .fullscreen-close-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.05);
+  background: rgba(28, 42, 38, 0.06);
 }
 
 .fullscreen-close-btn:active {
-  transform: scale(0.95);
 }
 
 .fullscreen-chart-content {
@@ -117,7 +115,7 @@
 
 /* Specific styling for ChartModal charts */
 .fullscreen-chart-content .chart-container-wrapper {
-  background: #1f2937;
+  background: var(--paper);
   border-radius: 8px;
   padding: 16px 16px 60px 16px;
   height: 100%;
@@ -129,7 +127,7 @@
 }
 
 .fullscreen-chart-content .chart-container {
-  background: #111827;
+  background: var(--paper-2);
   border-radius: 6px;
   flex: 1;
   overflow: visible !important;
@@ -147,7 +145,7 @@
 .fullscreen-chart-header::after {
   content: 'Press ESC to exit';
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(28, 42, 38, 0.06);
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

@@ -638,10 +638,10 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
               bottom: 80
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#d6dbd3" />
             <XAxis 
               dataKey="date" 
-              tick={{ fill: '#9ca3af', fontSize: 11 }}
+              tick={{ fill: '#b9c1b6', fontSize: 11 }}
               angle={-45}
               textAnchor="end"
               height={80}
@@ -664,14 +664,14 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
             <YAxis 
               yAxisId="price"
               orientation="left"
-              tick={{ fill: '#9ca3af', fontSize: 12 }}
+              tick={{ fill: '#b9c1b6', fontSize: 12 }}
               label={{ value: `${selectedCurrencyPair} Price`, angle: -90, position: 'insideLeft' }}
               domain={['dataMin - 0.001', 'dataMax + 0.001']}
             />
             <YAxis 
               yAxisId="rate"
               orientation="right"
-              tick={{ fill: '#9ca3af', fontSize: 12 }}
+              tick={{ fill: '#b9c1b6', fontSize: 12 }}
               label={{ value: 'Interest Rate Differential (%)', angle: 90, position: 'insideRight' }}
             />
             <Tooltip content={customTooltip} />
@@ -680,7 +680,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
               yAxisId="price"
               type="monotone"
               dataKey="price"
-              stroke="#60a5fa"
+              stroke="#2f5f9e"
               strokeWidth={2}
               dot={(props) => {
                 const { cx, cy, payload } = props
@@ -690,8 +690,8 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
                       cx={cx}
                       cy={cy}
                       r={6}
-                      fill="#ef4444"
-                      stroke="#ffffff"
+                      fill="#b4232a"
+                      stroke="#1c2a26"
                       strokeWidth={2}
                     />
                   )
@@ -701,8 +701,8 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
                       cx={cx}
                       cy={cy}
                       r={4}
-                      fill="#f59e0b"
-                      stroke="#ffffff"
+                      fill="#b8661a"
+                      stroke="#1c2a26"
                       strokeWidth={1}
                     />
                   )
@@ -716,7 +716,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
               yAxisId="rate"
               type="monotone"
               dataKey="rateDifferential"
-              stroke="#f59e0b"
+              stroke="#b8661a"
               strokeWidth={2}
               dot={(props) => {
                 const { cx, cy, payload } = props
@@ -726,8 +726,8 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
                       cx={cx}
                       cy={cy}
                       r={3}
-                      fill="#f59e0b"
-                      stroke="#ffffff"
+                      fill="#b8661a"
+                      stroke="#1c2a26"
                       strokeWidth={1}
                     />
                   )
@@ -741,7 +741,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
             <ReferenceLine 
               yAxisId="rate"
               y={0} 
-              stroke="#ef4444" 
+              stroke="#b4232a" 
               strokeDasharray="3 3" 
               label={{ value: "Zero Differential", position: "topLeft" }}
             />
@@ -749,7 +749,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
             <ReferenceLine 
               yAxisId="rate"
               y={1} 
-              stroke="#10b981" 
+              stroke="#16794a" 
               strokeDasharray="2 2" 
               label={{ value: "+1.0%", position: "topLeft" }}
             />
@@ -757,7 +757,7 @@ const CurrencyRateCorrelationChart = ({ interestRateData, selectedCurrencyPair, 
             <ReferenceLine 
               yAxisId="rate"
               y={-1} 
-              stroke="#10b981" 
+              stroke="#16794a" 
               strokeDasharray="2 2" 
               label={{ value: "-1.0%", position: "bottomLeft" }}
             />

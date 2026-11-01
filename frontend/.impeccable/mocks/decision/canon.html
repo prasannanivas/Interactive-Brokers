@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1440px;height:900px;overflow:hidden;background:#131722;color:#d1d4dc;font:13px/1.4 -apple-system,'Segoe UI',Roboto,sans-serif;font-variant-numeric:tabular-nums}
+.top{height:52px;display:flex;align-items:center;gap:28px;padding:0 20px;background:#1e222d;border-bottom:1px solid #2a2e39}
+.brand{font-weight:700;font-size:15px;color:#fff}
+nav{display:flex;gap:2px}nav a{padding:8px 12px;color:#868993;border-radius:4px}nav a.on{color:#fff;background:#2a2e39}
+.st{margin-left:auto;display:flex;gap:16px;color:#868993;font-size:12px}.st i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#26a69a;margin-right:6px}
+.wrap{padding:16px 20px;display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+.panel{background:#1e222d;border:1px solid #2a2e39;border-radius:6px;padding:12px 14px}
+.ph{display:flex;justify-content:space-between;margin-bottom:10px}.ph h2{font-size:14px;font-weight:600;color:#fff}
+.alerts{grid-column:1/-1;display:flex;gap:12px}
+.al{flex:1;background:#1e222d;border:1px solid #2a2e39;border-left:3px solid #26a69a;border-radius:6px;padding:10px 12px;display:flex;justify-content:space-between}
+.al.s{border-left-color:#ef5350}
+.mx{grid-column:1/6}.wl{grid-column:6/-1}.ch{grid-column:1/-1;height:250px}
+.grid{width:100%;border-collapse:separate;border-spacing:3px}.grid td,.grid th{height:32px;text-align:center;font-size:12px}
+.b{background:rgba(38,166,154,.18);color:#26a69a}.s2{background:rgba(239,83,80,.18);color:#ef5350}.n{background:#2a2e39;color:#868993}
+.l{width:100%;border-collapse:collapse}.l th{text-align:left;font-size:12px;color:#868993;font-weight:500;padding:6px 8px;border-bottom:1px solid #2a2e39}
+.l td{padding:9px 8px;border-bottom:1px solid #2a2e39}.r{text-align:right}.up{color:#26a69a}.dn{color:#ef5350}
+.tabs{display:flex;gap:2px}.tabs span{padding:4px 10px;font-size:12px;color:#868993;border-radius:4px}.tabs .on{background:#2962ff;color:#fff}
+</style></head><body>
+<div class="top"><div class="brand">Trading Signal Monitor</div>
+<nav><a class="on">Dashboard</a><a>Economic Calendar</a><a>Research Center</a><a>Backtest</a><a>Settings</a></nav>
+<div class="st"><span><i></i>Polygon connected</span><span><i></i>Telegram active</span><span>28 symbols</span><span>nivas</span></div></div>
+<div class="wrap">
+<div class="alerts"><div class="al"><span>EUR/USD · EMA 9 crossed above EMA 21</span><span>14:05</span></div><div class="al s"><span>GBP/JPY · EMA 9 crossed below EMA 21</span><span>13:40</span></div><div class="al"><span>USD/JPY · EMA 9 crossed above EMA 21</span><span>09:10</span></div></div>
+<div class="panel mx"><div class="ph"><h2>Currency signal matrix</h2></div>
+<table class="grid"><tr><th></th><th>USD</th><th>EUR</th><th>GBP</th><th>JPY</th><th>AUD</th><th>CAD</th><th>CHF</th><th>NZD</th></tr>
+<tr><th>USD</th><td></td><td class="s2">▼</td><td class="s2">▼</td><td class="b">▲</td><td class="b">▲</td><td class="n">–</td><td class="b">▲</td><td class="b">▲</td></tr>
+<tr><th>EUR</th><td class="b">▲</td><td></td><td class="n">–</td><td class="b">▲</td><td class="b">▲</td><td class="b">▲</td><td class="n">–</td><td class="b">▲</td></tr>
+<tr><th>GBP</th><td class="b">▲</td><td class="n">–</td><td></td><td class="s2">▼</td><td class="b">▲</td><td class="b">▲</td><td class="n">–</td><td class="b">▲</td></tr>
+<tr><th>JPY</th><td class="s2">▼</td><td class="s2">▼</td><td class="b">▲</td><td></td><td class="s2">▼</td><td class="s2">▼</td><td class="s2">▼</td><td class="n">–</td></tr>
+<tr><th>AUD</th><td class="s2">▼</td><td class="s2">▼</td><td class="s2">▼</td><td class="b">▲</td><td></td><td class="n">–</td><td class="s2">▼</td><td class="b">▲</td></tr>
+<tr><th>CAD</th><td class="n">–</td><td class="s2">▼</td><td class="s2">▼</td><td class="b">▲</td><td class="n">–</td><td></td><td class="s2">▼</td><td class="n">–</td></tr>
+<tr><th>CHF</th><td class="s2">▼</td><td class="n">–</td><td class="n">–</td><td class="b">▲</td><td class="b">▲</td><td class="b">▲</td><td></td><td class="b">▲</td></tr>
+<tr><th>NZD</th><td class="s2">▼</td><td class="s2">▼</td><td class="s2">▼</td><td class="n">–</td><td class="s2">▼</td><td class="n">–</td><td class="s2">▼</td><td></td></tr></table></div>
+<div class="panel wl"><div class="ph"><h2>Watchlist (28)</h2><div class="tabs"><span class="on">1H</span><span>4H</span><span>1D</span></div></div>
+<table class="l"><tr><th>Symbol</th><th class="r">Price</th><th class="r">Chg</th><th class="r">EMA 200</th><th class="r">RSI</th><th class="r">MACD</th><th>Signal</th></tr>
+<tr><td>EURUSD</td><td class="r">1.0874</td><td class="r up">+0.42%</td><td class="r">1.0811</td><td class="r">61.2</td><td class="r">0.0011</td><td class="up">Bullish</td></tr>
+<tr><td>GBPJPY</td><td class="r">191.42</td><td class="r dn">−0.61%</td><td class="r">192.07</td><td class="r">38.9</td><td class="r">−0.214</td><td class="dn">Bearish</td></tr>
+<tr><td>USDJPY</td><td class="r">149.83</td><td class="r up">+0.18%</td><td class="r">148.20</td><td class="r">57.4</td><td class="r">0.092</td><td class="up">Bullish</td></tr>
+<tr><td>AUDUSD</td><td class="r">0.6512</td><td class="r dn">−0.09%</td><td class="r">0.6530</td><td class="r">47.1</td><td class="r">−0.0002</td><td>Neutral</td></tr>
+<tr><td>USDCAD</td><td class="r">1.3768</td><td class="r up">+0.05%</td><td class="r">1.3702</td><td class="r">52.8</td><td class="r">0.0004</td><td>Neutral</td></tr>
+<tr><td>EURCHF</td><td class="r">0.9461</td><td class="r up">+0.21%</td><td class="r">0.9420</td><td class="r">58.0</td><td class="r">0.0009</td><td class="up">Bullish</td></tr>
+<tr><td>NZDUSD</td><td class="r">0.5934</td><td class="r dn">−0.33%</td><td class="r">0.5988</td><td class="r">35.6</td><td class="r">−0.0013</td><td class="dn">Bearish</td></tr></table></div>
+<div class="panel ch"><div class="ph"><h2>EURUSD · Comprehensive analysis</h2><div class="tabs"><span class="on">Price</span><span>Rate diff</span><span>2Y spread</span><span>10Y spread</span><span>Calendar</span></div></div>
+<svg width="1360" height="180"><polyline fill="none" stroke="#2962ff" stroke-width="1.8" points="0,140 80,132 160,138 240,120 320,126 400,110 480,116 560,98 640,104 720,92 800,96 880,80 960,86 1040,70 1120,74 1200,58 1280,62 1360,48"/></svg></div>
+</div></body></html>

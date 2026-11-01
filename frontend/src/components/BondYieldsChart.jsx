@@ -265,13 +265,13 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
     if (active && payload && payload.length) {
       return (
         <div style={{
-          backgroundColor: '#1f2937',
+          backgroundColor: 'var(--ink)',
           border: '1px solid #374151',
           borderRadius: '8px',
           padding: '12px',
-          color: '#f9fafb'
+          color: 'var(--on-ink)'
         }}>
-          <p style={{ marginBottom: '8px', fontWeight: 'bold', color: '#60a5fa' }}>
+          <p style={{ marginBottom: '8px', fontWeight: 'bold', color: 'var(--info)' }}>
             {formatFullDate(label)}
           </p>
           {payload.map((entry, index) => (
@@ -319,10 +319,10 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
               <h4>2-Year Government Bond Yields Over Time</h4>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1c2a26" />
                   <XAxis 
                     dataKey="date"
-                    tick={{ fontSize: 10, fill: '#9ca3af' }}
+                    tick={{ fontSize: 10, fill: '#b9c1b6' }}
                     angle={-45}
                     textAnchor="end"
                     height={80}
@@ -330,9 +330,9 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
                     tickFormatter={formatDate}
                   />
                   <YAxis 
-                    label={{ value: 'Yield (%)', angle: -90, position: 'insideLeft', fill: '#9ca3af' }}
+                    label={{ value: 'Yield (%)', angle: -90, position: 'insideLeft', fill: '#b9c1b6' }}
                     domain={['auto', 'auto']}
-                    tick={{ fill: '#9ca3af' }}
+                    tick={{ fill: '#b9c1b6' }}
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend 
@@ -347,7 +347,7 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
                       type="monotone" 
                       dataKey={`${country}_2Y`}
                       name={`${country} 2Y`}
-                      stroke={idx === 0 ? '#60a5fa' : '#f472b6'}
+                      stroke={idx === 0 ? '#2f5f9e' : '#9b3b52'}
                       strokeWidth={2}
                       dot={false}
                     />
@@ -361,10 +361,10 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
               <h4>10-Year Government Bond Yields Over Time</h4>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1c2a26" />
                   <XAxis 
                     dataKey="date"
-                    tick={{ fontSize: 10, fill: '#9ca3af' }}
+                    tick={{ fontSize: 10, fill: '#b9c1b6' }}
                     angle={-45}
                     textAnchor="end"
                     height={80}
@@ -372,9 +372,9 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
                     tickFormatter={formatDate}
                   />
                   <YAxis 
-                    label={{ value: 'Yield (%)', angle: -90, position: 'insideLeft', fill: '#9ca3af' }}
+                    label={{ value: 'Yield (%)', angle: -90, position: 'insideLeft', fill: '#b9c1b6' }}
                     domain={['auto', 'auto']}
-                    tick={{ fill: '#9ca3af' }}
+                    tick={{ fill: '#b9c1b6' }}
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend 
@@ -389,7 +389,7 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
                       type="monotone" 
                       dataKey={`${country}_10Y`}
                       name={`${country} 10Y`}
-                      stroke={idx === 0 ? '#34d399' : '#fbbf24'}
+                      stroke={idx === 0 ? '#16794a' : '#a8821a'}
                       strokeWidth={2}
                       dot={false}
                     />
@@ -417,7 +417,7 @@ const BondYieldsChart = ({ selectedCurrencyPair }) => {
                 title={`Data is ${staleDays} days old. Click to refresh.`}
                 style={{
                   padding: '6px 12px',
-                  backgroundColor: refreshing ? '#6b7280' : '#ef4444',
+                  backgroundColor: refreshing ? '#43524c' : '#b4232a',
                   color: 'white',
                   border: 'none',
                   borderRadius: '6px',

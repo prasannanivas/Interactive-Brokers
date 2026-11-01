@@ -1,56 +1,57 @@
 .error-boundary {
-  background: #1f2937;
+  background: var(--paper);
   border-radius: 8px;
   padding: 20px;
   margin: 20px 0;
-  border: 2px solid #ef4444;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--bear);
+  box-shadow: 0 4px 6px rgba(28, 42, 38, 0.1);
 }
 
 .error-boundary-content {
   text-align: center;
-  color: #f9fafb;
+  color: var(--text);
 }
 
 .error-boundary-content h2 {
-  color: #ef4444;
+  color: var(--bear);
   margin: 0 0 15px 0;
   font-size: 24px;
   font-weight: 600;
 }
 
 .error-boundary-content p {
-  color: #d1d5db;
+  color: var(--text-2);
   margin: 0 0 20px 0;
   font-size: 16px;
 }
 
 .error-details {
-  background: #374151;
+  background: var(--paper-3);
   border-radius: 6px;
   padding: 15px;
   margin: 20px 0;
   text-align: left;
-  border: 1px solid #4b5563;
+  border: 1px solid var(--line);
 }
 
 .error-details summary {
   cursor: pointer;
-  color: #f59e0b;
+  color: var(--warn);
   font-weight: 600;
   padding: 5px;
 }
 
 .error-details summary:hover {
-  color: #fbbf24;
+  color: var(--warn);
 }
 
 .error-stack {
-  background: #111827;
-  color: #e5e7eb;
+  background: var(--paper-2);
+  color: var(--text-2);
   padding: 10px;
   border-radius: 4px;
-  font-family: 'Courier New', monospace;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
   font-size: 12px;
   line-height: 1.4;
   overflow-x: auto;
@@ -68,32 +69,32 @@
 
 .retry-button,
 .reload-button {
-  background: #374151;
-  color: #f9fafb;
-  border: 1px solid #4b5563;
+  background: var(--paper-3);
+  color: var(--text);
+  border: 1px solid var(--line);
   border-radius: 6px;
   padding: 10px 20px;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .retry-button:hover {
-  background: #4b5563;
-  border-color: #6b7280;
+  background: var(--paper-3);
+  border-color: var(--ink);
 }
 
 .reload-button {
-  background: #ef4444;
-  border-color: #dc2626;
+  background: var(--bear);
+  border-color: var(--bear);
 }
 
 .reload-button:hover {
-  background: #dc2626;
-  border-color: #b91c1c;
+  background: var(--bear);
+  border-color: var(--bear);
 }
 
 /* Responsive design */

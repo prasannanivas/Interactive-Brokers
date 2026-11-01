@@ -686,7 +686,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
           <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
         </div>
         {!loadingInterest && dataAvailability.interestRates && interestRateDelta && (
-          <DeltaStatsBar label="Delta" stats={interestRateDelta} deltaColor="#111827" />
+          <DeltaStatsBar label="Delta" stats={interestRateDelta} deltaColor="var(--text)" />
         )}
         {loadingInterest ? (
           <div className="chart-skeleton">
@@ -702,17 +702,17 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         ) : (
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={mergedData} syncId="comprehensiveAnalysis">
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e6e9e3" />
             <XAxis 
               dataKey="date" 
               tickFormatter={formatDate}
-              stroke="#6b7280"
+              stroke="#43524c"
               style={{ fontSize: '12px' }}
               interval={getTickInterval(mergedData.length)}
               domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']}
             />
             <YAxis 
-              stroke="#6b7280"
+              stroke="#43524c"
               style={{ fontSize: '12px' }}
               label={{ value: 'Interest Rate (%)', angle: -90, position: 'insideLeft' }}
             />
@@ -722,7 +722,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               type="monotone" 
               dataKey="baseRate" 
               name={mapping.base.name}
-              stroke="#3b82f6" 
+              stroke="#2f5f9e" 
               strokeWidth={2}
               dot={false}
             />
@@ -730,7 +730,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               type="monotone" 
               dataKey="quoteRate" 
               name={mapping.quote.name}
-              stroke="#10b981" 
+              stroke="#16794a" 
               strokeWidth={2}
               dot={false}
             />
@@ -753,8 +753,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
         {!loadingBond && dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
           <div className="delta-stats-row">
-            {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="#3b82f6" />}
-            {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} deltaColor="#ef4444" />}
+            {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="var(--info)" />}
+            {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} deltaColor="var(--series-violet)" />}
           </div>
         )}
         {loadingBond ? (
@@ -771,17 +771,17 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         ) : (
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={mergedData} syncId="comprehensiveAnalysis">
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e6e9e3" />
             <XAxis 
               dataKey="date" 
               tickFormatter={formatDate}
-              stroke="#6b7280"
+              stroke="#43524c"
               style={{ fontSize: '12px' }}
               interval={getTickInterval(mergedData.length)}
               domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']}
             />
             <YAxis 
-              stroke="#6b7280"
+              stroke="#43524c"
               style={{ fontSize: '12px' }}
               label={{ value: 'Spread (%)', angle: -90, position: 'insideLeft' }}
             />
@@ -791,7 +791,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               type="monotone" 
               dataKey="spread10Y" 
               name="10Y Bond Spread"
-              stroke="#3b82f6" 
+              stroke="#2f5f9e" 
               strokeWidth={2}
               dot={false}
             />
@@ -799,7 +799,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               type="monotone" 
               dataKey="spread2Y" 
               name="2Y Bond Spread"
-              stroke="#ef4444" 
+              stroke="#6a4a8c" 
               strokeWidth={2}
               dot={false}
             />
@@ -825,17 +825,17 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
         ) : (
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={mergedData} syncId="comprehensiveAnalysis">
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e6e9e3" />
             <XAxis 
               dataKey="date" 
               tickFormatter={formatDate}
-              stroke="#6b7280"
+              stroke="#43524c"
               style={{ fontSize: '12px' }}
               interval={getTickInterval(mergedData.length)}
               domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']}
             />
             <YAxis 
-              stroke="#6b7280"
+              stroke="#43524c"
               style={{ fontSize: '12px' }}
               domain={['auto', 'auto']}
               label={{ value: 'Price', angle: -90, position: 'insideLeft' }}
@@ -846,7 +846,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               type="monotone" 
               dataKey="price" 
               name="Price"
-              stroke="#8b5cf6" 
+              stroke="#6a4a8c" 
               strokeWidth={2}
               dot={false}
             />
@@ -854,7 +854,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               type="monotone" 
               dataKey="ema9" 
               name="EMA 9"
-              stroke="#f59e0b" 
+              stroke="#b8661a" 
               strokeWidth={2}
               dot={false}
               strokeDasharray="5 5"
@@ -873,13 +873,13 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               <>
                 <div className="summary-item">
                   <span className="label">10Y Spread:</span>
-                  <span className="value" style={{ color: '#3b82f6' }}>
+                  <span className="value" style={{ color: 'var(--info)' }}>
                     {bondSpreadData[bondSpreadData.length - 1].spread10Y}%
                   </span>
                 </div>
                 <div className="summary-item">
                   <span className="label">2Y Spread:</span>
-                  <span className="value" style={{ color: '#ef4444' }}>
+                  <span className="value" style={{ color: 'var(--series-violet)' }}>
                     {bondSpreadData[bondSpreadData.length - 1].spread2Y}%
                   </span>
                 </div>
@@ -926,7 +926,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               <p className="chart-subtitle">{mapping.base.name} vs {mapping.quote.name}</p>
             </div>
             {dataAvailability.interestRates && interestRateDelta && (
-              <DeltaStatsBar label="Delta" stats={interestRateDelta} deltaColor="#111827" />
+              <DeltaStatsBar label="Delta" stats={interestRateDelta} deltaColor="var(--text)" />
             )}
             {!dataAvailability.interestRates ? (
               <div className="data-not-available">
@@ -936,13 +936,13 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             ) : (
               <ResponsiveContainer width="100%" height={280}>
                 <LineChart data={mergedData} syncId="comprehensiveAnalysisFS">
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(mergedData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
-                  <YAxis stroke="#6b7280" style={{ fontSize: '12px' }} label={{ value: 'Interest Rate (%)', angle: -90, position: 'insideLeft' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e6e9e3" />
+                  <XAxis dataKey="date" tickFormatter={formatDate} stroke="#43524c" style={{ fontSize: '12px' }} interval={getTickInterval(mergedData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
+                  <YAxis stroke="#43524c" style={{ fontSize: '12px' }} label={{ value: 'Interest Rate (%)', angle: -90, position: 'insideLeft' }} />
                   <Tooltip content={<CustomTooltip title="Interest Rate" />} />
                   <Legend />
-                  <Line type="monotone" dataKey="baseRate" name={mapping.base.name} stroke="#3b82f6" strokeWidth={2} dot={false} />
-                  <Line type="monotone" dataKey="quoteRate" name={mapping.quote.name} stroke="#10b981" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="baseRate" name={mapping.base.name} stroke="#2f5f9e" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="quoteRate" name={mapping.quote.name} stroke="#16794a" strokeWidth={2} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             )}
@@ -962,8 +962,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
             {dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
               <div className="delta-stats-row">
-                {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="#3b82f6" />}
-                {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} deltaColor="#ef4444" />}
+                {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="var(--info)" />}
+                {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} deltaColor="var(--series-violet)" />}
               </div>
             )}
             {!dataAvailability.bondYields ? (
@@ -974,13 +974,13 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             ) : (
               <ResponsiveContainer width="100%" height={280}>
                 <LineChart data={mergedData} syncId="comprehensiveAnalysisFS">
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(mergedData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
-                  <YAxis stroke="#6b7280" style={{ fontSize: '12px' }} label={{ value: 'Spread (%)', angle: -90, position: 'insideLeft' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e6e9e3" />
+                  <XAxis dataKey="date" tickFormatter={formatDate} stroke="#43524c" style={{ fontSize: '12px' }} interval={getTickInterval(mergedData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
+                  <YAxis stroke="#43524c" style={{ fontSize: '12px' }} label={{ value: 'Spread (%)', angle: -90, position: 'insideLeft' }} />
                   <Tooltip content={<CustomTooltip title="Spread" />} />
                   <Legend />
-                  <Line type="monotone" dataKey="spread10Y" name="10Y Bond Spread" stroke="#3b82f6" strokeWidth={2} dot={false} />
-                  <Line type="monotone" dataKey="spread2Y" name="2Y Bond Spread" stroke="#ef4444" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="spread10Y" name="10Y Bond Spread" stroke="#2f5f9e" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="spread2Y" name="2Y Bond Spread" stroke="#6a4a8c" strokeWidth={2} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             )}
@@ -996,13 +996,13 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
             </div>
             <ResponsiveContainer width="100%" height={280}>
               <LineChart data={mergedData} syncId="comprehensiveAnalysisFS">
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="date" tickFormatter={formatDate} stroke="#6b7280" style={{ fontSize: '12px' }} interval={getTickInterval(mergedData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
-                <YAxis stroke="#6b7280" style={{ fontSize: '12px' }} domain={['auto', 'auto']} label={{ value: 'Price', angle: -90, position: 'insideLeft' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e6e9e3" />
+                <XAxis dataKey="date" tickFormatter={formatDate} stroke="#43524c" style={{ fontSize: '12px' }} interval={getTickInterval(mergedData.length)} domain={commonDateRange.length > 0 ? [commonDateRange[0], commonDateRange[commonDateRange.length - 1]] : ['dataMin', 'dataMax']} />
+                <YAxis stroke="#43524c" style={{ fontSize: '12px' }} domain={['auto', 'auto']} label={{ value: 'Price', angle: -90, position: 'insideLeft' }} />
                 <Tooltip content={<CustomTooltip title="Price" />} />
                 <Legend />
-                <Line type="monotone" dataKey="price" name="Price" stroke="#8b5cf6" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="ema9" name="EMA 9" stroke="#f59e0b" strokeWidth={2} dot={false} strokeDasharray="5 5" />
+                <Line type="monotone" dataKey="price" name="Price" stroke="#6a4a8c" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="ema9" name="EMA 9" stroke="#b8661a" strokeWidth={2} dot={false} strokeDasharray="5 5" />
               </LineChart>
             </ResponsiveContainer>
           </div>

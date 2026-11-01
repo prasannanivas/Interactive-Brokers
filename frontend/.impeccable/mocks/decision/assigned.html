@@ -1,0 +1,70 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Narrow:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1440px;height:900px;overflow:hidden;background:#14130f;color:#f2ede1;font:13px/1.4 Archivo,system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.top{height:56px;display:flex;align-items:center;gap:32px;padding:0 24px;background:#1b1a15;border-bottom:3px solid #e2b23c}
+.brand{font-weight:700;font-size:15px;letter-spacing:.02em}
+.brand b{background:#e2b23c;color:#14130f;padding:2px 6px;margin-right:8px;font-family:'Archivo Narrow';letter-spacing:.06em}
+nav{display:flex;gap:4px}nav a{padding:8px 12px;color:#a8a294;font-weight:500;border-radius:4px}
+nav a.on{color:#f2ede1;background:#2a2820}
+.st{margin-left:auto;display:flex;gap:18px;color:#a8a294;font-size:12px}.st i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2fb36b;margin-right:6px}
+.wrap{padding:16px 24px;display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#8a8475}
+.cards{grid-column:1/-1;display:flex;gap:12px;align-items:stretch}
+.cards .label{writing-mode:vertical-rl;transform:rotate(180deg);align-self:center}
+.card{flex:1;background:#f2ede1;color:#14130f;border-radius:4px;padding:10px 14px;display:flex;gap:14px;align-items:center;border-left:8px solid #2fb36b}
+.card.sell{border-left-color:#e5484d}.card.void{background:#2a2820;color:#6e695d;border-left-color:#4a463c;text-decoration:line-through}
+.badge{font-family:'Archivo Narrow';font-weight:700;letter-spacing:.06em;background:#0d0c09;color:#fff;padding:3px 7px;border-radius:2px;font-size:13px}
+.void .badge{background:#3a372e;color:#6e695d}
+.card .what{font-weight:600}.card .t{margin-left:auto;font-size:12px;color:#6b6556}
+.panel{background:#1f1d18;border:1px solid #2e2b23;border-radius:6px;padding:14px 16px}
+.mx{grid-column:1/6}.wl{grid-column:6/-1}.ch{grid-column:1/-1;height:250px}
+.ph{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.ph h2{font-size:14px;font-weight:600}
+table{width:100%;border-collapse:collapse}
+.grid td,.grid th{width:11.1%;height:34px;text-align:center;font-size:12px}
+.grid th{font-family:'Archivo Narrow';font-weight:700;color:#c9c2b0;letter-spacing:.06em}
+.c{border-radius:3px;font-weight:600}.b{background:#17402a;color:#5fd894}.s{background:#4a1d1f;color:#ff8a8d}.n{background:#2a2820;color:#8a8475}.x{background:transparent}
+.wl th{text-align:left;font-size:11px;color:#8a8475;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:6px 8px;border-bottom:1px solid #2e2b23}
+.wl td{padding:9px 8px;border-bottom:1px solid #26241d}
+.wl tr.sel td{background:#2a2820}.wl tr.sel td:first-child{box-shadow:inset 3px 0 #e2b23c}
+.up{color:#5fd894}.dn{color:#ff8a8d}.r{text-align:right}
+.pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:2px;text-transform:uppercase;letter-spacing:.06em}
+.pill.b{background:#2fb36b;color:#0b1f13}.pill.s{background:#e5484d;color:#2a0b0c}.pill.n{background:#3a372e;color:#a8a294}
+.tabs{display:flex;gap:2px}.tabs span{padding:4px 10px;font-size:12px;color:#a8a294;border-radius:3px}.tabs .on{background:#e2b23c;color:#14130f;font-weight:600}
+svg{display:block}
+</style></head><body>
+<div class="top"><div class="brand"><b>TSM</b>Trading Signal Monitor</div>
+<nav><a class="on">Dashboard</a><a>Economic Calendar</a><a>Research Center</a><a>Backtest</a><a>Settings</a></nav>
+<div class="st"><span><i></i>Polygon connected</span><span><i></i>Telegram active</span><span>28 symbols</span><span>nivas</span></div></div>
+<div class="wrap">
+<div class="cards"><span class="label">MA cross 9/21</span>
+<div class="card"><span class="badge">EUR·USD</span><span class="what">EMA 9 crossed above EMA 21 · 1.0874</span><span class="t">14:05 · 1H</span></div>
+<div class="card sell"><span class="badge">GBP·JPY</span><span class="what">EMA 9 crossed below EMA 21 · 191.42</span><span class="t">13:40 · 1H</span></div>
+<div class="card void"><span class="badge">AUD·USD</span><span class="what">Bullish cross, reversed</span><span class="t">11:20 → 13:55</span></div></div>
+<div class="panel mx"><div class="ph"><h2>Currency signal matrix</h2><span class="label">Daily · base vs quote</span></div>
+<table class="grid"><tr><th></th><th>USD</th><th>EUR</th><th>GBP</th><th>JPY</th><th>AUD</th><th>CAD</th><th>CHF</th><th>NZD</th></tr>
+<tr><th>USD</th><td class="x"></td><td class="c s">▼</td><td class="c s">▼</td><td class="c b">▲</td><td class="c b">▲</td><td class="c n">–</td><td class="c b">▲</td><td class="c b">▲</td></tr>
+<tr><th>EUR</th><td class="c b">▲</td><td class="x"></td><td class="c n">–</td><td class="c b">▲</td><td class="c b">▲</td><td class="c b">▲</td><td class="c n">–</td><td class="c b">▲</td></tr>
+<tr><th>GBP</th><td class="c b">▲</td><td class="c n">–</td><td class="x"></td><td class="c s">▼</td><td class="c b">▲</td><td class="c b">▲</td><td class="c n">–</td><td class="c b">▲</td></tr>
+<tr><th>JPY</th><td class="c s">▼</td><td class="c s">▼</td><td class="c b">▲</td><td class="x"></td><td class="c s">▼</td><td class="c s">▼</td><td class="c s">▼</td><td class="c n">–</td></tr>
+<tr><th>AUD</th><td class="c s">▼</td><td class="c s">▼</td><td class="c s">▼</td><td class="c b">▲</td><td class="x"></td><td class="c n">–</td><td class="c s">▼</td><td class="c b">▲</td></tr>
+<tr><th>CAD</th><td class="c n">–</td><td class="c s">▼</td><td class="c s">▼</td><td class="c b">▲</td><td class="c n">–</td><td class="x"></td><td class="c s">▼</td><td class="c n">–</td></tr>
+<tr><th>CHF</th><td class="c s">▼</td><td class="c n">–</td><td class="c n">–</td><td class="c b">▲</td><td class="c b">▲</td><td class="c b">▲</td><td class="x"></td><td class="c b">▲</td></tr>
+<tr><th>NZD</th><td class="c s">▼</td><td class="c s">▼</td><td class="c s">▼</td><td class="c n">–</td><td class="c s">▼</td><td class="c n">–</td><td class="c s">▼</td><td class="x"></td></tr></table></div>
+<div class="panel wl"><div class="ph"><h2>Watchlist · 28</h2><div class="tabs"><span class="on">1H</span><span>4H</span><span>1D</span></div></div>
+<table><tr><th>Symbol</th><th class="r">Price</th><th class="r">Chg</th><th class="r">EMA 200</th><th class="r">RSI</th><th class="r">MACD</th><th>Signal</th></tr>
+<tr class="sel"><td><span class="badge">EUR·USD</span></td><td class="r">1.0874</td><td class="r up">+0.42%</td><td class="r">1.0811</td><td class="r">61.2</td><td class="r up">0.0011</td><td><span class="pill b">Bull</span></td></tr>
+<tr><td><span class="badge">GBP·JPY</span></td><td class="r">191.42</td><td class="r dn">−0.61%</td><td class="r">192.07</td><td class="r">38.9</td><td class="r dn">−0.214</td><td><span class="pill s">Bear</span></td></tr>
+<tr><td><span class="badge">USD·JPY</span></td><td class="r">149.83</td><td class="r up">+0.18%</td><td class="r">148.20</td><td class="r">57.4</td><td class="r up">0.092</td><td><span class="pill b">Bull</span></td></tr>
+<tr><td><span class="badge">AUD·USD</span></td><td class="r">0.6512</td><td class="r dn">−0.09%</td><td class="r">0.6530</td><td class="r">47.1</td><td class="r dn">−0.0002</td><td><span class="pill n">Neutral</span></td></tr>
+<tr><td><span class="badge">USD·CAD</span></td><td class="r">1.3768</td><td class="r up">+0.05%</td><td class="r">1.3702</td><td class="r">52.8</td><td class="r up">0.0004</td><td><span class="pill n">Neutral</span></td></tr>
+<tr><td><span class="badge">EUR·CHF</span></td><td class="r">0.9461</td><td class="r up">+0.21%</td><td class="r">0.9420</td><td class="r">58.0</td><td class="r up">0.0009</td><td><span class="pill b">Bull</span></td></tr>
+<tr><td><span class="badge">NZD·USD</span></td><td class="r">0.5934</td><td class="r dn">−0.33%</td><td class="r">0.5988</td><td class="r">35.6</td><td class="r dn">−0.0013</td><td><span class="pill s">Bear</span></td></tr></table></div>
+<div class="panel ch"><div class="ph"><h2><span class="badge">EUR·USD</span>&nbsp; Comprehensive analysis</h2><div class="tabs"><span class="on">Price</span><span>Rate diff</span><span>2Y spread</span><span>10Y spread</span><span>Calendar</span></div></div>
+<svg width="1360" height="180"><g stroke="#2e2b23"><line x1="0" y1="45" x2="1360" y2="45"/><line x1="0" y1="90" x2="1360" y2="90"/><line x1="0" y1="135" x2="1360" y2="135"/></g>
+<polyline fill="none" stroke="#f2ede1" stroke-width="1.6" points="0,140 80,132 160,138 240,120 320,126 400,110 480,116 560,98 640,104 720,92 800,96 880,80 960,86 1040,70 1120,74 1200,58 1280,62 1360,48"/>
+<polyline fill="none" stroke="#e2b23c" stroke-width="1.4" stroke-dasharray="4 3" points="0,150 200,142 400,130 600,118 800,108 1000,96 1200,82 1360,72"/>
+<line x1="1040" y1="10" x2="1040" y2="170" stroke="#2fb36b"/><text x="1046" y="22" fill="#5fd894" font-size="11" font-family="Archivo">Bull cross 14:05</text></svg></div>
+</div></body></html>

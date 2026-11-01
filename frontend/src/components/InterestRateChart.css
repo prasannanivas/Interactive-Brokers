@@ -1,9 +1,9 @@
 .interest-rate-chart {
-  background: #1f2937;
+  background: var(--paper);
   border-radius: 8px;
   padding: 20px;
   margin: 20px 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(28, 42, 38, 0.1);
 }
 
 .chart-header {
@@ -11,7 +11,7 @@
 }
 
 .chart-header h2 {
-  color: #f9fafb;
+  color: var(--text);
   margin: 0 0 8px 0;
   font-size: 24px;
   font-weight: 600;
@@ -27,14 +27,14 @@
 }
 
 .chart-subtitle {
-  color: #9ca3af;
+  color: var(--text-3);
   margin: 0;
   font-size: 14px;
 }
 
 .zoom-chart-btn {
-  background: #3b82f6;
-  color: white;
+  background: var(--ink);
+  color: var(--on-ink);
   border: none;
   padding: 10px;
   border-radius: 6px;
@@ -42,37 +42,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
+  box-shadow: 0 2px 4px rgba(28, 42, 38, 0.3);
 }
 
 .zoom-chart-btn:hover {
-  background: #2563eb;
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+  background: var(--ink);
+  box-shadow: 0 4px 8px rgba(28, 42, 38, 0.4);
 }
 
 .zoom-chart-btn:active {
-  transform: scale(0.95);
 }
 
 .refresh-button {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #374151;
-  color: #f9fafb;
-  border: 1px solid #4b5563;
+  background: var(--paper-3);
+  color: var(--text);
+  border: 1px solid var(--line);
   border-radius: 6px;
   padding: 8px 12px;
   font-size: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
 }
 
 .refresh-button:hover:not(:disabled) {
-  background: #4b5563;
-  border-color: #6b7280;
+  background: var(--paper-3);
+  border-color: var(--ink);
 }
 
 .refresh-button:disabled {
@@ -92,7 +90,7 @@
 .chart-stats {
   display: flex;
   justify-content: space-around;
-  background: #374151;
+  background: var(--paper-3);
   border-radius: 6px;
   padding: 15px;
   margin-bottom: 20px;
@@ -108,7 +106,7 @@
 }
 
 .stat-label {
-  color: #9ca3af;
+  color: var(--text-3);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -116,13 +114,13 @@
 }
 
 .stat-value {
-  color: #f9fafb;
+  color: var(--text);
   font-size: 16px;
   font-weight: 600;
 }
 
 .chart-container {
-  background: #374151;
+  background: var(--paper-3);
   border-radius: 6px;
   padding: 20px;
   margin-bottom: 20px;
@@ -131,8 +129,8 @@
 .no-data {
   text-align: center;
   padding: 60px 20px;
-  color: #9ca3af;
-  background: #374151;
+  color: var(--text-3);
+  background: var(--paper-3);
   border-radius: 6px;
 }
 
@@ -147,16 +145,16 @@
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  background: #374151;
+  background: var(--paper-3);
   border-radius: 6px;
-  color: #9ca3af;
+  color: var(--text-3);
 }
 
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #4b5563;
-  border-top: 4px solid #60a5fa;
+  border: 4px solid var(--line);
+  border-top: 4px solid var(--ink);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
@@ -174,22 +172,22 @@
 
 /* Custom tooltip styles */
 .custom-tooltip {
-  background: #1f2937;
-  border: 1px solid #374151;
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 6px;
   padding: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(28, 42, 38, 0.1);
 }
 
 .tooltip-label {
-  color: #f9fafb;
+  color: var(--text);
   font-weight: 600;
   margin: 0 0 8px 0;
   font-size: 14px;
 }
 
 .tooltip-rate {
-  color: #60a5fa;
+  color: var(--info);
   font-weight: 600;
   margin: 0 0 4px 0;
   font-size: 13px;
@@ -198,7 +196,7 @@
 .tooltip-symbol,
 .tooltip-date,
 .tooltip-update {
-  color: #9ca3af;
+  color: var(--text-3);
   margin: 0 0 2px 0;
   font-size: 12px;
 }
@@ -210,7 +208,7 @@
   flex-wrap: wrap;
   gap: 20px;
   padding: 15px;
-  background: #374151;
+  background: var(--paper-3);
   border-radius: 6px;
 }
 
@@ -218,7 +216,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #f9fafb;
+  color: var(--text);
   font-size: 12px;
 }
 
@@ -274,7 +272,7 @@
 /* Recharts overrides */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
-  stroke: #4b5563 !important;
+  stroke: var(--text-3) !important;
 }
 
 .recharts-tooltip-wrapper {

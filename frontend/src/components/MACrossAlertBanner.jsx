@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { tradingAPI } from '../api/api'
 import './MACrossAlertBanner.css'
-import { Bell, BellRing, X } from 'lucide-react'
+import { ArrowDownRight, ArrowUpRight, Bell, BellRing, X } from 'lucide-react'
+import PairChip from './PairChip'
 
 // MA Cross (EMA 9, EMA 21) - key buy/sell signal.
 // Shows a flashing banner for recent crosses, plays a sound and raises a desktop
@@ -232,14 +233,14 @@ const MACrossAlertBanner = ({ liveAlerts = [], onOpenChart, watchlist = [] }) =>
               <div
                 className={`ma-cross-item ${isBuy ? 'buy' : 'sell'} ${freshKeys.has(key) ? 'flash' : ''}`}
               >
-                <span className="ma-cross-arrow">{isBuy ? '▲' : '▼'}</span>
+                <span className="ma-cross-arrow">{isBuy ? <ArrowUpRight size={18} /> : <ArrowDownRight size={18} />}</span>
                 <span className="ma-cross-dir">{a.direction}</span>
                 <button
                   className="ma-cross-symbol"
                   onClick={() => !a.test && onOpenChart && onOpenChart(a.symbol)}
                   title="Open chart"
                 >
-                  {displaySymbol(a.symbol)}
+                  <PairChip symbol={displaySymbol(a.symbol)} />
                 </button>
                 <span className="ma-cross-detail">
                   EMA 9 crossed {isBuy ? 'above' : 'below'} EMA 21

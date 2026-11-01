@@ -2,6 +2,7 @@ import React from 'react';
 import EconomicCalendar from '../components/EconomicCalendar';
 import { useNavigate } from 'react-router-dom';
 import './EconomicCalendarPage.css';
+import ThemeToggle from '../components/ThemeToggle'
 import { ArrowLeft } from 'lucide-react'
 
 const EconomicCalendarPage = () => {
@@ -14,6 +15,7 @@ const EconomicCalendarPage = () => {
           <ArrowLeft size={15} /> Back to Dashboard
         </button>
         <h1>Economic Calendar</h1>
+        <ThemeToggle className="page-theme-toggle" />
       </div>
       
       <div className="calendar-page-content">

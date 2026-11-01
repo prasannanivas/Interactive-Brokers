@@ -13,6 +13,8 @@ import DailySignalVolumeChart from '../components/DailySignalVolumeChart'
 import ErrorBoundary from '../components/ErrorBoundary'
 import LoginHistory from '../components/LoginHistory'
 import MACrossAlertBanner from '../components/MACrossAlertBanner'
+import PairChip from '../components/PairChip'
+import ThemeToggle from '../components/ThemeToggle'
 import { SectionLoader, LazySection } from '../components/SectionLoader'
 import './Dashboard.css'
 import { CalendarDays, CalendarRange, ChartCandlestick, Clock, Columns3, FileText, FlaskConical, History, Inbox, LineChart, ListOrdered, LogOut, Plus, ScrollText, SearchX, Settings, Trash2, UserRound, X } from 'lucide-react'
@@ -473,7 +475,7 @@ const Dashboard = () => {
           markerConfig = {
             time: dayStart, // Use day start for grouping
             position: 'belowBar',
-            color: '#10b981',
+            color: '#16794a',
             shape: 'arrowUp',
             text: change.indicator,
             indicator: change.indicator,
@@ -489,7 +491,7 @@ const Dashboard = () => {
           markerConfig = {
             time: dayStart, // Use day start for grouping
             position: 'aboveBar',
-            color: '#ef4444',
+            color: '#b4232a',
             shape: 'arrowDown',
             text: change.indicator,
             indicator: change.indicator,
@@ -505,7 +507,7 @@ const Dashboard = () => {
           markerConfig = {
             time: dayStart, // Use day start for grouping
             position: 'belowBar',
-            color: '#9ca3af',
+            color: '#63716b',
             shape: 'circle',
             text: change.indicator,
             indicator: change.indicator,
@@ -690,6 +692,7 @@ const Dashboard = () => {
           <p className="welcome-text">Real-time Forex Trading Signals</p>
         </div>
         <div className="user-actions">
+          <ThemeToggle className="on-band" />
           <button className="login-history-btn" onClick={() => setShowLoginHistory(true)} title="View Login History">
             <History size={15} /> History
           </button>
@@ -1184,7 +1187,7 @@ const Dashboard = () => {
                               onClick={() => openChartModal(item.symbol)}
                               title="Click to view detailed chart"
                             >
-                              {item.symbol.replace(/^C:/, '')} <ChartCandlestick size={14} />
+                              <PairChip symbol={item.symbol} /> <ChartCandlestick size={14} />
                             </div>
                             <button
                               onClick={() => viewSignalHistory(item.symbol)}
@@ -1612,7 +1615,7 @@ const Dashboard = () => {
               ) : (
                 <>
                   {/* Signal Changes Timeline */}
-                  <h3 style={{ marginTop: '20px', marginBottom: '15px', color: '#111827' }}>
+                  <h3 style={{ marginTop: '20px', marginBottom: '15px', color: 'var(--text)' }}>
                     <ListOrdered size={16} /> Signal Changes History ({signalHistory.length} changes)
                   </h3>
                   <div className="changes-timeline">

@@ -1,0 +1,61 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1440px;height:900px;overflow:hidden;background:#eef0ec;color:#1c2a26;font:13px/1.4 'Public Sans',system-ui,sans-serif;font-variant-numeric:tabular-nums;
+background-image:repeating-radial-gradient(circle at 120% -20%,transparent 0 11px,rgba(28,42,38,.035) 11px 12px)}
+.top{height:56px;display:flex;align-items:center;gap:32px;padding:0 24px;background:#1c2a26;color:#e8ebe4}
+.brand{font-weight:700;font-size:15px;letter-spacing:.01em}
+nav{display:flex;gap:4px}nav a{padding:8px 12px;color:#9fb0a8;font-weight:500;border-radius:4px}nav a.on{color:#fff;background:#2d403a}
+.st{margin-left:auto;display:flex;gap:18px;color:#9fb0a8;font-size:12px}.st i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#7fd1a0;margin-right:6px}
+.wrap{padding:16px 24px;display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.panel{background:#fbfcfa;border:1px solid #d6dbd3;border-radius:6px;padding:14px 16px}
+.ph{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}.ph h2{font-size:14px;font-weight:600}
+.lab{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#6c7a74}
+.alerts{grid-column:1/-1;display:flex;gap:12px}
+.al{flex:1;display:flex;align-items:center;gap:12px;background:#fbfcfa;border:1px solid #d6dbd3;border-radius:6px;padding:10px 14px}
+.pair{display:inline-flex;border-radius:3px;overflow:hidden;font-weight:700;font-size:12px;color:#fff;letter-spacing:.04em}
+.pair span{padding:3px 7px}
+.usd{background:#3f6b4a}.eur{background:#2f5f9e}.gbp{background:#6a4a8c}.jpy{background:#b5543c}.aud{background:#2e8a8a}.cad{background:#a8323e}.chf{background:#c26a1c}.nzd{background:#4f5f2a}
+.dir{font-weight:700}.up{color:#16794a}.dn{color:#b4232a}
+.al .t{margin-left:auto;color:#6c7a74;font-size:12px}
+.mx{grid-column:1/6}.wl{grid-column:6/-1}.ch{grid-column:1/-1;height:250px}
+.grid{width:100%;border-collapse:separate;border-spacing:3px}.grid td,.grid th{height:32px;text-align:center;font-size:12px}
+.grid th{font-weight:700;font-size:11px}.grid th span{display:inline-block;width:28px;height:4px;border-radius:2px;vertical-align:middle;margin-right:4px}
+.b{background:#dcefe2;color:#16794a;font-weight:700}.s{background:#f6dcdc;color:#b4232a;font-weight:700}.n{background:#e7eae4;color:#8a958f}
+table.l{width:100%;border-collapse:collapse}.l th{text-align:left;font-size:11px;color:#6c7a74;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:6px 8px;border-bottom:1px solid #d6dbd3}
+.l td{padding:9px 8px;border-bottom:1px solid #e6e9e3}.r{text-align:right}.l tr.sel td{background:#e7efe9}
+.tabs{display:flex;gap:2px}.tabs span{padding:4px 10px;font-size:12px;color:#6c7a74;border-radius:3px}.tabs .on{background:#1c2a26;color:#fff}
+</style></head><body>
+<div class="top"><div class="brand">Trading Signal Monitor</div>
+<nav><a class="on">Dashboard</a><a>Economic Calendar</a><a>Research Center</a><a>Backtest</a><a>Settings</a></nav>
+<div class="st"><span><i></i>Polygon connected</span><span><i></i>Telegram active</span><span>28 symbols</span><span>nivas</span></div></div>
+<div class="wrap">
+<div class="alerts">
+<div class="al"><span class="pair"><span class="eur">EUR</span><span class="usd">USD</span></span><span class="dir up">▲ EMA 9 over 21</span><span>1.0874</span><span class="t">14:05 · 1H</span></div>
+<div class="al"><span class="pair"><span class="gbp">GBP</span><span class="jpy">JPY</span></span><span class="dir dn">▼ EMA 9 under 21</span><span>191.42</span><span class="t">13:40 · 1H</span></div>
+<div class="al" style="opacity:.55"><span class="pair"><span class="aud">AUD</span><span class="usd">USD</span></span><s>▲ Bull cross, reversed</s><span class="t">11:20 → 13:55</span></div></div>
+<div class="panel mx"><div class="ph"><h2>Currency signal matrix</h2><span class="lab">Daily</span></div>
+<table class="grid"><tr><th></th><th><span class="usd"></span></th><th><span class="eur"></span></th><th><span class="gbp"></span></th><th><span class="jpy"></span></th><th><span class="aud"></span></th><th><span class="cad"></span></th><th><span class="chf"></span></th><th><span class="nzd"></span></th></tr>
+<tr><th>USD</th><td></td><td class="s">▼</td><td class="s">▼</td><td class="b">▲</td><td class="b">▲</td><td class="n">–</td><td class="b">▲</td><td class="b">▲</td></tr>
+<tr><th>EUR</th><td class="b">▲</td><td></td><td class="n">–</td><td class="b">▲</td><td class="b">▲</td><td class="b">▲</td><td class="n">–</td><td class="b">▲</td></tr>
+<tr><th>GBP</th><td class="b">▲</td><td class="n">–</td><td></td><td class="s">▼</td><td class="b">▲</td><td class="b">▲</td><td class="n">–</td><td class="b">▲</td></tr>
+<tr><th>JPY</th><td class="s">▼</td><td class="s">▼</td><td class="b">▲</td><td></td><td class="s">▼</td><td class="s">▼</td><td class="s">▼</td><td class="n">–</td></tr>
+<tr><th>AUD</th><td class="s">▼</td><td class="s">▼</td><td class="s">▼</td><td class="b">▲</td><td></td><td class="n">–</td><td class="s">▼</td><td class="b">▲</td></tr>
+<tr><th>CAD</th><td class="n">–</td><td class="s">▼</td><td class="s">▼</td><td class="b">▲</td><td class="n">–</td><td></td><td class="s">▼</td><td class="n">–</td></tr>
+<tr><th>CHF</th><td class="s">▼</td><td class="n">–</td><td class="n">–</td><td class="b">▲</td><td class="b">▲</td><td class="b">▲</td><td></td><td class="b">▲</td></tr>
+<tr><th>NZD</th><td class="s">▼</td><td class="s">▼</td><td class="s">▼</td><td class="n">–</td><td class="s">▼</td><td class="n">–</td><td class="s">▼</td><td></td></tr></table></div>
+<div class="panel wl"><div class="ph"><h2>Watchlist · 28</h2><div class="tabs"><span class="on">1H</span><span>4H</span><span>1D</span></div></div>
+<table class="l"><tr><th>Pair</th><th class="r">Price</th><th class="r">Chg</th><th class="r">EMA 200</th><th class="r">RSI</th><th class="r">MACD</th><th>Signal</th></tr>
+<tr class="sel"><td><span class="pair"><span class="eur">EUR</span><span class="usd">USD</span></span></td><td class="r">1.0874</td><td class="r up">+0.42%</td><td class="r">1.0811</td><td class="r">61.2</td><td class="r">0.0011</td><td class="dir up">▲ Bull</td></tr>
+<tr><td><span class="pair"><span class="gbp">GBP</span><span class="jpy">JPY</span></span></td><td class="r">191.42</td><td class="r dn">−0.61%</td><td class="r">192.07</td><td class="r">38.9</td><td class="r">−0.214</td><td class="dir dn">▼ Bear</td></tr>
+<tr><td><span class="pair"><span class="usd">USD</span><span class="jpy">JPY</span></span></td><td class="r">149.83</td><td class="r up">+0.18%</td><td class="r">148.20</td><td class="r">57.4</td><td class="r">0.092</td><td class="dir up">▲ Bull</td></tr>
+<tr><td><span class="pair"><span class="aud">AUD</span><span class="usd">USD</span></span></td><td class="r">0.6512</td><td class="r dn">−0.09%</td><td class="r">0.6530</td><td class="r">47.1</td><td class="r">−0.0002</td><td>– Neutral</td></tr>
+<tr><td><span class="pair"><span class="usd">USD</span><span class="cad">CAD</span></span></td><td class="r">1.3768</td><td class="r up">+0.05%</td><td class="r">1.3702</td><td class="r">52.8</td><td class="r">0.0004</td><td>– Neutral</td></tr>
+<tr><td><span class="pair"><span class="eur">EUR</span><span class="chf">CHF</span></span></td><td class="r">0.9461</td><td class="r up">+0.21%</td><td class="r">0.9420</td><td class="r">58.0</td><td class="r">0.0009</td><td class="dir up">▲ Bull</td></tr>
+<tr><td><span class="pair"><span class="nzd">NZD</span><span class="usd">USD</span></span></td><td class="r">0.5934</td><td class="r dn">−0.33%</td><td class="r">0.5988</td><td class="r">35.6</td><td class="r">−0.0013</td><td class="dir dn">▼ Bear</td></tr></table></div>
+<div class="panel ch"><div class="ph"><h2>EUR/USD · Comprehensive analysis</h2><div class="tabs"><span class="on">Price</span><span>Rate diff</span><span>2Y spread</span><span>10Y spread</span><span>Calendar</span></div></div>
+<svg width="1360" height="180"><g stroke="#e0e4dd"><line x1="0" y1="45" x2="1360" y2="45"/><line x1="0" y1="90" x2="1360" y2="90"/><line x1="0" y1="135" x2="1360" y2="135"/></g>
+<polyline fill="none" stroke="#2f5f9e" stroke-width="1.8" points="0,140 80,132 160,138 240,120 320,126 400,110 480,116 560,98 640,104 720,92 800,96 880,80 960,86 1040,70 1120,74 1200,58 1280,62 1360,48"/>
+<polyline fill="none" stroke="#3f6b4a" stroke-width="1.4" stroke-dasharray="4 3" points="0,150 200,142 400,130 600,118 800,108 1000,96 1200,82 1360,72"/></svg></div>
+</div></body></html>

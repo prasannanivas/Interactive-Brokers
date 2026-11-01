@@ -1,7 +1,7 @@
 .signal-calendar-section {
   margin-top: 24px;
   padding-top: 24px;
-  border-top: 2px solid #e5e7eb;
+  border-top: 2px solid var(--line);
 }
 
 .signal-calendar-months {
@@ -19,19 +19,19 @@
 /* ── Card shell ─────────────────────────────────────────────── */
 
 .signal-cal {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   padding: 18px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(28, 42, 38, 0.05);
 }
 
 .signal-cal-bullish {
-  border-top: 3px solid #10b981;
+  border-top: 3px solid var(--bull);
 }
 
 .signal-cal-bearish {
-  border-top: 3px solid #ef4444;
+  border-top: 3px solid var(--bear);
 }
 
 /* ── Header / navigation ────────────────────────────────────── */
@@ -52,13 +52,13 @@
 .signal-cal-title {
   font-size: 15px;
   font-weight: 700;
-  color: #111827;
+  color: var(--text);
 }
 
 .signal-cal-today {
   border: none;
-  background: #eff6ff;
-  color: #3b82f6;
+  background: var(--paper-2);
+  color: var(--info);
   font-size: 11px;
   font-weight: 600;
   padding: 3px 9px;
@@ -68,29 +68,29 @@
 }
 
 .signal-cal-today:hover {
-  background: #dbeafe;
+  background: var(--select);
 }
 
 .signal-cal-nav {
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
-  color: #374151;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--text);
   font-size: 16px;
   line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
 }
 
 .signal-cal-nav:hover {
-  background: #3b82f6;
-  border-color: #3b82f6;
-  color: #ffffff;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--on-ink);
 }
 
 /* ── Weekday row ────────────────────────────────────────────── */
@@ -106,7 +106,7 @@
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.03em;
-  color: #9ca3af;
+  color: var(--text-3);
   text-transform: uppercase;
 }
 
@@ -125,9 +125,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  background: #f9fafb;
-  border: 1px solid #f0f1f3;
-  color: #9ca3af;
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  color: var(--text-3);
   transition: transform 0.1s ease;
 }
 
@@ -136,7 +136,7 @@
      mid-hover, which resets/confuses the native title tooltip's timer in
      some browsers and can prevent it from ever appearing. */
   z-index: 1;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 0 2px rgba(28, 42, 38, 0.4);
 }
 
 .signal-cal-day-empty {
@@ -161,26 +161,24 @@
 }
 
 .signal-cal-day.is-today {
-  border: 2px solid #3b82f6;
+  border: 2px solid var(--ink);
 }
 
 .signal-cal-day.is-future {
   opacity: 0.4;
 }
 
-/* ── Intensity tiers — bullish (green) ─────────────────────── */
+/* ── Intensity tiers: bullish ── */
+.signal-cal-bullish .signal-cal-day.tier-1 { background: var(--bull-tint); color: var(--bull-strong); border-color: color-mix(in srgb, var(--bull) 25%, var(--paper)); }
+.signal-cal-bullish .signal-cal-day.tier-2 { background: color-mix(in srgb, var(--bull) 40%, var(--paper)); color: var(--bull-strong); border-color: color-mix(in srgb, var(--bull) 50%, var(--paper)); }
+.signal-cal-bullish .signal-cal-day.tier-3 { background: color-mix(in srgb, var(--bull) 72%, var(--paper)); color: var(--on-state); border-color: color-mix(in srgb, var(--bull) 80%, var(--paper)); }
+.signal-cal-bullish .signal-cal-day.tier-4 { background: var(--bull); color: var(--on-state); border-color: var(--bull-strong); }
 
-.signal-cal-bullish .signal-cal-day.tier-1 { background: #d1fae5; color: #065f46; border-color: #a7f3d0; }
-.signal-cal-bullish .signal-cal-day.tier-2 { background: #6ee7b7; color: #064e3b; border-color: #34d399; }
-.signal-cal-bullish .signal-cal-day.tier-3 { background: #34d399; color: #ffffff; border-color: #10b981; }
-.signal-cal-bullish .signal-cal-day.tier-4 { background: #059669; color: #ffffff; border-color: #047857; }
-
-/* ── Intensity tiers — bearish (red) ────────────────────────── */
-
-.signal-cal-bearish .signal-cal-day.tier-1 { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
-.signal-cal-bearish .signal-cal-day.tier-2 { background: #fca5a5; color: #7f1d1d; border-color: #f87171; }
-.signal-cal-bearish .signal-cal-day.tier-3 { background: #f87171; color: #ffffff; border-color: #ef4444; }
-.signal-cal-bearish .signal-cal-day.tier-4 { background: #dc2626; color: #ffffff; border-color: #b91c1c; }
+/* ── Intensity tiers: bearish ── */
+.signal-cal-bearish .signal-cal-day.tier-1 { background: var(--bear-tint); color: var(--bear-strong); border-color: color-mix(in srgb, var(--bear) 25%, var(--paper)); }
+.signal-cal-bearish .signal-cal-day.tier-2 { background: color-mix(in srgb, var(--bear) 40%, var(--paper)); color: var(--bear-strong); border-color: color-mix(in srgb, var(--bear) 50%, var(--paper)); }
+.signal-cal-bearish .signal-cal-day.tier-3 { background: color-mix(in srgb, var(--bear) 72%, var(--paper)); color: var(--on-state); border-color: color-mix(in srgb, var(--bear) 80%, var(--paper)); }
+.signal-cal-bearish .signal-cal-day.tier-4 { background: var(--bear); color: var(--on-state); border-color: var(--bear-strong); }
 
 /* ── Legend ─────────────────────────────────────────────────── */
 
@@ -191,23 +189,23 @@
   gap: 4px;
   margin-top: 12px;
   font-size: 10px;
-  color: #9ca3af;
+  color: var(--text-3);
 }
 
 .signal-cal-legend-swatch {
   width: 12px;
   height: 12px;
   border-radius: 3px;
-  background: #f9fafb;
-  border: 1px solid #f0f1f3;
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
 }
 
-.signal-cal-legend-swatch.tone-bullish.tier-1 { background: #d1fae5; border-color: #a7f3d0; }
-.signal-cal-legend-swatch.tone-bullish.tier-2 { background: #6ee7b7; border-color: #34d399; }
-.signal-cal-legend-swatch.tone-bullish.tier-3 { background: #34d399; border-color: #10b981; }
-.signal-cal-legend-swatch.tone-bullish.tier-4 { background: #059669; border-color: #047857; }
+.signal-cal-legend-swatch.tone-bullish.tier-1 { background: var(--bull-tint); border-color: transparent; }
+.signal-cal-legend-swatch.tone-bullish.tier-2 { background: color-mix(in srgb, var(--bull) 40%, var(--paper)); border-color: transparent; }
+.signal-cal-legend-swatch.tone-bullish.tier-3 { background: color-mix(in srgb, var(--bull) 72%, var(--paper)); border-color: transparent; }
+.signal-cal-legend-swatch.tone-bullish.tier-4 { background: var(--bull); border-color: transparent; }
 
-.signal-cal-legend-swatch.tone-bearish.tier-1 { background: #fee2e2; border-color: #fecaca; }
-.signal-cal-legend-swatch.tone-bearish.tier-2 { background: #fca5a5; border-color: #f87171; }
-.signal-cal-legend-swatch.tone-bearish.tier-3 { background: #f87171; border-color: #ef4444; }
-.signal-cal-legend-swatch.tone-bearish.tier-4 { background: #dc2626; border-color: #b91c1c; }
+.signal-cal-legend-swatch.tone-bearish.tier-1 { background: var(--bear-tint); border-color: transparent; }
+.signal-cal-legend-swatch.tone-bearish.tier-2 { background: color-mix(in srgb, var(--bear) 40%, var(--paper)); border-color: transparent; }
+.signal-cal-legend-swatch.tone-bearish.tier-3 { background: color-mix(in srgb, var(--bear) 72%, var(--paper)); border-color: transparent; }
+.signal-cal-legend-swatch.tone-bearish.tier-4 { background: var(--bear); border-color: transparent; }

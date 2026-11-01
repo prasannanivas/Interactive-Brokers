@@ -20,8 +20,8 @@ const ProtectedRoute = ({ children }) => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        backgroundColor: '#0a0e27',
-        color: '#fff'
+        backgroundColor: 'var(--info)',
+        color: 'var(--text)'
       }}>
         Loading...
       </div>

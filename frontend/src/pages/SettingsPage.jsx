@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { settingsAPI } from '../api/api'
 import './SettingsPage.css'
+import ThemeToggle from '../components/ThemeToggle'
 import { ArrowLeft, BellRing, Bot, ChevronDown, ChevronRight, CircleCheck, CircleX, Eye, EyeOff, History, Lock, Megaphone, PlugZap, RefreshCw, Save, Search, Send, UserRound, Users } from 'lucide-react'
 
 const KIND_LABELS = {
@@ -155,6 +156,7 @@ const SettingsPage = () => {
           <ArrowLeft size={15} /> Back to Dashboard
         </button>
         <h1>Settings</h1>
+        <ThemeToggle className="page-theme-toggle" />
       </div>
 
       <div className="settings-content">

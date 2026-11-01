@@ -1,0 +1,73 @@
+{
+  "title": "Choose the visual world",
+  "question": "The roll assigned Pit Jacket. Keep it, take an alternate, or re-roll.",
+  "options": [
+    {
+      "id": "assigned",
+      "kind": "assigned",
+      "label": "Pit Jacket",
+      "kicker": "THE ROLL",
+      "lineage": "Chicago open-outcry pits: loud firm jackets, block-caps trader badges, buy/sell trading cards",
+      "thesis": "Every pair wears a trader's badge, and every signal is a card thrown into the pit.",
+      "palette": ["#14130f", "#1f1d18", "#f2ede1", "#e2b23c", "#2fb36b", "#e5484d"],
+      "materials": ["badge enamel", "card stock", "jacket twill"],
+      "viewport": "Top bar on warm pit-floor black with a gold jacket stripe; MA-cross alerts as dealt cards; matrix and watchlist rows lead with black-and-white badge symbols.",
+      "risk": "The badge move can get loud if more than symbols wear it.",
+      "raised": [
+        {"from": "challenger-monochrome", "raise": "One tuned warm-neutral ramp carries all chrome; gold appears only on selection and primary action."},
+        {"from": "challenger-ticket-wallet", "raise": "Superseded signals never vanish: they stay in place, struck through and timestamped."},
+        {"from": "challenger-slide-rack", "raise": "Rank is carried by weight and case on a four-step type scale, not by big headings."},
+        {"from": "challenger-crouwel", "raise": "Every panel snaps to one 12-column, 8px armature with shared edges across sections."},
+        {"from": "challenger-botanical", "raise": "Small multiples (matrix cells, yield charts) share one scale and baseline so they compare honestly."}
+      ],
+      "html": ".impeccable/mocks/decision/assigned.html"
+    },
+    {
+      "id": "model-pick",
+      "kind": "pick",
+      "label": "Banknote",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "Security-printed banknotes: intaglio, guilloche, one ink per currency",
+      "thesis": "Each currency keeps its banknote ink, so every pair reads as two notes side by side.",
+      "palette": ["#eef0ec", "#1c2a26", "#3f6b4a", "#2f5f9e", "#6a4a8c", "#b5543c"],
+      "materials": ["intaglio ink", "security paper", "guilloche hairline"],
+      "viewport": "Pale security-paper ground, ink-green header; pairs drawn as two-ink split chips; matrix cells tinted by both currencies.",
+      "risk": "The USD green fights bull green, so direction must move to arrows and weight.",
+      "html": ".impeccable/mocks/decision/model-pick.html"
+    },
+    {
+      "id": "challenger-split-flap",
+      "kind": "challenger",
+      "catalogId": "signals-instruments-split-flap-concourse",
+      "label": "Split-Flap Board",
+      "verdict": "competitive",
+      "lineage": "Solari departure boards, the same boards old exchanges posted quotes on",
+      "thesis": "The watchlist is a departure board: rows hold still, only the changed cells flip.",
+      "palette": ["#0c0c0d", "#1a1a1c", "#f4f4f2", "#f2a516", "#2fb36b", "#e5484d"],
+      "materials": ["matte flap faces", "brushed steel", "amber row lamps"],
+      "viewport": "Matte black board; the watchlist as fixed columns in condensed caps; a freshly crossed pair lights its amber lamp and flips its signal cell.",
+      "case": "Wins clarity (change cascades are glanceable state) but the badge world is closer to the trader's own history.",
+      "risk": "Condensed caps everywhere can tire the eye over a full session.",
+      "html": ".impeccable/mocks/decision/challenger-split-flap.html"
+    },
+    {"id": "challenger-monochrome", "kind": "challenger", "catalogId": "digital-design-canon-monochrome-product-marketing", "label": "Monochrome Product Marketing", "verdict": "declined", "lineage": "software marketing sites", "thesis": "One neutral scale, one rare accent.", "palette": ["#fafafa", "#111111", "#5b5bd6"], "materials": ["neutral ramp", "framed screenshots"], "viewport": "Claim and proof pairs.", "case": "A Persuade form; on a working screen it collapses into the category default.", "kept": "Neutral-ramp discipline: accent only for action and selection.", "risk": "Generic."},
+    {"id": "challenger-ticket-wallet", "kind": "challenger", "catalogId": "vernacular-ephemera-jet-age-ticket-wallet", "label": "Jet-Age Ticket Wallet", "verdict": "declined", "lineage": "airline coupon books", "thesis": "Nothing disappears, it cancels.", "palette": ["#1b2a52", "#c8272d", "#ffffff"], "materials": ["carbon copy", "coupon stock"], "viewport": "Coupon per leg.", "case": "Traders do not identify with travel paperwork.", "kept": "Superseded states stay visible, struck and stamped.", "risk": "Costume."},
+    {"id": "challenger-slide-rack", "kind": "challenger", "catalogId": "rw-timetable-slide-rack", "label": "Timetable Slide Rack", "verdict": "declined", "lineage": "pocket timetables on a light table", "thesis": "One type size; rank by weight and case.", "palette": ["#d9a521", "#2b2f33", "#f4efe2", "#c4381f"], "materials": ["tinted glass", "goldenrod bed"], "viewport": "Raked slides.", "case": "Raked containers hurt scanning on a dense working screen.", "kept": "Rank by weight and case, a tight type scale.", "risk": "Illegible."},
+    {"id": "challenger-crouwel", "kind": "challenger", "catalogId": "crouwel-grid-specimen", "label": "Crouwel Grid Specimen", "verdict": "declined", "lineage": "Wim Crouwel grid posters", "thesis": "The grid is visible and binding.", "palette": ["#ffffff", "#1d4ed8", "#111111"], "materials": ["construction grid"], "viewport": "Grid-built letterforms.", "case": "A poster form; monumental type has no place in a dense tool.", "kept": "One binding armature, shared edges everywhere.", "risk": "Poster, not tool."},
+    {"id": "challenger-botanical", "kind": "challenger", "catalogId": "editorial-sequence-montage-botanical-folio-season", "label": "Botanical Folio", "verdict": "declined", "lineage": "botanical plate series", "thesis": "Same scale, same ground, honest comparison.", "palette": ["#f3ecdc", "#3d6b3a", "#b3261e"], "materials": ["engraved plates"], "viewport": "Five aligned plates.", "case": "No audience link to trading.", "kept": "Small multiples share one scale and baseline.", "risk": "Off-world."}
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "buildPath": {"value": "code"},
+  "canon": true,
+  "canonCard": {
+    "kind": "canon",
+    "label": "The category standard",
+    "thesis": "The dark charting-terminal look every trading app ships, executed impeccably.",
+    "palette": ["#131722", "#1e222d", "#d1d4dc", "#2962ff", "#26a69a", "#ef5350"],
+    "materials": ["navy panels", "hairline grid"],
+    "viewport": "Navy top bar, blue accent tabs, panels of tables and charts.",
+    "risk": "Indistinguishable from every charting tool by design.",
+    "html": ".impeccable/mocks/decision/canon.html"
+  },
+  "steer": true
+}

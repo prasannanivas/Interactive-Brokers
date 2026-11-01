@@ -31,8 +31,8 @@ const INTERVAL_GROUPS = [
 const INTERVAL_LABEL = Object.fromEntries(INTERVAL_GROUPS.flatMap(g => g.items))
 const isIntraday = (iv) => ['1m', '5m', '15m', '1h'].includes(iv)
 
-const SPREAD_10Y = '#3b82f6'
-const SPREAD_2Y = '#ef4444'
+const SPREAD_10Y = '#2f5f9e'
+const SPREAD_2Y = '#6a4a8c'
 
 // ── Toolbar: "Sync with page" or a chosen period + candle size ────────────────
 export const BondRangeToolbar = ({ value, onChange }) => {
@@ -209,10 +209,10 @@ export const BondSpreadCustomChart = ({ baseCountry, quoteCountry, view, height 
       </div>
       <ResponsiveContainer width="100%" height={height}>
         <LineChart data={rows} margin={{ top: 6, right: 12, left: 0, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e6e9e3" />
           <XAxis dataKey="ms" type="number" scale="time" domain={['dataMin', 'dataMax']} tickFormatter={fmtTick}
-            stroke="#6b7280" style={{ fontSize: '12px' }} minTickGap={40} />
-          <YAxis stroke="#6b7280" style={{ fontSize: '12px' }} domain={['auto', 'auto']}
+            stroke="#43524c" style={{ fontSize: '12px' }} minTickGap={40} />
+          <YAxis stroke="#43524c" style={{ fontSize: '12px' }} domain={['auto', 'auto']}
             label={{ value: 'Spread (%)', angle: -90, position: 'insideLeft' }} />
           <Tooltip
             labelFormatter={(ms) => {

@@ -1,0 +1,53 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1440px;height:900px;overflow:hidden;background:#0c0c0d;color:#f4f4f2;font:13px/1.4 Barlow,system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.top{height:56px;display:flex;align-items:center;gap:32px;padding:0 24px;background:#151517;border-bottom:1px solid #2a2a2d}
+.brand{font:700 18px 'Barlow Condensed';letter-spacing:.08em;text-transform:uppercase}
+nav{display:flex;gap:4px}nav a{padding:8px 12px;color:#9a9a9e;font-weight:500;border-radius:4px}nav a.on{color:#fff;background:#232326}
+.st{margin-left:auto;display:flex;gap:18px;color:#9a9a9e;font-size:12px}.st i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2fb36b;margin-right:6px}
+.wrap{padding:16px 24px;display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.panel{background:#151517;border:1px solid #2a2a2d;border-radius:6px;padding:14px 16px}
+.ph{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.ph h2{font:600 15px 'Barlow Condensed';letter-spacing:.1em;text-transform:uppercase}
+.lab{font:600 11px 'Barlow Condensed';letter-spacing:.12em;text-transform:uppercase;color:#76767b}
+.board{grid-column:1/8}.side{grid-column:8/-1;display:flex;flex-direction:column;gap:16px}.ch{grid-column:1/-1;height:230px}
+table{width:100%;border-collapse:separate;border-spacing:0 4px}
+th{font:600 11px 'Barlow Condensed';letter-spacing:.12em;text-transform:uppercase;color:#76767b;text-align:left;padding:0 6px}
+td{padding:0 2px}
+.f{display:inline-flex;gap:2px}.f b{display:inline-block;width:19px;height:30px;background:#1f1f22;border-radius:2px;font:700 20px/30px 'Barlow Condensed';text-align:center;color:#f4f4f2;position:relative}
+.f b:after{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:#0c0c0d}
+.lamp{display:inline-block;width:10px;height:10px;border-radius:50%;background:#2a2a2d}
+tr.new .lamp{background:#f2a516;box-shadow:0 0 0 3px rgba(242,165,22,.18)}
+.bull b{color:#2fb36b}.bear b{color:#e5484d}.neu b{color:#76767b}
+.r{text-align:right}
+.alert{border-left:3px solid #f2a516;padding:8px 12px;background:#1b1a17;border-radius:3px;display:flex;justify-content:space-between}
+.alert+.alert{margin-top:8px}.alert.x{border-left-color:#3a3a3e;color:#5c5c61;text-decoration:line-through;background:#151517}
+.mini{display:grid;grid-template-columns:repeat(8,1fr);gap:3px}.mini span{height:22px;border-radius:2px;background:#1f1f22}
+.mini .b{background:#1d4a31}.mini .s{background:#55191c}
+.tabs{display:flex;gap:2px}.tabs span{padding:4px 10px;font:600 12px 'Barlow Condensed';letter-spacing:.08em;text-transform:uppercase;color:#9a9a9e;border-radius:3px}.tabs .on{background:#f4f4f2;color:#0c0c0d}
+</style></head><body>
+<div class="top"><div class="brand">Trading Signal Monitor</div>
+<nav><a class="on">Dashboard</a><a>Economic Calendar</a><a>Research Center</a><a>Backtest</a><a>Settings</a></nav>
+<div class="st"><span><i></i>Polygon connected</span><span><i></i>Telegram active</span><span>28 symbols</span><span>nivas</span></div></div>
+<div class="wrap">
+<div class="panel board"><div class="ph"><h2>Watchlist board</h2><div class="tabs"><span class="on">1H</span><span>4H</span><span>1D</span></div></div>
+<table><tr><th></th><th>Pair</th><th class="r">Price</th><th class="r">Chg %</th><th class="r">RSI</th><th>Signal</th><th>Since</th></tr>
+<tr class="new"><td><span class="lamp"></span></td><td><span class="f"><b>E</b><b>U</b><b>R</b><b>U</b><b>S</b><b>D</b></span></td><td class="r"><span class="f"><b>1</b><b>.</b><b>0</b><b>8</b><b>7</b><b>4</b></span></td><td class="r"><span class="f bull"><b>+</b><b>.</b><b>4</b><b>2</b></span></td><td class="r"><span class="f"><b>6</b><b>1</b></span></td><td><span class="f bull"><b>B</b><b>U</b><b>L</b><b>L</b></span></td><td><span class="f"><b>1</b><b>4</b><b>:</b><b>0</b><b>5</b></span></td></tr>
+<tr class="new"><td><span class="lamp"></span></td><td><span class="f"><b>G</b><b>B</b><b>P</b><b>J</b><b>P</b><b>Y</b></span></td><td class="r"><span class="f"><b>1</b><b>9</b><b>1</b><b>.</b><b>4</b><b>2</b></span></td><td class="r"><span class="f bear"><b>−</b><b>.</b><b>6</b><b>1</b></span></td><td class="r"><span class="f"><b>3</b><b>9</b></span></td><td><span class="f bear"><b>B</b><b>E</b><b>A</b><b>R</b></span></td><td><span class="f"><b>1</b><b>3</b><b>:</b><b>4</b><b>0</b></span></td></tr>
+<tr><td><span class="lamp"></span></td><td><span class="f"><b>U</b><b>S</b><b>D</b><b>J</b><b>P</b><b>Y</b></span></td><td class="r"><span class="f"><b>1</b><b>4</b><b>9</b><b>.</b><b>8</b><b>3</b></span></td><td class="r"><span class="f bull"><b>+</b><b>.</b><b>1</b><b>8</b></span></td><td class="r"><span class="f"><b>5</b><b>7</b></span></td><td><span class="f bull"><b>B</b><b>U</b><b>L</b><b>L</b></span></td><td><span class="f"><b>0</b><b>9</b><b>:</b><b>1</b><b>0</b></span></td></tr>
+<tr><td><span class="lamp"></span></td><td><span class="f"><b>A</b><b>U</b><b>D</b><b>U</b><b>S</b><b>D</b></span></td><td class="r"><span class="f"><b>0</b><b>.</b><b>6</b><b>5</b><b>1</b><b>2</b></span></td><td class="r"><span class="f bear"><b>−</b><b>.</b><b>0</b><b>9</b></span></td><td class="r"><span class="f"><b>4</b><b>7</b></span></td><td><span class="f neu"><b>-</b><b>-</b><b>-</b><b>-</b></span></td><td><span class="f"><b>1</b><b>3</b><b>:</b><b>5</b><b>5</b></span></td></tr>
+<tr><td><span class="lamp"></span></td><td><span class="f"><b>U</b><b>S</b><b>D</b><b>C</b><b>A</b><b>D</b></span></td><td class="r"><span class="f"><b>1</b><b>.</b><b>3</b><b>7</b><b>6</b><b>8</b></span></td><td class="r"><span class="f bull"><b>+</b><b>.</b><b>0</b><b>5</b></span></td><td class="r"><span class="f"><b>5</b><b>3</b></span></td><td><span class="f neu"><b>-</b><b>-</b><b>-</b><b>-</b></span></td><td><span class="f"><b>0</b><b>8</b><b>:</b><b>0</b><b>0</b></span></td></tr>
+<tr><td><span class="lamp"></span></td><td><span class="f"><b>E</b><b>U</b><b>R</b><b>C</b><b>H</b><b>F</b></span></td><td class="r"><span class="f"><b>0</b><b>.</b><b>9</b><b>4</b><b>6</b><b>1</b></span></td><td class="r"><span class="f bull"><b>+</b><b>.</b><b>2</b><b>1</b></span></td><td class="r"><span class="f"><b>5</b><b>8</b></span></td><td><span class="f bull"><b>B</b><b>U</b><b>L</b><b>L</b></span></td><td><span class="f"><b>1</b><b>0</b><b>:</b><b>3</b><b>0</b></span></td></tr></table></div>
+<div class="side">
+<div class="panel"><div class="ph"><h2>MA cross 9 / 21</h2><span class="lab">Today</span></div>
+<div class="alert"><span>EUR/USD · EMA 9 crossed above 21</span><span>14:05</span></div>
+<div class="alert"><span>GBP/JPY · EMA 9 crossed below 21</span><span>13:40</span></div>
+<div class="alert x"><span>AUD/USD · bull cross reversed</span><span>13:55</span></div></div>
+<div class="panel"><div class="ph"><h2>Signal matrix</h2><span class="lab">Daily</span></div>
+<div class="mini"><span></span><span class="s"></span><span class="s"></span><span class="b"></span><span class="b"></span><span></span><span class="b"></span><span class="b"></span><span class="b"></span><span></span><span></span><span class="b"></span><span class="b"></span><span class="b"></span><span></span><span class="b"></span><span class="b"></span><span></span><span></span><span class="s"></span><span class="b"></span><span class="b"></span><span></span><span class="b"></span><span class="s"></span><span class="s"></span><span class="b"></span><span></span><span class="s"></span><span class="s"></span><span class="s"></span><span></span></div></div></div>
+<div class="panel ch"><div class="ph"><h2>EUR/USD analysis</h2><div class="tabs"><span class="on">Price</span><span>Rate diff</span><span>2Y</span><span>10Y</span><span>Calendar</span></div></div>
+<svg width="1360" height="160"><polyline fill="none" stroke="#f4f4f2" stroke-width="1.6" points="0,130 80,122 160,128 240,110 320,116 400,100 480,106 560,88 640,94 720,82 800,86 880,70 960,76 1040,60 1120,64 1200,48 1280,52 1360,38"/>
+<line x1="1040" y1="5" x2="1040" y2="155" stroke="#f2a516"/></svg></div>
+</div></body></html>

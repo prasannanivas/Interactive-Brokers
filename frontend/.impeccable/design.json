@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-31T00:00:00Z",
+  "title": "Design System: Trading Signal Monitor",
+  "extensions": {
+    "colorMeta": {
+      "intaglio-ink": { "role": "primary", "displayName": "Intaglio Ink", "canonical": "#1c2a26", "tonalRamp": ["#1c2a26", "#2d403a", "#3b524b", "#43524c", "#63716b"] },
+      "paper": { "role": "neutral", "displayName": "Note Paper", "canonical": "#fbfcfa", "tonalRamp": ["#fbfcfa", "#f4f6f2", "#eef0ec", "#e7eae4", "#d6dbd3", "#b9c1b6"] },
+      "bull": { "role": "semantic", "displayName": "Bull Green", "canonical": "#16794a", "tonalRamp": ["#dcefe2", "#16794a", "#0f5c37"] },
+      "bear": { "role": "semantic", "displayName": "Bear Red", "canonical": "#b4232a", "tonalRamp": ["#f6dcdc", "#b4232a", "#8e1a20"] },
+      "info-blue": { "role": "semantic", "displayName": "Note Blue", "canonical": "#2f5f9e", "tonalRamp": ["#dfe7f2", "#2f5f9e"] }
+    },
+    "themes": {
+      "dark": {
+        "selector": ":root[data-theme=\"dark\"]",
+        "paper-0": "#0f1715", "paper": "#161f1c", "paper-2": "#1c2723", "paper-3": "#24322d",
+        "line": "#2d3c36", "text": "#e4ebe6", "text-2": "#b3bfb9", "text-3": "#8d9b95",
+        "ink": "#d9e4de", "on-ink": "#101816", "bull": "#43b77d", "bear": "#e4696e", "info": "#84aae0", "band": "#0a110f"
+      }
+    },
+    "typographyMeta": {
+      "title": { "displayName": "Title", "purpose": "Page titles." },
+      "panel-title": { "displayName": "Panel title", "purpose": "Panel and section headings." },
+      "body": { "displayName": "Body", "purpose": "Tables, controls, prose; tabular numerals." },
+      "label": { "displayName": "Label", "purpose": "Uppercase table heads, day dividers, pair chips." }
+    },
+    "shadows": [
+      { "name": "sm", "value": "0 1px 2px rgba(28,42,38,0.06)", "purpose": "Resting panels." },
+      { "name": "md", "value": "0 2px 8px -2px rgba(28,42,38,0.10), 0 1px 2px rgba(28,42,38,0.06)", "purpose": "Raised controls." },
+      { "name": "lg", "value": "0 16px 40px -12px rgba(28,42,38,0.28), 0 2px 6px rgba(28,42,38,0.08)", "purpose": "Dropdowns, popovers, modals." }
+    ],
+    "motion": [
+      { "name": "ease", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "All state transitions, 120–200ms." },
+      { "name": "alert-arrival", "value": "1.6s background-color fade from direction tint to paper, once", "purpose": "A fresh MA-cross alert." }
+    ],
+    "breakpoints": [ { "name": "md", "value": "768px" }, { "name": "wide", "value": "1400px" } ]
+  },
+  "components": [
+    {
+      "name": "Pair Chip",
+      "kind": "chip",
+      "refersTo": "pair-chip",
+      "description": "Signature: base and quote currency inks side by side wherever an FX pair is named.",
+      "html": "<span class=\"ds-pair\"><span style=\"background:#2f5f9e\">EUR</span><span style=\"background:#3f6b4a\">USD</span></span>",
+      "css": ".ds-pair{display:inline-flex;border-radius:3px;overflow:hidden;font:700 11px/1 'Public Sans',sans-serif;letter-spacing:.05em;color:#fff}.ds-pair span{padding:4px 6px}.ds-pair span+span{box-shadow:inset 1px 0 rgba(255,255,255,.35)}"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink-filled primary action.",
+      "html": "<button class=\"ds-btn\">Enable desktop alerts</button>",
+      "css": ".ds-btn{background:#1c2a26;color:#fff;border:1px solid #1c2a26;border-radius:6px;padding:6px 12px;font:600 13px 'Public Sans',sans-serif;cursor:pointer;transition:background-color .15s}.ds-btn:hover{background:#2d403a}"
+    },
+    {
+      "name": "Theme Switch",
+      "kind": "custom",
+      "refersTo": "theme-toggle",
+      "description": "Light / Dark / System segmented control at the top of every page.",
+      "html": "<div class=\"ds-tt\"><button class=\"on\">Light</button><button>Dark</button><button>System</button></div>",
+      "css": ".ds-tt{display:inline-flex;gap:2px;padding:2px;border-radius:6px;background:#f4f6f2;border:1px solid #d6dbd3}.ds-tt button{border:0;background:transparent;border-radius:3px;padding:4px 8px;font:500 12px 'Public Sans',sans-serif;color:#63716b}.ds-tt .on{background:#fbfcfa;color:#1c2a26;box-shadow:0 1px 2px rgba(28,42,38,.06)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Intaglio Desk",
+    "overview": "Banknote engraving laid on a working desk: pale security paper, a deep green-black intaglio ink, and one banknote ink per currency. Chrome recedes so numbers carry the contrast; a night-desk theme re-engraves the same system on dark paper.",
+    "keyCharacteristics": ["Security-paper ground with guilloche hairlines", "Per-currency inks via the two-ink pair chip", "Public Sans, four-step scale, tabular numerals", "Flat, hairline-ruled panels", "Light, dark and system themes"],
+    "rules": [
+      { "name": "The Two Inks Rule", "body": "Every FX pair is shown as base ink then quote ink; currency inks are used for nothing else.", "section": "colors" },
+      { "name": "The Direction Is Never Colour Alone Rule", "body": "Bull and bear colour always comes with an arrow, a BUY/SELL word or a sign.", "section": "colors" },
+      { "name": "The Weight Not Size Rule", "body": "Rank comes from weight and case on an 11/13/15/18px scale.", "section": "typography" }
+    ],
+    "dos": ["Do take every colour from the tokens in src/index.css", "Do render FX pairs with PairChip", "Do keep transitions to 120–200ms with --ease"],
+    "donts": ["Don't use gradient fills, hover lifts or transition: all", "Don't use thick coloured border-left accents", "Don't add a decorative second accent colour"]
+  }
+}

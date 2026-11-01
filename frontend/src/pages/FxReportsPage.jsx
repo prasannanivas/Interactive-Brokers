@@ -2,6 +2,7 @@ import React from 'react';
 import FxReports from '../components/FxReports';
 import { useNavigate } from 'react-router-dom';
 import './FxReportsPage.css';
+import ThemeToggle from '../components/ThemeToggle'
 import { ArrowLeft } from 'lucide-react'
 
 const FxReportsPage = () => {
@@ -14,6 +15,7 @@ const FxReportsPage = () => {
           <ArrowLeft size={15} /> Back to Dashboard
         </button>
         <h1>Research Center</h1>
+        <ThemeToggle className="page-theme-toggle" />
       </div>
 
       <div className="fx-reports-page-content">

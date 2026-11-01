@@ -153,10 +153,10 @@ const EconomicCalendar = () => {
 
   const getImportanceColor = (importance) => {
     switch (importance) {
-      case 'High': return '#ff4444';
-      case 'Medium': return '#ff9800';
-      case 'Low': return '#4caf50';
-      default: return '#999';
+      case 'High': return '#b4232a';
+      case 'Medium': return '#b8661a';
+      case 'Low': return '#16794a';
+      default: return '#63716b';
     }
   };
 

@@ -4,10 +4,10 @@
   --sl-block-hi: #f4f7ff;
   --sl-accent: #3b82f6;
   --sl-text: #475569;
-  background: #ffffff;
-  border-radius: 16px;
+  background: var(--paper);
+  border-radius: var(--radius-lg);
   padding: 20px 24px 24px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(28, 42, 38, 0.08);
   margin-bottom: 24px;
   min-height: 260px;
   display: flex;
@@ -25,16 +25,16 @@
 .section-loader__title {
   font-size: 18px;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--text);
   margin-bottom: 14px;
 }
 
 .section-loader__body {
   position: relative;
   flex: 1;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--sl-bg) 0%, #eef3ff 100%);
-  border: 1px solid #dbe5fb;
+  border-radius: var(--radius-lg);
+  background: var(--paper-2);
+  border: 1px solid var(--line);
   overflow: hidden;
   padding: 18px;
   min-height: 200px;
@@ -45,7 +45,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.65) 50%, transparent 80%);
+  background: transparent;
   transform: translateX(-100%);
   animation: section-loader-sweep 1.6s ease-in-out infinite;
   pointer-events: none;
@@ -63,7 +63,7 @@
 .section-loader__bar {
   flex: 1;
   border-radius: 6px 6px 2px 2px;
-  background: linear-gradient(180deg, #c7d7fb 0%, var(--sl-block) 100%);
+  background: var(--select);
   transform-origin: bottom;
   animation: section-loader-grow 1.4s ease-in-out infinite;
 }
@@ -89,7 +89,7 @@
 }
 
 .section-loader__cell--wide {
-  background: #d6e2fb;
+  background: var(--select);
 }
 
 /* Matrix: heat-map tiles */
@@ -126,7 +126,7 @@
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
   mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
   animation: section-loader-spin 0.9s linear infinite;
-  filter: drop-shadow(0 2px 6px rgba(59, 130, 246, 0.35));
+  filter: drop-shadow(0 2px 6px rgba(28, 42, 38, 0.35));
 }
 
 .section-loader__label {
@@ -136,7 +136,7 @@
   background: rgba(255, 255, 255, 0.85);
   padding: 4px 12px;
   border-radius: 999px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 4px rgba(28, 42, 38, 0.06);
 }
 
 @keyframes section-loader-sweep {
@@ -159,7 +159,7 @@
 
 @keyframes section-loader-tile {
   0%, 100% { background: var(--sl-block); }
-  50% { background: #cfdcfa; }
+  50% { background: var(--select); }
 }
 
 @media (prefers-reduced-motion: reduce) {

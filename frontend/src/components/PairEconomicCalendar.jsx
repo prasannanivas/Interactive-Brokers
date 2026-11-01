@@ -23,10 +23,10 @@ const isCentralBankEvent = (eventName) => {
 
 const getImportanceColor = (importance) => {
   switch (importance) {
-    case 'High': return '#ef4444'
-    case 'Medium': return '#f59e0b'
-    case 'Low': return '#10b981'
-    default: return '#9ca3af'
+    case 'High': return '#b4232a'
+    case 'Medium': return '#b8661a'
+    case 'Low': return '#16794a'
+    default: return '#63716b'
   }
 }
 

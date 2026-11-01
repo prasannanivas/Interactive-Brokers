@@ -1,8 +1,8 @@
 .economic-calendar {
-  background: #1a1a1a;
-  border-radius: 12px;
+  background: var(--paper-2);
+  border-radius: var(--radius-lg);
   padding: 24px;
-  color: #fff;
+  color: var(--text);
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -13,13 +13,13 @@
   align-items: center;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 2px solid #333;
+  border-bottom: 2px solid var(--line);
 }
 
 .calendar-header h2 {
   margin: 0;
   font-size: 28px;
-  color: #fff;
+  color: var(--text);
 }
 
 .calendar-stats {
@@ -27,18 +27,18 @@
   align-items: center;
   gap: 12px;
   font-size: 14px;
-  color: #888;
+  color: var(--text-3);
 }
 
 .calendar-stats span {
-  background: #2a2a2a;
+  background: var(--paper);
   padding: 6px 12px;
   border-radius: 6px;
 }
 
 .timezone-badge {
-  background: #357abd !important;
-  color: #fff !important;
+  background: var(--ink) !important;
+  color: var(--on-ink) !important;
   font-weight: 600;
   font-size: 12px;
   text-transform: uppercase;
@@ -51,7 +51,7 @@
   gap: 16px;
   margin-bottom: 24px;
   padding: 20px;
-  background: #2a2a2a;
+  background: var(--paper);
   border-radius: 8px;
 }
 
@@ -63,35 +63,35 @@
 
 .filter-group label {
   font-size: 12px;
-  color: #888;
+  color: var(--text-3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .filter-group select,
 .filter-group input {
-  background: #1a1a1a;
-  border: 1px solid #444;
-  color: #fff;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  color: var(--text);
   padding: 10px 12px;
   border-radius: 6px;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
 }
 
 .filter-group select:hover,
 .filter-group input:hover {
-  border-color: #666;
+  border-color: var(--line);
 }
 
 .filter-group select:focus,
 .filter-group input:focus {
   outline: none;
-  border-color: #4a9eff;
+  border-color: var(--ink);
 }
 
 .search-group input::placeholder {
-  color: #555;
+  color: var(--text-3);
 }
 
 .category-filters {
@@ -100,14 +100,14 @@
   gap: 16px;
   margin-bottom: 24px;
   padding: 16px 20px;
-  background: #2a2a2a;
+  background: var(--paper);
   border-radius: 8px;
-  border: 2px solid #357abd;
+  border: 1px solid var(--line);
 }
 
 .category-filter-label {
   font-size: 13px;
-  color: #4a9eff;
+  color: var(--info);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 600;
@@ -125,13 +125,13 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  color: #ddd;
+  color: var(--text-2);
   font-size: 14px;
   transition: color 0.2s ease;
 }
 
 .checkbox-label:hover {
-  color: #fff;
+  color: var(--text);
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -166,7 +166,7 @@
 }
 
 .date-group {
-  background: #2a2a2a;
+  background: var(--paper);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -176,22 +176,22 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  background: #333;
-  border-bottom: 2px solid #444;
+  background: var(--paper-3);
+  border-bottom: 2px solid var(--line);
 }
 
 .date-header h3 {
   margin: 0;
   font-size: 18px;
-  color: #fff;
+  color: var(--text);
 }
 
 .event-count {
   font-size: 12px;
-  color: #888;
-  background: #2a2a2a;
+  color: var(--text-3);
+  background: var(--paper);
   padding: 4px 10px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
 }
 
 .events-list {
@@ -204,13 +204,13 @@
   grid-template-columns: 70px 8px 300px 1fr;
   gap: 16px;
   padding: 16px 20px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--line);
   align-items: center;
   transition: background 0.2s ease;
 }
 
 .event-item:hover {
-  background: #333;
+  background: var(--paper-3);
 }
 
 .event-item:last-child {
@@ -219,9 +219,10 @@
 
 .event-time {
   font-size: 13px;
-  color: #888;
+  color: var(--text-3);
   font-weight: 500;
-  font-family: monospace;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
 }
 
 .event-importance {
@@ -245,8 +246,8 @@
 }
 
 .country-flag {
-  background: #4a9eff;
-  color: #fff;
+  background: var(--ink);
+  color: var(--on-ink);
   padding: 2px 6px;
   border-radius: 4px;
   font-weight: bold;
@@ -255,13 +256,13 @@
 }
 
 .country-name {
-  color: #888;
+  color: var(--text-3);
 }
 
 .event-name {
   font-size: 15px;
   font-weight: 500;
-  color: #fff;
+  color: var(--text);
 }
 
 .event-data {
@@ -282,7 +283,7 @@
 
 .data-label {
   font-size: 11px;
-  color: #666;
+  color: var(--text-3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -290,19 +291,20 @@
 .data-value {
   font-size: 16px;
   font-weight: 600;
-  font-family: monospace;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
 }
 
 .data-value.actual {
-  color: #4caf50;
+  color: var(--bull);
 }
 
 .data-value.forecast {
-  color: #ff9800;
+  color: var(--warn);
 }
 
 .data-value.previous {
-  color: #2196f3;
+  color: var(--info);
 }
 
 .value-change {
@@ -313,17 +315,18 @@
   border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
-  font-family: monospace;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
 }
 
 .value-change.positive {
-  background: rgba(76, 175, 80, 0.2);
-  color: #4caf50;
+  background: rgba(22, 121, 74, 0.2);
+  color: var(--bull);
 }
 
 .value-change.negative {
-  background: rgba(244, 67, 54, 0.2);
-  color: #f44336;
+  background: rgba(180, 35, 42, 0.2);
+  color: var(--bear);
 }
 
 .calendar-loading,
@@ -331,12 +334,12 @@
 .no-events {
   text-align: center;
   padding: 60px 20px;
-  color: #888;
+  color: var(--text-3);
   font-size: 16px;
 }
 
 .calendar-error {
-  color: #ff4444;
+  color: var(--bear);
 }
 
 /* Responsive design */
@@ -358,7 +361,7 @@
     justify-content: flex-start;
     margin-top: 12px;
     padding-top: 12px;
-    border-top: 1px solid #444;
+    border-top: 1px solid var(--line);
   }
 }
 
@@ -395,7 +398,7 @@
     grid-row: 3;
     margin-top: 12px;
     padding-top: 12px;
-    border-top: 1px solid #444;
+    border-top: 1px solid var(--line);
   }
   
   .data-item {
@@ -409,14 +412,14 @@
 }
 
 .calendar-content::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: var(--paper-2);
 }
 
 .calendar-content::-webkit-scrollbar-thumb {
-  background: #444;
+  background: var(--paper-3);
   border-radius: 4px;
 }
 
 .calendar-content::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--paper-3);
 }

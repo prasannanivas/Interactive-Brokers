@@ -1,3 +1,152 @@
+/* Banknote design system: security-paper ground, intaglio ink, one ink per currency. */
+:root {
+  /* Paper */
+  --paper-0: #eef0ec;   /* page ground */
+  --paper: #fbfcfa;     /* panels */
+  --paper-2: #f4f6f2;   /* table heads, hover, insets */
+  --paper-3: #e7eae4;   /* pressed, neutral cells */
+
+  /* Rules */
+  --line-soft: #e6e9e3;
+  --line: #d6dbd3;
+  --line-strong: #b9c1b6;
+
+  /* Ink */
+  --ink: #1c2a26;
+  --ink-2: #2d403a;
+  --ink-3: #3b524b;
+  --text: #1c2a26;
+  --text-2: #43524c;
+  --text-3: #63716b;
+  --on-ink: #ffffff;
+  --on-ink-2: #a9bab2;
+  --select: #e3ece6;
+
+  /* State */
+  --bull: #16794a;
+  --bull-strong: #0f5c37;
+  --bull-tint: #dcefe2;
+  --bear: #b4232a;
+  --bear-strong: #8e1a20;
+  --bear-tint: #f6dcdc;
+  --warn: #946000;
+  --warn-tint: #f5e9cf;
+  --info: #2f5f9e;
+  --info-tint: #dfe7f2;
+  --focus: #2f5f9e;
+
+  /* Currency inks */
+  --cur-usd: #3f6b4a;
+  --cur-eur: #2f5f9e;
+  --cur-gbp: #6a4a8c;
+  --cur-jpy: #b5543c;
+  --cur-aud: #2e7f80;
+  --cur-cad: #a8323e;
+  --cur-chf: #b8661a;
+  --cur-nzd: #56652c;
+  --cur-sek: #8a6d1f;
+  --cur-nok: #4c5f8a;
+  --cur-dkk: #7a4a5c;
+  --cur-ils: #3d7a6a;
+  --cur-cnh: #9b3b52;
+  --cur-cny: #9b3b52;
+  --cur-czk: #6e5b34;
+  --cur-hkd: #8a3f2a;
+  --cur-huf: #5a6f3a;
+  --cur-mxn: #6b4f7a;
+  --cur-rub: #4a6a7a;
+  --cur-sgd: #a0573a;
+  --cur-zar: #6d7a2a;
+  --cur-pln: #7a3a3a;
+  --cur-try: #9a4a2a;
+  --cur-inr: #5b4a8a;
+  --cur-other: #5d6b66;
+
+  /* Type & shape */
+  --font: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --fs-xs: 0.6875rem;  /* 11px labels */
+  --fs-sm: 0.8125rem;  /* 13px body, tables */
+  --fs-md: 0.9375rem;  /* 15px panel titles */
+  --fs-lg: 1.125rem;   /* 18px page titles */
+  --radius-sm: 3px;
+  --radius: 6px;
+  --radius-lg: 8px;
+  --shadow-sm: 0 1px 2px rgba(28, 42, 38, 0.06);
+  --shadow: 0 2px 8px -2px rgba(28, 42, 38, 0.10), 0 1px 2px rgba(28, 42, 38, 0.06);
+  --shadow-lg: 0 16px 40px -12px rgba(28, 42, 38, 0.28), 0 2px 6px rgba(28, 42, 38, 0.08);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Header band (stays dark in both themes) */
+  --band: #1c2a26;
+  --band-2: #2d403a;
+  --on-band: #ffffff;
+  --on-band-2: #a9bab2;
+  --on-state: #ffffff;
+
+  /* Chart series inks */
+  --series-violet: #6a4a8c;
+  --series-orange: #b8661a;
+  --series-gold: #a8821a;
+  --series-teal: #2e7f80;
+  --series-rose: #9b3b52;
+  --guilloche: rgba(28, 42, 38, 0.028);
+
+  color-scheme: light;
+}
+
+/* Night desk: the same notes engraved on dark paper */
+:root[data-theme="dark"] {
+  --paper-0: #0f1715;
+  --paper: #161f1c;
+  --paper-2: #1c2723;
+  --paper-3: #24322d;
+
+  --line-soft: #222f2a;
+  --line: #2d3c36;
+  --line-strong: #46564f;
+
+  --ink: #d9e4de;
+  --ink-2: #c1cfc8;
+  --ink-3: #a8b8b0;
+  --text: #e4ebe6;
+  --text-2: #b3bfb9;
+  --text-3: #8d9b95;
+  --on-ink: #101816;
+  --on-ink-2: #46564f;
+  --select: #213530;
+
+  --bull: #43b77d;
+  --bull-strong: #79d6a5;
+  --bull-tint: #13301f;
+  --bear: #e4696e;
+  --bear-strong: #f4a2a5;
+  --bear-tint: #3a181b;
+  --warn: #dba843;
+  --warn-tint: #30260f;
+  --info: #84aae0;
+  --info-tint: #18273b;
+  --focus: #84aae0;
+
+  --band: #0a110f;
+  --band-2: #1a2420;
+  --on-band: #e4ebe6;
+  --on-band-2: #8fa39a;
+  --on-state: #0b1210;
+
+  --series-violet: #ae90d8;
+  --series-orange: #e39a52;
+  --series-gold: #dcb95a;
+  --series-teal: #63c0c1;
+  --series-rose: #dc7f96;
+  --guilloche: rgba(255, 255, 255, 0.022);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 40px -12px rgba(0, 0, 0, 0.7), 0 2px 6px rgba(0, 0, 0, 0.4);
+
+  color-scheme: dark;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,9 +154,22 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
-  background: linear-gradient(135deg, #e7e7ea 0%, #a7a4a9 100%);
+  font-family: var(--font);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--text);
+  background-color: var(--paper-0);
+  /* Guilloche: fine concentric hairlines, as on note paper */
+  background-image: repeating-radial-gradient(circle at 110% -10%, transparent 0 13px, var(--guilloche) 13px 14px);
+  background-attachment: fixed;
   min-height: 100vh;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
 }
 
 #root {
@@ -15,24 +177,56 @@ body {
   min-height: 100vh;
 }
 
-/* Scrollbar styling */
+::selection {
+  background: color-mix(in srgb, var(--info) 28%, transparent);
+  color: var(--text);
+}
+
+/* Theme switches cross-fade surfaces instead of snapping */
+:root.theme-transition,
+:root.theme-transition * {
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease) !important;
+}
+
+input, textarea {
+  caret-color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+a {
+  color: var(--info);
+  text-underline-offset: 0.18em;
+}
+
+/* Scrollbars: quiet, from the palette */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  background: var(--line-strong);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--text-3);
+  background-clip: padding-box;
 }
 
 /* Lucide icons: sit on the text baseline next to labels */
@@ -59,6 +253,153 @@ body {
   flex-shrink: 0;
 }
 
-.dot-bull { background: #16a34a; }
-.dot-bear { background: #dc2626; }
-.dot-neutral { background: #9ca3af; }
+.dot-bull { background: var(--bull); }
+.dot-bear { background: var(--bear); }
+.dot-neutral { background: var(--line-strong); }
+
+/* Pair chip: base ink | quote ink, the signature of the system */
+.pair-chip {
+  display: inline-flex;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  font-weight: 700;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  color: var(--on-ink);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.pair-chip > span {
+  padding: 4px 6px;
+  background: var(--cur-other);
+}
+
+.pair-chip > span + span {
+  box-shadow: inset 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.cur-usd { background: var(--cur-usd) !important; }
+.cur-eur { background: var(--cur-eur) !important; }
+.cur-gbp { background: var(--cur-gbp) !important; }
+.cur-jpy { background: var(--cur-jpy) !important; }
+.cur-aud { background: var(--cur-aud) !important; }
+.cur-cad { background: var(--cur-cad) !important; }
+.cur-chf { background: var(--cur-chf) !important; }
+.cur-nzd { background: var(--cur-nzd) !important; }
+.cur-sek { background: var(--cur-sek) !important; }
+.cur-nok { background: var(--cur-nok) !important; }
+.cur-dkk { background: var(--cur-dkk) !important; }
+.cur-ils { background: var(--cur-ils) !important; }
+.cur-cnh { background: var(--cur-cnh) !important; }
+.cur-cny { background: var(--cur-cny) !important; }
+.cur-czk { background: var(--cur-czk) !important; }
+.cur-hkd { background: var(--cur-hkd) !important; }
+.cur-huf { background: var(--cur-huf) !important; }
+.cur-mxn { background: var(--cur-mxn) !important; }
+.cur-rub { background: var(--cur-rub) !important; }
+.cur-sgd { background: var(--cur-sgd) !important; }
+.cur-zar { background: var(--cur-zar) !important; }
+.cur-pln { background: var(--cur-pln) !important; }
+.cur-try { background: var(--cur-try) !important; }
+.cur-inr { background: var(--cur-inr) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Charts (recharts SVG): series colours are SVG attributes, which cannot read CSS variables,
+   so the dark theme remaps each palette value by attribute. Canvas charts use theme.js instead. */
+.recharts-cartesian-grid line { stroke: var(--line-soft); }
+.recharts-cartesian-axis-tick-value, .recharts-cartesian-axis-tick text { fill: var(--text-3); }
+.recharts-cartesian-axis-line, .recharts-cartesian-axis-tick-line { stroke: var(--line); }
+.recharts-default-tooltip {
+  background: var(--paper) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  color: var(--text);
+}
+.recharts-tooltip-label { color: var(--text) !important; }
+.recharts-legend-item-text { color: var(--text-2) !important; }
+
+:root[data-theme="dark"] [stroke="#16794a" i] { stroke: #43b77d; }
+:root[data-theme="dark"] [stroke="#b4232a" i] { stroke: #e4696e; }
+:root[data-theme="dark"] [stroke="#2f5f9e" i] { stroke: #84aae0; }
+:root[data-theme="dark"] [stroke="#6a4a8c" i] { stroke: #ae90d8; }
+:root[data-theme="dark"] [stroke="#b8661a" i] { stroke: #e39a52; }
+:root[data-theme="dark"] [stroke="#a8821a" i] { stroke: #dcb95a; }
+:root[data-theme="dark"] [stroke="#2e7f80" i] { stroke: #63c0c1; }
+:root[data-theme="dark"] [stroke="#9b3b52" i] { stroke: #dc7f96; }
+:root[data-theme="dark"] [stroke="#1c2a26" i] { stroke: #e4ebe6; }
+:root[data-theme="dark"] [stroke="#43524c" i] { stroke: #b3bfb9; }
+:root[data-theme="dark"] [stroke="#63716b" i] { stroke: #8d9b95; }
+:root[data-theme="dark"] [stroke="#d6dbd3" i] { stroke: #2d3c36; }
+:root[data-theme="dark"] [stroke="#e6e9e3" i] { stroke: #222f2a; }
+:root[data-theme="dark"] [stroke="#b9c1b6" i] { stroke: #46564f; }
+:root[data-theme="dark"] [stroke="#fbfcfa" i] { stroke: #161f1c; }
+:root[data-theme="dark"] [stroke="#f4f6f2" i] { stroke: #1c2723; }
+:root[data-theme="dark"] [stroke="#e7eae4" i] { stroke: #24322d; }
+:root[data-theme="dark"] [stroke="#dcefe2" i] { stroke: #13301f; }
+:root[data-theme="dark"] [stroke="#f6dcdc" i] { stroke: #3a181b; }
+:root[data-theme="dark"] [stroke="#dfe7f2" i] { stroke: #18273b; }
+:root[data-theme="dark"] [stroke="#f5e9cf" i] { stroke: #30260f; }
+:root[data-theme="dark"] [stroke="#ffffff" i] { stroke: #161f1c; }
+:root[data-theme="dark"] [stroke="#fff" i] { stroke: #161f1c; }
+:root[data-theme="dark"] [stroke="#ccc" i] { stroke: #2d3c36; }
+:root[data-theme="dark"] [stroke="#666" i] { stroke: #8d9b95; }
+:root[data-theme="dark"] [fill="#16794a" i] { fill: #43b77d; }
+:root[data-theme="dark"] [fill="#b4232a" i] { fill: #e4696e; }
+:root[data-theme="dark"] [fill="#2f5f9e" i] { fill: #84aae0; }
+:root[data-theme="dark"] [fill="#6a4a8c" i] { fill: #ae90d8; }
+:root[data-theme="dark"] [fill="#b8661a" i] { fill: #e39a52; }
+:root[data-theme="dark"] [fill="#a8821a" i] { fill: #dcb95a; }
+:root[data-theme="dark"] [fill="#2e7f80" i] { fill: #63c0c1; }
+:root[data-theme="dark"] [fill="#9b3b52" i] { fill: #dc7f96; }
+:root[data-theme="dark"] [fill="#1c2a26" i] { fill: #e4ebe6; }
+:root[data-theme="dark"] [fill="#43524c" i] { fill: #b3bfb9; }
+:root[data-theme="dark"] [fill="#63716b" i] { fill: #8d9b95; }
+:root[data-theme="dark"] [fill="#d6dbd3" i] { fill: #2d3c36; }
+:root[data-theme="dark"] [fill="#e6e9e3" i] { fill: #222f2a; }
+:root[data-theme="dark"] [fill="#b9c1b6" i] { fill: #46564f; }
+:root[data-theme="dark"] [fill="#fbfcfa" i] { fill: #161f1c; }
+:root[data-theme="dark"] [fill="#f4f6f2" i] { fill: #1c2723; }
+:root[data-theme="dark"] [fill="#e7eae4" i] { fill: #24322d; }
+:root[data-theme="dark"] [fill="#dcefe2" i] { fill: #13301f; }
+:root[data-theme="dark"] [fill="#f6dcdc" i] { fill: #3a181b; }
+:root[data-theme="dark"] [fill="#dfe7f2" i] { fill: #18273b; }
+:root[data-theme="dark"] [fill="#f5e9cf" i] { fill: #30260f; }
+:root[data-theme="dark"] [fill="#ffffff" i] { fill: #161f1c; }
+:root[data-theme="dark"] [fill="#fff" i] { fill: #161f1c; }
+:root[data-theme="dark"] [fill="#ccc" i] { fill: #2d3c36; }
+:root[data-theme="dark"] [fill="#666" i] { fill: #8d9b95; }
+:root[data-theme="dark"] [stop-color="#16794a" i] { stop-color: #43b77d; }
+:root[data-theme="dark"] [stop-color="#b4232a" i] { stop-color: #e4696e; }
+:root[data-theme="dark"] [stop-color="#2f5f9e" i] { stop-color: #84aae0; }
+:root[data-theme="dark"] [stop-color="#6a4a8c" i] { stop-color: #ae90d8; }
+:root[data-theme="dark"] [stop-color="#b8661a" i] { stop-color: #e39a52; }
+:root[data-theme="dark"] [stop-color="#a8821a" i] { stop-color: #dcb95a; }
+:root[data-theme="dark"] [stop-color="#2e7f80" i] { stop-color: #63c0c1; }
+:root[data-theme="dark"] [stop-color="#9b3b52" i] { stop-color: #dc7f96; }
+:root[data-theme="dark"] [stop-color="#1c2a26" i] { stop-color: #e4ebe6; }
+:root[data-theme="dark"] [stop-color="#43524c" i] { stop-color: #b3bfb9; }
+:root[data-theme="dark"] [stop-color="#63716b" i] { stop-color: #8d9b95; }
+:root[data-theme="dark"] [stop-color="#d6dbd3" i] { stop-color: #2d3c36; }
+:root[data-theme="dark"] [stop-color="#e6e9e3" i] { stop-color: #222f2a; }
+:root[data-theme="dark"] [stop-color="#b9c1b6" i] { stop-color: #46564f; }
+:root[data-theme="dark"] [stop-color="#fbfcfa" i] { stop-color: #161f1c; }
+:root[data-theme="dark"] [stop-color="#f4f6f2" i] { stop-color: #1c2723; }
+:root[data-theme="dark"] [stop-color="#e7eae4" i] { stop-color: #24322d; }
+:root[data-theme="dark"] [stop-color="#dcefe2" i] { stop-color: #13301f; }
+:root[data-theme="dark"] [stop-color="#f6dcdc" i] { stop-color: #3a181b; }
+:root[data-theme="dark"] [stop-color="#dfe7f2" i] { stop-color: #18273b; }
+:root[data-theme="dark"] [stop-color="#f5e9cf" i] { stop-color: #30260f; }
+:root[data-theme="dark"] [stop-color="#ffffff" i] { stop-color: #161f1c; }
+:root[data-theme="dark"] [stop-color="#fff" i] { stop-color: #161f1c; }
+:root[data-theme="dark"] [stop-color="#ccc" i] { stop-color: #2d3c36; }
+:root[data-theme="dark"] [stop-color="#666" i] { stop-color: #8d9b95; }

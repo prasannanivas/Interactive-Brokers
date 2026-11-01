@@ -100,8 +100,8 @@ const SignalChart = ({ signalHistory, symbol }) => {
       // Buy signal - green arrow up
       return (
         <g>
-          <circle cx={cx} cy={cy} r={8} fill="#10b981" stroke="#fff" strokeWidth={2} />
-          <text x={cx} y={cy + 5} textAnchor="middle" fill="#fff" fontSize={14} fontWeight="bold">
+          <circle cx={cx} cy={cy} r={8} fill="#16794a" stroke="#1c2a26" strokeWidth={2} />
+          <text x={cx} y={cy + 5} textAnchor="middle" fill="#fbfcfa" fontSize={14} fontWeight="bold">
             ↑
           </text>
         </g>
@@ -112,8 +112,8 @@ const SignalChart = ({ signalHistory, symbol }) => {
       // Sell signal - red arrow down
       return (
         <g>
-          <circle cx={cx} cy={cy} r={8} fill="#ef4444" stroke="#fff" strokeWidth={2} />
-          <text x={cx} y={cy + 5} textAnchor="middle" fill="#fff" fontSize={14} fontWeight="bold">
+          <circle cx={cx} cy={cy} r={8} fill="#b4232a" stroke="#1c2a26" strokeWidth={2} />
+          <text x={cx} y={cy + 5} textAnchor="middle" fill="#fbfcfa" fontSize={14} fontWeight="bold">
             ↓
           </text>
         </g>
@@ -180,18 +180,18 @@ const SignalChart = ({ signalHistory, symbol }) => {
           data={chartData}
           margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#d6dbd3" />
           <XAxis 
             dataKey="dateLabel" 
             angle={-45} 
             textAnchor="end" 
             height={80}
-            tick={{ fill: '#9ca3af', fontSize: 11 }}
+            tick={{ fill: '#b9c1b6', fontSize: 11 }}
           />
           <YAxis 
             domain={['auto', 'auto']}
-            tick={{ fill: '#9ca3af' }}
-            label={{ value: 'Price ($)', angle: -90, position: 'insideLeft', fill: '#9ca3af' }}
+            tick={{ fill: '#b9c1b6' }}
+            label={{ value: 'Price ($)', angle: -90, position: 'insideLeft', fill: '#b9c1b6' }}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend 
@@ -203,7 +203,7 @@ const SignalChart = ({ signalHistory, symbol }) => {
           <Line 
             type="monotone" 
             dataKey="price" 
-            stroke="#3b82f6" 
+            stroke="#2f5f9e" 
             strokeWidth={2}
             dot={false}
             name="Price"
@@ -215,7 +215,7 @@ const SignalChart = ({ signalHistory, symbol }) => {
             <Line 
               type="monotone" 
               dataKey="ema_200" 
-              stroke="#8b5cf6" 
+              stroke="#6a4a8c" 
               strokeWidth={1.5}
               strokeDasharray="5 5"
               dot={false}
@@ -226,7 +226,7 @@ const SignalChart = ({ signalHistory, symbol }) => {
           {/* Buy Signals (Green Arrows) */}
           <Scatter 
             dataKey="buySignal" 
-            fill="#10b981" 
+            fill="#16794a" 
             shape={<CustomDot />}
             name="Buy Signal"
           />
@@ -234,7 +234,7 @@ const SignalChart = ({ signalHistory, symbol }) => {
           {/* Sell Signals (Red Arrows) */}
           <Scatter 
             dataKey="sellSignal" 
-            fill="#ef4444" 
+            fill="#b4232a" 
             shape={<CustomDot />}
             name="Sell Signal"
           />

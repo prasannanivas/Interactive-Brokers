@@ -1,0 +1,6 @@
+<!doctype html><script>
+var q=new URLSearchParams(location.search);
+localStorage.setItem('token','preview');localStorage.setItem('user',JSON.stringify({username:'preview',email:'preview@local'}));
+localStorage.setItem('theme-preference',q.get('theme')||'light');
+location.replace(q.get('to')||'/dashboard');
+</script>

@@ -6,28 +6,24 @@ import {
 import { backtestAPI, dataAPI } from '../api/api'
 import { SectionLoader } from '../components/SectionLoader'
 import './BacktestPage.css'
+import ThemeToggle from '../components/ThemeToggle'
 import { ArrowLeft, Download, FlaskConical, Star } from 'lucide-react'
 
 const CONCURRENCY = 3
-const SERIES = { best: '#2a78d6', baseline: '#eb6834', hold: '#898781' }
+const SERIES = { best: '#2f5f9e', baseline: '#b8661a', hold: '#43524c' }
 
 const displaySymbol = (s) => (s || '').replace('C:', '')
 const pct = (v, digits = 1) => (v == null ? '–' : `${v >= 0 ? '+' : ''}${(v * 100).toFixed(digits)}%`)
 const num = (v, digits = 2) => (v == null ? '–' : `${v >= 0 ? '+' : ''}${v.toFixed(digits)}`)
 
 // Diverging blue (good) <-> red (bad) around a neutral gray at Sharpe 0
-const MID = [240, 239, 236]
-const BLUE = [24, 79, 149]
-const RED = [179, 38, 30]
 const sharpeColor = (v) => {
   if (v == null) return 'transparent'
   const t = Math.max(-1, Math.min(1, v / 2))
-  const pole = t >= 0 ? BLUE : RED
-  const a = Math.abs(t)
-  const c = MID.map((m, i) => Math.round(m + (pole[i] - m) * a))
-  return `rgb(${c[0]}, ${c[1]}, ${c[2]})`
+  const pole = t >= 0 ? 'var(--info)' : 'var(--bear)'
+  return `color-mix(in srgb, ${pole} ${Math.round(Math.abs(t) * 100)}%, var(--paper-2))`
 }
-const inkOn = (v) => (v != null && Math.abs(v) > 1.1 ? '#ffffff' : '#1f2937')
+const inkOn = (v) => (v != null && Math.abs(v) > 1.1 ? 'var(--on-state)' : 'var(--text)')
 
 // ── Heat map: Sharpe for every fast/slow combo ────────────────────────────────
 const SharpeHeatmap = ({ result, which }) => {
@@ -65,7 +61,7 @@ const SharpeHeatmap = ({ result, which }) => {
             return (
               <rect key={`${f}-${s}`} x={x} y={y} width={cell} height={cell} rx={2}
                 fill={sharpeColor(v)}
-                stroke={isBest(f, s) ? '#111827' : isBase(f, s) ? SERIES.baseline : 'none'}
+                stroke={isBest(f, s) ? '#1c2a26' : isBase(f, s) ? SERIES.baseline : 'none'}
                 strokeWidth={isBest(f, s) || isBase(f, s) ? 2 : 0}
                 onMouseEnter={() => setHover({ f, s, v, x, y, fi, si })} />
             )
@@ -111,15 +107,15 @@ const EquityChart = ({ result }) => {
   return (
     <ResponsiveContainer width="100%" height={280}>
       <LineChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
-        <CartesianGrid stroke="#e1e0d9" strokeDasharray="2 4" vertical={false} />
-        <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#6b7280' }} minTickGap={50} tickLine={false} axisLine={{ stroke: '#c3c2b7' }} />
-        <YAxis tickFormatter={fmt} tick={{ fontSize: 11, fill: '#6b7280' }} width={56} tickLine={false} axisLine={false} domain={['auto', 'auto']} />
-        <Tooltip formatter={(v, name) => [fmt(v), name]} labelStyle={{ color: '#1f2937', fontWeight: 600 }}
+        <CartesianGrid stroke="#d6dbd3" strokeDasharray="2 4" vertical={false} />
+        <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#1c2a26' }} minTickGap={50} tickLine={false} axisLine={{ stroke: '#63716b' }} />
+        <YAxis tickFormatter={fmt} tick={{ fontSize: 11, fill: '#1c2a26' }} width={56} tickLine={false} axisLine={false} domain={['auto', 'auto']} />
+        <Tooltip formatter={(v, name) => [fmt(v), name]} labelStyle={{ color: 'var(--text)', fontWeight: 600 }}
           contentStyle={{ borderRadius: 8, border: '1px solid #e5e7eb', fontSize: 12 }} />
         <Legend wrapperStyle={{ fontSize: 12 }} />
         {splitDate && (
-          <ReferenceLine x={splitDate} stroke="#9ca3af" strokeDasharray="4 4"
-            label={{ value: 'Out-of-sample →', position: 'insideTopRight', fill: '#6b7280', fontSize: 11 }} />
+          <ReferenceLine x={splitDate} stroke="#63716b" strokeDasharray="4 4"
+            label={{ value: 'Out-of-sample →', position: 'insideTopRight', fill: '#1c2a26', fontSize: 11 }} />
         )}
         <Line type="monotone" dataKey="best" name={`Best EMA ${result.best.fast}/${result.best.slow}`} stroke={SERIES.best} strokeWidth={2} dot={false} />
         <Line type="monotone" dataKey="baseline" name="EMA 9/21 (current)" stroke={SERIES.baseline} strokeWidth={2} dot={false} />
@@ -306,6 +302,7 @@ const BacktestPage = () => {
           <h1><FlaskConical size={24} /> MA Cross Backtest</h1>
           <p>Find the EMA fast/slow combination with the best risk-adjusted return for each pair, and check it against the current EMA 9/21.</p>
         </div>
+        <ThemeToggle className="on-band page-theme-toggle" />
       </div>
 
       <div className="bt-card">

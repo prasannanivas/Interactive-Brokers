@@ -76,10 +76,10 @@ const InterestRateChart = ({ interestRateData, loading, onRefresh, selectedCurre
   }, [interestRateData, selectedCurrencyPair])
 
   const getBarColor = (rate) => {
-    if (rate >= 4.5) return '#e74c3c' // Red for high rates
-    if (rate >= 3.0) return '#f39c12' // Orange for medium rates
-    if (rate >= 1.0) return '#f1c40f' // Yellow for low rates
-    return '#27ae60' // Green for very low rates
+    if (rate >= 4.5) return '#b4232a' // Red for high rates
+    if (rate >= 3.0) return '#b8661a' // Orange for medium rates
+    if (rate >= 1.0) return '#a8821a' // Yellow for low rates
+    return '#16794a' // Green for very low rates
   }
 
   const customTooltip = ({ active, payload, label }) => {
@@ -137,17 +137,17 @@ const InterestRateChart = ({ interestRateData, loading, onRefresh, selectedCurre
               bottom: 60
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#d6dbd3" />
             <XAxis 
               dataKey="displayName" 
-              tick={{ fill: '#9ca3af', fontSize: 12 }}
+              tick={{ fill: '#b9c1b6', fontSize: 12 }}
               angle={-45}
               textAnchor="end"
               height={100}
               interval={0}
             />
             <YAxis 
-              tick={{ fill: '#9ca3af', fontSize: 12 }}
+              tick={{ fill: '#b9c1b6', fontSize: 12 }}
               label={{ value: 'Interest Rate (%)', angle: -90, position: 'insideLeft' }}
             />
             <Tooltip content={customTooltip} />
@@ -166,19 +166,19 @@ const InterestRateChart = ({ interestRateData, loading, onRefresh, selectedCurre
 
       <div className="chart-legend">
         <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: '#e74c3c' }}></div>
+          <div className="legend-color" style={{ backgroundColor: 'var(--bear)' }}></div>
           <span>High (≥4.5%)</span>
         </div>
         <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: '#f39c12' }}></div>
+          <div className="legend-color" style={{ backgroundColor: 'var(--series-orange)' }}></div>
           <span>Medium (3.0-4.5%)</span>
         </div>
         <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: '#f1c40f' }}></div>
+          <div className="legend-color" style={{ backgroundColor: 'var(--series-gold)' }}></div>
           <span>Low (1.0-3.0%)</span>
         </div>
         <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: '#27ae60' }}></div>
+          <div className="legend-color" style={{ backgroundColor: 'var(--bull)' }}></div>
           <span>Very Low (&lt;1.0%)</span>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { historyAPI } from '../api/api'
 import axios from 'axios'
 import FullscreenChartModal from './FullscreenChartModal'
 import './ChartModal.css'
+import { applyChartTheme, useTheme } from '../theme'
 import { ChartCandlestick, ChartColumn, ChartColumnBig, ChartColumnStacked, Clock, MapPin, SlidersHorizontal, TriangleAlert, X } from 'lucide-react'
 
 const API_URL = import.meta.env.VITE_TRADING_API_URL || 'http://167.172.215.78:8000'
@@ -17,6 +18,11 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
   const rsiChartRef = useRef(null)
   const macdChartRef = useRef(null)
   const volumeChartRef = useRef(null)
+  const theme = useTheme()
+
+  useEffect(() => {
+    applyChartTheme(chartRef.current, rsiChartRef.current, macdChartRef.current, volumeChartRef.current)
+  }, [theme])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [chartData, setChartData] = useState(null)
@@ -439,18 +445,18 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           return {
             time: timestamp,
             value: 0,
-            color: '#374151' // gray if no data
+            color: '#d6dbd3' // gray if no data
           }
         }
 
         // Determine color based on signal type
         let color
         if (symbolData.signal_type === 'BULLISH') {
-          color = '#10B981' // green
+          color = '#16794a' // green
         } else if (symbolData.signal_type === 'BEARISH') {
-          color = '#EF4444' // red
+          color = '#b4232a' // red
         } else {
-          color = '#6B7280' // gray for neutral
+          color = '#d6dbd3' // gray for neutral
         }
 
         // Use signal strength as the value
@@ -865,7 +871,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         individualData.push({
           time,
           value: Math.abs(strength),
-          color: strength > 0 ? '#10B981' : strength < 0 ? '#EF4444' : '#6B7280'
+          color: strength > 0 ? '#16794a' : strength < 0 ? '#b4232a' : '#d6dbd3'
         })
       }
     }
@@ -928,18 +934,18 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     const chart = createChart(chartContainerRef.current, {
       localization: { timeFormatter: estTimeFormatter },
       layout: {
-        background: { color: '#1f2937' },
-        textColor: '#d1d5db',
+        background: { color: '#d6dbd3' },
+        textColor: '#43524c',
       },
       grid: {
-        vertLines: { color: '#374151' },
-        horzLines: { color: '#374151' },
+        vertLines: { color: '#d6dbd3' },
+        horzLines: { color: '#d6dbd3' },
       },
       crosshair: {
         mode: 1,
       },
       rightPriceScale: {
-        borderColor: '#4b5563',
+        borderColor: '#d6dbd3',
         scaleMargins: {
           top: 0.05,
           bottom: isPriceChartFullscreen ? 0.15 : (showVolumeMode ? 0.4 : 0.05),
@@ -947,14 +953,14 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       },
       leftPriceScale: {
         visible: showVolumeMode,  // Only show when volume bars are active
-        borderColor: '#4b5563',
+        borderColor: '#d6dbd3',
         scaleMargins: {
           top: isPriceChartFullscreen ? 0.6 : 0.75,
           bottom: 0.05,
         },
       },
       timeScale: {
-        borderColor: '#4b5563',
+        borderColor: '#d6dbd3',
         timeVisible: true,
         secondsVisible: false,
         rightOffset: 5,
@@ -972,14 +978,15 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     })
 
     chartRef.current = chart
+    applyChartTheme(chart)
 
     // Add candlestick series
     const candleSeries = chart.addCandlestickSeries({
-      upColor: '#10b981',
-      downColor: '#ef4444',
+      upColor: '#16794a',
+      downColor: '#b4232a',
       borderVisible: true,
-      wickUpColor: '#10b981',
-      wickDownColor: '#ef4444',
+      wickUpColor: '#16794a',
+      wickDownColor: '#b4232a',
     })
     
     // Debug: Log first few candle timestamps
@@ -1000,8 +1007,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         const side = s > l ? 1 : s < l ? -1 : 0
         if (side !== 0 && prevSide !== 0 && side !== prevSide) {
           maCrossMarkers.push(side > 0
-            ? { time: candles[ci].time, position: 'belowBar', color: '#22c55e', shape: 'arrowUp', text: 'BUY', size: 2 }
-            : { time: candles[ci].time, position: 'aboveBar', color: '#ef4444', shape: 'arrowDown', text: 'SELL', size: 2 })
+            ? { time: candles[ci].time, position: 'belowBar', color: '#16794a', shape: 'arrowUp', text: 'BUY', size: 2 }
+            : { time: candles[ci].time, position: 'aboveBar', color: '#b4232a', shape: 'arrowDown', text: 'SELL', size: 2 })
         }
         if (side !== 0) prevSide = side
       }
@@ -1052,14 +1059,14 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
             bullishHistogramData.push({
               time: bullishItem.time,
               value: bullishCount,  // Use actual count
-              color: '#10B981'
+              color: '#16794a'
             })
             
             // Bearish bars go DOWN (negative)
             bearishHistogramData.push({
               time: bullishItem.time,
               value: -bearishCount,  // Negative value
-              color: '#EF4444'
+              color: '#b4232a'
             })
           }
         })
@@ -1112,7 +1119,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           .filter(item => item.value > 0 && validCandleTimes.has(item.time))  // Skip days with no signals or no candle
           .map(item => {
             // If color is green/bullish, make positive; if red/bearish, make negative
-            const isPositive = item.color === '#10B981' || item.color === '#10b981'
+            const isPositive = item.color === '#16794a' || item.color === '#16794a'
             return {
               time: item.time,
               value: (isPositive ? item.value : -item.value) * scaleFactor,
@@ -1154,7 +1161,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         const bbStartIndex = candles.length - bbData.upper.length
 
         const upperBandSeries = chart.addLineSeries({
-          color: '#8b5cf6',
+          color: '#6a4a8c',
           lineWidth: 2,
           lineStyle: 2,
           priceLineVisible: false,
@@ -1163,7 +1170,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         upperBandSeries.setData(safeMap(bbData.upper, bbStartIndex))
 
         const middleBandSeries = chart.addLineSeries({
-          color: '#6366f1',
+          color: '#2f5f9e',
           lineWidth: 2,
           priceLineVisible: false,
           lastValueVisible: false,
@@ -1171,7 +1178,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         middleBandSeries.setData(safeMap(bbData.middle, bbStartIndex))
 
         const lowerBandSeries = chart.addLineSeries({
-          color: '#8b5cf6',
+          color: '#6a4a8c',
           lineWidth: 2,
           lineStyle: 2,
           priceLineVisible: false,
@@ -1185,7 +1192,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     if (visibleIndicators.ema9 && indicators.ema9 && indicators.ema9.data) {
       const ema9StartIndex = candles.length - indicators.ema9.data.length
       const ema9Series = chart.addLineSeries({
-        color: '#10b981',
+        color: '#16794a',
         lineWidth: 2,
         priceLineVisible: false,
         lastValueVisible: false,
@@ -1197,7 +1204,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     if (visibleIndicators.maCross && indicators.maCross?.data?.shortMA && indicators.maCross?.data?.longMA) {
       const { shortMA, longMA } = indicators.maCross.data
       const fastSeries = chart.addLineSeries({
-        color: '#22c55e',
+        color: '#16794a',
         lineWidth: 2,
         priceLineVisible: false,
         lastValueVisible: false,
@@ -1205,7 +1212,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       })
       fastSeries.setData(safeMap(shortMA, candles.length - shortMA.length))
       const slowSeries = chart.addLineSeries({
-        color: '#f87171',
+        color: '#b4232a',
         lineWidth: 2,
         priceLineVisible: false,
         lastValueVisible: false,
@@ -1218,7 +1225,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     if (visibleIndicators.ema20 && indicators.ema20 && indicators.ema20.data) {
       const ema20StartIndex = candles.length - indicators.ema20.data.length
       const ema20Series = chart.addLineSeries({
-        color: '#3b82f6',
+        color: '#2f5f9e',
         lineWidth: 2,
         priceLineVisible: false,
         lastValueVisible: false,
@@ -1230,7 +1237,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     if (visibleIndicators.ema50 && indicators.ema50 && indicators.ema50.data) {
       const ema50StartIndex = candles.length - indicators.ema50.data.length
       const ema50Series = chart.addLineSeries({
-        color: '#f59e0b',
+        color: '#b8661a',
         lineWidth: 2,
         priceLineVisible: false,
         lastValueVisible: false,
@@ -1242,7 +1249,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     if (visibleIndicators.ema100 && indicators.ema100 && indicators.ema100.data) {
       const ema100StartIndex = candles.length - indicators.ema100.data.length
       const ema100Series = chart.addLineSeries({
-        color: '#06b6d4',
+        color: '#2e7f80',
         lineWidth: 2,
         priceLineVisible: false,
         lastValueVisible: false,
@@ -1254,7 +1261,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     if (visibleIndicators.ema200 && indicators.ema200 && indicators.ema200.data) {
       const ema200StartIndex = candles.length - indicators.ema200.data.length
       const ema200Series = chart.addLineSeries({
-        color: '#ef4444',
+        color: '#b4232a',
         lineWidth: 2,
         priceLineVisible: false,
         lastValueVisible: false,
@@ -1270,21 +1277,21 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       const rsiChart = createChart(rsiChartContainerRef.current, {
         localization: { timeFormatter: estTimeFormatter },
         layout: {
-          background: { color: '#1f2937' },
-          textColor: '#d1d5db',
+          background: { color: '#d6dbd3' },
+          textColor: '#43524c',
         },
         grid: {
-          vertLines: { color: '#374151' },
-          horzLines: { color: '#374151' },
+          vertLines: { color: '#d6dbd3' },
+          horzLines: { color: '#d6dbd3' },
         },
         crosshair: {
           mode: 1,
         },
         rightPriceScale: {
-          borderColor: '#4b5563',
+          borderColor: '#d6dbd3',
         },
         timeScale: {
-          borderColor: '#4b5563',
+          borderColor: '#d6dbd3',
           timeVisible: true,
           secondsVisible: false,
           visible: isRsiChartFullscreen ? true : false,
@@ -1294,10 +1301,11 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       })
 
       rsiChartRef.current = rsiChart
+      applyChartTheme(rsiChart)
 
       // Add RSI line
       const rsiSeries = rsiChart.addLineSeries({
-        color: '#a855f7',
+        color: '#6a4a8c',
         lineWidth: 2,
         priceLineVisible: true,
         lastValueVisible: true,
@@ -1308,7 +1316,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
 
       // Add horizontal lines at 30 and 70
       const oversoldLine = rsiChart.addLineSeries({
-        color: '#10b981',
+        color: '#16794a',
         lineWidth: 1,
         lineStyle: 2,
         priceLineVisible: false,
@@ -1317,7 +1325,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       oversoldLine.setData(candles.map(c => ({ time: c.time, value: 30 })))
 
       const overboughtLine = rsiChart.addLineSeries({
-        color: '#ef4444',
+        color: '#b4232a',
         lineWidth: 1,
         lineStyle: 2,
         priceLineVisible: false,
@@ -1341,21 +1349,21 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       const macdChart = createChart(macdChartContainerRef.current, {
         localization: { timeFormatter: estTimeFormatter },
         layout: {
-          background: { color: '#1f2937' },
-          textColor: '#d1d5db',
+          background: { color: '#d6dbd3' },
+          textColor: '#43524c',
         },
         grid: {
-          vertLines: { color: '#374151' },
-          horzLines: { color: '#374151' },
+          vertLines: { color: '#d6dbd3' },
+          horzLines: { color: '#d6dbd3' },
         },
         crosshair: {
           mode: 1,
         },
         rightPriceScale: {
-          borderColor: '#4b5563',
+          borderColor: '#d6dbd3',
         },
         timeScale: {
-          borderColor: '#4b5563',
+          borderColor: '#d6dbd3',
           timeVisible: true,
           secondsVisible: false,
           visible: isMacdChartFullscreen ? true : false,
@@ -1365,13 +1373,14 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       })
 
       macdChartRef.current = macdChart
+      applyChartTheme(macdChart)
 
       const macdData = indicators.macd.data
       const macdStartIndex = candles.length - macdData.macd.length
 
       // Add MACD line
       const macdSeries = macdChart.addLineSeries({
-        color: '#3b82f6',
+        color: '#2f5f9e',
         lineWidth: 2,
         priceLineVisible: false,
         lastValueVisible: true,
@@ -1381,7 +1390,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       // Add Signal line
       const signalStartIndex = candles.length - macdData.signal.length
       const signalSeries = macdChart.addLineSeries({
-        color: '#f59e0b',
+        color: '#b8661a',
         lineWidth: 2,
         priceLineVisible: false,
         lastValueVisible: true,
@@ -1391,13 +1400,13 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       // Add Histogram
       const histogramStartIndex = candles.length - macdData.histogram.length
       const histogramSeries = macdChart.addHistogramSeries({
-        color: '#10b981',
+        color: '#16794a',
         priceLineVisible: false,
         lastValueVisible: false,
       })
       histogramSeries.setData(macdData.histogram.reduce((acc, val, i) => {
         const candle = candles[histogramStartIndex + i]
-        if (candle && val != null) acc.push({ time: candle.time, value: val, color: val >= 0 ? '#10b981' : '#ef4444' })
+        if (candle && val != null) acc.push({ time: candle.time, value: val, color: val >= 0 ? '#16794a' : '#b4232a' })
         return acc
       }, []))
 
@@ -1533,11 +1542,11 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                   gap: '12px',
                   marginBottom: '16px',
                   padding: '12px',
-                  background: '#1f2937',
+                  background: 'var(--paper)',
                   border: '1px solid #374151',
                   borderRadius: '8px'
                 }}>
-                  <span style={{ color: '#d1d5db', fontSize: '14px', fontWeight: '500' }}>
+                  <span style={{ color: 'var(--text-2)', fontSize: '14px', fontWeight: '500' }}>
                     Signal Display:
                   </span>
                   {timeframe !== 'hourly' && (
@@ -1547,8 +1556,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                       padding: '6px 16px',
                       borderRadius: '4px',
                       border: showVolumeMode ? '2px solid #3b82f6' : '1px solid #4b5563',
-                      background: showVolumeMode ? '#1e40af' : '#374151',
-                      color: '#f9fafb',
+                      background: showVolumeMode ? '#2f5f9e' : '#d6dbd3',
+                      color: 'var(--text)',
                       cursor: 'pointer',
                       fontSize: '13px',
                       fontWeight: showVolumeMode ? '600' : '400',
@@ -1564,8 +1573,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                       padding: '6px 16px',
                       borderRadius: '4px',
                       border: !showVolumeMode ? '2px solid #3b82f6' : '1px solid #4b5563',
-                      background: !showVolumeMode ? '#1e40af' : '#374151',
-                      color: '#f9fafb',
+                      background: !showVolumeMode ? '#2f5f9e' : '#d6dbd3',
+                      color: 'var(--text)',
                       cursor: 'pointer',
                       fontSize: '13px',
                       fontWeight: !showVolumeMode ? '600' : '400',
@@ -1585,11 +1594,11 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                     gap: '12px',
                     marginBottom: '16px',
                     padding: '12px',
-                    background: '#1f2937',
+                    background: 'var(--paper)',
                     border: '1px solid #374151',
                     borderRadius: '8px'
                   }}>
-                    <span style={{ color: '#d1d5db', fontSize: '14px', fontWeight: '500' }}>
+                    <span style={{ color: 'var(--text-2)', fontSize: '14px', fontWeight: '500' }}>
                       Volume Style:
                     </span>
                     <button
@@ -1598,8 +1607,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         padding: '6px 16px',
                         borderRadius: '4px',
                         border: volumeBarMode === 'stacked' ? '2px solid #10B981' : '1px solid #4b5563',
-                        background: volumeBarMode === 'stacked' ? '#065F46' : '#374151',
-                        color: '#f9fafb',
+                        background: volumeBarMode === 'stacked' ? '#16794a' : '#d6dbd3',
+                        color: 'var(--text)',
                         cursor: 'pointer',
                         fontSize: '13px',
                         fontWeight: volumeBarMode === 'stacked' ? '600' : '400',
@@ -1614,8 +1623,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         padding: '6px 16px',
                         borderRadius: '4px',
                         border: volumeBarMode === 'individual' ? '2px solid #10B981' : '1px solid #4b5563',
-                        background: volumeBarMode === 'individual' ? '#065F46' : '#374151',
-                        color: '#f9fafb',
+                        background: volumeBarMode === 'individual' ? '#16794a' : '#d6dbd3',
+                        color: 'var(--text)',
                         cursor: 'pointer',
                         fontSize: '13px',
                         fontWeight: volumeBarMode === 'individual' ? '600' : '400',
@@ -1635,16 +1644,16 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                 return showVolumeMode && (dailySnapshotVolume?.length > 0 || stackedVolumeData)
               })() && (
                 <div className="signal-markers-panel" style={{
-                  background: '#1f2937',
+                  background: 'var(--paper)',
                   border: '1px solid #374151',
                   borderRadius: '8px',
                   padding: '12px',
                   marginBottom: '16px'
                 }}>
-                  <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#d1d5db' }}>
+                  <div style={{ fontWeight: 'bold', marginBottom: '8px', color: 'var(--text-2)' }}>
                     <ChartColumn size={14} /> Daily Signal Volume - {volumeBarMode === 'stacked' ? `${stackedVolumeData?.bullish?.length || 0} Days` : `${dailySnapshotVolume.length} Days`}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#9ca3af' }}>
+                  <div style={{ fontSize: '12px', color: 'var(--text-3)' }}>
                     {volumeBarMode === 'stacked' 
                       ? <>Total Signal bars show signal counts: <span className="dot dot-bull" /> Bullish · <span className="dot dot-neutral" /> Neutral · <span className="dot dot-bear" /> Bearish</>
                       : <>Net Signal bars show signal strength by type: <span className="dot dot-bull" /> Bullish · <span className="dot dot-neutral" /> Neutral · <span className="dot dot-bear" /> Bearish</>}
@@ -1655,13 +1664,13 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
               {/* Signal Markers Panel - Show when in marker mode */}
               {!showVolumeMode && signalMarkers && signalMarkers.length > 0 && (
                 <div className="signal-markers-panel" style={{
-                  background: '#1f2937',
+                  background: 'var(--paper)',
                   border: '1px solid #374151',
                   borderRadius: '8px',
                   padding: '12px',
                   marginBottom: '16px'
                 }}>
-                  <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#d1d5db' }}>
+                  <div style={{ fontWeight: 'bold', marginBottom: '8px', color: 'var(--text-2)' }}>
                     <MapPin size={14} /> {signalMarkers.length} Signal{signalMarkers.length !== 1 ? 's' : ''} Marked on Chart
                   </div>
                   <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
@@ -1671,7 +1680,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         alignItems: 'center',
                         padding: '6px 8px',
                         marginBottom: '4px',
-                        background: '#374151',
+                        background: 'var(--paper-3)',
                         borderRadius: '4px',
                         fontSize: '12px'
                       }}>
@@ -1679,13 +1688,13 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         <span style={{ 
                           marginLeft: 'auto',
                           marginRight: '8px',
-                          color: '#9ca3af',
+                          color: 'var(--text-3)',
                           fontSize: '11px'
                         }}>
                           {marker.timeframe || ''}
                         </span>
                         <span style={{ 
-                          color: '#9ca3af',
+                          color: 'var(--text-3)',
                           fontSize: '11px'
                         }}>
                           {new Date(marker.time * 1000).toLocaleDateString()}
@@ -1712,7 +1721,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         onChange={() => toggleIndicator('ema100')}
                       />
                       <span className="toggle-label">
-                        <span className="toggle-color" style={{ background: '#06b6d4' }}></span>
+                        <span className="toggle-color" style={{ background: 'var(--series-teal)' }}></span>
                         EMA 100
                       </span>
                     </label>
@@ -1728,7 +1737,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                           onChange={() => toggleIndicator('bollingerBands')}
                         />
                         <span className="toggle-label">
-                          <span className="toggle-color" style={{ background: '#8b5cf6' }}></span>
+                          <span className="toggle-color" style={{ background: 'var(--series-violet)' }}></span>
                           Bollinger Bands
                         </span>
                       </label>
@@ -1740,7 +1749,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                           onChange={() => toggleIndicator('ema20')}
                         />
                         <span className="toggle-label">
-                          <span className="toggle-color" style={{ background: '#3b82f6' }}></span>
+                          <span className="toggle-color" style={{ background: 'var(--info)' }}></span>
                           EMA 20
                         </span>
                       </label>
@@ -1757,7 +1766,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                           onChange={() => toggleIndicator('rsi')}
                         />
                         <span className="toggle-label">
-                          <span className="toggle-color" style={{ background: '#a855f7' }}></span>
+                          <span className="toggle-color" style={{ background: 'var(--series-violet)' }}></span>
                           RSI Panel
                         </span>
                       </label>
@@ -1769,7 +1778,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                           onChange={() => toggleIndicator('ema9')}
                         />
                         <span className="toggle-label">
-                          <span className="toggle-color" style={{ background: '#10b981' }}></span>
+                          <span className="toggle-color" style={{ background: 'var(--bull)' }}></span>
                           EMA 9
                         </span>
                       </label>
@@ -1781,7 +1790,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                           onChange={() => toggleIndicator('ema20')}
                         />
                         <span className="toggle-label">
-                          <span className="toggle-color" style={{ background: '#3b82f6' }}></span>
+                          <span className="toggle-color" style={{ background: 'var(--info)' }}></span>
                           EMA 20
                         </span>
                       </label>
@@ -1793,7 +1802,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                           onChange={() => toggleIndicator('ema50')}
                         />
                         <span className="toggle-label">
-                          <span className="toggle-color" style={{ background: '#f59e0b' }}></span>
+                          <span className="toggle-color" style={{ background: 'var(--series-orange)' }}></span>
                           EMA 50
                         </span>
                       </label>
@@ -1805,7 +1814,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                           onChange={() => toggleIndicator('ema200')}
                         />
                         <span className="toggle-label">
-                          <span className="toggle-color" style={{ background: '#ef4444' }}></span>
+                          <span className="toggle-color" style={{ background: 'var(--bear)' }}></span>
                           EMA 200
                         </span>
                       </label>
@@ -1829,7 +1838,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                           onChange={() => toggleIndicator('macd')}
                         />
                         <span className="toggle-label">
-                          <span className="toggle-color" style={{ background: '#3b82f6' }}></span>
+                          <span className="toggle-color" style={{ background: 'var(--info)' }}></span>
                           MACD Panel
                         </span>
                       </label>
@@ -1849,10 +1858,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                       title="Expand to fullscreen"
                       style={{
                         padding: '6px 12px',
-                        background: '#3b82f6',
+                        background: 'var(--info)',
                         border: '1px solid #2563eb',
                         borderRadius: '6px',
-                        color: '#ffffff',
+                        color: 'var(--text)',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
@@ -1861,11 +1870,11 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         transition: 'all 0.2s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = '#2563eb'
+                        e.currentTarget.style.background = '#2f5f9e'
                         e.currentTarget.style.transform = 'translateY(-1px)'
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = '#3b82f6'
+                        e.currentTarget.style.background = '#2f5f9e'
                         e.currentTarget.style.transform = 'translateY(0)'
                       }}
                     >
@@ -1900,10 +1909,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                       title="Expand to fullscreen"
                       style={{
                         padding: '6px 12px',
-                        background: '#3b82f6',
+                        background: 'var(--info)',
                         border: '1px solid #2563eb',
                         borderRadius: '6px',
-                        color: '#ffffff',
+                        color: 'var(--text)',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
@@ -1912,11 +1921,11 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         transition: 'all 0.2s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = '#2563eb'
+                        e.currentTarget.style.background = '#2f5f9e'
                         e.currentTarget.style.transform = 'translateY(-1px)'
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = '#3b82f6'
+                        e.currentTarget.style.background = '#2f5f9e'
                         e.currentTarget.style.transform = 'translateY(0)'
                       }}
                     >
@@ -1954,10 +1963,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                       title="Expand to fullscreen"
                       style={{
                         padding: '6px 12px',
-                        background: '#3b82f6',
+                        background: 'var(--info)',
                         border: '1px solid #2563eb',
                         borderRadius: '6px',
-                        color: '#ffffff',
+                        color: 'var(--text)',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
@@ -1966,11 +1975,11 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
                         transition: 'all 0.2s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = '#2563eb'
+                        e.currentTarget.style.background = '#2f5f9e'
                         e.currentTarget.style.transform = 'translateY(-1px)'
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = '#3b82f6'
+                        e.currentTarget.style.background = '#2f5f9e'
                         e.currentTarget.style.transform = 'translateY(0)'
                       }}
                     >

@@ -3,11 +3,17 @@ import { createChart } from 'lightweight-charts'
 import { historyAPI } from '../api/api'
 import FullscreenChartModal from './FullscreenChartModal'
 import './TradingViewChart.css'
+import { applyChartTheme, useTheme } from '../theme'
 import { Lightbulb, TriangleAlert } from 'lucide-react'
 
 const TradingViewChart = ({ symbol, signalHistory }) => {
   const chartContainerRef = useRef(null)
   const chartRef = useRef(null)
+  const theme = useTheme()
+
+  useEffect(() => {
+    applyChartTheme(chartRef.current)
+  }, [theme])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [stats, setStats] = useState(null)
@@ -118,21 +124,21 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
             }
           },
           layout: {
-            backgroundColor: '#1f2937',
-            textColor: '#d1d5db',
+            backgroundColor: '#fbfcfa',
+            textColor: '#43524c',
           },
           grid: {
-            vertLines: { color: '#374151' },
-            horzLines: { color: '#374151' },
+            vertLines: { color: '#d6dbd3' },
+            horzLines: { color: '#d6dbd3' },
           },
           crosshair: {
             mode: 1,
           },
           rightPriceScale: {
-            borderColor: '#4b5563',
+            borderColor: '#d6dbd3',
           },
           timeScale: {
-            borderColor: '#4b5563',
+            borderColor: '#d6dbd3',
             timeVisible: true,
             secondsVisible: false,
           },
@@ -141,14 +147,15 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
         })
 
         chartRef.current = chart
+        applyChartTheme(chart)
 
         // Add candlestick series with v4.x API
         const candlestickSeries = chart.addCandlestickSeries({
-          upColor: '#10b981',
-          downColor: '#ef4444',
+          upColor: '#16794a',
+          downColor: '#b4232a',
           borderVisible: true,
-          wickUpColor: '#10b981',
-          wickDownColor: '#ef4444',
+          wickUpColor: '#16794a',
+          wickDownColor: '#b4232a',
         })
 
         // Sort candles by time (ascending order required) - handles both 'YYYY-MM-DD' strings and Unix-second numbers
@@ -191,7 +198,7 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
         
         // Add 200 EMA line series
         const ema200Series = chart.addLineSeries({
-          color: '#f59e0b',
+          color: '#b8661a',
           lineWidth: 2,
           title: '200 EMA',
           priceLineVisible: false,
@@ -210,7 +217,7 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
               return {
                 time: timestamp,
                 position: isBuySignal ? 'belowBar' : 'aboveBar',
-                color: isBuySignal ? '#10b981' : '#ef4444',
+                color: isBuySignal ? '#16794a' : '#b4232a',
                 shape: isBuySignal ? 'arrowUp' : 'arrowDown',
                 text: isBuySignal ? 'BUY' : 'SELL',
                 size: 2,
@@ -394,7 +401,7 @@ const TradingViewChart = ({ symbol, signalHistory }) => {
       {error && !loading && (
         <div className="chart-error">
           <p><TriangleAlert size={16} /> {error}</p>
-          <p style={{ fontSize: '0.85rem', color: '#9ca3af', marginTop: '10px' }}>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-3)', marginTop: '10px' }}>
             Check browser console for details
           </p>
         </div>

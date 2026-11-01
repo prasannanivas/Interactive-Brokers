@@ -1,9 +1,9 @@
 .correlation-chart {
-  background: #1f2937;
+  background: var(--paper);
   border-radius: 8px;
   padding: 20px;
   margin: 20px 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(28, 42, 38, 0.1);
 }
 
 .chart-header {
@@ -11,7 +11,7 @@
 }
 
 .chart-header h2 {
-  color: #f9fafb;
+  color: var(--text);
   margin: 0 0 15px 0;
   font-size: 24px;
   font-weight: 600;
@@ -27,8 +27,8 @@
 }
 
 .zoom-chart-btn {
-  background: #3b82f6;
-  color: white;
+  background: var(--ink);
+  color: var(--on-ink);
   border: none;
   padding: 10px;
   border-radius: 6px;
@@ -36,59 +36,57 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
+  box-shadow: 0 2px 4px rgba(28, 42, 38, 0.3);
 }
 
 .zoom-chart-btn:hover {
-  background: #2563eb;
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+  background: var(--ink);
+  box-shadow: 0 4px 8px rgba(28, 42, 38, 0.4);
 }
 
 .zoom-chart-btn:active {
-  transform: scale(0.95);
 }
 
 .pair-selector {
-  background: #374151;
-  color: #f9fafb;
-  border: 1px solid #4b5563;
+  background: var(--paper-3);
+  color: var(--text);
+  border: 1px solid var(--line);
   border-radius: 6px;
   padding: 8px 12px;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
 }
 
 .pair-selector:hover {
-  background: #4b5563;
-  border-color: #6b7280;
+  background: var(--paper-3);
+  border-color: var(--ink);
 }
 
 .pair-selector:focus {
   outline: none;
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 2px rgba(28, 42, 38, 0.2);
 }
 
 .refresh-button {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #374151;
-  color: #f9fafb;
-  border: 1px solid #4b5563;
+  background: var(--paper-3);
+  color: var(--text);
+  border: 1px solid var(--line);
   border-radius: 6px;
   padding: 8px 12px;
   font-size: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
 }
 
 .refresh-button:hover:not(:disabled) {
-  background: #4b5563;
-  border-color: #6b7280;
+  background: var(--paper-3);
+  border-color: var(--ink);
 }
 
 .refresh-button:disabled {
@@ -114,7 +112,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 15px;
-  background: #374151;
+  background: var(--paper-3);
   border-radius: 6px;
   padding: 20px;
   margin-bottom: 20px;
@@ -128,7 +126,7 @@
 }
 
 .stat-label {
-  color: #9ca3af;
+  color: var(--text-3);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -136,59 +134,59 @@
 }
 
 .stat-value {
-  color: #f9fafb;
+  color: var(--text);
   font-size: 16px;
   font-weight: 600;
 }
 
 .stat-value.positive {
-  color: #10b981;
+  color: var(--bull);
 }
 
 .stat-value.negative {
-  color: #ef4444;
+  color: var(--bear);
 }
 
 .stat-value.strong-correlation {
-  color: #10b981;
+  color: var(--bull);
   font-weight: 700;
 }
 
 .stat-value.weak-correlation {
-  color: #f59e0b;
+  color: var(--warn);
 }
 
 .chart-info {
-  background: #374151;
+  background: var(--paper-3);
   border-radius: 6px;
   padding: 15px;
   margin-bottom: 20px;
-  border-left: 4px solid #60a5fa;
+  border-left: 1px solid var(--line);
 }
 
 .chart-info p {
-  color: #e5e7eb;
+  color: var(--text-2);
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
 }
 
 .chart-container {
-  background: #374151;
+  background: var(--paper-3);
   border-radius: 6px;
   padding: 20px;
   margin-bottom: 20px;
 }
 
 .chart-note {
-  background: #1e293b;
+  background: var(--ink);
   border-radius: 6px;
   padding: 15px;
-  border-left: 4px solid #f59e0b;
+  border-left: 1px solid var(--line);
 }
 
 .note-text {
-  color: #cbd5e1;
+  color: var(--text-2);
   margin: 0;
   font-size: 13px;
   line-height: 1.6;
@@ -200,16 +198,16 @@
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  background: #374151;
+  background: var(--paper-3);
   border-radius: 6px;
-  color: #9ca3af;
+  color: var(--text-3);
 }
 
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #4b5563;
-  border-top: 4px solid #60a5fa;
+  border: 4px solid var(--line);
+  border-top: 4px solid var(--ink);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
@@ -223,8 +221,8 @@
 .no-data {
   text-align: center;
   padding: 60px 20px;
-  color: #9ca3af;
-  background: #374151;
+  color: var(--text-3);
+  background: var(--paper-3);
   border-radius: 6px;
 }
 
@@ -234,8 +232,8 @@
 }
 
 .retry-button {
-  background: #60a5fa;
-  color: #ffffff;
+  background: var(--ink);
+  color: var(--on-ink);
   border: none;
   border-radius: 6px;
   padding: 10px 20px;
@@ -245,27 +243,27 @@
 }
 
 .retry-button:hover {
-  background: #3b82f6;
+  background: var(--ink);
 }
 
 /* Custom tooltip styles */
 .custom-tooltip {
-  background: #1f2937;
-  border: 1px solid #374151;
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 6px;
   padding: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(28, 42, 38, 0.1);
 }
 
 .tooltip-label {
-  color: #f9fafb;
+  color: var(--text);
   font-weight: 600;
   margin: 0 0 8px 0;
   font-size: 14px;
 }
 
 .tooltip-price {
-  color: #60a5fa;
+  color: var(--info);
   font-weight: 600;
   margin: 0 0 4px 0;
   font-size: 13px;
@@ -273,7 +271,7 @@
 
 .tooltip-change,
 .tooltip-rate {
-  color: #9ca3af;
+  color: var(--text-3);
   margin: 0 0 2px 0;
   font-size: 12px;
 }
@@ -283,7 +281,7 @@
 }
 
 .tooltip-section-title {
-  color: #f59e0b;
+  color: var(--warn);
   font-weight: 600;
   margin: 0 0 4px 0;
   font-size: 12px;
@@ -297,25 +295,25 @@
 }
 
 .tooltip-rate-change.rate-increase {
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.1);
+  color: var(--bull);
+  background: rgba(22, 121, 74, 0.1);
 }
 
 .tooltip-rate-change.rate-decrease {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
+  color: var(--bear);
+  background: rgba(180, 35, 42, 0.1);
 }
 
 .chart-markers-legend {
   margin-top: 15px;
   padding: 15px;
-  background: #374151;
+  background: var(--paper-3);
   border-radius: 6px;
-  border-left: 4px solid #60a5fa;
+  border-left: 1px solid var(--line);
 }
 
 .chart-markers-legend h4 {
-  color: #f9fafb;
+  color: var(--text);
   margin: 0 0 12px 0;
   font-size: 14px;
   font-weight: 600;
@@ -331,7 +329,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #e5e7eb;
+  color: var(--text-2);
   font-size: 12px;
 }
 
@@ -339,16 +337,16 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--line-soft);
   flex-shrink: 0;
 }
 
 .marker-dot.major-change {
-  background: #ef4444;
+  background: var(--bear);
 }
 
 .marker-dot.minor-change {
-  background: #f59e0b;
+  background: var(--warn);
 }
 
 .reference-line {
@@ -358,13 +356,13 @@
 }
 
 .reference-line.zero {
-  background: #ef4444;
+  background: var(--bear);
   border-style: dashed;
   border-width: 1px 0;
 }
 
 .reference-line.positive {
-  background: #10b981;
+  background: var(--bull);
   border-style: dashed;
   border-width: 1px 0;
 }
@@ -411,7 +409,7 @@
 /* Recharts overrides */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
-  stroke: #4b5563 !important;
+  stroke: var(--text-3) !important;
 }
 
 .recharts-tooltip-wrapper {

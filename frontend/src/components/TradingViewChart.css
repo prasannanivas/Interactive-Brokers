@@ -2,7 +2,7 @@
 .tradingview-chart-container {
   margin: 20px 0;
   padding: 20px;
-  background: #111827;
+  background: var(--paper-2);
   border-radius: 8px;
 }
 
@@ -13,14 +13,14 @@
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: #9ca3af;
+  color: var(--text-3);
 }
 
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #374151;
-  border-top-color: #3b82f6;
+  border: 4px solid var(--line);
+  border-top-color: var(--ink);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 15px;
@@ -34,7 +34,7 @@
 .chart-error {
   text-align: center;
   padding: 40px 20px;
-  color: #ef4444;
+  color: var(--bear);
   font-size: 1rem;
 }
 
@@ -45,9 +45,9 @@
   gap: 20px;
   margin-bottom: 20px;
   padding: 15px;
-  background: #1f2937;
+  background: var(--paper);
   border-radius: 6px;
-  border: 1px solid #374151;
+  border: 1px solid var(--line);
   align-items: center;
   position: relative;
 }
@@ -60,46 +60,46 @@
 
 .stat-label {
   font-size: 0.85rem;
-  color: #9ca3af;
+  color: var(--text-3);
   font-weight: 500;
 }
 
 .stat-value {
   font-size: 0.95rem;
-  color: #f9fafb;
+  color: var(--text);
   font-weight: 600;
 }
 
 .stat-group.buy .stat-value {
-  color: #10b981;
+  color: var(--bull);
 }
 
 .stat-group.sell .stat-value {
-  color: #ef4444;
+  color: var(--bear);
 }
 
 .stat-group.positive .stat-value {
-  color: #10b981;
+  color: var(--bull);
 }
 
 .stat-group.negative .stat-value {
-  color: #ef4444;
+  color: var(--bear);
 }
 
 /* Chart Wrapper */
 .chart-wrapper {
   border-radius: 6px;
   overflow: hidden;
-  border: 1px solid #374151;
+  border: 1px solid var(--line);
 }
 
 /* Legend */
 .chart-legend {
   margin-top: 20px;
   padding: 15px;
-  background: #1f2937;
+  background: var(--paper);
   border-radius: 6px;
-  border: 1px solid #374151;
+  border: 1px solid var(--line);
 }
 
 .legend-row {
@@ -118,7 +118,7 @@
   align-items: center;
   gap: 10px;
   font-size: 0.9rem;
-  color: #d1d5db;
+  color: var(--text-2);
 }
 
 /* Candle Legend */
@@ -134,15 +134,15 @@
 .legend-candle.up .candle-body {
   width: 12px;
   height: 20px;
-  background: #10b981;
-  border: 1px solid #10b981;
+  background: var(--bull);
+  border: 1px solid var(--bull);
 }
 
 .legend-candle.down .candle-body {
   width: 12px;
   height: 20px;
-  background: #ef4444;
-  border: 1px solid #ef4444;
+  background: var(--bear);
+  border: 1px solid var(--bear);
 }
 
 .legend-candle::before {
@@ -155,11 +155,11 @@
 }
 
 .legend-candle.up::before {
-  background: #10b981;
+  background: var(--bull);
 }
 
 .legend-candle.down::before {
-  background: #ef4444;
+  background: var(--bear);
 }
 
 /* Marker Legend */
@@ -175,30 +175,30 @@
 }
 
 .legend-marker.buy-marker {
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid #10b981;
+  color: var(--bull);
+  background: rgba(22, 121, 74, 0.1);
+  border: 1px solid var(--bull);
 }
 
 .legend-marker.sell-marker {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid #ef4444;
+  color: var(--bear);
+  background: rgba(180, 35, 42, 0.1);
+  border: 1px solid var(--bear);
 }
 
 /* Chart Info */
 .chart-info {
   margin-top: 15px;
   padding: 12px;
-  background: rgba(59, 130, 246, 0.1);
-  border-left: 3px solid #3b82f6;
+  background: rgba(47, 95, 158, 0.1);
+  border-left: 1px solid var(--line);
   border-radius: 4px;
-  color: #93c5fd;
+  color: var(--info);
   font-size: 0.9rem;
 }
 
 .chart-info strong {
-  color: #60a5fa;
+  color: var(--info);
 }
 
 /* Responsive Design */
@@ -225,19 +225,19 @@
 
 /* Dark mode compatibility for lightweight-charts */
 .tv-lightweight-charts {
-  background: #1f2937 !important;
+  background: var(--paper) !important;
 }
 
 /* Zoom Button */
 .chart-zoom-btn {
   margin-left: auto;
   padding: 8px 12px;
-  background: #3b82f6;
-  border: 1px solid #2563eb;
+  background: var(--ink);
+  border: 1px solid var(--ink);
   border-radius: 6px;
-  color: #ffffff;
+  color: var(--on-ink);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), box-shadow 0.15s var(--ease), opacity 0.15s var(--ease);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -247,14 +247,12 @@
 }
 
 .chart-zoom-btn:hover {
-  background: #2563eb;
-  border-color: #1d4ed8;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  background: var(--ink);
+  border-color: var(--ink);
+  box-shadow: 0 2px 8px rgba(28, 42, 38, 0.3);
 }
 
 .chart-zoom-btn:active {
-  transform: translateY(0);
 }
 
 .chart-zoom-btn svg {
