@@ -19,12 +19,12 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
-import requests
 from pymongo import UpdateOne
 
 from database import get_bond_yields_collection, Database
 from response_cache import cached, invalidate
 import fetch_incremental_bond_data as te
+from te_budget import BudgetExceeded, te_get
 
 RANGES = {  # calendar days back from the latest data point
     '1D': 1, '1W': 7, '1M': 31, '3M': 92, '6M': 183, '1Y': 366,
@@ -170,7 +170,9 @@ def _fetch_te_intraday(symbols: List[str], since: datetime) -> Tuple[List[Dict],
     url = f"{te.TE_BASE_URL}/markets/intraday/{','.join(symbols)}"
     params = {'c': te.TE_API_KEY, 'd1': since.strftime('%Y-%m-%d %H:%M'), 'agr': '1m', 'f': 'json'}
     try:
-        resp = requests.get(url, params=params, timeout=45)
+        resp = te_get('intraday', url, params=params, timeout=45)
+    except BudgetExceeded as e:
+        return [], f"Request budget exceeded: {e}"
     except Exception as e:
         return [], f"Could not reach Trading Economics: {e}"
     if resp.status_code != 200:

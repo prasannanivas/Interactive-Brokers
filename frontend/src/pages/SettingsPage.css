@@ -450,3 +450,20 @@
     width: auto;
   }
 }
+
+.usage-bar {
+  height: 8px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.usage-bar > div {
+  height: 100%;
+  background: var(--info);
+}
+
+.usage-table td:first-child { color: var(--text-2); }
+.usage-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }

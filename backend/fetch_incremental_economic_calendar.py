@@ -11,7 +11,8 @@ import hashlib
 from datetime import datetime, timedelta
 from pymongo import MongoClient, UpdateOne
 from dotenv import load_dotenv
-import requests
+
+from te_budget import te_get
 
 load_dotenv()
 
@@ -56,55 +57,48 @@ def fetch_calendar_for_range(start_date: datetime, end_date: datetime) -> list:
 
     all_events = []
 
-    for country in COUNTRIES:
-        print(f"  📅 Fetching {country}...")
-        try:
-            country_encoded = country.replace(' ', '%20')
-            url = f"{TE_BASE_URL}/calendar/country/{country_encoded}/{start_str}/{end_str}?c={TE_API_KEY}"
-            response = requests.get(url, timeout=30)
-            response.raise_for_status()
-            events = response.json()
-
-            if not events:
-                print(f"     ⚠ No events returned")
+    # All countries in ONE request (Trading Economics bills per request, ~500 a month)
+    print(f"  📅 Fetching {', '.join(COUNTRIES)}...")
+    try:
+        url = f"{TE_BASE_URL}/calendar/country/{','.join(COUNTRIES)}/{start_str}/{end_str}"
+        response = te_get('calendar', url, {'c': TE_API_KEY, 'f': 'json'}, 45)
+        response.raise_for_status()
+        events = response.json()
+        print(f"     ✓ {len(events)} events")
+        for event in events:
+            date_raw = event.get('Date', event.get('DateTime', ''))
+            if not date_raw:
                 continue
 
-            print(f"     ✓ {len(events)} events")
+            try:
+                event_dt = datetime.fromisoformat(date_raw.replace('Z', '+00:00')).replace(tzinfo=None)
+            except Exception:
+                continue
 
-            for event in events:
-                date_raw = event.get('Date', event.get('DateTime', ''))
-                if not date_raw:
-                    continue
+            event_name = event.get('Event', event.get('Category', ''))
+            event_country = event.get('Country', '')
+            date_only_str = event_dt.strftime('%Y-%m-%d')
 
-                try:
-                    event_dt = datetime.fromisoformat(date_raw.replace('Z', '+00:00')).replace(tzinfo=None)
-                except Exception:
-                    continue
+            uid = _event_id(event_country, event_name, date_only_str)
 
-                event_name = event.get('Event', event.get('Category', ''))
-                event_country = event.get('Country', country)
-                date_only_str = event_dt.strftime('%Y-%m-%d')
+            processed = {
+                '_id': uid,
+                'country': event_country,
+                'event': event_name,
+                'date': event_dt,
+                'date_str': date_only_str,
+                'time': event_dt.strftime('%H:%M'),
+                'importance': event.get('Importance', 'Medium'),
+                'actual': event.get('Actual'),
+                'forecast': event.get('Forecast'),
+                'previous': event.get('Previous'),
+                'is_future_event': event_dt > datetime.utcnow(),
+                'updated_at': datetime.utcnow(),
+            }
+            all_events.append(processed)
 
-                uid = _event_id(event_country, event_name, date_only_str)
-
-                processed = {
-                    '_id': uid,
-                    'country': event_country,
-                    'event': event_name,
-                    'date': event_dt,
-                    'date_str': date_only_str,
-                    'time': event_dt.strftime('%H:%M'),
-                    'importance': event.get('Importance', 'Medium'),
-                    'actual': event.get('Actual'),
-                    'forecast': event.get('Forecast'),
-                    'previous': event.get('Previous'),
-                    'is_future_event': event_dt > datetime.utcnow(),
-                    'updated_at': datetime.utcnow(),
-                }
-                all_events.append(processed)
-
-        except Exception as e:
-            print(f"     ✗ Error fetching {country}: {e}")
+    except Exception as e:
+        print(f"     ✗ Error fetching calendar: {e}")
 
     return all_events
 

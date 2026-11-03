@@ -1,31 +1,49 @@
 """
 On-demand refresh of bond yields and interest rates from Trading Economics.
 
-There is no scheduled daily fetch (the Trading Economics plan has a monthly request quota).
-Instead, when the dashboard asks for a series, it is topped up once if it's missing the latest
-completed trading day, saved to MongoDB, and served from there for everyone afterwards.
+There is no scheduled daily fetch (the Trading Economics plan allows ~500 requests a month, see
+te_budget.py). Instead, when the dashboard asks for a series, stored data is topped up once and
+served from MongoDB for everyone afterwards.
 
-Safeguards against burning the quota:
-- only series someone actually views are fetched
+Bond yields (move every trading day):
+- when a viewed series is missing the latest completed trading day, ALL stale series are topped up
+  together, up to BOND_BATCH tickers per request - about 2-4 requests per trading day in total
 - only complete daily bars are stored (never today's still-forming bar)
-- at most one attempt per bond series every 6 hours and per interest-rate country every 24 hours,
-  recorded in MongoDB even when the attempt fails (quota exceeded, holiday with no new data, ...)
-- concurrent requests for the same series share one fetch
+- at most one attempt per series every 6 hours, recorded even when the attempt fails
+
+Interest rates (only change at central bank meetings):
+- decision dates for every country come from one Trading Economics calendar request every
+  DECISION_REFRESH_DAYS days (rate_decisions collection)
+- a country is only fetched after one of its decisions (Hong Kong follows the Fed, Denmark the ECB),
+  plus a safety check every RATE_FALLBACK_DAYS in case of an unscheduled move
+- all countries that are due are fetched in one request
 """
 
 import asyncio
+import re
 from datetime import datetime, timedelta
 from typing import Iterable
 
-from database import get_bond_yields_collection, get_interest_rates_collection
+from database import Database, get_bond_yields_collection, get_interest_rates_collection
 from response_cache import cached, invalidate
+from te_budget import BudgetExceeded, te_get
 import fetch_incremental_bond_data as te
 
 BOND_RETRY_SECONDS = 6 * 3600
-RATE_RETRY_SECONDS = 24 * 3600
+BOND_BATCH = 10
 # Each top-up re-fetches this many recent days (same single request) and replaces them, so bars
 # that were stored while still forming (the old 5 AM job did this) are corrected with final closes.
 RECHECK_DAYS = 21
+
+RATE_RETRY_SECONDS = 6 * 3600
+DECISION_REFRESH_DAYS = 14
+DECISION_SETTLE = timedelta(hours=1)        # give Trading Economics time to publish the new rate
+DECISION_GIVE_UP = timedelta(hours=12)      # an unchanged rate may never get a new record
+RATE_FALLBACK_DAYS = {'Singapore': 7}       # Singapore's series is a market overnight rate
+DEFAULT_FALLBACK_DAYS = 30
+FOLLOWS = {'Hong Kong': ['United States'], 'Denmark': ['Euro Area']}
+DECISION_EVENT = re.compile(r'rate decision|loan prime rate|monetary policy statement|base rate|'
+                            r'deposit facility|refinancing rate|cash rate', re.I)
 
 
 def _last_complete_trading_day(now_utc: datetime):
@@ -41,37 +59,33 @@ def _recently_attempted(doc: dict, seconds: int) -> bool:
     return bool(attempt) and (datetime.utcnow() - attempt).total_seconds() < seconds
 
 
-async def _refresh_bond(country: str, maturity: str):
-    symbol = te.BOND_SYMBOLS.get(country, {}).get(maturity)
-    if not symbol:
-        return
-    coll = get_bond_yields_collection()
-    key = {'country': country, 'maturity': maturity}
-    doc = await coll.find_one(key, {'last_available_date': 1, 'last_fetch_attempt': 1, 'complete_through': 1})
+# ── Bond yields ──────────────────────────────────────────────────────────────
+
+BOND_FIELDS = {'country': 1, 'maturity': 1, 'last_available_date': 1, 'last_fetch_attempt': 1, 'complete_through': 1}
+
+
+def _bond_is_stale(doc: dict, newest_complete) -> bool:
     if not doc or not doc.get('last_available_date'):
-        return  # no stored series to extend
-    newest_complete = _last_complete_trading_day(datetime.utcnow())
+        return False  # no stored series to extend
+    if not te.BOND_SYMBOLS.get(doc['country'], {}).get(doc['maturity']):
+        return False
     # complete_through = last day verified with a final close (missing on series written by the old job)
     verified = doc.get('complete_through')
-    if (verified and verified.date() >= newest_complete) or _recently_attempted(doc, BOND_RETRY_SECONDS):
-        return
+    if verified and verified.date() >= newest_complete:
+        return False
+    return not _recently_attempted(doc, BOND_RETRY_SECONDS)
 
-    await coll.update_one(key, {'$set': {'last_fetch_attempt': datetime.utcnow()}})
-    since = doc['last_available_date'] - timedelta(days=RECHECK_DAYS)
-    loop = asyncio.get_running_loop()
-    records = await loop.run_in_executor(
-        None, te.fetch_bond_data_from_te, country, symbol, maturity, since, datetime.now())
-    records = [r for r in records if since <= r['date_obj'] and r['date_obj'].date() <= newest_complete]
-    if not records:
-        return
 
+async def _store_bond(doc: dict, records: list):
+    coll = get_bond_yields_collection()
+    key = {'country': doc['country'], 'maturity': doc['maturity']}
     # Replace the re-checked window with final values, then append
     first = min(r['date_obj'] for r in records)
     await coll.update_one(key, {'$pull': {'data': {'date_obj': {'$gte': first}}}})
     await coll.update_one(key, {
         '$push': {'data': {'$each': records}},
         '$set': {
-            'symbol': symbol,
+            'symbol': te.BOND_SYMBOLS[doc['country']][doc['maturity']],
             'last_available_date': max(r['date_obj'] for r in records),
             'complete_through': max(r['date_obj'] for r in records),
             'last_updated': datetime.now(),
@@ -80,48 +94,169 @@ async def _refresh_bond(country: str, maturity: str):
     counted = await coll.aggregate([{'$match': key}, {'$project': {'n': {'$size': '$data'}}}]).to_list(1)
     if counted:
         await coll.update_one(key, {'$set': {'record_count': counted[0]['n']}})
-    invalidate('bond-yields')
-    invalidate('bond-series')
-    print(f"✓ On-demand refresh: {country} {maturity.upper()} re-checked {len(records)} day(s) from {first.date()}")
 
 
-async def _refresh_interest_rate(country: str):
-    coll = get_interest_rates_collection()
-    doc = await coll.find_one({'country': country}, {'last_available_date': 1, 'last_fetch_attempt': 1})
-    if not doc or not doc.get('last_available_date') or _recently_attempted(doc, RATE_RETRY_SECONDS):
+async def _refresh_all_bonds():
+    coll = get_bond_yields_collection()
+    newest_complete = _last_complete_trading_day(datetime.utcnow())
+    docs = await coll.find({}, BOND_FIELDS).to_list(None)
+    stale = [d for d in docs if _bond_is_stale(d, newest_complete)]
+    if not stale:
         return
+    await coll.update_many({'_id': {'$in': [d['_id'] for d in stale]}},
+                           {'$set': {'last_fetch_attempt': datetime.utcnow()}})
 
-    await coll.update_one({'country': country}, {'$set': {'last_fetch_attempt': datetime.utcnow()}})
-    last = doc['last_available_date']
-    api_country = te.COUNTRIES.get(country, {}).get('api_name', country)
     loop = asyncio.get_running_loop()
-    records = await loop.run_in_executor(
-        None, te.fetch_interest_rate_from_te, country, api_country, last + timedelta(days=1), datetime.now())
-    records = [r for r in records if r['date_obj'] > last]
-    if not records:
-        return
-    await coll.update_one({'country': country}, {
-        '$push': {'data': {'$each': records}},
-        '$set': {'last_available_date': max(r['date_obj'] for r in records), 'last_updated': datetime.now()},
-        '$inc': {'record_count': len(records)},
-    })
-    invalidate('interest-rates')
-    print(f"✓ On-demand refresh: {country} interest rate +{len(records)} record(s)")
+    updated = 0
+    for i in range(0, len(stale), BOND_BATCH):
+        chunk = stale[i:i + BOND_BATCH]
+        symbols = [te.BOND_SYMBOLS[d['country']][d['maturity']] for d in chunk]
+        since = min(d['last_available_date'] for d in chunk) - timedelta(days=RECHECK_DAYS)
+        try:
+            got = await loop.run_in_executor(None, te.fetch_bonds_batch, symbols, since, datetime.now())
+        except BudgetExceeded as e:
+            print(f"⏸ Bond refresh skipped: {e}")
+            break
+        except Exception as e:
+            print(f"✗ Bond refresh failed for {', '.join(symbols)}: {e}")
+            continue
+        for doc, symbol in zip(chunk, symbols):
+            own_since = doc['last_available_date'] - timedelta(days=RECHECK_DAYS)
+            records = [r for r in got.get(symbol.upper(), [])
+                       if own_since <= r['date_obj'] and r['date_obj'].date() <= newest_complete]
+            if records:
+                await _store_bond(doc, records)
+                updated += 1
+    if updated:
+        invalidate('bond-yields')
+        invalidate('bond-series')
+    print(f"✓ On-demand bond refresh: {updated}/{len(stale)} series updated "
+          f"in {(len(stale) + BOND_BATCH - 1) // BOND_BATCH} request(s)")
 
 
 async def ensure_bond_fresh(country: str, maturity: str):
-    """Top up one bond series if it's behind. Never raises - serving stored data always wins."""
+    """Top up bond series if the viewed one is behind. Never raises - serving stored data always wins."""
     try:
-        await cached(('bond-refresh', country, maturity), 60, lambda: _refresh_bond(country, maturity))
+        doc = await get_bond_yields_collection().find_one({'country': country, 'maturity': maturity}, BOND_FIELDS)
+        if _bond_is_stale(doc, _last_complete_trading_day(datetime.utcnow())):
+            await cached(('bond-refresh-all',), 60, _refresh_all_bonds)
     except Exception as e:
         print(f"✗ On-demand bond refresh failed for {country} {maturity}: {e}")
 
 
-async def ensure_interest_rates_fresh(countries: Iterable[str]):
-    """Top up interest rates for the given countries if not checked in the last 24 hours."""
-    async def one(country):
+# ── Interest rates ───────────────────────────────────────────────────────────
+
+def _decisions_coll():
+    return Database.get_db().rate_decisions
+
+
+async def _refresh_decisions(countries: list):
+    """Upcoming/recent rate decisions for all countries - one request every DECISION_REFRESH_DAYS."""
+    coll = _decisions_coll()
+    meta = await coll.find_one({'_id': '__meta__'}) or {}
+    fetched = meta.get('fetched_at')
+    if fetched and datetime.utcnow() - fetched < timedelta(days=DECISION_REFRESH_DAYS):
+        return
+    if meta.get('last_attempt') and datetime.utcnow() - meta['last_attempt'] < timedelta(hours=6):
+        return
+    await coll.update_one({'_id': '__meta__'}, {'$set': {'last_attempt': datetime.utcnow()}}, upsert=True)
+
+    names = sorted(set(countries) | {f for c in countries for f in FOLLOWS.get(c, [])})
+    start = (datetime.utcnow() - timedelta(days=10)).strftime('%Y-%m-%d')
+    end = (datetime.utcnow() + timedelta(days=60)).strftime('%Y-%m-%d')
+    url = f"{te.TE_BASE_URL}/calendar/country/{','.join(names)}/indicator/interest rate/{start}/{end}"
+    loop = asyncio.get_running_loop()
+    resp = await loop.run_in_executor(None, lambda: te_get('rate_decisions', url, {'c': te.TE_API_KEY, 'f': 'json'}, 45))
+    if resp.status_code != 200:
+        raise RuntimeError(f"Trading Economics {resp.status_code}: {resp.text[:200]}")
+    kept = 0
+    for ev in resp.json():
+        name = ev.get('Event') or ''
+        if not DECISION_EVENT.search(name) or 'projection' in name.lower():
+            continue
         try:
-            await cached(('rate-refresh', country), 60, lambda: _refresh_interest_rate(country))
-        except Exception as e:
-            print(f"✗ On-demand interest-rate refresh failed for {country}: {e}")
-    await asyncio.gather(*(one(c) for c in countries))
+            when = datetime.fromisoformat((ev.get('Date') or '').replace('Z', ''))
+        except ValueError:
+            continue
+        await coll.update_one({'_id': f"{ev.get('Country')}|{name}|{when.date()}"},
+                              {'$set': {'country': ev.get('Country'), 'event': name, 'date': when}}, upsert=True)
+        kept += 1
+    await coll.update_one({'_id': '__meta__'}, {'$set': {'fetched_at': datetime.utcnow()}})
+    print(f"✓ Rate decision calendar: {kept} decisions for {len(names)} countries (1 request)")
+
+
+async def _pending_decision(country: str, checked_through: datetime):
+    """Latest decision for this country (or the bank it follows) announced since the last check."""
+    now = datetime.utcnow()
+    sources = [country] + FOLLOWS.get(country, [])
+    return await _decisions_coll().find_one(
+        {'country': {'$in': sources}, 'date': {'$gt': checked_through, '$lte': now - DECISION_SETTLE}},
+        sort=[('date', -1)])
+
+
+async def _refresh_due_rates():
+    coll = get_interest_rates_collection()
+    docs = await coll.find({}, {'country': 1, 'last_available_date': 1, 'last_fetch_attempt': 1,
+                                'rates_checked_through': 1, 'last_updated': 1}).to_list(None)
+    docs = [d for d in docs if d.get('last_available_date')]
+    try:
+        await _refresh_decisions([d['country'] for d in docs])
+    except BudgetExceeded as e:
+        print(f"⏸ Rate decision calendar skipped: {e}")
+    except Exception as e:
+        print(f"✗ Rate decision calendar failed: {e}")
+
+    now = datetime.utcnow()
+    due = []  # (doc, pending decision or None)
+    for d in docs:
+        if _recently_attempted(d, RATE_RETRY_SECONDS):
+            continue
+        checked = d.get('rates_checked_through') or d.get('last_updated') or d['last_available_date']
+        decision = await _pending_decision(d['country'], checked)
+        fallback = timedelta(days=RATE_FALLBACK_DAYS.get(d['country'], DEFAULT_FALLBACK_DAYS))
+        if decision or now - checked >= fallback:
+            due.append((d, decision))
+    if not due:
+        return
+
+    await coll.update_many({'_id': {'$in': [d['_id'] for d, _ in due]}}, {'$set': {'last_fetch_attempt': now}})
+    api_name = {d['country']: te.COUNTRIES.get(d['country'], {}).get('api_name', d['country']) for d, _ in due}
+    start = min(d['last_available_date'] for d, _ in due) + timedelta(days=1)
+    loop = asyncio.get_running_loop()
+    try:
+        got = await loop.run_in_executor(None, te.fetch_interest_rates_batch,
+                                         sorted(set(api_name.values())), start, datetime.now())
+    except BudgetExceeded as e:
+        print(f"⏸ Interest-rate refresh skipped: {e}")
+        return
+    except Exception as e:
+        print(f"✗ Interest-rate refresh failed: {e}")
+        return
+
+    added = 0
+    for d, decision in due:
+        records = [r for r in got.get(api_name[d['country']].lower(), []) if r['date_obj'] > d['last_available_date']]
+        update = {}
+        if records:
+            update['$push'] = {'data': {'$each': records}}
+            update['$inc'] = {'record_count': len(records)}
+            update['$set'] = {'last_available_date': max(r['date_obj'] for r in records), 'last_updated': datetime.now()}
+            added += len(records)
+        # The decision is settled once its new rate arrived, or long enough after it (rate unchanged)
+        settled = (not decision or any(r['date_obj'].date() >= decision['date'].date() for r in records)
+                   or now - decision['date'] >= DECISION_GIVE_UP)
+        if settled:
+            update.setdefault('$set', {})['rates_checked_through'] = now
+        if update:
+            await coll.update_one({'_id': d['_id']}, update)
+    if added:
+        invalidate('interest-rates')
+    print(f"✓ On-demand interest-rate refresh ({', '.join(sorted(api_name))}): +{added} record(s), 1 request")
+
+
+async def ensure_interest_rates_fresh(countries: Iterable[str]):
+    """Fetch interest rates only for countries with a central bank decision since the last check."""
+    try:
+        await cached(('rate-refresh-due',), 60, _refresh_due_rates)
+    except Exception as e:
+        print(f"✗ On-demand interest-rate refresh failed: {e}")

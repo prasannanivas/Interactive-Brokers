@@ -1316,6 +1316,13 @@ async def get_my_telegram_history(limit: int = 50, current_user: UserResponse = 
     return {"messages": await get_message_history(current_user.id, min(max(limit, 1), 500))}
 
 
+@app.get("/api/settings/te-usage")
+async def get_te_usage(current_user: UserResponse = Depends(get_settings_user)):
+    """Trading Economics requests used this month against the plan's monthly quota"""
+    import te_budget
+    return await asyncio.get_running_loop().run_in_executor(None, te_budget.usage)
+
+
 # ============================================
 # BOND SERIES - selectable period and candle size (incl. intraday)
 # ============================================

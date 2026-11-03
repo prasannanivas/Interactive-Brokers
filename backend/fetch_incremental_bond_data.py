@@ -12,6 +12,8 @@ from dotenv import load_dotenv
 import requests
 import time
 
+from te_budget import te_get
+
 # Load environment variables
 load_dotenv()
 
@@ -109,7 +111,7 @@ def fetch_bond_data_from_te(country, symbol, maturity, start_date, end_date):
         
         print(f"  📡 Fetching {country} {maturity.upper()} ({symbol}) from {start_str} to {end_str}...")
         
-        response = requests.get(url, params=params, timeout=30)
+        response = te_get('bond', url, params=params, timeout=30)
         
         if response.status_code == 200:
             data = response.json()
@@ -177,7 +179,7 @@ def fetch_interest_rate_from_te(country, api_country, start_date, end_date):
         
         print(f"  📡 Fetching {country} interest rates from {start_str} to {end_str}...")
         
-        response = requests.get(url, params=params, timeout=30)
+        response = te_get('interest_rate', url, params=params, timeout=30)
         
         if response.status_code == 200:
             data = response.json()
@@ -218,6 +220,57 @@ def fetch_interest_rate_from_te(country, api_country, start_date, end_date):
     except Exception as e:
         print(f"  ❌ Error fetching {country} interest rates: {e}")
         return []
+
+
+def _bond_record(item):
+    """One /markets/historical row -> stored daily bar (None if unusable)."""
+    dt = parse_date_dd_mm_yyyy(item.get('Date', ''))
+    close = item.get('Close')
+    if not dt or close is None:
+        return None
+    pick = lambda k: float(item.get(k) if item.get(k) is not None else close)
+    return {'date': dt.strftime('%d/%m/%Y'), 'date_obj': dt,
+            'open': pick('Open'), 'high': pick('High'), 'low': pick('Low'), 'close': float(close)}
+
+
+def fetch_bonds_batch(symbols, start_date, end_date):
+    """Daily OHLC for several tickers in ONE request. Returns {SYMBOL: [records oldest first]}.
+    Raises on API / budget errors so the caller can tell 'no data' from 'failed'."""
+    url = f"{TE_BASE_URL}/markets/historical/{','.join(symbols)}"
+    params = {'c': TE_API_KEY, 'd1': start_date.strftime('%Y-%m-%d'),
+              'd2': end_date.strftime('%Y-%m-%d'), 'f': 'json'}
+    response = te_get('bond', url, params=params, timeout=45)
+    if response.status_code != 200:
+        raise RuntimeError(f"Trading Economics {response.status_code}: {response.text[:200]}")
+    out = {}
+    for item in response.json():
+        rec = _bond_record(item)
+        if rec and start_date.replace(hour=0, minute=0, second=0, microsecond=0) <= rec['date_obj'] <= end_date:
+            out.setdefault((item.get('Symbol') or '').upper(), []).append(rec)
+    for recs in out.values():
+        recs.sort(key=lambda r: r['date_obj'])
+    return out
+
+
+def fetch_interest_rates_batch(api_countries, start_date, end_date):
+    """Interest-rate history for several countries in ONE request. Returns {api country lower: [records]}."""
+    url = f"{TE_BASE_URL}/historical/country/{','.join(c.replace(' ', '%20') for c in api_countries)}/indicator/interest%20rate"
+    params = {'c': TE_API_KEY, 'd1': start_date.strftime('%Y-%m-%d'), 'd2': end_date.strftime('%Y-%m-%d')}
+    response = te_get('interest_rate', url, params=params, timeout=45)
+    if response.status_code != 200:
+        raise RuntimeError(f"Trading Economics {response.status_code}: {response.text[:200]}")
+    out = {}
+    for item in response.json():
+        date = item.get('DateTime', '')
+        try:
+            dt = datetime.fromisoformat(date.split('T')[0])
+        except ValueError:
+            continue
+        if dt < start_date or dt > end_date:
+            continue
+        out.setdefault((item.get('Country') or '').lower(), []).append(
+            {'date_time': date, 'date_obj': dt, 'value': float(item.get('Value', 0)), 'last_update': date})
+    return out
 
 
 def update_bond_yields(db):

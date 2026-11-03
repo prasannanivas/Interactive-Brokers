@@ -3,13 +3,21 @@ import { useNavigate } from 'react-router-dom'
 import { settingsAPI } from '../api/api'
 import './SettingsPage.css'
 import ThemeToggle from '../components/ThemeToggle'
-import { ArrowLeft, BellRing, Bot, ChevronDown, ChevronRight, CircleCheck, CircleX, Eye, EyeOff, History, Lock, Megaphone, PlugZap, RefreshCw, Save, Search, Send, UserRound, Users } from 'lucide-react'
+import { ArrowLeft, BellRing, Bot, ChevronDown, ChevronRight, CircleCheck, Gauge, CircleX, Eye, EyeOff, History, Lock, Megaphone, PlugZap, RefreshCw, Save, Search, Send, UserRound, Users } from 'lucide-react'
 
 const KIND_LABELS = {
   ma_cross: 'MA Cross alert',
   test_alert: 'Test alert',
   connection_test: 'Connection test',
   command_reply: 'Command reply',
+}
+
+const USAGE_LABELS = {
+  calendar: 'Economic calendar',
+  rate_decisions: 'Rate decision dates',
+  interest_rate: 'Interest rates',
+  bond: 'Bond yields (daily)',
+  intraday: 'Bond yields (intraday)',
 }
 
 const formatMs = (ms) => {
@@ -37,6 +45,7 @@ const SettingsPage = () => {
   const [showGuide, setShowGuide] = useState(false)
   const [history, setHistory] = useState([])
   const [historyLoading, setHistoryLoading] = useState(false)
+  const [teUsage, setTeUsage] = useState(null)
 
   const applySettings = (s) => {
     setSaved(s)
@@ -61,6 +70,7 @@ const SettingsPage = () => {
 
   useEffect(() => {
     loadHistory()
+    settingsAPI.getTeUsage().then(res => setTeUsage(res.data)).catch(() => {})
     settingsAPI.getTelegram()
       .then(res => applySettings(res.data))
       .catch(err => {
@@ -452,6 +462,34 @@ const SettingsPage = () => {
             </div>
           )}
         </div>
+        {teUsage && (
+          <div className="settings-card">
+            <div className="settings-card-header">
+              <div>
+                <h2><Gauge size={18} /> Trading Economics usage</h2>
+                <p className="settings-subtitle">
+                  Requests used in {teUsage.month} of the {teUsage.limit} the plan allows each month.
+                  Intraday pauses at {teUsage.budgets.intraday} and daily bond yields at {teUsage.budgets.bond}, so interest
+                  rates and the calendar always have room. {teUsage.reserve} are kept back for manual use.
+                </p>
+              </div>
+              <span className={`settings-status ${teUsage.quota_hit || teUsage.used >= teUsage.limit - teUsage.reserve ? 'off' : teUsage.used >= teUsage.budgets.intraday ? 'paused' : 'on'}`}>
+                {teUsage.used} / {teUsage.limit}
+              </span>
+            </div>
+            <div className="usage-bar"><div style={{ width: `${Math.min(100, (teUsage.used / teUsage.limit) * 100)}%` }} /></div>
+            {teUsage.quota_hit && (
+              <p className="settings-message error">Trading Economics reported the quota as reached. Stored data is shown until next month.</p>
+            )}
+            <table className="guide-table usage-table">
+              <tbody>
+                {Object.entries(USAGE_LABELS).map(([kind, label]) => (
+                  <tr key={kind}><td>{label}</td><td>{teUsage.by_kind[kind] || 0}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   )

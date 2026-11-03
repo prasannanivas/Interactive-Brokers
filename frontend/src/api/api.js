@@ -107,6 +107,7 @@ export const settingsAPI = {
   detectTelegramChat: (data) => tradingApi.post('/api/settings/telegram/detect-chat', data),
   sendTestAlert: () => tradingApi.post('/api/settings/telegram/test-alert'),
   getTelegramHistory: (limit = 50) => tradingApi.get(`/api/settings/telegram/history?limit=${limit}`),
+  getTeUsage: () => tradingApi.get('/api/settings/te-usage'),
 }
 
 // Backtest API - MA Cross EMA fast/slow grid search per pair (signal service)
