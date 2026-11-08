@@ -187,7 +187,7 @@ class SignalBackfiller:
         try:
             # Fetch historical data UP TO target date
             daily_data = self._fetch_historical_data_up_to_date(
-                symbol, target_date, timespan="day", days_back=250
+                symbol, target_date, timespan="day", days_back=600  # ~428 weekday bars, needed for EMA 200
             )
             hourly_data = self._fetch_historical_data_up_to_date(
                 symbol, target_date, timespan="hour", days_back=30

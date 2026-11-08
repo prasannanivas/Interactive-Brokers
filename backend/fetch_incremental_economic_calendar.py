@@ -45,7 +45,10 @@ def get_last_stored_date(collection) -> datetime | None:
     return None
 
 
-def fetch_calendar_for_range(start_date: datetime, end_date: datetime) -> list:
+CALENDAR_MAX_ROWS = 1000  # Trading Economics returns at most 1,000 calendar rows per request
+
+
+def fetch_calendar_for_range(start_date: datetime, end_date: datetime, raise_errors: bool = False) -> list:
     """
     Fetch raw events from Trading Economics API for all countries in the given date range.
     Returns a list of processed event dicts ready for MongoDB upsert.
@@ -99,6 +102,8 @@ def fetch_calendar_for_range(start_date: datetime, end_date: datetime) -> list:
 
     except Exception as e:
         print(f"     ✗ Error fetching calendar: {e}")
+        if raise_errors:
+            raise
 
     return all_events
 
@@ -119,6 +124,24 @@ def upsert_events(collection, events: list) -> int:
 
     result = collection.bulk_write(ops, ordered=False)
     return result.upserted_count + result.modified_count
+
+
+def refresh_window(start_date: datetime, end_date: datetime) -> int:
+    """Re-fetch one date window (one request) so released actuals and reschedules are picked up.
+    Events in the window that Trading Economics no longer lists (moved / cancelled) are removed."""
+    fetched_at = datetime.utcnow()
+    events = fetch_calendar_for_range(start_date, end_date, raise_errors=True)
+    client = MongoClient(MONGODB_URL, serverSelectionTimeoutMS=30000)
+    try:
+        collection = client[MONGODB_DB_NAME]['economic_calendar']
+        affected = upsert_events(collection, events)
+        if events and len(events) < CALENDAR_MAX_ROWS:
+            collection.delete_many({'date': {'$gte': start_date, '$lte': end_date}, 'updated_at': {'$lt': fetched_at}})
+        elif len(events) >= CALENDAR_MAX_ROWS:
+            print(f"  ⚠ Calendar window {start_date.date()}..{end_date.date()} hit the {CALENDAR_MAX_ROWS}-row cap")
+        return affected
+    finally:
+        client.close()
 
 
 def run():

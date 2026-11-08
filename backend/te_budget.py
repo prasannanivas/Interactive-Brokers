@@ -72,7 +72,11 @@ def _is_quota_message(resp: requests.Response) -> bool:
 def te_get(kind: str, url: str, params: dict = None, timeout: int = 30) -> requests.Response:
     """requests.get for Trading Economics, counted against the monthly budget. Raises BudgetExceeded."""
     _reserve(kind)
-    resp = requests.get(url, params=params, timeout=timeout)
+    # The key goes in the Authorization header (documented alternative to ?c=), keeping URLs short
+    # enough to batch many tickers / countries into one request
+    params = dict(params or {})
+    key = params.pop('c', None) or params.pop('client', None)
+    resp = requests.get(url, params=params, headers={'Authorization': key} if key else None, timeout=timeout)
     if _is_quota_message(resp):
         _coll().update_one({'_id': _month()}, {'$set': {'quota_hit_at': datetime.utcnow(),
                                                         'quota_message': resp.text[:200]}})

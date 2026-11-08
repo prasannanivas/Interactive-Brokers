@@ -355,8 +355,12 @@ class MassiveMonitorV2:
             print(f"✗ Error fetching quote for {symbol}: {e}")
             return None
 
-    async def _fetch_daily_data(self, symbol: str, days: int = 250) -> Optional[pd.DataFrame]:
-        """Fetch daily historical data (need 200+ days for SMA200)"""
+    async def _fetch_daily_data(self, symbol: str, days: int = 600) -> Optional[pd.DataFrame]:
+        """Fetch daily historical data.
+
+        `days` is calendar days; forex only has ~5 bars/week (weekend bars are dropped),
+        so 600 days gives ~428 bars - enough for EMA 200 plus warm-up.
+        """
         if not self.is_connected():
             return None
 

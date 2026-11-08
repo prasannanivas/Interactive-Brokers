@@ -30,7 +30,7 @@ from user_telegram import mask_token, telegram_call, send_and_log, get_user_sett
 from telegram_commands import TelegramCommandPoller
 from ma_cross_alerts import format_telegram
 from backtest import fetch_daily_bars, run_backtest
-from on_demand_refresh import ensure_bond_fresh, ensure_interest_rates_fresh
+from on_demand_refresh import ensure_bond_fresh, ensure_interest_rates_fresh, ensure_calendar_fresh
 from bond_series import get_bond_series, ensure_intraday_indexes, ALLOWED as BOND_SERIES_ALLOWED, INTRADAY_REFRESH_MINUTES
 from database import Database, get_users_collection, get_login_history_collection, get_api_calls_collection, get_signals_collection, get_watchlist_changes_collection, get_signal_batches_collection, get_indicator_states_collection, get_position_changes_collection, get_daily_signal_snapshots_collection, get_bond_yields_collection, get_interest_rates_collection, get_data_fetch_tracker_collection, get_economic_calendar_collection, get_fx_reports_collection
 from models import UserCreate, UserLogin, UserResponse, Token, Symbol, WatchlistItem, AlgorithmConfig, TelegramConfig, APICallLog, SignalLog, WatchlistChange, DailySignalSnapshot, PasswordResetRequest, PasswordReset, PasswordChange, LoginHistoryResponse
@@ -549,14 +549,16 @@ async def startup_event():
                 replace_existing=True
             )
 
-        # Schedule daily economic calendar refresh at 6:00 AM EST
-        scheduler.add_job(
-            run_daily_economic_calendar_refresh,
-            trigger=CronTrigger(hour=6, minute=0, timezone=est_tz),
-            id='daily_economic_calendar_refresh',
-            name='Daily Economic Calendar Refresh at 6am EST',
-            replace_existing=True
-        )
+        # The economic calendar is refreshed when it's viewed (on_demand_refresh.ensure_calendar_fresh).
+        # Set SCHEDULED_CALENDAR_REFRESH=true to bring back the 6 AM daily fetch.
+        if os.getenv('SCHEDULED_CALENDAR_REFRESH', 'false').lower() == 'true':
+            scheduler.add_job(
+                run_daily_economic_calendar_refresh,
+                trigger=CronTrigger(hour=6, minute=0, timezone=est_tz),
+                id='daily_economic_calendar_refresh',
+                name='Daily Economic Calendar Refresh at 6am EST',
+                replace_existing=True
+            )
         
         # Poll for the daily FX report every 15 minutes from 7am-6pm EST.
         # The source has no fixed/known publish time, so a single fixed-time
@@ -576,7 +578,7 @@ async def startup_event():
         # Show next run times
         next_run_signal = scheduler.get_job('daily_signal_capture').next_run_time
         data_job = scheduler.get_job('daily_economic_data_refresh')
-        next_run_calendar = scheduler.get_job('daily_economic_calendar_refresh').next_run_time
+        calendar_job = scheduler.get_job('daily_economic_calendar_refresh')
         next_run_fx_report = scheduler.get_job('daily_fx_report_download').next_run_time
 
         print(f"\n✓ Scheduled jobs configured")
@@ -587,8 +589,11 @@ async def startup_event():
             print(f"    Next run: {data_job.next_run_time.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         else:
             print(f"  • Economic Data: on demand (fetched when the dashboard views a series, then cached in MongoDB)")
-        print(f"  • Economic Calendar: Every day at 6:00 AM EST")
-        print(f"    Next run: {next_run_calendar.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        if calendar_job:
+            print(f"  • Economic Calendar: Every day at 6:00 AM EST")
+            print(f"    Next run: {calendar_job.next_run_time.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
+        else:
+            print(f"  • Economic Calendar: on view (refreshed when events have been released since the last fetch)")
         print(f"  • FX Report Poll: Every 15 min, 7:00 AM-6:00 PM EST")
         print(f"    Next check: {next_run_fx_report.astimezone(est_tz).strftime('%Y-%m-%d %I:%M:%S %p %Z')}")
         print()
@@ -1965,6 +1970,7 @@ async def get_economic_calendar(
         if importance:
             query['importance'] = importance
 
+        await ensure_calendar_fresh()
         collection = get_economic_calendar_collection()
 
         async def load_events():

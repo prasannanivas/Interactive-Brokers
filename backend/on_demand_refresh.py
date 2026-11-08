@@ -7,7 +7,7 @@ served from MongoDB for everyone afterwards.
 
 Bond yields (move every trading day):
 - when a viewed series is missing the latest completed trading day, ALL stale series are topped up
-  together, up to BOND_BATCH tickers per request - about 2-4 requests per trading day in total
+  together in one request - about 1 request per trading day in total
 - only complete daily bars are stored (never today's still-forming bar)
 - at most one attempt per series every 6 hours, recorded even when the attempt fails
 
@@ -30,7 +30,7 @@ from te_budget import BudgetExceeded, te_get
 import fetch_incremental_bond_data as te
 
 BOND_RETRY_SECONDS = 6 * 3600
-BOND_BATCH = 10
+BOND_BATCH = 40     # all 32 tickers verified to fit in one request with the key in the header
 # Each top-up re-fetches this many recent days (same single request) and replaces them, so bars
 # that were stored while still forming (the old 5 AM job did this) are corrected with final closes.
 RECHECK_DAYS = 21
@@ -260,3 +260,72 @@ async def ensure_interest_rates_fresh(countries: Iterable[str]):
         await cached(('rate-refresh-due',), 60, _refresh_due_rates)
     except Exception as e:
         print(f"✗ On-demand interest-rate refresh failed: {e}")
+
+
+# ── Economic calendar ────────────────────────────────────────────────────────
+# Fetched when the calendar is viewed instead of by a daily job:
+# - near window (last few days + next two weeks): when events have been released since the last
+#   fetch, at most every CALENDAR_REFRESH_HOURS - fills in actual values and picks up reschedules
+# - far window (out to ~3.5 months): once a month, in 30-day requests (1,000-row cap per request)
+
+CALENDAR_REFRESH_HOURS = 12
+CALENDAR_NEAR_PAST_DAYS = 3
+CALENDAR_NEAR_FUTURE_DAYS = 14
+CALENDAR_FAR_DAYS = 30
+CALENDAR_FAR_CHUNKS = 3
+
+
+def _calendar_meta():
+    return Database.get_db().fetch_meta
+
+
+async def _refresh_calendar():
+    import fetch_incremental_economic_calendar as cal
+    from database import get_economic_calendar_collection
+    meta_coll = _calendar_meta()
+    meta = await meta_coll.find_one({'_id': 'calendar'}) or {}
+    now = datetime.utcnow()
+    today = datetime(now.year, now.month, now.day)
+    loop = asyncio.get_running_loop()
+    windows = []
+
+    near_at = meta.get('near_at')
+    if not near_at or now - near_at >= timedelta(hours=CALENDAR_REFRESH_HOURS):
+        # only worth a request if something was released since the last fetch
+        released = not near_at or await get_economic_calendar_collection().find_one(
+            {'date': {'$gt': near_at, '$lte': now}}, {'_id': 1})
+        if released:
+            windows.append(('near_at', today - timedelta(days=CALENDAR_NEAR_PAST_DAYS),
+                            today + timedelta(days=CALENDAR_NEAR_FUTURE_DAYS, hours=23, minutes=59)))
+    far_at = meta.get('far_at')
+    if not far_at or now - far_at >= timedelta(days=30):
+        start = today + timedelta(days=CALENDAR_NEAR_FUTURE_DAYS + 1)
+        for i in range(CALENDAR_FAR_CHUNKS):
+            s = start + timedelta(days=i * CALENDAR_FAR_DAYS)
+            windows.append(('far_at' if i == CALENDAR_FAR_CHUNKS - 1 else None, s,
+                            s + timedelta(days=CALENDAR_FAR_DAYS - 1, hours=23, minutes=59)))
+    if not windows:
+        return
+
+    changed = 0
+    for field, start, end in windows:
+        try:
+            changed += await loop.run_in_executor(None, cal.refresh_window, start, end)
+        except BudgetExceeded as e:
+            print(f"⏸ Calendar refresh skipped: {e}")
+            break
+        except Exception as e:
+            print(f"✗ Calendar refresh failed for {start.date()}..{end.date()}: {e}")
+            break
+        if field:
+            await meta_coll.update_one({'_id': 'calendar'}, {'$set': {field: now}}, upsert=True)
+    if changed:
+        invalidate('economic-calendar')
+    print(f"✓ On-demand calendar refresh: {changed} event(s) updated in {len(windows)} window(s)")
+
+
+async def ensure_calendar_fresh():
+    try:
+        await cached(('calendar-refresh',), 60, _refresh_calendar)
+    except Exception as e:
+        print(f"✗ On-demand calendar refresh failed: {e}")

@@ -31,8 +31,8 @@ const INTERVAL_GROUPS = [
 const INTERVAL_LABEL = Object.fromEntries(INTERVAL_GROUPS.flatMap(g => g.items))
 const isIntraday = (iv) => ['1m', '5m', '15m', '1h'].includes(iv)
 
-const SPREAD_10Y = '#2f5f9e'
-const SPREAD_2Y = '#6a4a8c'
+const SPREAD_10Y = '#3b82f6'
+const SPREAD_2Y = '#ef4444'
 
 // ── Toolbar: "Sync with page" or a chosen period + candle size ────────────────
 export const BondRangeToolbar = ({ value, onChange }) => {

@@ -722,7 +722,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               type="monotone" 
               dataKey="baseRate" 
               name={mapping.base.name}
-              stroke="#2f5f9e" 
+              stroke="#3b82f6" 
               strokeWidth={2}
               dot={false}
             />
@@ -730,7 +730,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               type="monotone" 
               dataKey="quoteRate" 
               name={mapping.quote.name}
-              stroke="#16794a" 
+              stroke="#10b981" 
               strokeWidth={2}
               dot={false}
             />
@@ -753,8 +753,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
         {!loadingBond && dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
           <div className="delta-stats-row">
-            {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="var(--info)" />}
-            {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} deltaColor="var(--series-violet)" />}
+            {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="#3b82f6" />}
+            {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} deltaColor="#ef4444" />}
           </div>
         )}
         {loadingBond ? (
@@ -791,7 +791,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               type="monotone" 
               dataKey="spread10Y" 
               name="10Y Bond Spread"
-              stroke="#2f5f9e" 
+              stroke="#3b82f6" 
               strokeWidth={2}
               dot={false}
             />
@@ -799,7 +799,7 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
               type="monotone" 
               dataKey="spread2Y" 
               name="2Y Bond Spread"
-              stroke="#6a4a8c" 
+              stroke="#ef4444" 
               strokeWidth={2}
               dot={false}
             />
@@ -941,8 +941,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
                   <YAxis stroke="#43524c" style={{ fontSize: '12px' }} label={{ value: 'Interest Rate (%)', angle: -90, position: 'insideLeft' }} />
                   <Tooltip content={<CustomTooltip title="Interest Rate" />} />
                   <Legend />
-                  <Line type="monotone" dataKey="baseRate" name={mapping.base.name} stroke="#2f5f9e" strokeWidth={2} dot={false} />
-                  <Line type="monotone" dataKey="quoteRate" name={mapping.quote.name} stroke="#16794a" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="baseRate" name={mapping.base.name} stroke="#3b82f6" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="quoteRate" name={mapping.quote.name} stroke="#10b981" strokeWidth={2} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             )}
@@ -962,8 +962,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
 
             {dataAvailability.bondYields && (spread10YStats || spread2YStats) && (
               <div className="delta-stats-row">
-                {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="var(--info)" />}
-                {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} deltaColor="var(--series-violet)" />}
+                {spread10YStats && <DeltaStatsBar label="10Y Delta" stats={spread10YStats} deltaColor="#3b82f6" />}
+                {spread2YStats && <DeltaStatsBar label="2Y Delta" stats={spread2YStats} deltaColor="#ef4444" />}
               </div>
             )}
             {!dataAvailability.bondYields ? (
@@ -979,8 +979,8 @@ const ComprehensiveAnalysisChart = ({ selectedCurrencyPair, onPairChange, watchl
                   <YAxis stroke="#43524c" style={{ fontSize: '12px' }} label={{ value: 'Spread (%)', angle: -90, position: 'insideLeft' }} />
                   <Tooltip content={<CustomTooltip title="Spread" />} />
                   <Legend />
-                  <Line type="monotone" dataKey="spread10Y" name="10Y Bond Spread" stroke="#2f5f9e" strokeWidth={2} dot={false} />
-                  <Line type="monotone" dataKey="spread2Y" name="2Y Bond Spread" stroke="#6a4a8c" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="spread10Y" name="10Y Bond Spread" stroke="#3b82f6" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="spread2Y" name="2Y Bond Spread" stroke="#ef4444" strokeWidth={2} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             )}

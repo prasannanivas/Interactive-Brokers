@@ -165,6 +165,16 @@ def _weekday_minutes(start: datetime, end: datetime) -> float:
     return total
 
 
+def _weekend_closed(now: datetime) -> bool:
+    """Bond markets are shut from Friday's US close until Asia opens on Sunday evening (UTC)."""
+    return now.weekday() == 5 or (now.weekday() == 6 and now.hour < 21) or (now.weekday() == 4 and now.hour >= 22)
+
+
+def _last_friday_close(now: datetime) -> datetime:
+    friday = now.date() - timedelta(days=(now.weekday() - 4) % 7)
+    return datetime(friday.year, friday.month, friday.day, 20, 0)
+
+
 def _fetch_te_intraday(symbols: List[str], since: datetime) -> Tuple[List[Dict], Optional[str]]:
     """One request (1-minute bars since `since`). Returns (rows, error). Blocking - run in an executor."""
     url = f"{te.TE_BASE_URL}/markets/intraday/{','.join(symbols)}"
@@ -217,6 +227,8 @@ async def _refresh_intraday(series: Tuple[Tuple[str, str], ...]):
         if attempt and (now - attempt).total_seconds() < INTRADAY_REFRESH_MINUTES * 60:
             continue
         since = m.get('last_ts')
+        if since and _weekend_closed(now) and since >= _last_friday_close(now):
+            continue  # markets shut since Friday's close - nothing new to fetch
         since = max(since + timedelta(minutes=1), oldest_allowed) if since else oldest_allowed
         stale.append((country, maturity, symbol, since))
     if not stale:
