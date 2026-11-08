@@ -100,8 +100,8 @@ export const getSignalCountsFromCandles = (candles) => {
   if (ci >= 9) {
     const rsi = rsi9[ci - 9]
     if (Number.isFinite(rsi)) {
-      if (rsi < 30) buy++
-      else if (rsi > 70) sell++
+      if (rsi < 40) buy++
+      else if (rsi > 80) sell++
     }
   }
   // EMA9 — offset: candle i+8
@@ -124,10 +124,10 @@ export const getSignalCountsFromCandles = (candles) => {
     const ema = ema200[ci - 199]
     if (Number.isFinite(ema)) { price > ema ? buy++ : sell++ }
   }
-  // MACD histogram — offset: candle i+33
-  if (ci >= 33) {
-    const hist = macd.histogram[ci - 33]
-    if (Number.isFinite(hist)) { hist > 0 ? buy++ : sell++ }
+  // MACD line (12 EMA - 26 EMA) — offset: candle i+25
+  if (ci >= 25) {
+    const m = macd.macd[ci - 25]
+    if (Number.isFinite(m)) { m > 0 ? buy++ : sell++ }
   }
   // MA Cross EMA9 vs EMA21
   if (ci >= 20) {
@@ -169,8 +169,8 @@ export const getSignalNamesFromCandles = (candles) => {
   if (ci >= 9) {
     const rsi = rsi9[ci - 9]
     if (Number.isFinite(rsi)) {
-      if (rsi < 30) vote('RSI_9', true)
-      else if (rsi > 70) vote('RSI_9', false)
+      if (rsi < 40) vote('RSI_9', true)
+      else if (rsi > 80) vote('RSI_9', false)
     }
   }
   if (ci >= 8) {
@@ -189,9 +189,9 @@ export const getSignalNamesFromCandles = (candles) => {
     const ema = ema200[ci - 199]
     if (Number.isFinite(ema)) vote('EMA_200', price > ema)
   }
-  if (ci >= 33) {
-    const hist = macd.histogram[ci - 33]
-    if (Number.isFinite(hist)) vote('MACD', hist > 0)
+  if (ci >= 25) {
+    const m = macd.macd[ci - 25]
+    if (Number.isFinite(m)) vote('MACD', m > 0)
   }
   if (ci >= 20) {
     const short = maCross.shortMA[ci - 8]

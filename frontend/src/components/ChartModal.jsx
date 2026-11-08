@@ -585,12 +585,12 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     const currentHistogram = macd.histogram[macd.histogram.length - 1]
 
     // Generate signals
-    const rsiSignal = currentRSI > 70 ? 'sell' : currentRSI < 30 ? 'buy' : 'neutral'
+    const rsiSignal = currentRSI > 80 ? 'sell' : currentRSI < 40 ? 'buy' : 'neutral'
     const ema9Signal = currentPrice > currentEMA9 ? 'buy' : 'sell'
     const ema20Signal = currentPrice > currentEMA20 ? 'buy' : 'sell'
     const ema50Signal = currentPrice > currentEMA50 ? 'buy' : 'sell'
     const ema200Signal = currentPrice > currentEMA200 ? 'buy' : 'sell'
-    const macdSignal = currentMACD > currentSignal ? 'buy' : 'sell'
+    const macdSignal = currentMACD > 0 ? 'buy' : 'sell'  // 12 EMA > 26 EMA
     const maCrossSignal = maCross.signal
 
     return {
@@ -752,7 +752,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     const ema50Arr   = indics.ema50?.data   || []
     const ema200Arr  = indics.ema200?.data  || []
     const rsiArr     = indics.rsi?.data     || []
-    const macdHist   = indics.macd?.data?.histogram || []
+    const macdLine   = indics.macd?.data?.macd || []
     const shortMAArr = indics.maCross?.data?.shortMA || []
     const longMAArr  = indics.maCross?.data?.longMA  || []
     const bbUpperArr = indics.bollingerBands?.upperData || []
@@ -776,8 +776,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         if (ci >= 9) {
           const rsi = rsiArr[ci - 9]
           if (Number.isFinite(rsi)) {
-            if (rsi < 30) buyCount++
-            else if (rsi > 70) sellCount++
+            if (rsi < 40) buyCount++
+            else if (rsi > 80) sellCount++
           }
         }
         // EMA9: ema9Arr[i] → candle i+8
@@ -800,10 +800,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           const ema = ema200Arr[ci - 199]
           if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
         }
-        // MACD histogram: macdHist[i] → candle i+33
-        if (ci >= 33) {
-          const hist = macdHist[ci - 33]
-          if (Number.isFinite(hist)) { hist > 0 ? buyCount++ : sellCount++ }
+        // MACD line (12 EMA - 26 EMA): macdLine[i] → candle i+25
+        if (ci >= 25) {
+          const m = macdLine[ci - 25]
+          if (Number.isFinite(m)) { m > 0 ? buyCount++ : sellCount++ }
         }
         // MA Cross EMA9 vs EMA21: shortMAArr[i] → candle i+8, longMAArr[i] → candle i+20
         if (ci >= 20) {
@@ -820,8 +820,8 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         if (ci >= 9) {
           const rsi = rsiArr[ci - 9]
           if (Number.isFinite(rsi)) {
-            if (rsi < 30) buyCount++
-            else if (rsi > 70) sellCount++
+            if (rsi < 40) buyCount++
+            else if (rsi > 80) sellCount++
             // 30–70 = neutral, not counted
           }
         }
@@ -845,10 +845,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
           const ema = ema200Arr[ci - 199]
           if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
         }
-        // MACD histogram: macdHist[i] → candle i+33
-        if (ci >= 33) {
-          const hist = macdHist[ci - 33]
-          if (Number.isFinite(hist)) { hist > 0 ? buyCount++ : sellCount++ }
+        // MACD line (12 EMA - 26 EMA): macdLine[i] → candle i+25
+        if (ci >= 25) {
+          const m = macdLine[ci - 25]
+          if (Number.isFinite(m)) { m > 0 ? buyCount++ : sellCount++ }
         }
         // MA Cross EMA9 vs EMA21: shortMAArr[i] → candle i+8, longMAArr[i] → candle i+20
         if (ci >= 20) {
@@ -1314,7 +1314,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       const rsiStartIndex = candles.length - indicators.rsi.data.length
       rsiSeries.setData(safeMap(indicators.rsi.data, rsiStartIndex))
 
-      // Add horizontal lines at 30 and 70
+      // Signal thresholds per Trading Rules: BUY < 40, SELL > 80
       const oversoldLine = rsiChart.addLineSeries({
         color: '#16794a',
         lineWidth: 1,
@@ -1322,7 +1322,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         priceLineVisible: false,
         lastValueVisible: false,
       })
-      oversoldLine.setData(candles.map(c => ({ time: c.time, value: 30 })))
+      oversoldLine.setData(candles.map(c => ({ time: c.time, value: 40 })))
 
       const overboughtLine = rsiChart.addLineSeries({
         color: '#b4232a',
@@ -1331,7 +1331,7 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         priceLineVisible: false,
         lastValueVisible: false,
       })
-      overboughtLine.setData(candles.map(c => ({ time: c.time, value: 70 })))
+      overboughtLine.setData(candles.map(c => ({ time: c.time, value: 80 })))
 
       rsiChart.timeScale().fitContent()
 

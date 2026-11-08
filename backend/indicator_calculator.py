@@ -108,7 +108,7 @@ class IndicatorCalculator:
         signal = None
         if rsi_value > 80:
             signal = "SELL"
-        elif rsi_value < 20:  # Note: The requirement says RSI < 80 for BUY, but this seems like a typo. Using 20 as threshold
+        elif rsi_value < 40:  # Trading Rules.xlsx: RSI(9) < 40 = BUY, > 80 = SELL
             signal = "BUY"
         
         return {
@@ -229,12 +229,12 @@ class IndicatorCalculator:
         signal_value = signal_line.iloc[-1]
         histogram_value = histogram.iloc[-1]
         
-        # Determine signal (12 > 26 means MACD line > Signal line)
+        # Trading Rules.xlsx: 12 EMA > 26 EMA = BUY, i.e. MACD line above zero
         signal = None
-        if macd_value > signal_value:
-            signal = "BUY"  # When 12 > 26
-        elif macd_value < signal_value:
-            signal = "SELL"  # When 12 < 26
+        if macd_value > 0:
+            signal = "BUY"
+        elif macd_value < 0:
+            signal = "SELL"
         
         return {
             'macd_line': round(float(macd_value), 6),
