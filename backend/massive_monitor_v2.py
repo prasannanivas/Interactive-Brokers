@@ -323,15 +323,23 @@ class MassiveMonitorV2:
             
             if snapshot:
                 price = 0
-                
-                # Get last trade price
-                if hasattr(snapshot, 'lastTrade') and snapshot.lastTrade:
-                    price = snapshot.lastTrade.get('p', 0) if isinstance(snapshot.lastTrade, dict) else getattr(snapshot.lastTrade, 'p', 0)
-                
+
+                # Live price: last trade, then the latest minute bar / today's bar.
+                # The client exposes snake_case attributes (last_trade, min, day, prev_day);
+                # forex snapshots usually have no last_trade, so min/day carry the live price.
+                last_trade = getattr(snapshot, 'last_trade', None)
+                if last_trade:
+                    price = getattr(last_trade, 'price', 0) or 0
+
+                for bar_name in ('min', 'day'):
+                    if not price:
+                        bar = getattr(snapshot, bar_name, None)
+                        price = (getattr(bar, 'close', 0) or 0) if bar else 0
+
                 # Fallback to previous close
-                if price == 0:
-                    if hasattr(snapshot, 'prevDay') and snapshot.prevDay:
-                        price = snapshot.prevDay.get('c', 0) if isinstance(snapshot.prevDay, dict) else getattr(snapshot.prevDay, 'c', 0)
+                if not price:
+                    prev_day = getattr(snapshot, 'prev_day', None)
+                    price = (getattr(prev_day, 'close', 0) or 0) if prev_day else 0
                 
                 # Last resort: use previous close aggregate
                 if price == 0:

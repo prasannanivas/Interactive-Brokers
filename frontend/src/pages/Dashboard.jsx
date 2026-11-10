@@ -16,6 +16,7 @@ import MACrossAlertBanner from '../components/MACrossAlertBanner'
 import PairChip from '../components/PairChip'
 import ThemeToggle from '../components/ThemeToggle'
 import { SectionLoader, LazySection } from '../components/SectionLoader'
+import { buildSignalHistory, HISTORY_INDICATOR_KEYS, DAILY_LOOKBACK_DAYS, WEEKLY_LOOKBACK_DAYS } from '../utils/signalHistory'
 import './Dashboard.css'
 import { CalendarDays, CalendarRange, ChartCandlestick, Clock, Columns3, FileText, FlaskConical, History, Inbox, LineChart, ListOrdered, LogOut, Plus, ScrollText, SearchX, Settings, Trash2, UserRound, X } from 'lucide-react'
 
@@ -300,51 +301,49 @@ const Dashboard = () => {
     return signal.toLowerCase()
   }
 
+  // Days of signal-change history shown in the popup for daily/weekly indicators
+  const SIGNAL_HISTORY_DAYS = 180
+
+  // Daily/weekly indicator history is rebuilt from closed candles with the current Trading
+  // Rules (one change per daily close). Hourly EMA 100 still comes from the live change log.
+  const loadCandleSignalHistory = async (symbol) => {
+    const ticker = symbol.startsWith('C:') ? symbol : `C:${symbol}`
+    const [dailyRes, weeklyRes] = await Promise.all([
+      historyAPI.getPriceHistory(ticker, SIGNAL_HISTORY_DAYS + DAILY_LOOKBACK_DAYS, 'day'),
+      historyAPI.getPriceHistory(ticker, SIGNAL_HISTORY_DAYS + WEEKLY_LOOKBACK_DAYS, 'week'),
+    ])
+    return buildSignalHistory(dailyRes.data?.candles || [], weeklyRes.data?.candles || [], {
+      historyDays: SIGNAL_HISTORY_DAYS,
+    })
+  }
+
   const viewSignalHistory = async (symbol, indicator = null) => {
     setSelectedSymbol(indicator ? `${symbol} - ${indicator}` : symbol)
     setShowHistoryModal(true)
     setLoadingHistory(true)
 
     try {
-      const response = await historyAPI.getSignalChanges(symbol)
-      let changes = response.data.changes || []
-      
-      // Filter by indicator if specified
-      if (indicator) {
-        console.log('Filtering for indicator:', indicator)
-        console.log('Available indicators in response:', changes.map(c => c.indicator))
-        
-        changes = changes.filter(change => {
-          const changeIndicator = change.indicator?.toLowerCase() || ''
-          const targetIndicator = indicator.toLowerCase()
-          
-          // Normalize both strings by removing extra spaces and special characters
-          const normalizeString = (str) => str.replace(/[\s()]/g, '_').replace(/_+/g, '_').trim()
-          
-          const normalizedChange = normalizeString(changeIndicator)
-          const normalizedTarget = normalizeString(targetIndicator)
-          
-          // Try multiple matching strategies
-          const exactMatch = normalizedChange === normalizedTarget
-          const containsMatch = normalizedChange.includes(normalizedTarget) || normalizedTarget.includes(normalizedChange)
-          
-          // For EMA indicators, also try matching just the number and timeframe
-          const emaMatch = changeIndicator.includes('ema') && targetIndicator.includes('ema') &&
-                          changeIndicator.match(/\d+/) && targetIndicator.match(/\d+/) &&
-                          changeIndicator.match(/\d+/)[0] === targetIndicator.match(/\d+/)[0]
-          
-          const matches = exactMatch || containsMatch || emaMatch
-          
-          if (matches) {
-            console.log(`Match found: "${change.indicator}" matches "${indicator}"`)
-          }
-          
-          return matches
-        })
-        
-        console.log('Filtered changes count:', changes.length)
+      const candleKey = indicator ? HISTORY_INDICATOR_KEYS[indicator] : null
+      let changes
+
+      if (candleKey) {
+        const all = await loadCandleSignalHistory(symbol)
+        changes = all.filter(c => `${c.indicator}|${c.timeframe}` === candleKey)
+      } else if (indicator) {
+        // Hourly EMA 100: live change log
+        const response = await historyAPI.getSignalChanges(symbol)
+        changes = (response.data.changes || []).filter(c => c.timeframe === 'Hourly')
+      } else {
+        const [candleChanges, response] = await Promise.all([
+          loadCandleSignalHistory(symbol),
+          historyAPI.getSignalChanges(symbol),
+        ])
+        const hourly = (response.data.changes || []).filter(c => c.timeframe === 'Hourly')
+        changes = [...candleChanges, ...hourly].sort(
+          (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+        )
       }
-      
+
       setSignalHistory(changes)
     } catch (error) {
       console.error('Failed to load signal changes:', error)
@@ -1621,6 +1620,8 @@ const Dashboard = () => {
                   <div className="changes-timeline">
                     {signalHistory.map((change, index) => {
                       const dateStr = new Date(change.timestamp).toLocaleDateString('en-GB', { 
+                        // Candle entries are trading dates (UTC); don't shift them by the viewer's timezone
+                        ...(change.source === 'candles' ? { timeZone: 'UTC' } : {}),
                         day: '2-digit', 
                         month: '2-digit', 
                         year: 'numeric' 
@@ -1653,7 +1654,11 @@ const Dashboard = () => {
                                 {newSignal}
                               </span>
                             </div>
-                            <div className="change-meta">Price: ${change.price?.toFixed(5)} at {timeStr}</div>
+                            <div className="change-meta">
+                              {change.source === 'candles'
+                                ? <>Close: ${change.price?.toFixed(5)} (daily close)</>
+                                : <>Price: ${change.price?.toFixed(5)} at {timeStr}</>}
+                            </div>
                           </div>
                         </div>
                       )
