@@ -15,7 +15,7 @@ from datetime import datetime
 # EMA (SMA-seeded) has fully converged, so the value does not depend on the window start
 # and the table, chart and history all agree.
 DAILY_LOOKBACK_DAYS = 1825   # ~1300 weekday bars for EMA 200
-HOURLY_LOOKBACK_DAYS = 42    # ~1000 bars for EMA 100
+HOURLY_LOOKBACK_DAYS = 120   # EMA 100 converged even on thin pairs (ILS: ~10 bars/day -> ~850 bars)
 WEEKLY_LOOKBACK_DAYS = 1825  # ~260 bars for weekly EMA 20 / Bollinger
 
 

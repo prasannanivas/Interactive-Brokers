@@ -179,7 +179,8 @@ def test_monitor_windows_converge_every_ema():
     left = lambda p, bars: ((p - 1) / (p + 1)) ** (bars - p)
     assert left(200, icm.DAILY_LOOKBACK_DAYS * 5 / 7 - 15) < 1e-3
     assert left(20, icm.WEEKLY_LOOKBACK_DAYS / 7) < 1e-3
-    assert left(100, icm.HOURLY_LOOKBACK_DAYS * 24 * 5 / 7) < 1e-3
+    # thin pairs (e.g. EUR/ILS) print only ~10 hourly bars a day
+    assert left(100, icm.HOURLY_LOOKBACK_DAYS * 10 * 5 / 7) < 1e-3
 
 
 def test_ema_value_independent_of_window_start():

@@ -6,7 +6,7 @@
 // Lookback windows (calendar days) - same as indicator_calculator.py *_LOOKBACK_DAYS.
 // The chart fetches the same windows, so every view computes from identical candles.
 export const DAILY_WINDOW_DAYS = 1825
-export const HOURLY_WINDOW_DAYS = 42
+export const HOURLY_WINDOW_DAYS = 120 // thin pairs (ILS) only print ~10 hourly bars a day
 export const WEEKLY_WINDOW_DAYS = 1825
 
 export const TRADING_RULES = { RSI_SELL_ABOVE: 80, RSI_BUY_BELOW: 40 }
@@ -214,10 +214,10 @@ export const extractSignals = ({ daily, hourly, weekly }) => {
 // every EMA has converged, so this equals the backend's windowed value (the /test page
 // verifies that on sampled days).
 
-// Hourly history fetched for snapshots: calendar range (~15 months) + EMA 100 warm-up
-export const CLOSE_HOURLY_DAYS = 500
-// Extra days of daily/weekly history fetched beyond the lookback window (calendar range)
+// Extra days of history fetched beyond the lookback window (calendar range ~15 months)
 export const CLOSE_EXTRA_DAYS = 460
+// Hourly history fetched for snapshots: calendar range + EMA 100 warm-up
+export const CLOSE_HOURLY_DAYS = CLOSE_EXTRA_DAYS + HOURLY_WINDOW_DAYS
 export const SNAPSHOT_FETCH = {
   daily: DAILY_WINDOW_DAYS + CLOSE_EXTRA_DAYS,
   weekly: WEEKLY_WINDOW_DAYS + CLOSE_EXTRA_DAYS,

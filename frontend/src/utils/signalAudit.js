@@ -282,7 +282,7 @@ const auditViews = ({ add, item, snaps, matrixSnaps, daily, weekly, hourly, hist
     if (!(slot in liveSnap.states)) continue
     if (sig(liveSnap.states[slot]) === sig(tableState(slot))) continue
     const id = SLOT_SPEC[slot]
-    const border = engineResults[id]?.borderline || chartResults[id]?.borderline || engineResults[id]?.status === STATUS.WARN
+    const border = engineResults[id]?.borderline || chartResults[id]?.borderline || chartResults[id]?.priceMoved || engineResults[id]?.status === STATUS.WARN
     ;(border ? liveBorder : liveDiff).push(`${short(slot)}: candles ${sig(liveSnap.states[slot])} vs table ${sig(tableState(slot))}`)
   }
   add({ group: G, name: `Live day (${live}) from candles = table`, expected: `${tBuy.length} buy / ${tSell.length} sell`,
@@ -452,10 +452,17 @@ const auditViews = ({ add, item, snaps, matrixSnaps, daily, weekly, hourly, hist
     const at = idx >= 0 ? (day === live ? tableState('MA_Crossover_Daily') : snaps.get(day).states.MA_Crossover_Daily) : undefined
     const before = idx > 0 ? snaps.get(snapKeys[idx - 1]).states.MA_Crossover_Daily : undefined
     const crossOk = at === a.direction && before !== a.direction
+    let nearest = null
+    for (let k = Math.max(1, idx - 5); idx >= 0 && k <= Math.min(snapKeys.length - 1, idx + 5); k++) {
+      const cur = snaps.get(snapKeys[k]).states.MA_Crossover_Daily, prv = snaps.get(snapKeys[k - 1]).states.MA_Crossover_Daily
+      if (cur === a.direction && prv !== a.direction && (!nearest || Math.abs(k - idx) < Math.abs(snapKeys.indexOf(nearest) - idx))) nearest = snapKeys[k]
+    }
     add({ group: G, name: `MA Cross banner: latest alert (${a.direction} ${day})`, expected: `cross on ${day}; counts sum to ${TOTAL_INDICATORS}`,
       actual: `close ${day}: ${sig(at)} (prev ${sig(before)}); ${c ? `${c.bullish}/${c.bearish}/${c.neutral}${c.live ? ' live' : ''}` : 'no counts'}`,
       status: !sumOk ? STATUS.FAIL : crossOk ? STATUS.PASS : STATUS.WARN,
-      note: crossOk ? '' : 'The daily closes do not show this cross on that day (it happened intraday and reversed, or was detected with the old formulas)' })
+      note: crossOk ? '' : nearest
+        ? `Daily closes show this cross on ${nearest} - the alert dated it from the live (intraday) bar or the pre-Trading-Rules formulas`
+        : 'No matching cross in the daily closes within 5 days (intraday cross that reversed, or detected with the pre-Trading-Rules formulas)' })
   }
 }
 
@@ -546,9 +553,18 @@ const auditSymbol = async (item, api, now) => {
     engineResults[spec.id] = r1
     add(r1)
   }
+  const chartPrice = last(chDaily)?.close
+  const moved = chartPrice != null && dPrice != null ? rel(chartPrice, dPrice) : 0
   for (const spec of SPECS) {
     const t = table[spec.tf]?.[spec.key] || null
-    const r2 = compareIndicator(spec, chart[spec.tf]?.[spec.key] || null, t, 'chart', dPrice, 'chart')
+    let r2 = compareIndicator(spec, chart[spec.tf]?.[spec.key] || null, t, 'chart', dPrice, 'chart')
+    // The chart uses the latest candle, the table the price at its last update. If the table
+    // agrees with the engine at its own price and the price has moved since, a different
+    // chart signal is market movement, not a calculation error.
+    if (r2.status === STATUS.FAIL && r2.note.startsWith('SIGNAL') && engineResults[spec.id]?.status !== STATUS.FAIL && moved > 5e-5) {
+      r2 = { ...r2, status: STATUS.WARN, priceMoved: true,
+        note: `Price moved since the table was computed (${dPrice} -> ${chartPrice}, ${(moved * 100).toFixed(3)}%); table matches the engine at its own price. ${r2.note.replace('SIGNAL MISMATCH.', '').trim()}`.trim() }
+    }
     chartResults[spec.id] = r2
     add(r2)
   }
@@ -620,7 +636,8 @@ const auditSymbol = async (item, api, now) => {
     status: badDates.length ? STATUS.FAIL : STATUS.PASS, note: badDates.slice(0, 5).join('; ') })
 
   // State at the last daily close, computed independently, vs the history's final state
-  const closedDaily = daily.filter(c => dayKey(c.time) < today && E.isWeekdayKey(dayKey(c.time)))
+  const liveBarKey = daily.length ? dayKey(last(daily).time) : today
+  const closedDaily = daily.filter(c => dayKey(c.time) < today && dayKey(c.time) < liveBarKey && E.isWeekdayKey(dayKey(c.time)))
   const lastClosed = last(closedDaily)
   let closeStates = {}
   if (lastClosed) {

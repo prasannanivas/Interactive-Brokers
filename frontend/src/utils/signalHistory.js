@@ -74,10 +74,15 @@ export const SLOT_TO_LOG = {
 export const historyFromSnapshots = (snaps, { historyDays = 180, today } = {}) => {
   const todayKey = today || new Date().toISOString().slice(0, 10)
   const firstDay = new Date(Date.parse(todayKey + 'T00:00:00Z') - historyDays * 86400000).toISOString().slice(0, 10)
+  // The latest daily bar is the live day even when the feed has not printed today's bar
+  // yet (thin pairs) - the calendar and volume bars show the table for it, so it is not
+  // a closed day here either.
+  let liveKey = null
+  for (const k of snaps.keys()) liveKey = k
   const changes = []
   let prev = null
   for (const [day, snap] of snaps) {
-    if (day >= todayKey) break
+    if (day >= todayKey || day === liveKey) break
     if (prev && day >= firstDay) {
       for (const [slot, [indicator, timeframe]] of Object.entries(SLOT_TO_LOG)) {
         if (timeframe === 'Hourly') continue
