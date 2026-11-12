@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createChart } from 'lightweight-charts'
 import { historyAPI } from '../api/api'
+import { computeChartIndicators } from '../utils/chartIndicators'
+import { fetchCloseSnapshots, volumeBarsFromSnapshots } from '../utils/signalViews'
+import { DAILY_WINDOW_DAYS, HOURLY_WINDOW_DAYS, WEEKLY_WINDOW_DAYS } from '../utils/signalEngine'
 import axios from 'axios'
 import FullscreenChartModal from './FullscreenChartModal'
 import './ChartModal.css'
@@ -9,7 +12,7 @@ import { ChartCandlestick, ChartColumn, ChartColumnBig, ChartColumnStacked, Cloc
 
 const API_URL = import.meta.env.VITE_TRADING_API_URL || 'http://167.172.215.78:8000'
 
-const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose }) => {
+const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose, liveItem = null }) => {
   const chartContainerRef = useRef(null)
   const rsiChartContainerRef = useRef(null)
   const macdChartContainerRef = useRef(null)
@@ -54,6 +57,25 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
   const [volumeBarMode, setVolumeBarMode] = useState('stacked') // 'individual' or 'stacked'
   const [dailySnapshotVolume, setDailySnapshotVolume] = useState([]) // Daily snapshot volume data
   const [stackedVolumeData, setStackedVolumeData] = useState(null) // Stacked volume data (bullish/neutral/bearish)
+  const [closeSnapshots, setCloseSnapshots] = useState(null) // 10-rule signals at every daily close (signalViews)
+
+  // Volume bars = signal counts at each close, from the same close snapshots as the signal
+  // calendar, matrix delta and history popup; the live bar uses the dashboard table row.
+  useEffect(() => {
+    let cancelled = false
+    setCloseSnapshots(null)
+    fetchCloseSnapshots(symbol)
+      .then(r => { if (!cancelled) setCloseSnapshots(r.snapshots) })
+      .catch(err => console.error('Close snapshots failed:', err))
+    return () => { cancelled = true }
+  }, [symbol])
+
+  useEffect(() => {
+    if (!chartData) return
+    const { stackedData, individualData } = volumeBarsFromSnapshots(chartData, closeSnapshots, timeframe, liveItem)
+    setStackedVolumeData(stackedData)
+    setDailySnapshotVolume(individualData)
+  }, [chartData, closeSnapshots, timeframe, liveItem?.buy_signals?.join(), liveItem?.sell_signals?.join()]) // eslint-disable-line react-hooks/exhaustive-deps
   
   // Fullscreen states for each chart
   const [isPriceChartFullscreen, setIsPriceChartFullscreen] = useState(false)
@@ -182,14 +204,9 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         const cached = cache[timeframe]
         setChartData(cached.data)
         setIndicators(cached.indicators)
-        if (cached.stackedData) {
-          setStackedVolumeData(cached.stackedData)
-          setDailySnapshotVolume(cached.individualData || [])
-        } else {
-          const { stackedData, individualData } = computeVolumeFromChartData(cached.data, cached.indicators, timeframe)
-          setStackedVolumeData(stackedData)
-          setDailySnapshotVolume(individualData)
-        }
+        const { stackedData, individualData } = computeVolumeFromChartData(cached.data, cached.indicators, timeframe)
+        setStackedVolumeData(stackedData)
+        setDailySnapshotVolume(individualData)
         setLoading(false)
         return
       }
@@ -200,15 +217,15 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       let days, timespan
       switch(timeframe) {
         case 'hourly':
-          days = 42      // 42 days * 24 hours = ~1000 candles
+          days = HOURLY_WINDOW_DAYS   // same window as the signal engine (~1000 candles)
           timespan = 'hour'
           break
         case 'daily':
-          days = 850     // ~2.3 years back to Jan 1, 2024
+          days = DAILY_WINDOW_DAYS    // same window as the signal engine (5 years)
           timespan = 'day'
           break
         case 'weekly':
-          days = 1825    // 5 years = ~260 weeks
+          days = WEEKLY_WINDOW_DAYS   // same window as the signal engine (~260 weeks)
           timespan = 'week'
           break
         default:
@@ -235,9 +252,10 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
         return a.time - b.time
       })
       
-      // Filter out weekend candles (Saturday=6, Sunday=0) for forex markets
-      // Weekly bars already represent a full week — do NOT filter them by day
-      const filteredCandles = timeframe === 'weekly' ? sortedCandles : sortedCandles.filter(candle => {
+      // Filter out weekend daily candles (Saturday=6, Sunday=0) for forex markets, exactly like
+      // the signal engine. Weekly bars are full weeks and hourly bars are kept as-is (the
+      // Sunday-evening session is real trading) - both unfiltered, same as the backend.
+      const filteredCandles = timeframe !== 'daily' ? sortedCandles : sortedCandles.filter(candle => {
         const date = typeof candle.time === 'string'
           ? new Date(candle.time + 'T00:00:00Z')
           : new Date(candle.time * 1000)
@@ -293,13 +311,13 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
       let snapshotDays
       switch(timeframe) {
         case 'hourly':
-          snapshotDays = 42  // Match hourly chart period
+          snapshotDays = HOURLY_WINDOW_DAYS  // Match hourly chart period
           break
         case 'daily':
-          snapshotDays = 850  // ~2.3 years back to Jan 1, 2024
+          snapshotDays = DAILY_WINDOW_DAYS  // Match daily chart period
           break
         case 'weekly':
-          snapshotDays = 1825  // Match weekly chart period (5 years)
+          snapshotDays = WEEKLY_WINDOW_DAYS  // Match weekly chart period
           break
         default:
           snapshotDays = 365
@@ -481,403 +499,12 @@ const ChartModal = ({ symbol, signalMarkers = [], signalVolumeData = [], onClose
     }
   }
 
-  const calculateIndicators = (candles) => {
-    const closes = candles.map(c => c.close)
-    const highs = candles.map(c => c.high)
-    const lows = candles.map(c => c.low)
-    
-    // Adjust indicator periods based on timeframe (per Boss's rules)
-    let indicators = {}
-    
-    if (timeframe === 'hourly') {
-      // HOURLY: Rule 1 - EMA 100 only
-      const ema100 = calculateEMA(closes, 100)
-      const currentPrice = closes[closes.length - 1]
-      const currentEMA100 = ema100[ema100.length - 1]
-      
-      return {
-        ema100: { 
-          value: currentEMA100?.toFixed(2), 
-          signal: currentPrice > currentEMA100 ? 'buy' : 'sell', 
-          data: ema100, 
-          label: 'EMA 100' 
-        },
-        price: currentPrice,
-        change: candles.length > 1 ? ((currentPrice - candles[candles.length - 2].close) / candles[candles.length - 2].close * 100).toFixed(2) : 0
-      }
-    } else if (timeframe === 'weekly') {
-      // WEEKLY: Visual — Bollinger Bands + EMA 20
-      //         Signal counting — same 7 indicators as daily (computed on weekly closes)
-      const bbPeriod = 20
-      const bb = calculateBollingerBands(closes, bbPeriod, 2)
-      const ema20 = calculateEMA(closes, 20)
-      const currentPrice = closes[closes.length - 1]
-      const currentEMA20 = ema20[ema20.length - 1]
-      const currentBBUpper = bb.upper[bb.upper.length - 1]
-      const currentBBMiddle = bb.middle[bb.middle.length - 1]
-      const currentBBLower = bb.lower[bb.lower.length - 1]
-      const bbSignal = currentPrice > currentBBUpper ? 'sell' : currentPrice < currentBBLower ? 'buy' : 'neutral'
-
-      // Compute all 7 signal-counting indicators on weekly closes
-      const wRsi9      = calculateRSI(closes, 9)
-      const wEma9      = calculateEMA(closes, 9)
-      const wEma50     = calculateEMA(closes, 50)
-      const wEma200    = calculateEMA(closes, 200)
-      const wMacd      = calculateMACD(closes, 12, 26, 9)
-      const wMaCross   = calculateMACross(closes, 9, 21)
-
-      return {
-        bollingerBands: {
-          upper: currentBBUpper?.toFixed(2),
-          middle: currentBBMiddle?.toFixed(2),
-          lower: currentBBLower?.toFixed(2),
-          signal: bbSignal,
-          upperData: bb.upper,
-          middleData: bb.middle,
-          lowerData: bb.lower,
-          label: 'Bollinger Bands (20,2)'
-        },
-        ema20: { value: currentEMA20?.toFixed(2), signal: currentPrice > currentEMA20 ? 'buy' : 'sell', data: ema20, label: 'EMA 20' },
-        // Signal-counting arrays (not rendered as chart lines)
-        rsi:     { data: wRsi9 },
-        ema9:    { data: wEma9 },
-        ema50:   { data: wEma50 },
-        ema200:  { data: wEma200 },
-        macd:    { data: wMacd },
-        maCross: { data: wMaCross },
-        price: currentPrice,
-        change: candles.length > 1 ? ((currentPrice - candles[candles.length - 2].close) / candles[candles.length - 2].close * 100).toFixed(2) : 0
-      }
-    }
-    
-    // DAILY: Rules 3-9 - 7 indicators (removed BB)
-    const rsiPeriod = 9
-    const macdFast = 12
-    const macdSlow = 26
-    const macdSignalPeriod = 9
-    const maCrossShort = 9
-    const maCrossLong = 21
-    
-    // RSI (Rule 3)
-    const rsi9 = calculateRSI(closes, rsiPeriod)
-    
-    // EMAs (Rules 4-7)
-    const ema9 = calculateEMA(closes, 9)
-    const ema20 = calculateEMA(closes, 20)
-    const ema50 = calculateEMA(closes, 50)
-    const ema200 = calculateEMA(closes, 200)
-    
-    // MACD (Rule 9)
-    const macd = calculateMACD(closes, macdFast, macdSlow, macdSignalPeriod)
-    
-    // MA Cross (Rule 8)
-    const maCross = calculateMACross(closes, maCrossShort, maCrossLong)
-
-    // Current values (last candle)
-    const currentPrice = closes[closes.length - 1]
-    const currentRSI = rsi9[rsi9.length - 1]
-    const currentEMA9 = ema9[ema9.length - 1]
-    const currentEMA20 = ema20[ema20.length - 1]
-    const currentEMA50 = ema50[ema50.length - 1]
-    const currentEMA200 = ema200[ema200.length - 1]
-    const currentMACD = macd.macd[macd.macd.length - 1]
-    const currentSignal = macd.signal[macd.signal.length - 1]
-    const currentHistogram = macd.histogram[macd.histogram.length - 1]
-
-    // Generate signals
-    const rsiSignal = currentRSI > 80 ? 'sell' : currentRSI < 40 ? 'buy' : 'neutral'
-    const ema9Signal = currentPrice > currentEMA9 ? 'buy' : 'sell'
-    const ema20Signal = currentPrice > currentEMA20 ? 'buy' : 'sell'
-    const ema50Signal = currentPrice > currentEMA50 ? 'buy' : 'sell'
-    const ema200Signal = currentPrice > currentEMA200 ? 'buy' : 'sell'
-    const macdSignal = currentMACD > 0 ? 'buy' : 'sell'  // 12 EMA > 26 EMA
-    const maCrossSignal = maCross.signal
-
-    return {
-      rsi: { value: currentRSI?.toFixed(2), signal: rsiSignal, data: rsi9 },
-      ema9: { value: currentEMA9?.toFixed(2), signal: ema9Signal, data: ema9, label: 'EMA 9' },
-      ema20: { value: currentEMA20?.toFixed(2), signal: ema20Signal, data: ema20, label: 'EMA 20' },
-      ema50: { value: currentEMA50?.toFixed(2), signal: ema50Signal, data: ema50, label: 'EMA 50' },
-      ema200: { value: currentEMA200?.toFixed(2), signal: ema200Signal, data: ema200, label: 'EMA 200' },
-      macd: {
-        macd: currentMACD?.toFixed(4),
-        signal: currentSignal?.toFixed(4),
-        histogram: currentHistogram?.toFixed(4),
-        signal: macdSignal,
-        data: macd
-      },
-      maCross: { signal: maCrossSignal, data: maCross },
-      price: currentPrice,
-      change: candles.length > 1 ? ((currentPrice - candles[candles.length - 2].close) / candles[candles.length - 2].close * 100).toFixed(2) : 0
-    }
-  }
-
-  const calculateRSI = (prices, period) => {
-    const rsi = []
-    let gains = 0
-    let losses = 0
-
-    for (let i = 1; i <= period; i++) {
-      const change = prices[i] - prices[i - 1]
-      if (change > 0) gains += change
-      else losses -= change
-    }
-
-    let avgGain = gains / period
-    let avgLoss = losses / period
-    rsi.push(100 - (100 / (1 + avgGain / avgLoss)))
-
-    for (let i = period + 1; i < prices.length; i++) {
-      const change = prices[i] - prices[i - 1]
-      const gain = change > 0 ? change : 0
-      const loss = change < 0 ? -change : 0
-
-      avgGain = (avgGain * (period - 1) + gain) / period
-      avgLoss = (avgLoss * (period - 1) + loss) / period
-
-      rsi.push(100 - (100 / (1 + avgGain / avgLoss)))
-    }
-
-    return rsi
-  }
-
-  const calculateSMA = (prices, period) => {
-    const sma = []
-    for (let i = period - 1; i < prices.length; i++) {
-      const sum = prices.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0)
-      sma.push(sum / period)
-    }
-    return sma
-  }
-
-  const calculateEMA = (prices, period) => {
-    const ema = []
-    const multiplier = 2 / (period + 1)
-    
-    // Start with SMA
-    let sum = 0
-    for (let i = 0; i < period; i++) {
-      sum += prices[i]
-    }
-    let currentEMA = sum / period
-    ema.push(currentEMA)
-
-    // Calculate EMA
-    for (let i = period; i < prices.length; i++) {
-      currentEMA = (prices[i] - currentEMA) * multiplier + currentEMA
-      ema.push(currentEMA)
-    }
-
-    return ema
-  }
-
-  const calculateBollingerBands = (prices, period, stdDev) => {
-    const upper = []
-    const middle = []
-    const lower = []
-
-    for (let i = period - 1; i < prices.length; i++) {
-      // Get the slice of prices for this period
-      const slice = prices.slice(i - period + 1, i + 1)
-      
-      // Calculate mean (SMA)
-      const mean = slice.reduce((sum, val) => sum + val, 0) / period
-      
-      // Calculate standard deviation
-      const variance = slice.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / period
-      const std = Math.sqrt(variance)
-
-      middle.push(mean)
-      upper.push(mean + stdDev * std)
-      lower.push(mean - stdDev * std)
-    }
-
-    return { upper, middle, lower }
-  }
-
-  const calculateMACD = (prices, fastPeriod, slowPeriod, signalPeriod) => {
-    const fastEMA = calculateEMA(prices, fastPeriod)
-    const slowEMA = calculateEMA(prices, slowPeriod)
-    
-    const macdLine = []
-    const startIndex = slowPeriod - fastPeriod
-    
-    for (let i = 0; i < slowEMA.length; i++) {
-      macdLine.push(fastEMA[i + startIndex] - slowEMA[i])
-    }
-
-    const signalLine = calculateEMA(macdLine, signalPeriod)
-    const histogram = []
-    
-    const signalStartIndex = macdLine.length - signalLine.length
-    for (let i = 0; i < signalLine.length; i++) {
-      histogram.push(macdLine[i + signalStartIndex] - signalLine[i])
-    }
-
-    return { macd: macdLine, signal: signalLine, histogram }
-  }
-
-  // MA Cross (EMA 9, EMA 21): EMA9 > EMA21 = buy, EMA9 < EMA21 = sell
-  const calculateMACross = (prices, shortPeriod, longPeriod) => {
-    const shortMA = calculateEMA(prices, shortPeriod)
-    const longMA = calculateEMA(prices, longPeriod)
-    
-    const offset = longPeriod - shortPeriod
-    const currentShort = shortMA[shortMA.length - 1]
-    const currentLong = longMA[longMA.length - 1]
-    const prevShort = shortMA[shortMA.length - 2]
-    const prevLong = longMA[longMA.length - 2]
-
-    let signal = 'neutral'
-    if (currentShort > currentLong && prevShort <= prevLong) signal = 'buy'
-    else if (currentShort < currentLong && prevShort >= prevLong) signal = 'sell'
-    else if (currentShort > currentLong) signal = 'buy'
-    else signal = 'sell'
-
-    return { shortMA, longMA, signal }
-  }
+  const calculateIndicators = (candles) => computeChartIndicators(candles, timeframe)
 
   // Compute stacked + individual volume bar data from already-calculated indicator arrays.
   // This replaces the daily-snapshots DB API call — full history, always in sync with the chart.
-  const computeVolumeFromChartData = (candles, indics, tf) => {
-    // Hourly: no volume bars
-    if (tf === 'hourly') return { stackedData: null, individualData: [] }
-
-    const closes = candles.map(c => c.close)
-    const n = candles.length
-
-    // Pre-extract indicator data arrays
-    const ema9Arr    = indics.ema9?.data    || []
-    const ema20Arr   = indics.ema20?.data   || []
-    const ema50Arr   = indics.ema50?.data   || []
-    const ema200Arr  = indics.ema200?.data  || []
-    const rsiArr     = indics.rsi?.data     || []
-    const macdLine   = indics.macd?.data?.macd || []
-    const shortMAArr = indics.maCross?.data?.shortMA || []
-    const longMAArr  = indics.maCross?.data?.longMA  || []
-    const bbUpperArr = indics.bollingerBands?.upperData || []
-    const bbLowerArr = indics.bollingerBands?.lowerData || []
-    const ema100Arr  = indics.ema100?.data  || []
-
-    const bullish = []
-    const neutral = []
-    const bearish = []
-    const individualData = []
-
-    for (let ci = 0; ci < n; ci++) {
-      const time = candles[ci].time
-      const price = closes[ci]
-      let buyCount = 0
-      let sellCount = 0
-
-      if (tf === 'weekly') {
-        // Weekly: same 7 indicators as daily, computed on weekly closes by calculateIndicators
-        // RSI9: rsiArr[i] → candle i+9
-        if (ci >= 9) {
-          const rsi = rsiArr[ci - 9]
-          if (Number.isFinite(rsi)) {
-            if (rsi < 40) buyCount++
-            else if (rsi > 80) sellCount++
-          }
-        }
-        // EMA9: ema9Arr[i] → candle i+8
-        if (ci >= 8) {
-          const ema = ema9Arr[ci - 8]
-          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
-        }
-        // EMA20: ema20Arr[i] → candle i+19
-        if (ci >= 19) {
-          const ema = ema20Arr[ci - 19]
-          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
-        }
-        // EMA50: ema50Arr[i] → candle i+49
-        if (ci >= 49) {
-          const ema = ema50Arr[ci - 49]
-          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
-        }
-        // EMA200: ema200Arr[i] → candle i+199
-        if (ci >= 199) {
-          const ema = ema200Arr[ci - 199]
-          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
-        }
-        // MACD line (12 EMA - 26 EMA): macdLine[i] → candle i+25
-        if (ci >= 25) {
-          const m = macdLine[ci - 25]
-          if (Number.isFinite(m)) { m > 0 ? buyCount++ : sellCount++ }
-        }
-        // MA Cross EMA9 vs EMA21: shortMAArr[i] → candle i+8, longMAArr[i] → candle i+20
-        if (ci >= 20) {
-          const short = shortMAArr[ci - 8]
-          const long  = longMAArr[ci - 20]
-          if (Number.isFinite(short) && Number.isFinite(long)) {
-            short > long ? buyCount++ : sellCount++
-          }
-        }
-
-      } else {
-        // DAILY: 7 indicators
-        // RSI9: rsiArr[i] → candle i+9
-        if (ci >= 9) {
-          const rsi = rsiArr[ci - 9]
-          if (Number.isFinite(rsi)) {
-            if (rsi < 40) buyCount++
-            else if (rsi > 80) sellCount++
-            // 30–70 = neutral, not counted
-          }
-        }
-        // EMA9: ema9Arr[i] → candle i+8
-        if (ci >= 8) {
-          const ema = ema9Arr[ci - 8]
-          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
-        }
-        // EMA20: ema20Arr[i] → candle i+19
-        if (ci >= 19) {
-          const ema = ema20Arr[ci - 19]
-          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
-        }
-        // EMA50: ema50Arr[i] → candle i+49
-        if (ci >= 49) {
-          const ema = ema50Arr[ci - 49]
-          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
-        }
-        // EMA200: ema200Arr[i] → candle i+199
-        if (ci >= 199) {
-          const ema = ema200Arr[ci - 199]
-          if (Number.isFinite(ema)) { price > ema ? buyCount++ : sellCount++ }
-        }
-        // MACD line (12 EMA - 26 EMA): macdLine[i] → candle i+25
-        if (ci >= 25) {
-          const m = macdLine[ci - 25]
-          if (Number.isFinite(m)) { m > 0 ? buyCount++ : sellCount++ }
-        }
-        // MA Cross EMA9 vs EMA21: shortMAArr[i] → candle i+8, longMAArr[i] → candle i+20
-        if (ci >= 20) {
-          const short = shortMAArr[ci - 8]
-          const long  = longMAArr[ci - 20]
-          if (Number.isFinite(short) && Number.isFinite(long)) {
-            short > long ? buyCount++ : sellCount++
-          }
-        }
-      }
-
-      // Stacked format — same shape the renderChart consumer expects
-      bullish.push({ time, value: buyCount })
-      neutral.push({ time, value: buyCount })  // no neutral bucket
-      bearish.push({ time, value: buyCount + sellCount })
-
-      // Individual signal-strength format
-      if (buyCount > 0 || sellCount > 0) {
-        const strength = buyCount - sellCount
-        individualData.push({
-          time,
-          value: Math.abs(strength),
-          color: strength > 0 ? '#16794a' : strength < 0 ? '#b4232a' : '#d6dbd3'
-        })
-      }
-    }
-
-    return { stackedData: { bullish, neutral, bearish }, individualData }
-  }
+  const computeVolumeFromChartData = (candles, indics, tf) =>
+    volumeBarsFromSnapshots(candles, closeSnapshots, tf, liveItem)
 
   const renderChart = (candles, indicators) => {
     console.log(`[WEEKLY DBG] renderChart called: candles=${candles?.length} tf=${timeframe} chartContainerRef=${!!chartContainerRef.current}`)

@@ -8,6 +8,16 @@ import numpy as np
 from typing import Dict, Optional, List
 from datetime import datetime
 
+# Trading Rules.xlsx (Dashboard 1), TradingView-standard formulas. The same rules and
+# windows are used by the chart / history / audit page in frontend/src/utils/signalEngine.js.
+#
+# Lookback windows (calendar days) for every signal computation. Long enough that every
+# EMA (SMA-seeded) has fully converged, so the value does not depend on the window start
+# and the table, chart and history all agree.
+DAILY_LOOKBACK_DAYS = 1825   # ~1300 weekday bars for EMA 200
+HOURLY_LOOKBACK_DAYS = 42    # ~1000 bars for EMA 100
+WEEKLY_LOOKBACK_DAYS = 1825  # ~260 bars for weekly EMA 20 / Bollinger
+
 
 class IndicatorCalculator:
     """Calculate all technical indicators for daily and hourly timeframes"""
@@ -45,24 +55,22 @@ class IndicatorCalculator:
     @staticmethod
     def calculate_bollinger_bands(prices: pd.Series, period: int = 20, std_dev: int = 2) -> Dict:
         """
-        Calculate Bollinger Bands using EMA as middle band
-        
+        Bollinger Bands (20, 2, 0) - EMA, per Trading Rules.xlsx (TradingView definition):
+        middle = EMA(period), bands = middle +/- std_dev * population standard deviation
+        of the last `period` closes (TradingView ta.stdev, biased).
+
         Returns:
             dict with upper_band, middle_band (EMA), lower_band, current_price, signal
         """
         if len(prices) < period:
             return None
-        
-        # Middle band is EMA
+
         middle_band = IndicatorCalculator.calculate_ema(prices, period)
-        
-        # Calculate standard deviation
-        std = prices.rolling(window=period).std()
-        
-        # Upper and lower bands
+        std = prices.rolling(window=period).std(ddof=0)
+
         upper_band = middle_band + (std_dev * std)
         lower_band = middle_band - (std_dev * std)
-        
+
         current_price = prices.iloc[-1]
         middle_value = middle_band.iloc[-1]
         upper_value = upper_band.iloc[-1]
@@ -243,19 +251,19 @@ class IndicatorCalculator:
         if len(prices) < 26:
             return None
         
-        # Calculate 12 and 26 EMA
-        ema_12 = prices.ewm(span=12, adjust=False).mean()
-        ema_26 = prices.ewm(span=26, adjust=False).mean()
-        
-        # MACD line = 12 EMA - 26 EMA
-        macd_line = ema_12 - ema_26
-        
-        # Signal line = 9 EMA of MACD line
-        signal_line = macd_line.ewm(span=9, adjust=False).mean()
-        
+        # MACD (12, 26, 9 EMA), TradingView definition: SMA-seeded EMAs like every other EMA
+        ema_12 = IndicatorCalculator.calculate_ema(prices, 12)
+        ema_26 = IndicatorCalculator.calculate_ema(prices, 26)
+
+        # MACD line = 12 EMA - 26 EMA (defined from bar 26 on)
+        macd_line = (ema_12 - ema_26).dropna()
+
+        # Signal line = 9 EMA of the MACD line
+        signal_line = IndicatorCalculator.calculate_ema(macd_line, 9)
+
         # Histogram = MACD line - Signal line
         histogram = macd_line - signal_line
-        
+
         macd_value = macd_line.iloc[-1]
         signal_value = signal_line.iloc[-1]
         histogram_value = histogram.iloc[-1]

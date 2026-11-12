@@ -32,7 +32,8 @@ from indicator_calculator import IndicatorCalculator as IC
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
 
 # Lookbacks the live monitor fetches (massive_monitor_v2.py)
-DAILY_DAYS, HOURLY_DAYS, WEEKLY_DAYS = 600, 30, 210
+from indicator_calculator import DAILY_LOOKBACK_DAYS, HOURLY_LOOKBACK_DAYS, WEEKLY_LOOKBACK_DAYS
+DAILY_DAYS, HOURLY_DAYS, WEEKLY_DAYS = DAILY_LOOKBACK_DAYS, HOURLY_LOOKBACK_DAYS, WEEKLY_LOOKBACK_DAYS
 EST = pytz.timezone('US/Eastern')
 
 DAILY_NAMES = {'rsi_9': 'RSI 9', 'ema_9': 'EMA 9', 'ema_20': 'EMA 20', 'ema_50': 'EMA 50',
@@ -187,7 +188,17 @@ def main():
             'rebuilt_from_candles': True,
         })
 
-    replace_filter = {'_id': {'$lt': ObjectId.from_datetime(run_started)}, 'timestamp': {'$gte': start}}
+    # Only replace what this run rebuilds: daily/weekly changes up to the end of `end`,
+    # hourly changes up to now. Live daily/weekly entries logged after `end` (i.e. today)
+    # must survive - deleting them leaves the log's last state contradicting the table.
+    rebuilt_until = end + timedelta(days=1)
+    replace_filter = {
+        '_id': {'$lt': ObjectId.from_datetime(run_started)},
+        '$or': [
+            {'timeframe': 'Hourly', 'timestamp': {'$gte': start}},
+            {'timeframe': {'$ne': 'Hourly'}, 'timestamp': {'$gte': start, '$lt': rebuilt_until}},
+        ],
+    }
     log_entries = [e for (_, ch, hch) in results.values() for e in ch + hch]
     print(f'\nSnapshots to upsert: {len(snapshots)} | change-log entries to insert: {len(log_entries)} '
           f'(replacing {db.indicator_states.count_documents(replace_filter)})')
@@ -204,6 +215,29 @@ def main():
     for i in range(0, len(log_entries), 5000):
         db.indicator_states.bulk_write([InsertOne(e) for e in log_entries[i:i + 5000]], ordered=False)
     print(f'✓ Replaced {deleted} change-log entries with {len(log_entries)} rebuilt entries')
+
+    # Reconcile: the latest log entry per indicator must equal what the table shows now.
+    # The live monitor only logs future flips, so any gap would otherwise persist until
+    # the next change (the /test page checks this as "Live change log: latest entry = table").
+    slots = [('hourly_indicators', 'ema_100', 'EMA 100', 'Hourly')]
+    slots += [('daily_indicators', k, n, 'Daily') for k, n in DAILY_NAMES.items()]
+    slots += [('weekly_indicators', k, n, 'Weekly') for k, n in WEEKLY_NAMES.items()]
+    bridges = []
+    now = datetime.utcnow()
+    for doc in db.watchlist.find({}):
+        for group, key, name, tf in slots:
+            ind = (doc.get(group) or {}).get(key)
+            if not ind:
+                continue
+            latest = db.indicator_states.find_one({'symbol': doc['symbol'], 'indicator': name, 'timeframe': tf},
+                                                  sort=[('timestamp', -1)])
+            if latest and latest.get('new_signal') != ind.get('signal'):
+                bridges.append({'symbol': doc['symbol'], 'indicator': name, 'timeframe': tf,
+                                'old_signal': latest.get('new_signal'), 'new_signal': ind.get('signal'),
+                                'timestamp': now, 'price': doc.get('last_price'), 'source': 'reconcile'})
+    if bridges:
+        db.indicator_states.insert_many(bridges)
+    print(f'✓ Reconciled {len(bridges)} indicator(s) whose log disagreed with the live table')
 
 
 if __name__ == '__main__':

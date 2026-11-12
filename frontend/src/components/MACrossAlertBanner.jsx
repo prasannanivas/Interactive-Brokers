@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { maCrossAlertCounts } from '../utils/signalViews'
 import { tradingAPI } from '../api/api'
 import './MACrossAlertBanner.css'
 import { ArrowDownRight, ArrowUpRight, Bell, BellRing, X } from 'lucide-react'
@@ -18,7 +19,6 @@ const alertKey = (a) => `${a.symbol}|${a.direction}|${a.cross_date}`
 const displaySymbol = (s) => (s || '').replace('C:', '')
 
 // EMA 100 (Hourly); RSI, EMA 9/20/50/200, MA Cross, MACD (Daily); Bollinger, EMA 20 (Weekly)
-const TOTAL_INDICATORS = 10
 
 // Server stores detection time in UTC without a zone suffix; always show it in US Eastern
 // (EDT/EST), the same clock the trading day and the Telegram alerts use
@@ -39,15 +39,7 @@ const formatDetectedAt = (timestamp) => {
 }
 
 // Counts recorded when the cross was detected; older alerts fall back to the pair's current counts
-const signalCounts = (alert, item) => {
-  if (alert.bullish_count != null) {
-    return { bullish: alert.bullish_count, bearish: alert.bearish_count, neutral: alert.neutral_count, live: false }
-  }
-  if (!item) return null
-  const bullish = item.buy_signals?.length || 0
-  const bearish = item.sell_signals?.length || 0
-  return { bullish, bearish, neutral: Math.max(TOTAL_INDICATORS - bullish - bearish, 0), live: true }
-}
+const signalCounts = maCrossAlertCounts
 
 const loadDismissed = () => {
   try { return new Set(JSON.parse(localStorage.getItem(DISMISSED_KEY) || '[]')) } catch { return new Set() }

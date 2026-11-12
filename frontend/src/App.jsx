@@ -6,6 +6,7 @@ import EconomicCalendarPage from './pages/EconomicCalendarPage'
 import FxReportsPage from './pages/FxReportsPage'
 import SettingsPage from './pages/SettingsPage'
 import BacktestPage from './pages/BacktestPage'
+import SignalTestPage from './pages/SignalTestPage'
 import Login from './pages/Login'
 import Register from './pages/Register'
 
@@ -78,6 +79,15 @@ function App() {
           element={
             <ProtectedRoute>
               <SettingsPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* Hidden QA page: not linked anywhere in the UI */}
+        <Route
+          path="/test"
+          element={
+            <ProtectedRoute>
+              <SignalTestPage />
             </ProtectedRoute>
           }
         />

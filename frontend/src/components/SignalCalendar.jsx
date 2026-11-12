@@ -1,16 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { historyAPI } from '../api/api'
-import { getSignalNamesFromCandles } from '../utils/indicatorUtils'
+import { fetchCloseSnapshots, calendarMonthSignals, liveDayKey, TOTAL_RULES } from '../utils/signalViews'
 import './SignalCalendar.css'
 import { CalendarDays, CalendarX } from 'lucide-react'
 
 const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-// Upper bound for the intensity scale. getSignalNamesFromCandles casts at
-// most 7 votes (RSI9, EMA9/20/50/200, MACD, MA-cross). Today's live watchlist
-// count can occasionally exceed this (it draws on more indicators including
-// hourly/weekly ones) — that's fine, this is just shading depth, not a cap.
-const MAX_SIGNAL_COUNT = 7
+// Upper bound for the intensity scale: all 10 Trading Rules, same as the table badges.
+const MAX_SIGNAL_COUNT = TOTAL_RULES
 
 // Builds a Monday-first grid of day numbers for the given month, padded
 // with leading/trailing nulls so every row has exactly 7 cells.
@@ -128,15 +124,8 @@ const MonthCalendar = ({ year, month, signalsByDate, tone, todayKey, onPrev, onN
   )
 }
 
-// Calendar days of daily candles to fetch: enough lookback for EMA200 to be
-// defined even on the earliest day a user might navigate back to.
-const FETCH_DAYS = 450
-// Same technique CurrencyMatrix.jsx already uses for its "Δ vs 7 days ago"
-// feature — recompute a past day's signals on the fly from candles, rather
-// than depending on a once-daily snapshot archive. Today reads live from the
-// watchlist instead, so it always matches the Matrix exactly right now.
 const SignalCalendar = ({ symbol, watchlist }) => {
-  const [candles, setCandles] = useState([])
+  const [candles, setCandles] = useState(null) // close snapshots (Map)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -150,23 +139,16 @@ const SignalCalendar = ({ symbol, watchlist }) => {
     setLoading(true)
     setError(null)
 
-    const ticker = symbol.startsWith('C:') ? symbol : `C:${symbol}`
-    historyAPI.getPriceHistory(ticker, FETCH_DAYS, 'day')
-      .then(res => {
+    // Same close snapshots as the chart volume bars, matrix delta and history popup
+    fetchCloseSnapshots(symbol)
+      .then(({ snapshots }) => {
         if (cancelled) return
-        const raw = res.data?.candles || []
-        const sorted = [...raw]
-          .sort((a, b) => (a.time > b.time ? 1 : -1))
-          .filter(c => {
-            const day = new Date(c.time + 'T00:00:00Z').getUTCDay()
-            return day !== 0 && day !== 6
-          })
-        setCandles(sorted)
+        setCandles(snapshots)
         setLoading(false)
       })
       .catch(err => {
         if (cancelled) return
-        console.error(`SignalCalendar: price history fetch failed for ${ticker}`, err)
+        console.error(`SignalCalendar: price history fetch failed for ${symbol}`, err)
         setError('Price history not available')
         setLoading(false)
       })
@@ -181,7 +163,9 @@ const SignalCalendar = ({ symbol, watchlist }) => {
     setBearishCursor({ year: t.year, month: t.month })
   }, [symbol])
 
-  const todayKey = toDateKey(todayEST.year, todayEST.month, todayEST.day)
+  // The live trading day = date of the forming daily candle (UTC, as the data feed dates
+  // bars), so the calendar's "today" is the same day as the table and the chart's last bar.
+  const todayKey = (candles && liveDayKey(candles)) || toDateKey(todayEST.year, todayEST.month, todayEST.day)
 
   // Live watchlist item for this pair — used for "today" so it matches the
   // Matrix exactly, instead of the on-the-fly candle approximation.
@@ -194,38 +178,8 @@ const SignalCalendar = ({ symbol, watchlist }) => {
     }) || null
   }, [watchlist, symbol])
 
-  // Compute signal names for every day across both visible months (the two
-  // calendars can be navigated independently). Cheap to recompute per month
-  // since it's ~30 candle slices, not the whole fetched range.
-  const computeMonthSignals = (year, month) => {
-    const bullish = new Map()
-    const bearish = new Map()
-    if (candles.length === 0) return { bullish, bearish }
-
-    const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate()
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dateKey = toDateKey(year, month, day)
-      if (dateKey > todayKey) continue // future day, nothing to show
-      const weekday = new Date(Date.UTC(year, month, day)).getUTCDay()
-      if (weekday === 0 || weekday === 6) continue // no trading on Sat/Sun, including a live "today"
-
-      if (dateKey === todayKey && liveItem) {
-        bullish.set(dateKey, liveItem.buy_signals || [])
-        bearish.set(dateKey, liveItem.sell_signals || [])
-        continue
-      }
-
-      const idx = candles.findIndex(c => c.time === dateKey)
-      if (idx < 25) continue // no candle that day (weekend/holiday) or not enough lookback
-
-      const sliced = candles.slice(0, idx + 1)
-      const { buy, sell } = getSignalNamesFromCandles(sliced)
-      bullish.set(dateKey, buy)
-      bearish.set(dateKey, sell)
-    }
-
-    return { bullish, bearish }
-  }
+  // Past days: signals at that day's close; live day: the table row (signalViews)
+  const computeMonthSignals = (year, month) => calendarMonthSignals(candles, liveItem, year, month)
 
   const bullishMonthSignals = useMemo(
     () => computeMonthSignals(bullishCursor.year, bullishCursor.month).bullish,
@@ -260,7 +214,7 @@ const SignalCalendar = ({ symbol, watchlist }) => {
     )
   }
 
-  if (error || candles.length === 0) {
+  if (error || !candles || candles.size === 0) {
     return (
       <div className="signal-calendar-section">
         <div className="data-not-available">
@@ -278,7 +232,7 @@ const SignalCalendar = ({ symbol, watchlist }) => {
     <div className="signal-calendar-section">
       <div className="chart-title">
         <h3><CalendarDays size={16} /> Signal History Calendar</h3>
-        <p className="chart-subtitle">Daily signal strength for {symbol} — darker means more indicators agreed. Today is live; past days are computed from price history. Hover a day to see which indicators fired.</p>
+        <p className="chart-subtitle">Daily signal strength for {symbol} — darker means more indicators agreed. Today matches the dashboard table; past days are the 10 Trading Rules at that day's close. Hover a day to see which indicators fired.</p>
       </div>
       <div className="signal-calendar-months">
         <MonthCalendar

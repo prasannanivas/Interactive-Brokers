@@ -16,7 +16,8 @@ import MACrossAlertBanner from '../components/MACrossAlertBanner'
 import PairChip from '../components/PairChip'
 import ThemeToggle from '../components/ThemeToggle'
 import { SectionLoader, LazySection } from '../components/SectionLoader'
-import { buildSignalHistory, HISTORY_INDICATOR_KEYS, DAILY_LOOKBACK_DAYS, WEEKLY_LOOKBACK_DAYS } from '../utils/signalHistory'
+import { historyFromSnapshots, HISTORY_INDICATOR_KEYS } from '../utils/signalHistory'
+import { fetchCloseSnapshots, tableCounts } from '../utils/signalViews'
 import './Dashboard.css'
 import { CalendarDays, CalendarRange, ChartCandlestick, Clock, Columns3, FileText, FlaskConical, History, Inbox, LineChart, ListOrdered, LogOut, Plus, ScrollText, SearchX, Settings, Trash2, UserRound, X } from 'lucide-react'
 
@@ -307,14 +308,8 @@ const Dashboard = () => {
   // Daily/weekly indicator history is rebuilt from closed candles with the current Trading
   // Rules (one change per daily close). Hourly EMA 100 still comes from the live change log.
   const loadCandleSignalHistory = async (symbol) => {
-    const ticker = symbol.startsWith('C:') ? symbol : `C:${symbol}`
-    const [dailyRes, weeklyRes] = await Promise.all([
-      historyAPI.getPriceHistory(ticker, SIGNAL_HISTORY_DAYS + DAILY_LOOKBACK_DAYS, 'day'),
-      historyAPI.getPriceHistory(ticker, SIGNAL_HISTORY_DAYS + WEEKLY_LOOKBACK_DAYS, 'week'),
-    ])
-    return buildSignalHistory(dailyRes.data?.candles || [], weeklyRes.data?.candles || [], {
-      historyDays: SIGNAL_HISTORY_DAYS,
-    })
+    const { snapshots } = await fetchCloseSnapshots(symbol)
+    return historyFromSnapshots(snapshots, { historyDays: SIGNAL_HISTORY_DAYS })
   }
 
   const viewSignalHistory = async (symbol, indicator = null) => {
@@ -657,13 +652,8 @@ const Dashboard = () => {
     return changes
   }
 
-  const countNeutralSignals = (item) => {
-    // Total indicators we're tracking
-    const totalIndicators = 10 // EMA 100 (Hourly), RSI, EMA 9, EMA 20, EMA 50, EMA 200, MA Cross, MACD (Daily), Bollinger, EMA 20 (Weekly)
-    const buyCount = item.buy_signals?.length || 0
-    const sellCount = item.sell_signals?.length || 0
-    return totalIndicators - buyCount - sellCount
-  }
+  // 10 Trading Rules - buy - sell (shared with the matrix and MA Cross banner)
+  const countNeutralSignals = (item) => tableCounts(item).neutral
 
   // Filter watchlist based on search, then sort by base currency then quote currency
   // (matches the order IB's own FX pair list is presented in)
@@ -1675,6 +1665,7 @@ const Dashboard = () => {
       {showChartModal && (
         <ChartModal 
           symbol={chartSymbol} 
+          liveItem={watchlist.find(w => w.symbol === chartSymbol || w.symbol === `C:${chartSymbol}`)}
           signalMarkers={signalMarkers}
           signalVolumeData={signalVolumeData}
           onClose={closeChartModal}

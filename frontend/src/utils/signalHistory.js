@@ -1,11 +1,15 @@
-// Signal change history rebuilt from closed candles, using exactly the same formulas,
-// windows and Trading Rules thresholds as backend/indicator_calculator.py (the engine
-// behind the dashboard badges). One entry per actual change at a daily close, instead of
-// the live log's intraday flip-flops. Keep in sync with indicator_calculator.py.
+// Signal change history rebuilt from daily closes (close snapshots, signalEngine.js), using
+// exactly the same formulas and Trading Rules thresholds as backend/indicator_calculator.py.
+// One entry per actual change at a daily close, instead of the live log's intraday flips.
+
+import {
+  DAILY_WINDOW_DAYS, WEEKLY_WINDOW_DAYS,
+  rsiIndicator, emaIndicator, maCrossover, macdIndicator, bollingerIndicator, buildCloseSnapshots,
+} from './signalEngine'
 
 // Lookback the live monitor fetches (massive_monitor_v2.py): daily 600 calendar days, weekly 30 weeks.
-export const DAILY_LOOKBACK_DAYS = 600
-export const WEEKLY_LOOKBACK_DAYS = 210
+export const DAILY_LOOKBACK_DAYS = DAILY_WINDOW_DAYS
+export const WEEKLY_LOOKBACK_DAYS = WEEKLY_WINDOW_DAYS
 
 // Popup filter label -> indicator key
 export const HISTORY_INDICATOR_KEYS = {
@@ -20,135 +24,77 @@ export const HISTORY_INDICATOR_KEYS = {
   'EMA 20 Weekly': 'EMA 20|Weekly',
 }
 
-const mean = (arr, from, to) => {
-  let s = 0
-  for (let i = from; i < to; i++) s += arr[i]
-  return s / (to - from)
-}
-
-// IndicatorCalculator.calculate_ema: SMA seed, then recursive; value for the last bar
-const emaLast = (p, period) => {
-  if (p.length < period) return null
-  let ema = mean(p, 0, period)
-  const k = 2 / (period + 1)
-  for (let i = period; i < p.length; i++) ema = (p[i] - ema) * k + ema
-  return ema
-}
-
-// pandas ewm(span, adjust=False): seeded with the first value
-const ewmLast = (p, span) => {
-  const a = 2 / (span + 1)
-  let y = p[0]
-  for (let i = 1; i < p.length; i++) y = (1 - a) * y + a * p[i]
-  return y
-}
-
-const side = (value, ref) => (value > ref ? 'BUY' : value < ref ? 'SELL' : null)
-
-// Rolling-mean RSI as in calculate_rsi (not Wilder)
-const rsiLast = (p, period) => {
-  if (p.length < period + 1) return null
-  let gain = 0, loss = 0
-  for (let i = p.length - period; i < p.length; i++) {
-    const d = p[i] - p[i - 1]
-    if (d > 0) gain += d
-    else if (d < 0) loss -= d
-  }
-  gain /= period
-  loss /= period
-  return 100 - 100 / (1 + gain / loss)
-}
-
+// States per indicator key, computed by the shared engine (exact port of the backend)
 export const dailyStates = (closes) => {
   const price = closes[closes.length - 1]
   const out = {}
-  const rsi = rsiLast(closes, 9)
-  if (rsi !== null) out['RSI 9|Daily'] = rsi > 80 ? 'SELL' : rsi < 40 ? 'BUY' : null
+  const rsi = rsiIndicator(closes, 9)
+  if (rsi) out['RSI 9|Daily'] = rsi.signal
   for (const n of [9, 20, 50, 200]) {
-    const e = emaLast(closes, n)
-    if (e !== null) out[`EMA ${n}|Daily`] = side(price, e)
+    const e = emaIndicator(closes, n, price)
+    if (e) out[`EMA ${n}|Daily`] = e.signal
   }
-  if (closes.length >= 22) out['MA Crossover|Daily'] = side(emaLast(closes, 9), emaLast(closes, 21))
-  if (closes.length >= 26) out['MACD|Daily'] = side(ewmLast(closes, 12) - ewmLast(closes, 26), 0)
+  const mac = maCrossover(closes)
+  if (mac) out['MA Crossover|Daily'] = mac.signal
+  const macd = macdIndicator(closes)
+  if (macd) out['MACD|Daily'] = macd.signal
   return out
 }
 
 export const weeklyStates = (closes, price) => {
   const out = {}
-  if (closes.length < 20) return out
-  const mid = emaLast(closes, 20)
-  out['EMA 20|Weekly'] = side(price, mid)
-  const m = mean(closes, closes.length - 20, closes.length)
-  let ss = 0
-  for (let i = closes.length - 20; i < closes.length; i++) ss += (closes[i] - m) ** 2
-  const std = Math.sqrt(ss / 19)
-  const last = closes[closes.length - 1]
-  out['Bollinger Band|Weekly'] = last > mid + 2 * std ? 'SELL' : last < mid - 2 * std ? 'BUY' : null
+  const e = emaIndicator(closes, 20, price)
+  if (e) out['EMA 20|Weekly'] = e.signal
+  const bb = bollingerIndicator(closes, 20, 2)
+  if (bb) out['Bollinger Band|Weekly'] = bb.signal
   return out
 }
 
-const addDays = (dateKey, days) => {
-  const d = new Date(dateKey + 'T00:00:00Z')
-  d.setUTCDate(d.getUTCDate() + days)
-  return d.toISOString().slice(0, 10)
-}
-
-const isWeekday = (dateKey) => {
-  const wd = new Date(dateKey + 'T00:00:00Z').getUTCDay()
-  return wd !== 0 && wd !== 6
+// Snapshot slot name -> [indicator, timeframe] as used by /api/signals/changes
+export const SLOT_TO_LOG = {
+  EMA_100_Hourly: ['EMA 100', 'Hourly'],
+  RSI_9_Daily: ['RSI 9', 'Daily'],
+  EMA_9_Daily: ['EMA 9', 'Daily'],
+  EMA_20_Daily: ['EMA 20', 'Daily'],
+  EMA_50_Daily: ['EMA 50', 'Daily'],
+  EMA_200_Daily: ['EMA 200', 'Daily'],
+  MA_Crossover_Daily: ['MA Crossover', 'Daily'],
+  MACD_Daily: ['MACD', 'Daily'],
+  Bollinger_Band_Weekly: ['Bollinger Band', 'Weekly'],
+  EMA_20_Weekly: ['EMA 20', 'Weekly'],
 }
 
 /**
- * Build the signal-change list from daily + weekly candles ({time: 'YYYY-MM-DD', close}).
- * Only closed daily candles are used (today's forming candle is skipped), so each
- * indicator changes at most once per day. Returns newest first, in the same shape
- * as /api/signals/changes entries.
+ * Daily/weekly signal changes between consecutive daily closes, from close snapshots
+ * (the same snapshots behind the signal calendar and the chart volume bars, so every
+ * change here is exactly a day-to-day difference those views show). The live
+ * (forming) day is skipped: a change is recorded only once the day has closed.
+ * Hourly EMA 100 is left to the live change log. Newest first, /api/signals/changes shape.
  */
-export const buildSignalHistory = (dailyCandles, weeklyCandles, { historyDays = 180, today } = {}) => {
+export const historyFromSnapshots = (snaps, { historyDays = 180, today } = {}) => {
   const todayKey = today || new Date().toISOString().slice(0, 10)
-  const daily = [...dailyCandles].sort((a, b) => (a.time > b.time ? 1 : -1))
-  const weekly = [...(weeklyCandles || [])].sort((a, b) => (a.time > b.time ? 1 : -1))
-  const firstDay = addDays(todayKey, -historyDays)
-
+  const firstDay = new Date(Date.parse(todayKey + 'T00:00:00Z') - historyDays * 86400000).toISOString().slice(0, 10)
   const changes = []
   let prev = null
-  for (let i = 0; i < daily.length; i++) {
-    const day = daily[i].time
-    if (day < firstDay || day >= todayKey || !isWeekday(day)) continue
-
-    // Same window the live monitor would have fetched on that day
-    const dFrom = addDays(day, -DAILY_LOOKBACK_DAYS)
-    const closes = []
-    for (let j = 0; j <= i; j++) {
-      if (daily[j].time >= dFrom && isWeekday(daily[j].time)) closes.push(daily[j].close)
-    }
-    const price = daily[i].close
-    const states = dailyStates(closes)
-
-    // Weekly bars as of that day: the forming week's close is that day's close
-    const wFrom = addDays(day, -WEEKLY_LOOKBACK_DAYS)
-    const wCloses = weekly.filter(w => w.time >= wFrom && w.time <= day).map(w => w.close)
-    if (wCloses.length) {
-      wCloses[wCloses.length - 1] = price
-      Object.assign(states, weeklyStates(wCloses, price))
-    }
-
-    if (prev) {
-      for (const key of Object.keys(states)) {
-        if (!(key in prev) || prev[key] === states[key]) continue
-        const [indicator, timeframe] = key.split('|')
+  for (const [day, snap] of snaps) {
+    if (day >= todayKey) break
+    if (prev && day >= firstDay) {
+      for (const [slot, [indicator, timeframe]] of Object.entries(SLOT_TO_LOG)) {
+        if (timeframe === 'Hourly') continue
+        if (!(slot in prev.states) || !(slot in snap.states)) continue
+        if (prev.states[slot] === snap.states[slot]) continue
         changes.push({
-          indicator,
-          timeframe,
-          old_signal: prev[key],
-          new_signal: states[key],
-          timestamp: `${day}T23:59:59Z`,
-          price,
-          source: 'candles',
+          indicator, timeframe,
+          old_signal: prev.states[slot], new_signal: snap.states[slot],
+          timestamp: `${day}T23:59:59Z`, price: snap.price, source: 'candles',
         })
       }
     }
-    prev = states
+    prev = snap
   }
   return changes.reverse()
 }
+
+/** Same as historyFromSnapshots, from raw daily + weekly candles. */
+export const buildSignalHistory = (dailyCandles, weeklyCandles, opts = {}) =>
+  historyFromSnapshots(buildCloseSnapshots({ daily: dailyCandles, weekly: weeklyCandles }), opts)

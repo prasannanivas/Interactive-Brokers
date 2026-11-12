@@ -18,7 +18,7 @@ from database import (
     get_signals_collection,
     get_indicator_states_collection
 )
-from indicator_calculator import IndicatorCalculator
+from indicator_calculator import IndicatorCalculator, DAILY_LOOKBACK_DAYS, HOURLY_LOOKBACK_DAYS, WEEKLY_LOOKBACK_DAYS
 
 
 def convert_datetime_to_string(obj: Any) -> Any:
@@ -363,17 +363,15 @@ class MassiveMonitorV2:
             print(f"✗ Error fetching quote for {symbol}: {e}")
             return None
 
-    async def _fetch_daily_data(self, symbol: str, days: int = 600) -> Optional[pd.DataFrame]:
-        """Fetch daily historical data.
-
-        `days` is calendar days; forex only has ~5 bars/week (weekend bars are dropped),
-        so 600 days gives ~428 bars - enough for EMA 200 plus warm-up.
-        """
+    async def _fetch_daily_data(self, symbol: str, days: int = DAILY_LOOKBACK_DAYS) -> Optional[pd.DataFrame]:
+        """Fetch daily historical data (calendar days; see DAILY_LOOKBACK_DAYS)."""
         if not self.is_connected():
             return None
 
         try:
-            end_date = datetime.now()
+            # UTC, not server-local time: bars are dated in UTC, and a local date behind UTC
+            # would silently drop today's live bar. `to` is inclusive, +1 day for safety.
+            end_date = datetime.utcnow()
             start_date = end_date - timedelta(days=days)
             
             aggs = []
@@ -382,7 +380,7 @@ class MassiveMonitorV2:
                 multiplier=1,
                 timespan="day",
                 from_=start_date.strftime('%Y-%m-%d'),
-                to=end_date.strftime('%Y-%m-%d'),
+                to=(end_date + timedelta(days=1)).strftime('%Y-%m-%d'),
                 adjusted=True,
                 sort="asc",
                 limit=50000
@@ -408,13 +406,15 @@ class MassiveMonitorV2:
             print(f"✗ Error fetching daily data for {symbol}: {e}")
             return None
 
-    async def _fetch_hourly_data(self, symbol: str, days: int = 30) -> Optional[pd.DataFrame]:
-        """Fetch hourly historical data (need 100+ hours for EMA100)"""
+    async def _fetch_hourly_data(self, symbol: str, days: int = HOURLY_LOOKBACK_DAYS) -> Optional[pd.DataFrame]:
+        """Fetch hourly historical data (calendar days; see HOURLY_LOOKBACK_DAYS)"""
         if not self.is_connected():
             return None
 
         try:
-            end_date = datetime.now()
+            # UTC, not server-local time: bars are dated in UTC, and a local date behind UTC
+            # would silently drop today's live bar. `to` is inclusive, +1 day for safety.
+            end_date = datetime.utcnow()
             start_date = end_date - timedelta(days=days)
             
             aggs = []
@@ -423,7 +423,7 @@ class MassiveMonitorV2:
                 multiplier=1,
                 timespan="hour",
                 from_=start_date.strftime('%Y-%m-%d'),
-                to=end_date.strftime('%Y-%m-%d'),
+                to=(end_date + timedelta(days=1)).strftime('%Y-%m-%d'),
                 adjusted=True,
                 sort="asc",
                 limit=50000
@@ -449,14 +449,16 @@ class MassiveMonitorV2:
             print(f"✗ Error fetching hourly data for {symbol}: {e}")
             return None
 
-    async def _fetch_weekly_data(self, symbol: str, weeks: int = 30) -> Optional[pd.DataFrame]:
-        """Fetch weekly historical data (need 20+ weeks for EMA20)"""
+    async def _fetch_weekly_data(self, symbol: str, days: int = WEEKLY_LOOKBACK_DAYS) -> Optional[pd.DataFrame]:
+        """Fetch weekly historical data (calendar days; see WEEKLY_LOOKBACK_DAYS)"""
         if not self.is_connected():
             return None
 
         try:
-            end_date = datetime.now()
-            start_date = end_date - timedelta(days=weeks*7)  # Convert weeks to days
+            # UTC, not server-local time: bars are dated in UTC, and a local date behind UTC
+            # would silently drop today's live bar. `to` is inclusive, +1 day for safety.
+            end_date = datetime.utcnow()
+            start_date = end_date - timedelta(days=days)
             
             aggs = []
             for agg in self.client.list_aggs(
@@ -464,7 +466,7 @@ class MassiveMonitorV2:
                 multiplier=1,
                 timespan="week",
                 from_=start_date.strftime('%Y-%m-%d'),
-                to=end_date.strftime('%Y-%m-%d'),
+                to=(end_date + timedelta(days=1)).strftime('%Y-%m-%d'),
                 adjusted=True,
                 sort="asc",
                 limit=50000

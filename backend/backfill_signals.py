@@ -16,7 +16,7 @@ from polygon import RESTClient
 import pandas as pd
 import pytz
 from models import DailySignalSnapshot
-from indicator_calculator import IndicatorCalculator
+from indicator_calculator import IndicatorCalculator, DAILY_LOOKBACK_DAYS, HOURLY_LOOKBACK_DAYS, WEEKLY_LOOKBACK_DAYS
 
 # Load environment variables
 load_dotenv()
@@ -187,13 +187,13 @@ class SignalBackfiller:
         try:
             # Fetch historical data UP TO target date
             daily_data = self._fetch_historical_data_up_to_date(
-                symbol, target_date, timespan="day", days_back=600  # ~428 weekday bars, needed for EMA 200
+                symbol, target_date, timespan="day", days_back=DAILY_LOOKBACK_DAYS
             )
             hourly_data = self._fetch_historical_data_up_to_date(
-                symbol, target_date, timespan="hour", days_back=30
+                symbol, target_date, timespan="hour", days_back=HOURLY_LOOKBACK_DAYS
             )
             weekly_data = self._fetch_historical_data_up_to_date(
-                symbol, target_date, timespan="week", days_back=210  # ~30 weeks
+                symbol, target_date, timespan="week", days_back=WEEKLY_LOOKBACK_DAYS
             )
             
             # Check if we have sufficient data

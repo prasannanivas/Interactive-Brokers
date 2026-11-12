@@ -1,30 +1,13 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { historyAPI } from '../api/api'
-import { getSignalNamesFromCandles } from '../utils/indicatorUtils'
+import { fetchCloseSnapshots, matrixBaseSnapshot, mapLimit, tableCounts, MATRIX_HOURLY_DAYS } from '../utils/signalViews'
 import './CurrencyMatrix.css'
 import { Grid3x3, LoaderCircle, Scale } from 'lucide-react'
 
 // ── Module-level helpers (pure, no state) ─────────────────────────────────────
 
-const countNeutralSignals = (item) => {
-  let count = 0
-
-  if (item.daily_indicators) {
-    if (!item.daily_indicators.bollinger_band?.signal) count++
-    if (!item.daily_indicators.rsi_9?.signal) count++
-    if (!item.daily_indicators.ema_9?.signal) count++
-    if (!item.daily_indicators.ema_20?.signal) count++
-    if (!item.daily_indicators.ema_50?.signal) count++
-    if (!item.daily_indicators.ema_200?.signal) count++
-    if (!item.daily_indicators.ma_crossover?.signal) count++
-    if (!item.daily_indicators.macd?.signal) count++
-  }
-
-  if (item.hourly_indicators?.ema_100 && !item.hourly_indicators.ema_100.signal) count++
-  if (item.weekly_indicators?.ema_20 && !item.weekly_indicators.ema_20.signal) count++
-
-  return count
-}
+// Same count as the table's grey badge: 10 Trading Rules - buy - sell
+const countNeutralSignals = (item) => tableCounts(item).neutral
 
 const getHeatmapColor = (count, type) => {
   if (count === null) return 'var(--paper-3)'
@@ -121,11 +104,10 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
   const [historicalPairData, setHistoricalPairData] = useState(null)
   const [deltaLoading, setDeltaLoading] = useState(false)
 
-  // Compute "7 days ago" signals on the fly from price history — same approach as ChartModal volume bars.
-  // For each pair, fetch 250 daily candles, slice to the 7-days-ago candle, run daily indicators,
-  // and count buy/sell signals. No snapshot dependency.
+  // "Δ vs 7 days ago": all 10 rules at the close 7 days before the live day (close
+  // snapshots, shared with the signal calendar / chart volume bars / history popup).
   // Re-run only when the set of pairs changes - the watchlist object is replaced on every
-  // live update, which used to refetch 250 days of candles for every pair each time.
+  // live update.
   const symbolsKey = (watchlist || []).map(item => item.symbol).sort().join(',')
 
   useEffect(() => {
@@ -133,46 +115,27 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
 
     const computeHistoricalDeltas = async () => {
       setDeltaLoading(true)
-      const sevenDaysAgo = new Date()
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
-      const targetDateStr = sevenDaysAgo.toISOString().split('T')[0] // 'YYYY-MM-DD'
 
-      // Fetch 250 daily bars for all watchlist symbols in parallel
-      const fetches = watchlist.map(item =>
-        historyAPI.getPriceHistory(item.symbol, 250, 'day')
-          .then(r => ({ symbol: item.symbol, candles: r.data?.candles || [] }))
-          .catch(() => ({ symbol: item.symbol, candles: [] }))
+      // All 10 rules at the daily close 7 days before the live day - the same close
+      // snapshots as the signal calendar / chart volume bars, so Δ compares like with like.
+      const results = await mapLimit(watchlist, 6, item =>
+        fetchCloseSnapshots(item.symbol, { hourlyDays: MATRIX_HOURLY_DAYS })
+          .then(r => ({ symbol: item.symbol, snap: matrixBaseSnapshot(r.snapshots, 7) }))
+          .catch(() => ({ symbol: item.symbol, snap: null }))
       )
-      const results = await Promise.all(fetches)
 
       const histData = {}
-      results.forEach(({ symbol, candles }) => {
-        if (!candles.length) return
-
-        // Sort ascending, filter out weekends (same as ChartModal)
-        const sorted = [...candles]
-          .sort((a, b) => (a.time > b.time ? 1 : -1))
-          .filter(c => {
-            const d = new Date(c.time + 'T00:00:00Z')
-            const day = d.getUTCDay()
-            return day !== 0 && day !== 6
-          })
-
-        // Slice to candles up to and including the target date
-        const cutIdx = sorted.findLastIndex(c => c.time <= targetDateStr)
-        if (cutIdx < 25) return // not enough history
-
-        const sliced = sorted.slice(0, cutIdx + 1)
-        const { buy, sell } = getSignalNamesFromCandles(sliced)
-
+      results.forEach(({ symbol, snap }) => {
+        if (!snap) return
         const parsed = parsePairSymbol(symbol)
         if (parsed) {
           histData[`${parsed.base}/${parsed.quote}`] = {
-            bullish: buy.length,
-            bearish: sell.length,
+            bullish: snap.buy.length,
+            bearish: snap.sell.length,
             neutral: 0,
-            bullishNames: buy,
-            bearishNames: sell,
+            bullishNames: snap.buy,
+            bearishNames: snap.sell,
+            date: snap.date,
           }
         }
       })
@@ -372,12 +335,6 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
   // The live engine names things like "EMA_9_Daily"/"EMA_100_Hourly" while the
   // week-ago JS estimate only knows "EMA_9" (no timeframe suffix) — strip the
   // trailing timeframe so the same underlying indicator lines up for diffing.
-  const TIMEFRAME_SUFFIXES = ['_Daily', '_Hourly', '_Weekly']
-  const normalizeIndicatorName = (code) => {
-    const suffix = TIMEFRAME_SUFFIXES.find(s => code.endsWith(s))
-    return suffix ? code.slice(0, -suffix.length) : code
-  }
-
   const buildDeltaTooltip = (pairSymbol, type) => {
     if (type !== 'bullish' && type !== 'bearish') return null
     const now = pairData[pairSymbol]
@@ -388,25 +345,13 @@ const CurrencyMatrix = ({ watchlist, onPairClick }) => {
     const histNames = type === 'bullish' ? hist.bullishNames : hist.bearishNames
     if (!nowNames || !histNames) return null
 
-    // Diff by normalized name — only indicators the week-ago estimate can
-    // even recognize (EMA9/20/50/200, MACD, MA_Crossover, RSI_9) take part;
-    // live-only indicators (hourly/weekly ones) have no week-ago counterpart
-    // to compare against and are listed separately, not silently dropped.
-    const histSet = new Set(histNames.map(normalizeIndicatorName))
-    const nowSet = new Set(nowNames.map(normalizeIndicatorName))
-    const recognizedByEstimate = new Set(['EMA_9', 'EMA_20', 'EMA_50', 'EMA_200', 'MACD', 'MA_Crossover', 'RSI_9'])
+    // Both sides use the same 10 rule names, so a plain set difference is exact
+    const added = nowNames.filter(n => !histNames.includes(n))
+    const removed = histNames.filter(n => !nowNames.includes(n))
 
-    const added = nowNames.filter(n => recognizedByEstimate.has(normalizeIndicatorName(n)) && !histSet.has(normalizeIndicatorName(n)))
-    const removed = histNames.filter(n => recognizedByEstimate.has(normalizeIndicatorName(n)) && !nowSet.has(normalizeIndicatorName(n)))
-    const unmatched = nowNames.filter(n => !recognizedByEstimate.has(normalizeIndicatorName(n)))
-
-    const lines = [`${pairSymbol} — ${type} signals, change vs 7 days ago:`]
+    const lines = [`${pairSymbol} — ${type} signals, change vs close of ${hist.date}:`]
     lines.push(added.length ? `+ Turned on: ${added.map(formatIndicatorLabel).join(', ')}` : '+ Turned on: none')
     lines.push(removed.length ? `− Turned off: ${removed.map(formatIndicatorLabel).join(', ')}` : '− Turned off: none')
-    if (unmatched.length) {
-      lines.push('', `Also active now (no week-ago estimate available): ${unmatched.map(formatIndicatorLabel).join(', ')}`)
-    }
-
     return lines.join('\n')
   }
 
