@@ -10,18 +10,28 @@ import './SignalTestPage.css'
 // Re-computes every signal independently and compares table, chart and history.
 
 const STORAGE_KEY = 'signal-audit:last'
+const NEWLINE = String.fromCharCode(10)
 const RANK = { fail: 3, warn: 2, info: 1, pass: 0 }
-const GROUPS = ['Data', 'Table vs engine', 'Table vs chart', 'Badges', 'Views', 'History']
+// Per-indicator comparisons (one grid column per indicator)
+const INDICATOR_GROUPS = ['Table vs Trading Rules', 'Table vs Technical Analysis']
+// Section comparisons (one grid column per section)
+const SECTION_GROUPS = ['Calendar', 'Matrix', 'Volume bars', 'Technical Analysis', 'History popup', 'Change log', 'MA Cross banner', 'Table badges', 'Data feed']
+const GROUPS = [...INDICATOR_GROUPS, ...SECTION_GROUPS]
 
 const GROUP_HELP = {
-  'Self-test': 'Checks the checker: engine and chart formulas agree on synthetic data, trading-rule thresholds behave.',
-  Services: 'Signal service and watchlist API reachable.',
-  Data: 'Enough candles for every indicator, table freshness, table price vs latest candle.',
-  'Table vs engine': 'Dashboard table (backend) vs an independent recompute with the backend\'s own windows and price. Should be exact.',
-  'Table vs chart': 'Dashboard table vs the numbers the chart popup computes and draws (chart code, chart windows, live candles).',
-  Badges: 'Green/red/grey counts vs the individual columns, vs the engine, vs the chart. N/A columns.',
-  History: 'History popup (rebuilt from candles) and the live change log vs the table, the engine and the chart.',
-  Views: "Currency matrix (cells + Δ vs 7 days), signal calendar (15 months), chart volume bars (daily + weekly), chart lines, history popup and MA Cross banner - each run through the view's own code and compared with the table, each other and an independent recompute.",
+  'Formula check': 'Technical Analysis chart formulas vs Table formulas (RSI 9 Wilder, EMA, Bollinger 20,2,0-EMA, MACD 12,26,9) and the Trading Rules thresholds, on test data.',
+  Connections: 'Signal service, watchlist and MA Cross alerts reachable; TradingEconomics calls during the test must be 0.',
+  'Table vs Trading Rules': 'Each of the 10 Table indicators vs a Trading Rules recalculation from price candles, same windows and price as the Table. Value and BUY/SELL.',
+  'Table vs Technical Analysis': 'Each of the 10 Table indicators vs what the Technical Analysis chart computes and draws (chart code, chart candles).',
+  'Table badges': 'Table green/red badges vs the indicator columns; grey badge vs N/A columns; badges vs Trading Rules recalculation and vs Technical Analysis chart.',
+  Calendar: 'Calendar today vs Table; Calendar past days vs Trading Rules recalculation (last 30 closes + samples back 15 months); all 10 rules shown on every day; every month view.',
+  Matrix: 'Matrix cell vs Table; Matrix vs Calendar today; Matrix 7-day Δ baseline vs Calendar; Matrix Δ vs Calendar Δ; baseline vs Trading Rules recalculation.',
+  'Volume bars': "Volume bars vs Table today; Volume bars vs Calendar for the last 30 days and for every calendar day; weekly-view bars vs each week's last close.",
+  'Technical Analysis': 'Technical Analysis chart lines (RSI, EMA 9/20/50/200, MA Cross, MACD) vs Calendar for the last 60 daily closes.',
+  'History popup': 'History popup vs Calendar day-to-day changes (180 days); vs Trading Rules recalculation at the last close; change chain and dates.',
+  'Change log': 'Stored change log vs Table (latest entry per indicator); change chain.',
+  'MA Cross banner': "MA Cross banner counts vs Table; latest alert's cross day vs Calendar.",
+  'Data feed': 'Enough price candles for every indicator, Table freshness, Table price vs latest price candle.',
 }
 
 const api = {
@@ -149,11 +159,23 @@ export default function SignalTestPage() {
     download(`signal-audit-${result.startedAt.slice(0, 16).replace(':', '')}.csv`, lines.map(l => l.map(esc).join(',')).join('\n'), 'text/csv')
   }
 
-  // Indicator matrix: worst status of (table vs engine, table vs chart) per pair x indicator
-  const matrixCell = (s, spec) => {
-    const cs = s.checks.filter(c => c.name === spec.label && (c.group === 'Table vs engine' || c.group === 'Table vs chart'))
+  // Overview grid: per indicator (Table vs Trading Rules + Table vs Technical Analysis), then per section
+  const tip = (c, withStatus) => [
+    `${withStatus ? c.status.toUpperCase() + ' ' : ''}${c.name}`,
+    `  expected ${c.expected}`,
+    `  actual   ${c.actual}`,
+    ...(c.note ? [`  ${c.note}`] : []),
+  ].join(NEWLINE)
+  const indicatorCell = (s, spec) => {
+    const cs = s.checks.filter(c => INDICATOR_GROUPS.includes(c.group) && c.name.startsWith(spec.label + ':'))
     if (!cs.length) return null
-    return { status: worst(cs), title: cs.map(c => `${c.group}: ${c.status.toUpperCase()} - table ${c.actual} / ref ${c.expected}${c.note ? ' - ' + c.note : ''}`).join('\n') }
+    return { status: worst(cs), title: cs.map(c => tip(c, true)).join(NEWLINE) }
+  }
+  const sectionCell = (s, group) => {
+    const cs = s.checks.filter(c => c.group === group)
+    if (!cs.length) return null
+    const shown = cs.filter(c => c.status === 'fail' || c.status === 'warn')
+    return { status: worst(cs), fails: cs.filter(c => c.status === 'fail').length, title: (shown.length ? shown : cs).map(c => tip(c, true)).join(NEWLINE) }
   }
 
   return (
@@ -162,7 +184,7 @@ export default function SignalTestPage() {
         <button className="sa-back" onClick={() => navigate('/dashboard')}><ArrowLeft size={16} /> Dashboard</button>
         <div className="sa-title">
           <h1><ShieldCheck size={20} /> Signal Audit</h1>
-          <p>Recomputes every signal for every pair and checks the table, the chart and the history agree.</p>
+          <p>Every pair: Table vs Trading Rules recalculation, Technical Analysis chart, Calendar, Matrix, Volume bars, History popup, Change log and MA Cross banner.</p>
         </div>
         <ThemeToggle />
       </header>
@@ -226,33 +248,42 @@ export default function SignalTestPage() {
 
       {result?.global && !running && (
         <section className="sa-card">
-          <h2>Engine self-test &amp; services</h2>
+          <h2>Formula checks &amp; connections</h2>
           <ChecksTable checks={result.global} />
         </section>
       )}
 
       {symbols.length > 0 && (
         <section className="sa-card">
-          <h2>Indicator matrix <span className="sa-dim">table vs engine and chart · hover for values · click a row to open</span></h2>
+          <h2>Overview <span className="sa-dim">every pair · every comparison · hover a cell for expected vs actual · click a row to open</span></h2>
           <div className="sa-matrix-wrap">
             <table className="sa-matrix">
               <thead>
-                <tr><th>Pair</th>{SPECS.map(s => <th key={s.id}>{s.label.replace(' · ', '\n')}</th>)}<th>Other checks</th></tr>
+                <tr>
+                  <th />
+                  <th colSpan={SPECS.length} className="sa-matrix-group">Table vs Trading Rules recalculation &amp; Technical Analysis chart</th>
+                  <th colSpan={SECTION_GROUPS.length} className="sa-matrix-group">Section vs section</th>
+                </tr>
+                <tr>
+                  <th>Pair</th>
+                  {SPECS.map(s => <th key={s.id}>{s.label.replace(' · ', NEWLINE)}</th>)}
+                  {SECTION_GROUPS.map(g => <th key={g} title={GROUP_HELP[g]}>{g.replace(' ', NEWLINE)}</th>)}
+                </tr>
               </thead>
               <tbody>
-                {rows.map(s => {
-                  const other = s.checks.filter(c => c.group !== 'Table vs engine' && c.group !== 'Table vs chart')
-                  return (
-                    <tr key={s.symbol} onClick={() => setOpen(o => ({ ...o, [s.symbol]: true }))}>
-                      <td className="sa-mono">{pair(s.symbol)}</td>
-                      {SPECS.map(spec => {
-                        const c = matrixCell(s, spec)
-                        return <td key={spec.id} className={`sa-cell sa-bg-${c?.status || 'none'}`} title={c?.title}>{c ? c.status[0].toUpperCase() : '–'}</td>
-                      })}
-                      <td className={`sa-cell sa-bg-${worst(other)}`}>{other.filter(c => c.status === 'fail').length || ''}{worst(other)[0].toUpperCase()}</td>
-                    </tr>
-                  )
-                })}
+                {rows.map(s => (
+                  <tr key={s.symbol} onClick={() => setOpen(o => ({ ...o, [s.symbol]: true }))}>
+                    <td className="sa-mono">{pair(s.symbol)}</td>
+                    {SPECS.map(spec => {
+                      const c = indicatorCell(s, spec)
+                      return <td key={spec.id} className={`sa-cell sa-bg-${c?.status || 'none'}`} title={c?.title}>{c ? c.status[0].toUpperCase() : '–'}</td>
+                    })}
+                    {SECTION_GROUPS.map(g => {
+                      const c = sectionCell(s, g)
+                      return <td key={g} className={`sa-cell sa-bg-${c?.status || 'none'}`} title={c?.title}>{c ? `${c.fails > 1 ? c.fails : ''}${c.status[0].toUpperCase()}` : '–'}</td>
+                    })}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

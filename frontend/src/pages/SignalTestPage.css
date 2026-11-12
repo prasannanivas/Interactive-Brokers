@@ -146,3 +146,9 @@
   .sa-checks { display: block; overflow-x: auto; }
   .sa-preview { display: none; }
 }
+
+.sa-matrix th.sa-matrix-group {
+  text-align: center; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-2); border-bottom: 1px solid var(--line); white-space: normal;
+}
+.sa-matrix td.sa-cell { cursor: help; }

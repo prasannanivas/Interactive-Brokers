@@ -65,7 +65,7 @@ const res = await runSignalAudit({
 process.stderr.write('\n')
 if (typeof args.out === 'string') writeFileSync(args.out, JSON.stringify(res, null, 1))
 
-const print = (who, c) => console.log(`${c.status.toUpperCase().padEnd(4)} ${who.padEnd(8)} ${c.group.padEnd(16)} ${c.name} | expected ${c.expected} | actual ${c.actual}${c.note ? ' | ' + c.note : ''}`)
+const print = (who, c) => console.log(`${c.status.toUpperCase().padEnd(4)} ${who.padEnd(8)} ${c.group.padEnd(28)} ${c.name} | expected ${c.expected} | actual ${c.actual}${c.note ? ' | ' + c.note : ''}`)
 for (const c of res.global) if (c.status !== 'pass') print('(global)', c)
 for (const s of res.symbols) for (const c of s.checks) if (c.status === 'fail') print(s.symbol.replace('C:', ''), c)
 const t = res.totals
