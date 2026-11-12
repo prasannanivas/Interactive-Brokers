@@ -85,6 +85,43 @@ class IndicatorCalculator:
         }
     
     @staticmethod
+    def calculate_rsi_series(prices: pd.Series, period: int = 9) -> Optional[pd.Series]:
+        """
+        Wilder's RSI (the TradingView / industry-standard formula, and the same one the
+        dashboard RSI chart uses in frontend/src/utils/indicatorUtils.js).
+
+        Seed: simple average of the first `period` gains/losses.
+        Then: avg = (prev_avg * (period - 1) + current) / period.
+
+        A plain rolling mean (Cutler's RSI) reacts much harder to recent moves - e.g.
+        USDCAD read 84.6 (SELL) while Wilder's/TradingView read ~74 (NEUTRAL).
+        """
+        if len(prices) < period + 1:
+            return None
+
+        values = prices.astype(float).to_numpy()
+        deltas = np.diff(values)
+        gains = np.where(deltas > 0, deltas, 0.0)
+        losses = np.where(deltas < 0, -deltas, 0.0)
+
+        out = np.full(len(values), np.nan)
+        avg_gain = gains[:period].mean()
+        avg_loss = losses[:period].mean()
+
+        def _rsi(g, l):
+            if l == 0:
+                return 100.0 if g > 0 else 50.0
+            return 100.0 - 100.0 / (1.0 + g / l)
+
+        out[period] = _rsi(avg_gain, avg_loss)
+        for i in range(period, len(deltas)):
+            avg_gain = (avg_gain * (period - 1) + gains[i]) / period
+            avg_loss = (avg_loss * (period - 1) + losses[i]) / period
+            out[i + 1] = _rsi(avg_gain, avg_loss)
+
+        return pd.Series(out, index=prices.index)
+
+    @staticmethod
     def calculate_rsi(prices: pd.Series, period: int = 9) -> Dict:
         """
         Calculate Relative Strength Index
@@ -92,16 +129,10 @@ class IndicatorCalculator:
         Returns:
             dict with rsi_value, period, signal
         """
-        if len(prices) < period + 1:
+        rsi = IndicatorCalculator.calculate_rsi_series(prices, period)
+        if rsi is None:
             return None
-        
-        delta = prices.diff()
-        gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
-        loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
-        
-        rs = gain / loss
-        rsi = 100 - (100 / (1 + rs))
-        
+
         rsi_value = rsi.iloc[-1]
         
         # Determine signal
