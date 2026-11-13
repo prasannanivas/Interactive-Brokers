@@ -709,17 +709,28 @@ const auditSymbol = async (item, api, now) => {
   // ---------- history: live change log (backend MongoDB)
   const logByKey = {}
   for (const c of [...changes].sort((a, b) => parseServerTime(a.timestamp) - parseServerTime(b.timestamp))) (logByKey[`${c.indicator}|${c.timeframe}`] ||= []).push(c)
-  const logMismatch = [], logChain = []
+  const logMismatch = [], logRace = [], logChain = []
+  const RACE_MS = 15 * 60 * 1000
   for (const spec of SPECS) {
     const list = logByKey[spec.logKey]
     if (!list?.length) continue
     const t = table[spec.tf]?.[spec.key]
-    if (t && sig(last(list).new_signal) !== sig(t.signal)) logMismatch.push(`${spec.label}: log ${sig(last(list).new_signal)} vs table ${sig(t.signal)}`)
+    if (t && sig(last(list).new_signal) !== sig(t.signal)) {
+      const msg = `${spec.label}: log ${sig(last(list).new_signal)} vs table ${sig(t.signal)}`
+      // Indicator flipping right now (on its threshold): the log and the table were read a
+      // few seconds apart, on either side of a flip. A real gap has no recent activity.
+      const lastLog = parseServerTime(last(list).timestamp)
+      const tableFlip = t.signal_timestamp ? parseServerTime(t.signal_timestamp) : 0
+      const recent = Date.now() - Math.max(lastLog || 0, tableFlip || 0) < RACE_MS
+      if (recent) logRace.push(`${msg} (flipping on its threshold; last change ${String(last(list).timestamp).slice(11, 19)} UTC)`)
+      else logMismatch.push(msg)
+    }
     for (let i = 1; i < list.length; i++) if (sig(list[i].old_signal) !== sig(list[i - 1].new_signal)) logChain.push(`${spec.label} @ ${String(list[i].timestamp).slice(0, 16)}`)
   }
   add({ group: 'Change log', name: 'Change log vs Table: latest entry per indicator', expected: 'all equal',
-    actual: changes.length ? (logMismatch.length ? `${logMismatch.length} differ` : 'all equal') : 'no log entries',
-    status: !changes.length ? STATUS.INFO : logMismatch.length ? STATUS.FAIL : STATUS.PASS, note: logMismatch.join('; ') })
+    actual: changes.length ? (logMismatch.length || logRace.length ? `${logMismatch.length + logRace.length} differ` : 'all equal') : 'no log entries',
+    status: !changes.length ? STATUS.INFO : logMismatch.length ? STATUS.FAIL : logRace.length ? STATUS.WARN : STATUS.PASS,
+    note: [...logMismatch, ...logRace].join('; ') })
   add({ group: 'Change log', name: 'Change log: each change starts where the previous ended', expected: '0 breaks', actual: `${logChain.length} breaks (${changes.length} entries)`,
     status: logChain.length ? STATUS.WARN : STATUS.PASS, note: logChain.length ? `Gaps usually mean the indicator was N/A in between or the service restarted. ${logChain.slice(0, 5).join('; ')}` : '' })
 
