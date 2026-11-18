@@ -107,7 +107,9 @@ const MonthCalendar = ({ year, month, signalsByDate, tone, todayKey, onPrev, onN
               title={buildTooltip(dateKey, signals)}
             >
               <span className="signal-cal-day-number">{day}</span>
-              {count > 0 && <span className="signal-cal-day-count">{count}</span>}
+              {signals !== undefined && (
+                <span className={`signal-cal-day-count ${count === 0 ? 'is-zero' : ''}`}>{count}</span>
+              )}
             </div>
           )
         })}

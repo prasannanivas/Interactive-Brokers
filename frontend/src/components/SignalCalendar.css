@@ -160,6 +160,11 @@
   line-height: 1;
 }
 
+.signal-cal-day-count.is-zero {
+  color: var(--text-3);
+  font-weight: 600;
+}
+
 .signal-cal-day.is-today {
   border: 2px solid var(--ink);
 }
